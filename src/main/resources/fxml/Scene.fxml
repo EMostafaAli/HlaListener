@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="386.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.hlalistener.RtiAmbInitializer">
+    <children>
+        <Button fx:id="OkButton" defaultButton="true" layoutX="339.0" layoutY="161.0" onAction="#handleButtonAction" text="OK" />
+      <HBox layoutX="14.0" layoutY="3.0" prefHeight="56.0" prefWidth="359.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="123.0" text="Select HLA jar file:" />
+            <TextField fx:id="JarFileLocation" prefHeight="25.0" prefWidth="207.0" promptText="Select HLA implementation jar file" />
+            <Button fx:id="JarBrowser" mnemonicParsing="false" onAction="#JarBrowser_click" text="..." />
+         </children>
+      </HBox>
+    </children>
+</AnchorPane>
