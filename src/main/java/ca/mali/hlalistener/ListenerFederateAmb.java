@@ -26,21 +26,23 @@
 
 package ca.mali.hlalistener;
 
+import ca.mali.fomParser.FomParser;
 import static ca.mali.hlalistener.HlaPublicVariables.*;
 
 
 import hla.rti1516e.*;
 import hla.rti1516e.encoding.*;
 import hla.rti1516e.exceptions.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.*;
 
 /**
  *
- * @author Mostafa Ali <mostafaali@ualberta.ca>
+ * @author Mostafa Ali <engabdomostafa@gmail.com>
  */
 public class ListenerFederateAmb extends NullFederateAmbassador{
     
+    //Logger
+    private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger();
     /**
      *
      * @param theObject
@@ -57,8 +59,11 @@ public class ListenerFederateAmb extends NullFederateAmbassador{
             stringEncoder = encoderFactory.createHLAunicodeString();
             stringEncoder.decode(theAttributes.get(RtiAmbInitializer.currentFDDHandle));
             System.out.println(stringEncoder.getValue());
+            FomParser fomParser = new FomParser(stringEncoder.getValue());
+            fomParser.getObjectClass();
+            fomParser.getInteractionClass();
         } catch (DecoderException ex) {
-            Logger.getLogger(ListenerFederateAmb.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.FATAL, "Exception in reflecting attribute values", ex);
         }
     }
 }

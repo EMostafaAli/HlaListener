@@ -30,7 +30,7 @@ import hla.rti1516e.encoding.*;
 
 /**
  *
- * @author Mostafa Ali <mostafaali@ualberta.ca>
+ * @author Mostafa Ali <engabdomostafa@gmail.com>
  */
 public class HlaPublicVariables {
 

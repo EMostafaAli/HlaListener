@@ -42,7 +42,7 @@ import javafx.stage.*;
 import org.apache.logging.log4j.*;
 
 /**
- * @author Mostafa Ali <mostafaali@ualberta.ca>
+ * @author Mostafa Ali <engabdomostafa@gmail.com>
  */
 public class RtiAmbInitializer implements Initializable {
 
