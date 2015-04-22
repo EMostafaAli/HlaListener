@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40" fx:controller="ca.mali.hlalistener.MainWindowController">
+    <stylesheets>
+        <URL value="@/styles/Styles.css" />
+    </stylesheets>
+   <children>
+      <MenuBar layoutY="2.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem mnemonicParsing="false" text="Clear Log" />
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Federation">
+              <items>
+                <MenuItem mnemonicParsing="false" text="4.2 Connect" />
+                  <MenuItem mnemonicParsing="false" text="4.3 Disconnect" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="4.5 Create Federation Execution" />
+                  <MenuItem mnemonicParsing="false" text="4.6 Destroy Federation Execution" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="4.7 List Federation Execution" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="4.9 Join Federation Execution" />
+                  <MenuItem mnemonicParsing="false" text="4.10 Resign Federation Execution" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="4.11 Register Sync Point" />
+                  <MenuItem mnemonicParsing="false" text="4.14 Sync Point Achieved" />
+              </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </children>
+</AnchorPane>
