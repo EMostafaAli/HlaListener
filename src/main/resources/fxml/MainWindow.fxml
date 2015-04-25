@@ -7,42 +7,250 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40" fx:controller="ca.mali.hlalistener.MainWindowController">
+<AnchorPane id="AnchorPane" prefHeight="517.0" prefWidth="636.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.hlalistener.MainWindowController">
     <stylesheets>
         <URL value="@/styles/Styles.css" />
     </stylesheets>
-   <children>
-      <MenuBar layoutY="2.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-                  <MenuItem mnemonicParsing="false" text="Clear Log" />
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-            <Menu mnemonicParsing="false" text="Federation">
-              <items>
-                <MenuItem mnemonicParsing="false" text="4.2 Connect" />
-                  <MenuItem mnemonicParsing="false" text="4.3 Disconnect" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="4.5 Create Federation Execution" />
-                  <MenuItem mnemonicParsing="false" text="4.6 Destroy Federation Execution" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="4.7 List Federation Execution" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="4.9 Join Federation Execution" />
-                  <MenuItem mnemonicParsing="false" text="4.10 Resign Federation Execution" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="4.11 Register Sync Point" />
-                  <MenuItem mnemonicParsing="false" text="4.14 Sync Point Achieved" />
-              </items>
-            </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </children>
+    <children>
+        <MenuBar layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="RTI info" />
+                        <MenuItem mnemonicParsing="false" text="Clear Log" />
+                        <MenuItem mnemonicParsing="false" text="Close" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="4 Federation">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="4.2 Connect" />
+                        <MenuItem mnemonicParsing="false" text="4.3 Disconnect" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="4.5 Create Federation Execution" />
+                        <MenuItem mnemonicParsing="false" text="4.6 Destroy Federation Execution" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="4.7 List Federation Execution" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="4.9 Join Federation Execution" />
+                        <MenuItem mnemonicParsing="false" text="4.10 Resign Federation Execution" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="4.11 Register Sync Point" />
+                        <MenuItem mnemonicParsing="false" text="4.14 Sync Point Achieved" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="4.16 Request Federation Save" />
+                        <MenuItem mnemonicParsing="false" text="4.18 Federate Save Begun" />
+                        <MenuItem mnemonicParsing="false" text="4.19 Federate Save Complete" />
+                        <MenuItem mnemonicParsing="false" text="4.21 Abort Federate Save" />
+                        <MenuItem mnemonicParsing="false" text="4.22 Query Federate Save Status" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="4.24 Request Federation Restore" />
+                        <MenuItem mnemonicParsing="false" text="4.28 Federate Restore Complete" />
+                        <MenuItem mnemonicParsing="false" text="4.30 Abort Federation Restore" />
+                        <MenuItem mnemonicParsing="false" text="4.31 Query Federation Restore" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="5 Declaration (DM)">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="5.2 Publish Object Class Attributes" />
+                        <MenuItem mnemonicParsing="false" text="5.3 Unpublish Object Class Attributes" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="5.4 Publish Interaction Class" />
+                        <MenuItem mnemonicParsing="false" text="5.5 Unpublish Interaction Class" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="5.6 Subscribe Object Class Attributes" />
+                        <MenuItem mnemonicParsing="false" text="5.7 Unsubscribe Object Class Attributes" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="5.8 Subscribe Interaction Class" />
+                        <MenuItem mnemonicParsing="false" text="5.9 Unsubscribe Interaction Class" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="6 Object">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="6.2 Reserve Object Instance Name" />
+                        <MenuItem mnemonicParsing="false" text="6.4 Release Object Instance Name" />
+                        <MenuItem mnemonicParsing="false" text="6.5 Reserve Multiple Object Instance Names" />
+                        <MenuItem mnemonicParsing="false" text="6.7 Release Multiple Object Instance Names" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="6.8 Register Object Instance" />
+                        <MenuItem mnemonicParsing="false" text="6.14 Delete Object Instance" />
+                        <MenuItem mnemonicParsing="false" text="6.16 Local Delete Object Instance" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="6.10 Update Attribute Value" />
+                        <MenuItem mnemonicParsing="false" text="6.12 Send Interaction" />
+                        <MenuItem mnemonicParsing="false" text="6.19 Request Attribute Value" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="7 Ownership">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="7.2 Unconditional Attribute Ownership Divestiture" />
+                        <MenuItem mnemonicParsing="false" text="7.3 Negotiated Attribute Ownership Divestiture" />
+                        <MenuItem mnemonicParsing="false" text="7.6 Confirm Divestiture Service" />
+                        <MenuItem mnemonicParsing="false" text="7.13 Attribute Ownership Divestiture If Wanted" />
+                        <MenuItem mnemonicParsing="false" text="7.14 Cancel Negotiated Attribute Ownership Divestiture" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="7.8 Attribute Ownership Acquisition" />
+                        <MenuItem mnemonicParsing="false" text="7.9 Attribute Ownership Acquisition If Available" />
+                        <MenuItem mnemonicParsing="false" text="7.15 Cancel Attribute Ownership Acquisition" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="7.12 Attribute Ownership Release Denied" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="7.17 Query Attribute Ownership" />
+                        <MenuItem mnemonicParsing="false" text="7.19 Is Attribute Owned by Federate" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="8 Time">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="8.2 Enable Time Regulation" />
+                        <MenuItem mnemonicParsing="false" text="8.3 Disable Time Regulation" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="8.4 Enable Time Constrained" />
+                        <MenuItem mnemonicParsing="false" text="8.5 Disable Time Constrained" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="8.8 Time Advance Request" />
+                        <MenuItem mnemonicParsing="false" text="8.9 Time Advance Request Available" />
+                        <MenuItem mnemonicParsing="false" text="8.10 Next Message Request" />
+                        <MenuItem mnemonicParsing="false" text="8.11 Next Message Request Available" />
+                        <MenuItem mnemonicParsing="false" text="8.12 Flush Queue Message" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="8.14 Enable Asynchronous Delivery" />
+                        <MenuItem mnemonicParsing="false" text="8.15 Disable Asynchronous Delivery" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="8.16 Query GALT" />
+                        <MenuItem mnemonicParsing="false" text="8.17 Query Logical Time" />
+                        <MenuItem mnemonicParsing="false" text="8.17 Query LITS" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="8.19 Modify Lookahead" />
+                        <MenuItem mnemonicParsing="false" text="8.20 Query Lookahead" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="8.21 Retract" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="8.23 Change Attribute Order Type" />
+                        <MenuItem mnemonicParsing="false" text="8.24 Change Interaction Order Type" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="9 DDM">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="9.2 Create Region" />
+                        <MenuItem mnemonicParsing="false" text="9.3 Commit Region Modifications" />
+                        <MenuItem mnemonicParsing="false" text="9.4 Delete Region" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="9.5 Register Object Instance With Region" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="9.6 Associate Regions For Update" />
+                        <MenuItem mnemonicParsing="false" text="9.7 Unassociate Regions for update" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="9.8 Subscribe Object Class Attribute With Region" />
+                        <MenuItem mnemonicParsing="false" text="9.9 Unsubscribe Object Class Attribute With Region" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="9.10 Subscribe Interaction Class With Region" />
+                        <MenuItem mnemonicParsing="false" text="9.11 Unsubscribe Interaction Class With Region" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="9.12 Send Interaction With Region" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="9.13 Request Attribute Value Update With Region" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="10 Support">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="10.2 Get Automatic Resign Directive" />
+                        <MenuItem mnemonicParsing="false" text="10.3 Set Automatic Resign Directive" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <Menu mnemonicParsing="false" text="Get Handle">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="10.4 Get Federate Handle" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
+                                <MenuItem mnemonicParsing="false" text="10.6 Get Object Class Handle" />
+                                <MenuItem mnemonicParsing="false" text="10.8 Get Known Object Class Handle" />
+                                <MenuItem mnemonicParsing="false" text="10.9 Get Object Instance Handle" />
+                                <MenuItem mnemonicParsing="false" text="10.11 Get Attribute Handle" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
+                                <MenuItem mnemonicParsing="false" text="10.15 Get Interaction Class Handle" />
+                                <MenuItem mnemonicParsing="false" text="10.17 Get Parameter Handle" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Get Name">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="10.5 Get Federate Name" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
+                                <MenuItem mnemonicParsing="false" text="10.7 Get Object Class Name" />
+                                <MenuItem mnemonicParsing="false" text="10.10 Get Object Instance Name" />
+                                <MenuItem mnemonicParsing="false" text="10.12 Get Attribute Name" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
+                                <MenuItem mnemonicParsing="false" text="10.16 Get Interaction Class Name" />
+                                <MenuItem mnemonicParsing="false" text="10.18 Get Parameter Name" />
+                            </items>
+                        </Menu>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <Menu mnemonicParsing="false" text="Update Rate">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="10.13 Get Update Rate Value" />
+                                <MenuItem mnemonicParsing="false" text="10.14 Get Update Rate Value For Attribute" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Order Type">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="10.19 Get Order Type" />
+                                <MenuItem mnemonicParsing="false" text="10.20 Get Order Name" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Transportation Type">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="10.21 Get Transportation Type Handle" />
+                                <MenuItem mnemonicParsing="false" text="10.22 Get Transportation Type Name" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Dimensions">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="10.23 Get Available Dimensions For Class Attribute" />
+                                <MenuItem mnemonicParsing="false" text="10.24 Get Available Dimensions For Interaction Class" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
+                                <MenuItem mnemonicParsing="false" text="10.25 Get Dimension Handle" />
+                                <MenuItem mnemonicParsing="false" text="10.26 Get Dimension name" />
+                                <MenuItem mnemonicParsing="false" text="10.27 Get Dimension Upper Bound" />
+                                <MenuItem mnemonicParsing="false" text="10.28 Get Dimension Handle Set" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Region">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="10.29 Get Range Bounds" />
+                                <MenuItem mnemonicParsing="false" text="10.30 Set Range Bounds" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
+                                <MenuItem mnemonicParsing="false" text="10.31 Normalize Federate Handle" />
+                                <MenuItem mnemonicParsing="false" text="10.32 Normalize Service Group" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Switches">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="10.33 Enable Object Class Relevance Advisory Switch" />
+                                <MenuItem mnemonicParsing="false" text="10.34 Disable Object Class Relevance Advisory Switch" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
+                                <MenuItem mnemonicParsing="false" text="10.35 Enable Attribute Relevance Advisory Switch" />
+                                <MenuItem mnemonicParsing="false" text="10.36 Disable Attribute Relevance Advisory Switch" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
+                                <MenuItem mnemonicParsing="false" text="10.37 Enable Attribute Scope Advisory Switch" />
+                                <MenuItem mnemonicParsing="false" text="10.38 Disable Attribute Scope Advisory Switch" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
+                                <MenuItem mnemonicParsing="false" text="10.39 Enable Interaction Relevance Advisory Switch" />
+                                <MenuItem mnemonicParsing="false" text="10.40 Disable Interaction Relevance Advisory Switch" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Callbacks">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="10.41 Evoke Callback" />
+                                <MenuItem mnemonicParsing="false" text="10.42 Evoke Multiple Callbacks" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
+                                <MenuItem mnemonicParsing="false" text="10.43 Enable Callbacks" />
+                                <MenuItem mnemonicParsing="false" text="10.44 Disable Callbacks" />
+                            </items>
+                        </Menu>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </children>
 </AnchorPane>
