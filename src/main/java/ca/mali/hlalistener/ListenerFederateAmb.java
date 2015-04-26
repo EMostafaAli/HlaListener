@@ -23,12 +23,10 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
 package ca.mali.hlalistener;
 
 import ca.mali.fomParser.FomParser;
-import static ca.mali.hlalistener.HlaPublicVariables.*;
-
+import static ca.mali.hlalistener.PublicVariables.*;
 
 import hla.rti1516e.*;
 import hla.rti1516e.encoding.*;
@@ -39,10 +37,11 @@ import org.apache.logging.log4j.*;
  *
  * @author Mostafa Ali <engabdomostafa@gmail.com>
  */
-public class ListenerFederateAmb extends NullFederateAmbassador{
-    
+public class ListenerFederateAmb extends NullFederateAmbassador {
+
     //Logger
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger();
+
     /**
      *
      * @param theObject
@@ -65,5 +64,10 @@ public class ListenerFederateAmb extends NullFederateAmbassador{
         } catch (DecoderException ex) {
             logger.log(Level.FATAL, "Exception in reflecting attribute values", ex);
         }
+    }
+
+    @Override
+    public void connectionLost(String faultDescription) throws FederateInternalError {
+        logger.log(Level.ERROR, "Lost connection with RTI: " + faultDescription);
     }
 }

@@ -1,5 +1,3 @@
-package ca.mali.hlalistener;
-
 /*
  * Copyright (c) 2015, Mostafa Ali
  * All rights reserved.
@@ -25,16 +23,19 @@ package ca.mali.hlalistener;
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package ca.mali.dialogs;
+
 import static ca.mali.hlalistener.PublicVariables.*;
-import hla.rti1516e.exceptions.CallNotAllowedFromWithinCallback;
-import hla.rti1516e.exceptions.FederateIsExecutionMember;
-import hla.rti1516e.exceptions.NotConnected;
-import hla.rti1516e.exceptions.RTIinternalError;
+
+import hla.rti1516e.*;
+import hla.rti1516e.exceptions.*;
+
 import java.net.*;
 import java.util.*;
 import javafx.event.*;
 import javafx.fxml.*;
 import javafx.scene.*;
+import javafx.scene.control.*;
 import javafx.stage.*;
 import org.apache.logging.log4j.*;
 
@@ -43,63 +44,51 @@ import org.apache.logging.log4j.*;
  *
  * @author Mostafa
  */
-public class MainWindowController implements Initializable {
+public class ConnectServiceController implements Initializable {
 
     //Logger
     private static final Logger logger = LogManager.getLogger();
+
+    @FXML
+    private TextArea LocalSettingsDesignator;
+
+    @FXML
+    private ChoiceBox CallbackModel_choiceBox;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+
     }
 
     @FXML
-    private void RtiInfo_click(ActionEvent event) {
-        try {
-            logger.entry();
-            logger.log(Level.INFO, rtiFactory.rtiName());
-            logger.log(Level.INFO, rtiFactory.rtiVersion());
-            logger.log(Level.INFO, rtiAmb.getHLAversion());
-            logger.exit();
-        } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error getting RTI info", ex);
-        }
+    private void Cancel_click(ActionEvent event) {
+        ((Stage) LocalSettingsDesignator.getScene().getWindow()).close();
     }
 
     @FXML
-    private void Connect_click(ActionEvent event) {
+    private void OK_click(ActionEvent event) {
+        logger.entry();
+        CallbackModel callback = (CallbackModel_choiceBox.getValue().toString().equals("Evoked")) ? 
+                CallbackModel.HLA_EVOKED : CallbackModel.HLA_IMMEDIATE;
         try {
-            logger.entry();
-            final Stage dialog = new Stage();
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.initOwner(primaryStage);
-            dialog.setResizable(false);
-            dialog.setTitle("4.2 Connect Service");
-            Parent root = FXMLLoader.load(getClass().getResource("/fxml/ConnectService.fxml"));
-            Scene dialogScene = new Scene(root);
-            dialog.setScene(dialogScene);
-            dialog.show();
-            logger.exit();
-        } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error Displaying Connect dialog box", ex);
-        }
-    }
-
-    @FXML
-    private void Disconnect_click(ActionEvent event) {
-        try {
-            rtiAmb.disconnect();
-        } catch (FederateIsExecutionMember ex) {
-            logger.log(Level.ERROR, "Error disconnecting, please resign first", ex);
-        } catch (CallNotAllowedFromWithinCallback ex) {
-            logger.log(Level.ERROR, "Error disconnecting, you are not connected", ex);
+            rtiAmb.connect(fedAmb, callback, LocalSettingsDesignator.getText());
+        } catch (ConnectionFailed ex) {
+            logger.log(Level.ERROR, "Connection to RTI failed", ex);
+        } catch (UnsupportedCallbackModel ex) {
+            logger.log(Level.ERROR, "Unsupported Callback Model", ex);
+        } catch (InvalidLocalSettingsDesignator ex) {
+            logger.log(Level.ERROR, "Invalid connection string", ex);
+        } catch (AlreadyConnected ex) {
+            logger.log(Level.ERROR, "Already connected to RTI", ex);
         } catch (RTIinternalError ex) {
             logger.log(Level.ERROR, "Internal error in RTI", ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error Disconnected RTI", ex);
+            logger.log(Level.FATAL, "Error in connecting to RTI", ex);
         }
+        ((Stage) LocalSettingsDesignator.getScene().getWindow()).close();
+        logger.exit();
     }
 }

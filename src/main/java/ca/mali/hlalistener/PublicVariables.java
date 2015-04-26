@@ -27,12 +27,15 @@ package ca.mali.hlalistener;
 
 import hla.rti1516e.*;
 import hla.rti1516e.encoding.*;
+import javafx.stage.*;
 
 /**
  *
  * @author Mostafa Ali <engabdomostafa@gmail.com>
  */
-public class HlaPublicVariables {
+public class PublicVariables {
+
+    public static RtiFactory rtiFactory;
 
     /**
      * RTI ambassador
@@ -40,12 +43,19 @@ public class HlaPublicVariables {
     public static RTIambassador rtiAmb;
 
     /**
+     * Federate ambassador
+     */
+    public static ListenerFederateAmb fedAmb;
+
+    /**
      * Encoder Factory
      */
     public static EncoderFactory encoderFactory;
 
-     /**
+    /**
      *
      */
     public static HLAunicodeString stringEncoder;
+
+    public static Stage primaryStage;
 }

@@ -25,7 +25,7 @@
  */
 package ca.mali.hlalistener;
 
-import static ca.mali.hlalistener.HlaPublicVariables.*;
+import static ca.mali.hlalistener.PublicVariables.*;
 
 import hla.rti1516e.*;
 
@@ -36,6 +36,7 @@ import java.util.*;
 
 import javafx.event.*;
 import javafx.fxml.*;
+import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.stage.*;
 
@@ -49,8 +50,6 @@ public class RtiAmbInitializer implements Initializable {
     @FXML
     private TextField JarFileLocation;
 
-    
-    private ListenerFederateAmb fedAmb;
     private static final File coreFile = new File("FOMs/RestaurantFOMmodule.xml");
     private static URL[] FOMModules;
 
@@ -72,26 +71,34 @@ public class RtiAmbInitializer implements Initializable {
             URLClassLoader child = new URLClassLoader(urls, this.getClass().getClassLoader());
             Class RtiFactoryFactory = Class.forName("hla.rti1516e.RtiFactoryFactory", true, child);
             Method getRtiFactory = RtiFactoryFactory.getMethod("getRtiFactory");
-            RtiFactory rriFactory = (RtiFactory) getRtiFactory.invoke(null);
-            rtiAmb = rriFactory.getRtiAmbassador();
+            rtiFactory = (RtiFactory) getRtiFactory.invoke(null);
+            rtiAmb = rtiFactory.getRtiAmbassador();
             fedAmb = new ListenerFederateAmb();
-            encoderFactory = rriFactory.getEncoderFactory();
-            rtiAmb.connect(fedAmb, CallbackModel.HLA_IMMEDIATE);
-            FOMModules = new URL[]{coreFile.toURI().toURL()};
-            rtiAmb.createFederationExecution("TestFederation", FOMModules);
-            rtiAmb.joinFederationExecution("Listener Test fed", "TestFederation");
-            rtiAmb.enableAsynchronousDelivery();
-            ObjectClassHandle FederationHandle = rtiAmb.getObjectClassHandle("HLAobjectRoot.HLAmanager.HLAfederation");
-            System.out.println(FederationHandle.toString());
-            currentFDDHandle = rtiAmb.getAttributeHandle(FederationHandle, "HLAcurrentFDD");
-            System.out.println(currentFDDHandle.toString());
-            AttributeHandleSet set = rtiAmb.getAttributeHandleSetFactory().create();
-            set.add(currentFDDHandle);
-            rtiAmb.subscribeObjectClassAttributes(FederationHandle, set);
-            System.out.println(rriFactory.rtiName());
-            System.out.println(rriFactory.rtiVersion());
+            encoderFactory = rtiFactory.getEncoderFactory();
 
-            rtiAmb.requestAttributeValueUpdate(FederationHandle, set, null);
+//            Stage stage = (Stage) JarFileLocation.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainWindow.fxml"));
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.setMaximized(true);
+            primaryStage.show();
+
+//            rtiAmb.connect(fedAmb, CallbackModel.HLA_IMMEDIATE);
+//            FOMModules = new URL[]{coreFile.toURI().toURL()};
+//            rtiAmb.createFederationExecution("TestFederation", FOMModules);
+//            rtiAmb.joinFederationExecution("Listener Test fed", "TestFederation");
+//            rtiAmb.enableAsynchronousDelivery();
+//            ObjectClassHandle FederationHandle = rtiAmb.getObjectClassHandle("HLAobjectRoot.HLAmanager.HLAfederation");
+//            System.out.println(FederationHandle.toString());
+//            currentFDDHandle = rtiAmb.getAttributeHandle(FederationHandle, "HLAcurrentFDD");
+//            System.out.println(currentFDDHandle.toString());
+//            AttributeHandleSet set = rtiAmb.getAttributeHandleSetFactory().create();
+//            set.add(currentFDDHandle);
+//            rtiAmb.subscribeObjectClassAttributes(FederationHandle, set);
+//            System.out.println(rriFactory.rtiName());
+//            System.out.println(rriFactory.rtiVersion());
+//
+//            rtiAmb.requestAttributeValueUpdate(FederationHandle, set, null);
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Exception", ex);
         }
@@ -111,10 +118,10 @@ public class RtiAmbInitializer implements Initializable {
             Method method = urlClass.getDeclaredMethod("addURL", new Class[]{URL.class});
             method.setAccessible(true);
             method.invoke(urlClassLoader, new Object[]{u.toURL()});
-        }  catch (NoSuchMethodException | SecurityException | IllegalArgumentException | 
+        } catch (NoSuchMethodException | SecurityException | IllegalArgumentException |
                 InvocationTargetException | MalformedURLException | IllegalAccessException ex) {
-                        logger.log(Level.FATAL, "Error adding the jar file to the class path", ex);
-                        return 1;
+            logger.log(Level.FATAL, "Error adding the jar file to the class path", ex);
+            return 1;
         }
         logger.exit();
         return 0;
@@ -126,7 +133,7 @@ public class RtiAmbInitializer implements Initializable {
         fileChooser.setTitle("Select jar file");
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Jar file", "*.jar"));
-        File file = fileChooser.showOpenDialog(JarFileLocation.getScene().getWindow());
+        File file = fileChooser.showOpenDialog(primaryStage);
         if (file != null) {
             JarFileLocation.setText(file.getAbsolutePath());
         }
@@ -134,7 +141,6 @@ public class RtiAmbInitializer implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
         fedAmb = new ListenerFederateAmb();
     }
 }

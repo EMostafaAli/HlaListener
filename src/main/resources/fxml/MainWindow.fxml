@@ -16,15 +16,15 @@
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="RTI info" />
+                        <MenuItem mnemonicParsing="false" text="RTI info" onAction="#RtiInfo_click"/>
                         <MenuItem mnemonicParsing="false" text="Clear Log" />
                         <MenuItem mnemonicParsing="false" text="Close" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="4 Federation">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="4.2 Connect" />
-                        <MenuItem mnemonicParsing="false" text="4.3 Disconnect" />
+                        <MenuItem mnemonicParsing="false" text="4.2 Connect" onAction="#Connect_click" />
+                        <MenuItem mnemonicParsing="false" text="4.3 Disconnect" onAction="#Disconnect_click"/>
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="4.5 Create Federation Execution" />
                         <MenuItem mnemonicParsing="false" text="4.6 Destroy Federation Execution" />
