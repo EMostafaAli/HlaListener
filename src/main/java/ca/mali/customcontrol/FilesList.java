@@ -139,7 +139,7 @@ public class FilesList extends VBox {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Name conflict");
             alert.setHeaderText(null);
-            alert.setContentText("File with the same name '" + name + "' has been added, \nthis file will not be added");
+            alert.setContentText("File with the same name '" + name + "' has been added, \nthis file will be ignored");
             alert.show();
             return;
         }

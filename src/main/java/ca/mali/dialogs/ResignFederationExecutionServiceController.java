@@ -26,10 +26,8 @@
 package ca.mali.dialogs;
 
 import static ca.mali.hlalistener.PublicVariables.*;
-
 import hla.rti1516e.*;
 import hla.rti1516e.exceptions.*;
-
 import java.net.*;
 import java.util.*;
 import javafx.event.*;
@@ -41,52 +39,51 @@ import org.apache.logging.log4j.*;
 /**
  * FXML Controller class
  *
- * @author Mostafa
+ * @author Mostafa Ali <engabdomostafa@gmail.com>
  */
-public class ConnectServiceController implements Initializable {
+public class ResignFederationExecutionServiceController implements Initializable {
 
     //Logger
     private static final Logger logger = LogManager.getLogger();
 
     @FXML
-    private TextArea LocalSettingsDesignator;
-
-    @FXML
-    private ChoiceBox<CallbackModel> CallbackModel_choiceBox;
+    private ChoiceBox<ResignAction> ResignActionChoiceBox;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        CallbackModel_choiceBox.getItems().addAll(CallbackModel.values());
-        CallbackModel_choiceBox.setValue(CallbackModel.HLA_IMMEDIATE);
+        ResignActionChoiceBox.getItems().addAll(ResignAction.values());
+        ResignActionChoiceBox.setValue(ResignAction.NO_ACTION);
     }
 
     @FXML
     private void Cancel_click(ActionEvent event) {
-        ((Stage) LocalSettingsDesignator.getScene().getWindow()).close();
+        ((Stage) ResignActionChoiceBox.getScene().getWindow()).close();
     }
 
     @FXML
     private void OK_click(ActionEvent event) {
-        logger.entry();
         try {
-            rtiAmb.connect(fedAmb, CallbackModel_choiceBox.getValue(), LocalSettingsDesignator.getText());
-        } catch (ConnectionFailed ex) {
-            logger.log(Level.ERROR, "Connection to RTI failed", ex);
-        } catch (UnsupportedCallbackModel ex) {
-            logger.log(Level.ERROR, "Unsupported Callback Model", ex);
-        } catch (InvalidLocalSettingsDesignator ex) {
-            logger.log(Level.ERROR, "Invalid connection string", ex);
-        } catch (AlreadyConnected ex) {
-            logger.log(Level.ERROR, "Already connected to RTI", ex);
+            rtiAmb.resignFederationExecution(ResignActionChoiceBox.getValue());
+        } catch (CallNotAllowedFromWithinCallback ex) {
+            logger.log(Level.ERROR, "Call not allowed from within callback", ex);
+        } catch (FederateNotExecutionMember ex) {
+            logger.log(Level.ERROR, "Federate is not Execution Member", ex);
+        } catch (InvalidResignAction ex) {
+            logger.log(Level.ERROR, "Invalid Resign Action", ex);
+        } catch (OwnershipAcquisitionPending ex) {
+            logger.log(Level.ERROR, "Ownership Acquistion Pending", ex);
+        } catch (FederateOwnsAttributes ex) {
+            logger.log(Level.ERROR, "Federate owns Attribute", ex);
+        } catch (NotConnected ex) {
+            logger.log(Level.ERROR, "Not connected to RTI", ex);
         } catch (RTIinternalError ex) {
             logger.log(Level.ERROR, "Internal error in RTI", ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in connecting to RTI", ex);
+            logger.log(Level.FATAL, "Error in resigning Federation Execution", ex);
         }
-        ((Stage) LocalSettingsDesignator.getScene().getWindow()).close();
-        logger.exit();
+        ((Stage) ResignActionChoiceBox.getScene().getWindow()).close();
     }
 }

@@ -28,7 +28,7 @@ package ca.mali.hlalistener;
 import static ca.mali.hlalistener.PublicVariables.*;
 
 import hla.rti1516e.exceptions.*;
-
+import java.io.*;
 import java.net.*;
 import java.util.*;
 import javafx.event.*;
@@ -56,6 +56,20 @@ public class MainWindowController implements Initializable {
         // TODO
     }
 
+    private void DisplayDialog(String title, String fxmlPath) throws IOException {
+        logger.entry();
+        final Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(primaryStage);
+        dialog.setResizable(false);
+        dialog.setTitle(title);
+        Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
+        Scene dialogScene = new Scene(root);
+        dialog.setScene(dialogScene);
+        dialog.show();
+        logger.exit();
+    }
+
     @FXML
     private void RtiInfo_click(ActionEvent event) {
         try {
@@ -73,15 +87,7 @@ public class MainWindowController implements Initializable {
     private void Connect_click(ActionEvent event) {
         try {
             logger.entry();
-            final Stage dialog = new Stage();
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.initOwner(primaryStage);
-            dialog.setResizable(false);
-            dialog.setTitle("4.2 Connect Service");
-            Parent root = FXMLLoader.load(getClass().getResource("/fxml/ConnectService.fxml"));
-            Scene dialogScene = new Scene(root);
-            dialog.setScene(dialogScene);
-            dialog.show();
+            DisplayDialog("4.2 Connect Service", "/fxml/ConnectService.fxml");
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Connect dialog box", ex);
@@ -120,37 +126,43 @@ public class MainWindowController implements Initializable {
     private void CreateFederation_click(ActionEvent event) {
         try {
             logger.entry();
-            final Stage dialog = new Stage();
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.initOwner(primaryStage);
-            dialog.setResizable(false);
-            dialog.setTitle("4.5 Create Federation Execution Service");
-            Parent root = FXMLLoader.load(getClass().getResource("/fxml/CreateFederationExecutionService.fxml"));
-            Scene dialogScene = new Scene(root);
-            dialog.setScene(dialogScene);
-            dialog.show();
+            DisplayDialog("4.5 Create Federation Execution Service", "/fxml/CreateFederationExecutionService.fxml");
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Create Federation dialog box", ex);
         }
     }
-    
-     @FXML
+
+    @FXML
     private void DestroyFederation_click(ActionEvent event) {
         try {
             logger.entry();
-            final Stage dialog = new Stage();
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.initOwner(primaryStage);
-            dialog.setResizable(false);
-            dialog.setTitle("4.6 Destroy Federation Execution Service");
-            Parent root = FXMLLoader.load(getClass().getResource("/fxml/DestroyFederationExecutionService.fxml"));
-            Scene dialogScene = new Scene(root);
-            dialog.setScene(dialogScene);
-            dialog.show();
+            DisplayDialog("4.6 Destroy Federation Execution Service", "/fxml/DestroyFederationExecutionService.fxml");
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Destroy Federation dialog box", ex);
+        }
+    }
+
+    @FXML
+    private void JoinFederation_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("4.9 Join Federation Execution Service", "/fxml/JoinFederationExecutionService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Join Federation dialog box", ex);
+        }
+    }
+
+    @FXML
+    private void ResignFederation_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("4.10 Resign Federation Execution Service", "/fxml/ResignFederationExecutionService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Resign Federation dialog box", ex);
         }
     }
 }
