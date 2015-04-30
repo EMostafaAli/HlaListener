@@ -34,10 +34,12 @@ import java.lang.reflect.*;
 import java.net.*;
 import java.util.*;
 
+import javafx.beans.binding.*;
 import javafx.event.*;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.*;
 import javafx.stage.*;
 
 import org.apache.logging.log4j.*;
@@ -49,6 +51,9 @@ public class RtiAmbInitializer implements Initializable {
 
     @FXML
     private TextField JarFileLocation;
+
+    @FXML
+    private Button OkButton;
 
     private static final File coreFile = new File("FOMs/RestaurantFOMmodule.xml");
     private static URL[] FOMModules;
@@ -66,6 +71,17 @@ public class RtiAmbInitializer implements Initializable {
         try {
             logger.entry();
             File file = new File(JarFileLocation.getText());
+
+            //Check if the path represents an actual file
+            if (!file.exists()) {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Path Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Path cannot be resolved to jar file");
+                alert.showAndWait();
+                return;
+            }
+
             AddtoBuildPath(file);
             URL[] urls = new URL[]{file.toURI().toURL()};
             URLClassLoader child = new URLClassLoader(urls, this.getClass().getClassLoader());
@@ -80,6 +96,8 @@ public class RtiAmbInitializer implements Initializable {
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainWindow.fxml"));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
+            primaryStage.setMinHeight(0);
+            primaryStage.setMaxHeight(Double.MAX_VALUE);
             primaryStage.setMaximized(true);
             primaryStage.show();
 
@@ -100,6 +118,11 @@ public class RtiAmbInitializer implements Initializable {
 //
 //            rtiAmb.requestAttributeValueUpdate(FederationHandle, set, null);
         } catch (Exception ex) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error loading library");
+            alert.setHeaderText("Errror processing the provided file");
+            alert.setContentText("Please make sure the selected file is a valid HLA1516e jar library");
+            alert.showAndWait();
             logger.log(Level.FATAL, "Exception", ex);
         }
     }
@@ -127,20 +150,21 @@ public class RtiAmbInitializer implements Initializable {
         return 0;
     }
 
-    @FXML
-    private void JarBrowser_click(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select jar file");
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Jar file", "*.jar"));
-        File file = fileChooser.showOpenDialog(primaryStage);
-        if (file != null) {
-            JarFileLocation.setText(file.getAbsolutePath());
-        }
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         fedAmb = new ListenerFederateAmb();
+        OkButton.disableProperty().bind(Bindings.isEmpty(JarFileLocation.textProperty()));
+        JarFileLocation.setOnMouseClicked((event) -> {
+            if (event.getClickCount() == 2) {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Select jar file");
+                fileChooser.getExtensionFilters().addAll(
+                        new FileChooser.ExtensionFilter("Jar file", "*.jar"));
+                File file = fileChooser.showOpenDialog(primaryStage);
+                if (file != null) {
+                    JarFileLocation.setText(file.getAbsolutePath());
+                }
+            }
+        });
     }
 }

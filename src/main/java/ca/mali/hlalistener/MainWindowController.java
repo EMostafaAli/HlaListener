@@ -26,16 +26,16 @@ package ca.mali.hlalistener;
  * POSSIBILITY OF SUCH DAMAGE.
  */
 import static ca.mali.hlalistener.PublicVariables.*;
-import hla.rti1516e.exceptions.CallNotAllowedFromWithinCallback;
-import hla.rti1516e.exceptions.FederateIsExecutionMember;
-import hla.rti1516e.exceptions.NotConnected;
-import hla.rti1516e.exceptions.RTIinternalError;
+
+import hla.rti1516e.exceptions.*;
+
 import java.net.*;
 import java.util.*;
 import javafx.event.*;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.stage.*;
+
 import org.apache.logging.log4j.*;
 
 /**
@@ -97,9 +97,37 @@ public class MainWindowController implements Initializable {
         } catch (CallNotAllowedFromWithinCallback ex) {
             logger.log(Level.ERROR, "Error disconnecting, you are not connected", ex);
         } catch (RTIinternalError ex) {
-            logger.log(Level.ERROR, "Internal error in RTI", ex);
+            logger.log(Level.FATAL, "Internal error in RTI", ex);
+        }
+    }
+
+    @FXML
+    private void ListFederationExecutions_click(ActionEvent event) {
+        try {
+            rtiAmb.listFederationExecutions();
+        } catch (NotConnected ex) {
+            logger.log(Level.ERROR, "Error, please connect first", ex);
+        } catch (RTIinternalError ex) {
+            logger.log(Level.FATAL, "Internal error in RTI", ex);
+        }
+    }
+    
+    @FXML
+    private void CreateFederation_click(ActionEvent event) {
+        try {
+            logger.entry();
+            final Stage dialog = new Stage();
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.initOwner(primaryStage);
+            dialog.setResizable(false);
+            dialog.setTitle("4.5 Create Federation Execution Service");
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/CreateFederationExecutionService.fxml"));
+            Scene dialogScene = new Scene(root);
+            dialog.setScene(dialogScene);
+            dialog.show();
+            logger.exit();
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error Disconnected RTI", ex);
+            logger.log(Level.FATAL, "Error Displaying Create Federation dialog box", ex);
         }
     }
 }

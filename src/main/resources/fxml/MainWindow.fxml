@@ -26,10 +26,10 @@
                         <MenuItem mnemonicParsing="false" text="4.2 Connect" onAction="#Connect_click" />
                         <MenuItem mnemonicParsing="false" text="4.3 Disconnect" onAction="#Disconnect_click"/>
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="4.5 Create Federation Execution" />
+                        <MenuItem mnemonicParsing="false" text="4.5 Create Federation Execution" onAction="#CreateFederation_click" />
                         <MenuItem mnemonicParsing="false" text="4.6 Destroy Federation Execution" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="4.7 List Federation Execution" />
+                        <MenuItem mnemonicParsing="false" text="4.7 List Federation Execution" onAction="#ListFederationExecutions_click" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="4.9 Join Federation Execution" />
                         <MenuItem mnemonicParsing="false" text="4.10 Resign Federation Execution" />

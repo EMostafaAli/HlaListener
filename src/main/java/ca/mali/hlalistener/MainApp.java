@@ -41,11 +41,13 @@ public class MainApp extends Application {
         PublicVariables.primaryStage = stage;
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/LibraryChooser.fxml"));
         
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 386, 87);
         scene.getStylesheets().add("/styles/Styles.css");
         
         stage.setTitle("HLA Listener");
         stage.setScene(scene);
+        stage.setMinHeight(126);
+        stage.setMaxHeight(126);
         stage.show();
     }
 

@@ -66,8 +66,18 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         }
     }
 
+    //4.4
     @Override
     public void connectionLost(String faultDescription) throws FederateInternalError {
         logger.log(Level.ERROR, "Lost connection with RTI: " + faultDescription);
+    }
+
+    //4.8
+    @Override
+    public void reportFederationExecutions(FederationExecutionInformationSet theFederationExecutionInformationSet) throws FederateInternalError {
+        for (FederationExecutionInformation theFederationExecution : theFederationExecutionInformationSet) {
+            logger.log(Level.INFO, "Federation Execution Name: {}", theFederationExecution.federationExecutionName);
+            logger.log(Level.INFO, "Federation Time Implementation: {}", theFederationExecution.logicalTimeImplementationName);
+        }
     }
 }

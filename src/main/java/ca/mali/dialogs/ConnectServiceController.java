@@ -34,7 +34,6 @@ import java.net.*;
 import java.util.*;
 import javafx.event.*;
 import javafx.fxml.*;
-import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.stage.*;
 import org.apache.logging.log4j.*;
