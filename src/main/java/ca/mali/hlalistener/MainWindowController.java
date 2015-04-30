@@ -91,7 +91,9 @@ public class MainWindowController implements Initializable {
     @FXML
     private void Disconnect_click(ActionEvent event) {
         try {
+            logger.entry();
             rtiAmb.disconnect();
+            logger.exit();
         } catch (FederateIsExecutionMember ex) {
             logger.log(Level.ERROR, "Error disconnecting, please resign first", ex);
         } catch (CallNotAllowedFromWithinCallback ex) {
@@ -104,14 +106,16 @@ public class MainWindowController implements Initializable {
     @FXML
     private void ListFederationExecutions_click(ActionEvent event) {
         try {
+            logger.entry();
             rtiAmb.listFederationExecutions();
+            logger.exit();
         } catch (NotConnected ex) {
             logger.log(Level.ERROR, "Error, please connect first", ex);
         } catch (RTIinternalError ex) {
             logger.log(Level.FATAL, "Internal error in RTI", ex);
         }
     }
-    
+
     @FXML
     private void CreateFederation_click(ActionEvent event) {
         try {
@@ -128,6 +132,25 @@ public class MainWindowController implements Initializable {
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Create Federation dialog box", ex);
+        }
+    }
+    
+     @FXML
+    private void DestroyFederation_click(ActionEvent event) {
+        try {
+            logger.entry();
+            final Stage dialog = new Stage();
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.initOwner(primaryStage);
+            dialog.setResizable(false);
+            dialog.setTitle("4.6 Destroy Federation Execution Service");
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/DestroyFederationExecutionService.fxml"));
+            Scene dialogScene = new Scene(root);
+            dialog.setScene(dialogScene);
+            dialog.show();
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Destroy Federation dialog box", ex);
         }
     }
 }

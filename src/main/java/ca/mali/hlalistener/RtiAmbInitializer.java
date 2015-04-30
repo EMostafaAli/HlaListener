@@ -153,6 +153,8 @@ public class RtiAmbInitializer implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         fedAmb = new ListenerFederateAmb();
+        Tooltip tooltip = new Tooltip("Double click to Select HLA jar file");
+        JarFileLocation.setTooltip(tooltip);
         OkButton.disableProperty().bind(Bindings.isEmpty(JarFileLocation.textProperty()));
         JarFileLocation.setOnMouseClicked((event) -> {
             if (event.getClickCount() == 2) {
