@@ -99,4 +99,15 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         logger.log(Level.INFO, "Sync Point: {} has been announced with the following Tag: {}", synchronizationPointLabel, new String(userSuppliedTag));
     }
 
+    //4.15
+    @Override
+    public void federationSynchronized(String synchronizationPointLabel, FederateHandleSet failedToSyncSet) throws FederateInternalError {
+        logger.log(Level.INFO, "Sync Point: {} has been achieved", synchronizationPointLabel);
+        if (!failedToSyncSet.isEmpty()) {
+            logger.log(Level.INFO, "The following federates failed to sync: ");
+            for (FederateHandle federateHandle : failedToSyncSet) {
+                logger.log(Level.INFO, "/t -{}", federateHandle.toString());
+            }
+        }
+    }
 }

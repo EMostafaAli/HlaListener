@@ -176,4 +176,15 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Register Sync Point dialog box", ex);
         }
     }
+    
+    @FXML
+    private void SyncPointAchieved_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("4.14 Synchronization Point Achieved service", "/fxml/SyncPointAchievedService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Sync Point Achieved dialog box", ex);
+        }
+    }
 }
