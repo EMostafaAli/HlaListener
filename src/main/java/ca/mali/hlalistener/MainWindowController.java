@@ -165,4 +165,15 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Resign Federation dialog box", ex);
         }
     }
+    
+    @FXML
+    private void RegisterSyncPoint_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("4.11 Register Federation Synchronization Point service", "/fxml/RegisterFederationSyncPointService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Register Sync Point dialog box", ex);
+        }
+    }
 }

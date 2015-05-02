@@ -10,11 +10,11 @@
 <?import javafx.scene.layout.*?>
 <?import ca.mali.customcontrol.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="107.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.ResignFederationExecutionServiceController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="107.0" prefWidth="431.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.ResignFederationExecutionServiceController">
     <children>
       <HBox layoutX="25.0" layoutY="25.0" prefHeight="36.0" prefWidth="421.0">
          <children>
-            <Label text="Resign Action*:                       " />
+            <Label prefHeight="17.0" prefWidth="89.0" text="Resign Action*: " />
             <ChoiceBox fx:id="ResignActionChoiceBox" prefHeight="25.0" prefWidth="314.0" HBox.hgrow="ALWAYS" />
          </children>
          <VBox.margin>
@@ -30,9 +30,9 @@
                 </Button>
                 <Button fx:id="OkButton" defaultButton="true" mnemonicParsing="false" onAction="#OK_click" text="OK" />
             </children>
-            <padding>
-                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-            </padding>
+         <VBox.margin>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </VBox.margin>
         </HBox>
     </children>
 </VBox>

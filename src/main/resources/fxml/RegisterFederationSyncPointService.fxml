@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="174.0" prefWidth="467.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.RegisterFederationSyncPointServiceController">
+   <children>
+      <HBox alignment="CENTER_LEFT" prefHeight="12.0" prefWidth="570.0">
+         <VBox.margin>
+            <Insets left="15.0" right="15.0" top="15.0" />
+         </VBox.margin>
+         <children>
+            <Label text="Synchroinization Point Label*: " />
+            <TextField fx:id="SyncPointLabel" prefHeight="25.0" prefWidth="276.0" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="5.0" prefWidth="443.0">
+         <VBox.margin>
+            <Insets left="15.0" right="15.0" top="15.0" />
+         </VBox.margin>
+         <children>
+            <Label prefHeight="17.0" prefWidth="228.0" text="User-supplied tag: " />
+            <TextField fx:id="UserSuppliedTag" prefHeight="25.0" prefWidth="343.0" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="437.0">
+         <VBox.margin>
+            <Insets left="15.0" right="15.0" top="15.0" />
+         </VBox.margin>
+         <children>
+            <Label prefHeight="17.0" prefWidth="169.0" text="Joined Federate Designators: " />
+            <TextField fx:id="JoinedFederateDesignator" prefHeight="25.0" prefWidth="278.0" promptText="Separate with comma, Or empty to notify ALL" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_RIGHT" prefHeight="5.0" prefWidth="437.0">
+         <VBox.margin>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </VBox.margin>
+         <children>
+            <Button fx:id="CancelButton" cancelButton="true" mnemonicParsing="false" onAction="#CancelButton_Click" text="Cancel">
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="OkButton" defaultButton="true" mnemonicParsing="false" onAction="#OkButton_Click" text="OK" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

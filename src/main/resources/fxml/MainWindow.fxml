@@ -34,7 +34,7 @@
                         <MenuItem mnemonicParsing="false" text="4.9 Join Federation Execution" onAction="#JoinFederation_click" />
                         <MenuItem mnemonicParsing="false" text="4.10 Resign Federation Execution" onAction="#ResignFederation_click" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="4.11 Register Sync Point" />
+                        <MenuItem mnemonicParsing="false" text="4.11 Register Sync Point" onAction="#RegisterSyncPoint_click" />
                         <MenuItem mnemonicParsing="false" text="4.14 Sync Point Achieved" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="4.16 Request Federation Save" />

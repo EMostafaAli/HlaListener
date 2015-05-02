@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import java.util.*?>
@@ -8,16 +9,32 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="145.0" prefWidth="526.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.ConnectServiceController">
+<AnchorPane id="AnchorPane" prefHeight="134.0" prefWidth="526.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.ConnectServiceController">
     <stylesheets>
         <URL value="@/styles/Styles.css" />
     </stylesheets>
     <children>
-        <Label layoutX="14.0" layoutY="14.0" text="Callback model" />
-        <ChoiceBox fx:id="CallbackModel_choiceBox" layoutX="159.0" layoutY="10.0" prefWidth="150.0" />
-        <Label layoutX="14.0" layoutY="57.0" text="Local Settings Designator" />
-        <TextArea fx:id="LocalSettingsDesignator" layoutX="159.0" layoutY="45.0" prefHeight="40.0" prefWidth="338.0" promptText="Enter connection string, or keep empty to use the default connection" />
-        <Button fx:id="OKbutton" defaultButton="true" layoutX="464.0" layoutY="99.0" mnemonicParsing="false" onAction="#OK_click" text="OK" AnchorPane.bottomAnchor="21.0" AnchorPane.rightAnchor="29.0" />
-        <Button fx:id="CancelButton" cancelButton="true" layoutX="393.0" layoutY="99.0" mnemonicParsing="false" onAction="#Cancel_click" text="Cancel" AnchorPane.bottomAnchor="21.0" AnchorPane.rightAnchor="81.0" />
+      <HBox layoutX="14.0" layoutY="10.0" prefHeight="25.0" prefWidth="512.0">
+         <children>
+              <Label prefHeight="17.0" prefWidth="145.0" text="Callback model: " />
+              <ChoiceBox fx:id="CallbackModel_choiceBox" prefHeight="25.0" prefWidth="195.0" />
+         </children>
+      </HBox>
+      <HBox layoutX="14.0" layoutY="45.0" prefHeight="40.0" prefWidth="501.0">
+         <children>
+              <Label text="Local Settings Designator: " />
+              <TextArea fx:id="LocalSettingsDesignator" prefHeight="40.0" prefWidth="360.0" promptText="Enter connection string, or keep empty to use the default connection" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_RIGHT" layoutX="15.0" layoutY="99.0" prefHeight="25.0" prefWidth="501.0">
+         <children>
+              <Button fx:id="CancelButton" cancelButton="true" mnemonicParsing="false" onAction="#Cancel_click" text="Cancel" />
+              <Button fx:id="OKbutton" defaultButton="true" mnemonicParsing="false" onAction="#OK_click" text="OK" >
+               <HBox.margin>
+                  <Insets left="15.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
     </children>
 </AnchorPane>

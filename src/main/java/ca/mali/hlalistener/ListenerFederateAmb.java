@@ -80,4 +80,23 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
             logger.log(Level.INFO, "Federation Time Implementation: {}", theFederationExecution.logicalTimeImplementationName);
         }
     }
+
+    //4.12
+    @Override
+    public void synchronizationPointRegistrationSucceeded(String synchronizationPointLabel) throws FederateInternalError {
+        logger.log(Level.INFO, "Sync Point: {} has been successfully registered", synchronizationPointLabel);
+    }
+
+    //4.12
+    @Override
+    public void synchronizationPointRegistrationFailed(String synchronizationPointLabel, SynchronizationPointFailureReason reason) throws FederateInternalError {
+        logger.log(Level.INFO, "Sync Point: {} registeration failed because: {}", synchronizationPointLabel, reason);
+    }
+
+    //4.13
+    @Override
+    public void announceSynchronizationPoint(String synchronizationPointLabel, byte[] userSuppliedTag) throws FederateInternalError {
+        logger.log(Level.INFO, "Sync Point: {} has been announced with the following Tag: {}", synchronizationPointLabel, new String(userSuppliedTag));
+    }
+
 }

@@ -24,6 +24,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+.mainFxmlClass {
+
+}
+
 .button {
     -fx-font-weight: bold;
 }
