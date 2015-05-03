@@ -39,9 +39,9 @@
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="4.16 Request Federation Save..." onAction="#RequestFederationSave_click" />
                         <MenuItem mnemonicParsing="false" text="4.18 Federate Save Begun" onAction="#FederateSaveBegun_click" />
-                        <MenuItem mnemonicParsing="false" text="4.19 Federate Save Complete" />
-                        <MenuItem mnemonicParsing="false" text="4.21 Abort Federate Save" />
-                        <MenuItem mnemonicParsing="false" text="4.22 Query Federate Save Status" />
+                        <MenuItem mnemonicParsing="false" text="4.19 Federate Save Complete..." onAction="#FederateSaveComplete_click" />
+                        <MenuItem mnemonicParsing="false" text="4.21 Abort Federation Save" onAction="#AbortFederationSave_click" />
+                        <MenuItem mnemonicParsing="false" text="4.22 Query Federation Save Status" onAction="#QueryFederationSave_click" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="4.24 Request Federation Restore" />
                         <MenuItem mnemonicParsing="false" text="4.28 Federate Restore Complete" />

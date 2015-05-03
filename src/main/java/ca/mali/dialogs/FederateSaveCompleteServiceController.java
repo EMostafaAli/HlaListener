@@ -26,10 +26,12 @@
 package ca.mali.dialogs;
 
 import static ca.mali.hlalistener.PublicVariables.*;
+
+import hla.rti1516e.*;
 import hla.rti1516e.exceptions.*;
+
 import java.net.*;
 import java.util.*;
-import javafx.beans.binding.*;
 import javafx.event.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
@@ -41,49 +43,50 @@ import org.apache.logging.log4j.*;
  *
  * @author Mostafa
  */
-public class DestroyFederationExecutionServiceController implements Initializable {
+public class FederateSaveCompleteServiceController implements Initializable {
 
     //Logger
     private static final Logger logger = LogManager.getLogger();
 
-    private TextField FederationExecutionName;
-    
     @FXML
-    private Button OkButton;
-    @FXML
-    private ChoiceBox<?> SavedSuccessfully;
-    @FXML
-    private Button CancelButton;
+    private ChoiceBox<Boolean> SavedSuccessfully;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        OkButton.disableProperty().bind(
-                Bindings.isEmpty(FederationExecutionName.textProperty()));
+        SavedSuccessfully.getItems().add(Boolean.TRUE);
+        SavedSuccessfully.getItems().add(Boolean.FALSE);
+        SavedSuccessfully.setValue(Boolean.TRUE);
     }
 
     @FXML
     private void Cancel_click(ActionEvent event) {
-        ((Stage) FederationExecutionName.getScene().getWindow()).close();
+        ((Stage) SavedSuccessfully.getScene().getWindow()).close();
     }
 
     @FXML
     private void Ok_click(ActionEvent event) {
         try {
-            rtiAmb.destroyFederationExecution(FederationExecutionName.getText());
-        } catch (FederatesCurrentlyJoined ex) {
-            logger.log(Level.ERROR, "Federates are currently joined", ex);
-        } catch (FederationExecutionDoesNotExist ex) {
-            logger.log(Level.ERROR, "Federaion Exeuction does not exist", ex);
+            if (SavedSuccessfully.getValue()) {
+                rtiAmb.federateSaveComplete();
+            } else {
+                rtiAmb.federateSaveNotComplete();
+            }
+        } catch (FederateNotExecutionMember ex) {
+            logger.log(Level.ERROR, "Federate is not Execution Member", ex);
+        } catch (RestoreInProgress ex) {
+            logger.log(Level.ERROR, "Restore in Progress", ex);
+        } catch (FederateHasNotBegunSave ex) {
+            logger.log(Level.ERROR, "Federate has not begun Save", ex);
         } catch (NotConnected ex) {
             logger.log(Level.ERROR, "Not connected to RTI", ex);
         } catch (RTIinternalError ex) {
             logger.log(Level.ERROR, "Internal error in RTI", ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in destroying Federation Execution", ex);
+            logger.log(Level.FATAL, "Error in reprorting save complete to RTI", ex);
         }
-        ((Stage) FederationExecutionName.getScene().getWindow()).close();
+        ((Stage) SavedSuccessfully.getScene().getWindow()).close();
     }
 }

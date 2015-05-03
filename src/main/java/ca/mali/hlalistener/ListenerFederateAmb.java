@@ -25,7 +25,7 @@
  */
 package ca.mali.hlalistener;
 
-import ca.mali.fomParser.FomParser;
+import ca.mali.fomParser.*;
 import static ca.mali.hlalistener.PublicVariables.*;
 
 import hla.rti1516e.*;
@@ -122,4 +122,26 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
     public void initiateFederateSave(String label, LogicalTime time) throws FederateInternalError {
         logger.log(Level.INFO, "Federate save initiated with label: '{} at: '{}'", label, time);
     }
+
+    //4.20
+    @Override
+    public void federationSaved() throws FederateInternalError {
+        logger.log(Level.INFO, "Federation saved successfully");
+    }
+
+    //4.20
+    @Override
+    public void federationNotSaved(SaveFailureReason reason) throws FederateInternalError {
+        logger.log(Level.INFO, "Federation save failed because: {}", reason);
+    }
+
+    //4.23
+    @Override
+    public void federationSaveStatusResponse(FederateHandleSaveStatusPair[] response) throws FederateInternalError {
+        logger.log(Level.INFO, "Save status for each federate: ");
+        for (FederateHandleSaveStatusPair statusPair : response) {
+            logger.log(Level.INFO, "Federate '{}' status is '{}'", statusPair.handle, statusPair.status);
+        }
+    }
+
 }

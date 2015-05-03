@@ -221,4 +221,53 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error in reporting Federate Save Begun", ex);
         }
     }
+    
+    @FXML
+    private void FederateSaveComplete_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("4.19 Federate Save Complete service", "/fxml/FederateSaveCompleteService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Federate Save Complete Service dialog box", ex);
+        }
+    }
+    
+    @FXML
+    private void AbortFederationSave_click(ActionEvent event) {
+        try {
+            logger.entry();
+            rtiAmb.abortFederationSave();
+            logger.exit();
+        } catch (FederateNotExecutionMember ex) {
+            logger.log(Level.ERROR, "Federate is not Execution Member", ex);
+        } catch (SaveNotInProgress ex) {
+            logger.log(Level.ERROR, "Save not in Progress", ex);
+        }  catch (NotConnected ex) {
+            logger.log(Level.ERROR, "Not connected to RTI", ex);
+        } catch (RTIinternalError ex) {
+            logger.log(Level.ERROR, "Internal error in RTI", ex);
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error in reporting Federate Save Begun", ex);
+        }
+    }
+    
+     @FXML
+    private void QueryFederationSave_click(ActionEvent event) {
+        try {
+            logger.entry();
+            rtiAmb.queryFederationSaveStatus();
+            logger.exit();
+        } catch (FederateNotExecutionMember ex) {
+            logger.log(Level.ERROR, "Federate is not Execution Member", ex);
+        } catch (RestoreInProgress ex) {
+            logger.log(Level.ERROR, "Restore in Progress", ex);
+        }  catch (NotConnected ex) {
+            logger.log(Level.ERROR, "Not connected to RTI", ex);
+        } catch (RTIinternalError ex) {
+            logger.log(Level.ERROR, "Internal error in RTI", ex);
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error in reporting Federate Save Begun", ex);
+        }
+    }
 }
