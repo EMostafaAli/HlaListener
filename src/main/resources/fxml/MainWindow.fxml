@@ -23,22 +23,22 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="4 Federation">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="4.2 Connect" onAction="#Connect_click" />
+                        <MenuItem mnemonicParsing="false" text="4.2 Connect..." onAction="#Connect_click" />
                         <MenuItem mnemonicParsing="false" text="4.3 Disconnect" onAction="#Disconnect_click"/>
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="4.5 Create Federation Execution" onAction="#CreateFederation_click" />
-                        <MenuItem mnemonicParsing="false" text="4.6 Destroy Federation Execution" onAction="#DestroyFederation_click" />
+                        <MenuItem mnemonicParsing="false" text="4.5 Create Federation Execution..." onAction="#CreateFederation_click" />
+                        <MenuItem mnemonicParsing="false" text="4.6 Destroy Federation Execution..." onAction="#DestroyFederation_click" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="4.7 List Federation Execution" onAction="#ListFederationExecutions_click" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="4.9 Join Federation Execution" onAction="#JoinFederation_click" />
-                        <MenuItem mnemonicParsing="false" text="4.10 Resign Federation Execution" onAction="#ResignFederation_click" />
+                        <MenuItem mnemonicParsing="false" text="4.9 Join Federation Execution..." onAction="#JoinFederation_click" />
+                        <MenuItem mnemonicParsing="false" text="4.10 Resign Federation Execution..." onAction="#ResignFederation_click" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="4.11 Register Sync Point" onAction="#RegisterSyncPoint_click" />
-                        <MenuItem mnemonicParsing="false" text="4.14 Sync Point Achieved" onAction="#SyncPointAchieved_click" />
+                        <MenuItem mnemonicParsing="false" text="4.11 Register Sync Point..." onAction="#RegisterSyncPoint_click" />
+                        <MenuItem mnemonicParsing="false" text="4.14 Sync Point Achieved..." onAction="#SyncPointAchieved_click" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="4.16 Request Federation Save" />
-                        <MenuItem mnemonicParsing="false" text="4.18 Federate Save Begun" />
+                        <MenuItem mnemonicParsing="false" text="4.16 Request Federation Save..." onAction="#RequestFederationSave_click" />
+                        <MenuItem mnemonicParsing="false" text="4.18 Federate Save Begun" onAction="#FederateSaveBegun_click" />
                         <MenuItem mnemonicParsing="false" text="4.19 Federate Save Complete" />
                         <MenuItem mnemonicParsing="false" text="4.21 Abort Federate Save" />
                         <MenuItem mnemonicParsing="false" text="4.22 Query Federate Save Status" />

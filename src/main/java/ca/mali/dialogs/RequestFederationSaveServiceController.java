@@ -26,12 +26,9 @@
 package ca.mali.dialogs;
 
 import static ca.mali.hlalistener.PublicVariables.*;
-import hla.rti1516e.*;
 import hla.rti1516e.exceptions.*;
-
+import hla.rti1516e.time.*;
 import java.net.*;
-import java.nio.*;
-import java.nio.charset.*;
 import java.util.*;
 import javafx.beans.binding.*;
 import javafx.event.*;
@@ -43,19 +40,17 @@ import org.apache.logging.log4j.*;
 /**
  * FXML Controller class
  *
- * @author Mostafa Ali <engabdomostafa@gmail.com>
+ * @author Mostafa
  */
-public class RegisterFederationSyncPointServiceController implements Initializable {
+public class RequestFederationSaveServiceController implements Initializable {
 
     //Logger
     private static final Logger logger = LogManager.getLogger();
 
     @FXML
-    private TextField SyncPointLabel;
+    private TextField FederationSaveLabel;
     @FXML
-    private TextField UserSuppliedTag;
-    @FXML
-    private TextField JoinedFederateDesignator;
+    private TextField TimeStamp;
     @FXML
     private Button OkButton;
 
@@ -65,48 +60,54 @@ public class RegisterFederationSyncPointServiceController implements Initializab
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         OkButton.disableProperty().bind(
-                Bindings.isEmpty(SyncPointLabel.textProperty()));
+                Bindings.isEmpty(FederationSaveLabel.textProperty()));
     }
 
     @FXML
-    private void CancelButton_Click(ActionEvent event) {
-        ((Stage) SyncPointLabel.getScene().getWindow()).close();
+    private void Cancel_click(ActionEvent event) {
+        ((Stage) OkButton.getScene().getWindow()).close();
     }
 
     @FXML
-    private void OkButton_Click(ActionEvent event) {
+    private void Ok_click(ActionEvent event) {
         try {
-            if (JoinedFederateDesignator.getText().isEmpty()) {
-                rtiAmb.registerFederationSynchronizationPoint(SyncPointLabel.getText(), UserSuppliedTag.getText().getBytes(Charset.forName("UTF-8")));
+            if (TimeStamp.getText().isEmpty()) {
+                rtiAmb.requestFederationSave(FederationSaveLabel.getText());
             } else {
-                String[] handles = JoinedFederateDesignator.getText().split(",");
-                FederateHandleSet fedHandleSet = rtiAmb.getFederateHandleSetFactory().create();
-                for (String handle : handles) {
-                    FederateHandle federateHandle = rtiAmb.getFederateHandleFactory()
-                            .decode(ByteBuffer.allocate(4).putInt(Integer.parseInt(handle)).array(), 0);
-                    fedHandleSet.add(federateHandle);
+                switch (logicalTimeFactory.getName()) {
+                    case "HLAfloat64Time": {
+                        HLAfloat64Time logicalTime
+                                = ((HLAfloat64TimeFactory) logicalTimeFactory).makeTime(Double.parseDouble(TimeStamp.getText()));
+                        rtiAmb.requestFederationSave(FederationSaveLabel.getText(), logicalTime);
+                        break;
+                    }
+                    case "HLAinteger64Time": {
+                        HLAinteger64Time logicalTime
+                                = ((HLAinteger64TimeFactory) logicalTimeFactory).makeTime(Long.parseLong(TimeStamp.getText()));
+                        rtiAmb.requestFederationSave(FederationSaveLabel.getText(), logicalTime);
+                        break;
+                    }
                 }
-                rtiAmb.registerFederationSynchronizationPoint(SyncPointLabel.getText(),
-                        UserSuppliedTag.getText().getBytes(Charset.forName("UTF-8")),
-                        fedHandleSet);
             }
-        } catch (CouldNotDecode ex) {
-            logger.log(Level.ERROR, "Could not decode Federate Handle", ex);
-        } catch (InvalidFederateHandle ex) {
-            logger.log(Level.ERROR, "Invalid Federate Handle", ex);
         } catch (FederateNotExecutionMember ex) {
-            logger.log(Level.ERROR, "Federate is not Execution Member", ex);
+            logger.log(Level.ERROR, "Federate is not Exeuction Member", ex);
+        } catch (FederateUnableToUseTime ex) {
+            logger.log(Level.ERROR, "Federate is unable to use time", ex);
+        } catch (InvalidLogicalTime ex) {
+            logger.log(Level.ERROR, "Invalid Logical Time", ex);
+        } catch (LogicalTimeAlreadyPassed ex) {
+            logger.log(Level.ERROR, "Logical Time already Passed", ex);
         } catch (SaveInProgress ex) {
             logger.log(Level.ERROR, "Save in Progress", ex);
         } catch (RestoreInProgress ex) {
             logger.log(Level.ERROR, "Restore in Progress", ex);
         } catch (NotConnected ex) {
-            logger.log(Level.ERROR, "Not Connected to RTI", ex);
+            logger.log(Level.ERROR, "Not connected to RTI", ex);
         } catch (RTIinternalError ex) {
-            logger.log(Level.ERROR, "Internal Error in RTI", ex);
+            logger.log(Level.ERROR, "Internal error in RTI", ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in Registering Sync Point Label", ex);
+            logger.log(Level.FATAL, "Error in Requesting Federation Save", ex);
         }
-        ((Stage) SyncPointLabel.getScene().getWindow()).close();
+        ((Stage) OkButton.getScene().getWindow()).close();
     }
 }

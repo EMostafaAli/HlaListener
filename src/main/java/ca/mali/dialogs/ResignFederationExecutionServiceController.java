@@ -67,6 +67,7 @@ public class ResignFederationExecutionServiceController implements Initializable
     private void OK_click(ActionEvent event) {
         try {
             rtiAmb.resignFederationExecution(ResignActionChoiceBox.getValue());
+            logicalTimeFactory = null;
         } catch (CallNotAllowedFromWithinCallback ex) {
             logger.log(Level.ERROR, "Call not allowed from within callback", ex);
         } catch (FederateNotExecutionMember ex) {

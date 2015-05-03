@@ -26,12 +26,7 @@
 package ca.mali.dialogs;
 
 import static ca.mali.hlalistener.PublicVariables.*;
-import hla.rti1516e.exceptions.FederateNotExecutionMember;
-import hla.rti1516e.exceptions.NotConnected;
-import hla.rti1516e.exceptions.RTIinternalError;
-import hla.rti1516e.exceptions.RestoreInProgress;
-import hla.rti1516e.exceptions.SaveInProgress;
-import hla.rti1516e.exceptions.SynchronizationPointLabelNotAnnounced;
+import hla.rti1516e.exceptions.*;
 import java.net.*;
 import java.util.*;
 import javafx.beans.binding.*;

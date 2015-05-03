@@ -90,6 +90,7 @@ public class JoinFederationExecutionServiceController implements Initializable {
             } else {
                 rtiAmb.joinFederationExecution(FederateName.getText(), FederateType.getText(), FederationExecutionName.getText(), foms.toArray(new URL[foms.size()]));
             }
+            logicalTimeFactory = rtiAmb.getTimeFactory();
         } catch (CouldNotCreateLogicalTimeFactory ex) {
             logger.log(Level.ERROR, "Couldn't create logical time factory", ex);
         } catch (CallNotAllowedFromWithinCallback ex) {

@@ -110,4 +110,16 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
             }
         }
     }
+
+    //4.17
+    @Override
+    public void initiateFederateSave(String label) throws FederateInternalError {
+        logger.log(Level.INFO, "Federate save initiated with label: '{}'", label);
+    }
+
+    //4.17
+    @Override
+    public void initiateFederateSave(String label, LogicalTime time) throws FederateInternalError {
+        logger.log(Level.INFO, "Federate save initiated with label: '{} at: '{}'", label, time);
+    }
 }

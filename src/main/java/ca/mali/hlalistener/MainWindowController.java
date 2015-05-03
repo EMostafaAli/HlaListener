@@ -116,9 +116,11 @@ public class MainWindowController implements Initializable {
             rtiAmb.listFederationExecutions();
             logger.exit();
         } catch (NotConnected ex) {
-            logger.log(Level.ERROR, "Error, please connect first", ex);
+            logger.log(Level.ERROR, "Not connected to RTI", ex);
         } catch (RTIinternalError ex) {
-            logger.log(Level.FATAL, "Internal error in RTI", ex);
+            logger.log(Level.ERROR, "Internal error in RTI", ex);
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error listing Federation Executions", ex);
         }
     }
 
@@ -165,7 +167,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Resign Federation dialog box", ex);
         }
     }
-    
+
     @FXML
     private void RegisterSyncPoint_click(ActionEvent event) {
         try {
@@ -176,7 +178,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Register Sync Point dialog box", ex);
         }
     }
-    
+
     @FXML
     private void SyncPointAchieved_click(ActionEvent event) {
         try {
@@ -185,6 +187,38 @@ public class MainWindowController implements Initializable {
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Sync Point Achieved dialog box", ex);
+        }
+    }
+
+    @FXML
+    private void RequestFederationSave_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("4.16 Request Federation Save service", "/fxml/RequestFederationSaveService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Request Save Service dialog box", ex);
+        }
+    }
+
+    @FXML
+    private void FederateSaveBegun_click(ActionEvent event) {
+        try {
+            logger.entry();
+            rtiAmb.federateSaveBegun();
+            logger.exit();
+        } catch (FederateNotExecutionMember ex) {
+            logger.log(Level.ERROR, "Federate is not Execution Member", ex);
+        } catch (RestoreInProgress ex) {
+            logger.log(Level.ERROR, "Restore in Progress", ex);
+        } catch (SaveNotInitiated ex) {
+            logger.log(Level.ERROR, "Save Not Initiated", ex);
+        } catch (NotConnected ex) {
+            logger.log(Level.ERROR, "Not connected to RTI", ex);
+        } catch (RTIinternalError ex) {
+            logger.log(Level.ERROR, "Internal error in RTI", ex);
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error in reporting Federate Save Begun", ex);
         }
     }
 }

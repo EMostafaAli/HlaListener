@@ -46,6 +46,11 @@ public class PublicVariables {
      * Federate ambassador
      */
     public static ListenerFederateAmb fedAmb;
+    
+    /**
+     * Logical Time Factory
+     */
+    public static LogicalTimeFactory logicalTimeFactory;
 
     /**
      * Encoder Factory

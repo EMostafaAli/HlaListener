@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="504.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.RequestFederationSaveServiceController">
+    <children>
+        <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="570.0">
+            <VBox.margin>
+                <Insets left="15.0" right="15.0" top="15.0" />
+            </VBox.margin>
+            <children>
+                <Label prefHeight="27.0" prefWidth="249.0" text="Federation Save Label*: " />
+                <TextField fx:id="FederationSaveLabel" prefHeight="39.0" prefWidth="320.0" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" layoutX="25.0" layoutY="25.0" prefHeight="46.0" prefWidth="570.0">
+            <children>
+                <Label prefHeight="27.0" prefWidth="202.0" text="Time Stamp:" />
+            <TextField fx:id="TimeStamp" prefHeight="39.0" prefWidth="272.0" />
+            </children>
+            <VBox.margin>
+                <Insets left="15.0" right="15.0" top="15.0" />
+            </VBox.margin>
+        </HBox>
+        <HBox alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="510.0">
+            <children>
+                <Button cancelButton="true" mnemonicParsing="false" onAction="#Cancel_click" text="Cancel">
+                    <HBox.margin>
+                        <Insets right="15.0" />
+                    </HBox.margin>
+                </Button>
+                <Button fx:id="OkButton" defaultButton="true" mnemonicParsing="false" onAction="#Ok_click" text="OK" />
+            </children>
+            <VBox.margin>
+                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+            </VBox.margin>
+        </HBox>
+    </children>
+</VBox>
