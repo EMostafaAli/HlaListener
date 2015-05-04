@@ -66,6 +66,7 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         }
     }
 
+    // <editor-fold desc="Chapter 4">
     //4.4
     @Override
     public void connectionLost(String faultDescription) throws FederateInternalError {
@@ -144,4 +145,54 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         }
     }
 
+    //4.25
+    @Override
+    public void requestFederationRestoreSucceeded(String label) throws FederateInternalError {
+        logger.log(Level.INFO, "Restore request for the label: '{}' successed", label);
+    }
+
+    //4.25
+    @Override
+    public void requestFederationRestoreFailed(String label) throws FederateInternalError {
+        logger.log(Level.INFO, "Restore request for the label: '{}' failed", label);
+    }
+
+    //4.26
+    @Override
+    public void federationRestoreBegun() throws FederateInternalError {
+        logger.log(Level.INFO, "Federation restore begun");
+    }
+
+    //4.27
+    @Override
+    public void initiateFederateRestore(String label, String federateName, FederateHandle federateHandle) throws FederateInternalError {
+        logger.log(Level.INFO, "Federation restore initiated for the label: '{}', "
+                + "Federate Name: '{}', and Federate handle: '{}'", label, federateName, federateHandle);
+    }
+
+    //4.29
+    @Override
+    public void federationRestored() throws FederateInternalError {
+        logger.log(Level.INFO, "Federation restored successfully");
+    }
+
+    //4.29
+    @Override
+    public void federationNotRestored(RestoreFailureReason reason) throws FederateInternalError {
+        logger.log(Level.INFO, "Federation restore failed because: {}", reason);
+    }
+    
+    //4.32
+    @Override
+    public void federationRestoreStatusResponse(FederateRestoreStatus[] response) throws FederateInternalError {
+        logger.log(Level.INFO, "Save restore for each federate: ");
+        for (FederateRestoreStatus RestorePair : response) {
+            logger.log(Level.INFO, "Prestore handle '{}' (postrestore handle '{}') status is '{}'", 
+                    RestorePair.preRestoreHandle, RestorePair.preRestoreHandle, RestorePair.status);
+        }
+    }
+    
+// </editor-fold>
+
+    
 }

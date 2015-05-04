@@ -43,10 +43,10 @@
                         <MenuItem mnemonicParsing="false" text="4.21 Abort Federation Save" onAction="#AbortFederationSave_click" />
                         <MenuItem mnemonicParsing="false" text="4.22 Query Federation Save Status" onAction="#QueryFederationSave_click" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="4.24 Request Federation Restore" />
-                        <MenuItem mnemonicParsing="false" text="4.28 Federate Restore Complete" />
-                        <MenuItem mnemonicParsing="false" text="4.30 Abort Federation Restore" />
-                        <MenuItem mnemonicParsing="false" text="4.31 Query Federation Restore" />
+                        <MenuItem mnemonicParsing="false" text="4.24 Request Federation Restore..." onAction="#RequestFederationRestore_click" />
+                        <MenuItem mnemonicParsing="false" text="4.28 Federate Restore Complete..." onAction="#FederateRestoreComplete_click" />
+                        <MenuItem mnemonicParsing="false" text="4.30 Abort Federation Restore" onAction="#AbortFederationRestore_click" />
+                        <MenuItem mnemonicParsing="false" text="4.31 Query Federation Restore" onAction="#QueryFederationRestore_click" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="5 Declaration (DM)">
