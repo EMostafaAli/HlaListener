@@ -107,7 +107,7 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         if (!failedToSyncSet.isEmpty()) {
             logger.log(Level.INFO, "The following federates failed to sync: ");
             for (FederateHandle federateHandle : failedToSyncSet) {
-                logger.log(Level.INFO, "/t -{}", federateHandle.toString());
+                logger.log(Level.INFO, "\t -{}", federateHandle.toString());
             }
         }
     }
@@ -181,18 +181,30 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
     public void federationNotRestored(RestoreFailureReason reason) throws FederateInternalError {
         logger.log(Level.INFO, "Federation restore failed because: {}", reason);
     }
-    
+
     //4.32
     @Override
     public void federationRestoreStatusResponse(FederateRestoreStatus[] response) throws FederateInternalError {
         logger.log(Level.INFO, "Save restore for each federate: ");
         for (FederateRestoreStatus RestorePair : response) {
-            logger.log(Level.INFO, "Prestore handle '{}' (postrestore handle '{}') status is '{}'", 
+            logger.log(Level.INFO, "Prestore handle '{}' (postrestore handle '{}') status is '{}'",
                     RestorePair.preRestoreHandle, RestorePair.preRestoreHandle, RestorePair.status);
         }
     }
-    
 // </editor-fold>
 
-    
+// <editor-fold desc="Chapter 8">
+    //8.3
+    @Override
+    public void timeRegulationEnabled(LogicalTime time) throws FederateInternalError {
+        logger.log(Level.INFO, "Time regulation enabled successfully, current logical time: {}", time.toString());
+    }
+
+    //8.6
+    @Override
+    public void timeConstrainedEnabled(LogicalTime time) throws FederateInternalError {
+        logger.log(Level.INFO, "Time constrained enabled successfully, current logical time: {}", time.toString());
+    }
+
+// </editor-fold>
 }

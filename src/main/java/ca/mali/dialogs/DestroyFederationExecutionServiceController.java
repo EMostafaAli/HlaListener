@@ -46,14 +46,11 @@ public class DestroyFederationExecutionServiceController implements Initializabl
     //Logger
     private static final Logger logger = LogManager.getLogger();
 
+    @FXML
     private TextField FederationExecutionName;
     
     @FXML
     private Button OkButton;
-    @FXML
-    private ChoiceBox<?> SavedSuccessfully;
-    @FXML
-    private Button CancelButton;
 
     /**
      * Initializes the controller class.

@@ -83,6 +83,8 @@ public class MainWindowController implements Initializable {
         }
     }
 
+// <editor-fold desc="Chapter 4">
+    //4.2
     @FXML
     private void Connect_click(ActionEvent event) {
         try {
@@ -94,6 +96,7 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    //4.3
     @FXML
     private void Disconnect_click(ActionEvent event) {
         try {
@@ -109,6 +112,31 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    //4.5
+    @FXML
+    private void CreateFederation_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("4.5 Create Federation Execution service", "/fxml/CreateFederationExecutionService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Create Federation service dialog box", ex);
+        }
+    }
+
+    //4.6
+    @FXML
+    private void DestroyFederation_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("4.6 Destroy Federation Execution service", "/fxml/DestroyFederationExecutionService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Destroy Federation service dialog box", ex);
+        }
+    }
+
+    //4.7
     @FXML
     private void ListFederationExecutions_click(ActionEvent event) {
         try {
@@ -123,29 +151,8 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error listing Federation Executions", ex);
         }
     }
-
-    @FXML
-    private void CreateFederation_click(ActionEvent event) {
-        try {
-            logger.entry();
-            DisplayDialog("4.5 Create Federation Execution service", "/fxml/CreateFederationExecutionService.fxml");
-            logger.exit();
-        } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error Displaying Create Federation service dialog box", ex);
-        }
-    }
-
-    @FXML
-    private void DestroyFederation_click(ActionEvent event) {
-        try {
-            logger.entry();
-            DisplayDialog("4.6 Destroy Federation Execution service", "/fxml/DestroyFederationExecutionService.fxml");
-            logger.exit();
-        } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error Displaying Destroy Federation service dialog box", ex);
-        }
-    }
-
+    
+    //4.9
     @FXML
     private void JoinFederation_click(ActionEvent event) {
         try {
@@ -157,6 +164,7 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    //4.10
     @FXML
     private void ResignFederation_click(ActionEvent event) {
         try {
@@ -168,6 +176,7 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    //4.11
     @FXML
     private void RegisterSyncPoint_click(ActionEvent event) {
         try {
@@ -179,6 +188,7 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    //4.14
     @FXML
     private void SyncPointAchieved_click(ActionEvent event) {
         try {
@@ -190,6 +200,7 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    //4.16
     @FXML
     private void RequestFederationSave_click(ActionEvent event) {
         try {
@@ -201,6 +212,7 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    //4.18
     @FXML
     private void FederateSaveBegun_click(ActionEvent event) {
         try {
@@ -222,6 +234,7 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    //4.19
     @FXML
     private void FederateSaveComplete_click(ActionEvent event) {
         try {
@@ -233,6 +246,7 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    //4.21
     @FXML
     private void AbortFederationSave_click(ActionEvent event) {
         try {
@@ -252,6 +266,7 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    //4.22
     @FXML
     private void QueryFederationSave_click(ActionEvent event) {
         try {
@@ -271,6 +286,7 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    //4.24
     @FXML
     private void RequestFederationRestore_click(ActionEvent event) {
         try {
@@ -281,7 +297,8 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Request Federation Store service dialog box", ex);
         }
     }
-    
+
+    //4.28
     @FXML
     private void FederateRestoreComplete_click(ActionEvent event) {
         try {
@@ -292,7 +309,8 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Federate Restore Complete service dialog box", ex);
         }
     }
-    
+
+    //4.30
     @FXML
     private void AbortFederationRestore_click(ActionEvent event) {
         try {
@@ -311,7 +329,8 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error in aborting federation restore", ex);
         }
     }
-    
+
+    //4.31
     @FXML
     private void QueryFederationRestore_click(ActionEvent event) {
         try {
@@ -321,13 +340,102 @@ public class MainWindowController implements Initializable {
         } catch (FederateNotExecutionMember ex) {
             logger.log(Level.ERROR, "Federate is not Execution Member", ex);
         } catch (SaveInProgress ex) {
-            logger.log(Level.ERROR, "Save not in Progress", ex);
+            logger.log(Level.ERROR, "Save in Progress", ex);
         } catch (NotConnected ex) {
             logger.log(Level.ERROR, "Not connected to RTI", ex);
         } catch (RTIinternalError ex) {
             logger.log(Level.ERROR, "Internal error in RTI", ex);
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error in querying federation restore status", ex);
+        }
+    }
+// </editor-fold>
+    
+    //8.2
+    @FXML
+    private void EnableTimeRegulation_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("8.2 Enable Time Regulation service", "/fxml/EnableTimeRegulationService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Enabling Time Regulation service dialog box", ex);
+        }
+    }
+
+    //8.4
+    @FXML
+    private void DisableTimeRegulation_click(ActionEvent event) {
+        try {
+            logger.entry();
+            rtiAmb.disableTimeRegulation();
+            logger.exit();
+        } catch (FederateNotExecutionMember ex) {
+            logger.log(Level.ERROR, "Federate is not Execution Member", ex);
+        } catch (TimeRegulationIsNotEnabled ex) {
+            logger.log(Level.ERROR, "Time Regulation is not enabled", ex);
+        } catch (SaveInProgress ex) {
+            logger.log(Level.ERROR, "Save in Progress", ex);
+        } catch (RestoreInProgress ex) {
+            logger.log(Level.ERROR, "Restore in Progress", ex);
+        } catch (NotConnected ex) {
+            logger.log(Level.ERROR, "Not connected to RTI", ex);
+        } catch (RTIinternalError ex) {
+            logger.log(Level.ERROR, "Internal error in RTI", ex);
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error in disabling time regulation", ex);
+        }
+    }
+
+    //8.5
+    @FXML
+    private void EnableTimeConstrained_click(ActionEvent event) {
+        try {
+            logger.entry();
+            rtiAmb.enableTimeConstrained();
+            logger.exit();
+        } catch (FederateNotExecutionMember ex) {
+            logger.log(Level.ERROR, "Federate is not Execution Member", ex);
+        } catch (TimeConstrainedAlreadyEnabled ex) {
+            logger.log(Level.ERROR, "Time Constrained is already enabled", ex);
+        } catch (InTimeAdvancingState ex) {
+            logger.log(Level.ERROR, "Federate is in time advance state", ex);
+        } catch (RequestForTimeConstrainedPending ex) {
+            logger.log(Level.ERROR, "Request for time constrained is pending", ex);
+        } catch (SaveInProgress ex) {
+            logger.log(Level.ERROR, "Save in Progress", ex);
+        } catch (RestoreInProgress ex) {
+            logger.log(Level.ERROR, "Restore in Progress", ex);
+        } catch (NotConnected ex) {
+            logger.log(Level.ERROR, "Not connected to RTI", ex);
+        } catch (RTIinternalError ex) {
+            logger.log(Level.ERROR, "Internal error in RTI", ex);
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error in enabling time constrained", ex);
+        }
+    }
+
+    //8.7
+    @FXML
+    private void DisableTimeConstrained_click(ActionEvent event) {
+        try {
+            logger.entry();
+            rtiAmb.disableTimeConstrained();
+            logger.exit();
+        } catch (FederateNotExecutionMember ex) {
+            logger.log(Level.ERROR, "Federate is not Execution Member", ex);
+        } catch (TimeConstrainedIsNotEnabled ex) {
+            logger.log(Level.ERROR, "Time Constrained is not enabled", ex);
+        } catch (SaveInProgress ex) {
+            logger.log(Level.ERROR, "Save in Progress", ex);
+        } catch (RestoreInProgress ex) {
+            logger.log(Level.ERROR, "Restore in Progress", ex);
+        } catch (NotConnected ex) {
+            logger.log(Level.ERROR, "Not connected to RTI", ex);
+        } catch (RTIinternalError ex) {
+            logger.log(Level.ERROR, "Internal error in RTI", ex);
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error in disabling time constrained", ex);
         }
     }
 }

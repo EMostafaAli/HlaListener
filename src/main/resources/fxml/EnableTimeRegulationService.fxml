@@ -8,15 +8,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="96.0" prefWidth="442.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.RequestFederationRestoreServiceController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="96.0" prefWidth="244.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.EnableTimeRegulationServiceController">
    <children>
       <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="570.0">
          <VBox.margin>
             <Insets left="15.0" right="15.0" top="15.0" />
          </VBox.margin>
          <children>
-            <Label text="Federation Restore Label: " />
-            <TextField fx:id="FederationRestoreLabel" prefHeight="30.0" prefWidth="275.0" />
+            <Label prefHeight="17.0" prefWidth="76.0" text="Lookahead:" />
+            <Spinner fx:id="Lookahead" editable="true" prefHeight="25.0" prefWidth="139.0" />
          </children>
       </HBox>
       <HBox alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="510.0">
@@ -26,7 +26,7 @@
                   <Insets right="15.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="OkButton" defaultButton="true" mnemonicParsing="false" onAction="#Ok_click" text="OK" />
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#Ok_click" text="OK" />
          </children>
          <VBox.margin>
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

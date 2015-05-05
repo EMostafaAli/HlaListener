@@ -30,7 +30,6 @@ import hla.rti1516e.exceptions.*;
 import hla.rti1516e.time.*;
 import java.net.*;
 import java.util.*;
-import javafx.beans.binding.*;
 import javafx.event.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
@@ -40,76 +39,70 @@ import org.apache.logging.log4j.*;
 /**
  * FXML Controller class
  *
- * @author Mostafa
+ * @author Mostafa Ali <engabdomostafa@gmail.com>
  */
-public class RequestFederationSaveServiceController implements Initializable {
+public class EnableTimeRegulationServiceController implements Initializable {
 
     //Logger
     private static final Logger logger = LogManager.getLogger();
 
     @FXML
-    private TextField FederationSaveLabel;
-    @FXML
-    private TextField TimeStamp;
-    @FXML
-    private Button OkButton;
+    private Spinner<Double> Lookahead;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        OkButton.disableProperty().bind(
-                Bindings.isEmpty(FederationSaveLabel.textProperty()));
+        SpinnerValueFactory sVF = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, Double.MAX_VALUE, 0, .1);
+        Lookahead.setValueFactory(sVF);
     }
 
     @FXML
     private void Cancel_click(ActionEvent event) {
-        ((Stage) OkButton.getScene().getWindow()).close();
+        ((Stage) Lookahead.getScene().getWindow()).close();
     }
 
     @FXML
     private void Ok_click(ActionEvent event) {
         try {
-            if (TimeStamp.getText().isEmpty()) {
-                rtiAmb.requestFederationSave(FederationSaveLabel.getText());
-            } else {
-                switch (logicalTimeFactory.getName()) {
-                    case "HLAfloat64Time": {
-                        HLAfloat64Time logicalTime
-                                = ((HLAfloat64TimeFactory) logicalTimeFactory).makeTime(Double.parseDouble(TimeStamp.getText()));
-                        rtiAmb.requestFederationSave(FederationSaveLabel.getText(), logicalTime);
-                        break;
-                    }
-                    case "HLAinteger64Time": {
-                        HLAinteger64Time logicalTime
-                                = ((HLAinteger64TimeFactory) logicalTimeFactory).makeTime(Long.parseLong(TimeStamp.getText()));
-                        rtiAmb.requestFederationSave(FederationSaveLabel.getText(), logicalTime);
-                        break;
-                    }
-                    default:
-                        throw new Exception("Unknown Time Implemntation");
+            switch (logicalTimeFactory.getName()) {
+                case "HLAfloat64Time": {
+                    HLAfloat64Interval lookaheadInterval = ((HLAfloat64TimeFactory) logicalTimeFactory).makeInterval(Lookahead.getValue());
+                    rtiAmb.enableTimeRegulation(lookaheadInterval);
+                    break;
                 }
+                case "HLAinteger64Time": {
+                    HLAinteger64Interval lookaheadInterval
+                            = ((HLAinteger64TimeFactory) logicalTimeFactory).makeInterval(Lookahead.getValue().longValue());
+                    rtiAmb.enableTimeRegulation(lookaheadInterval);
+                    break;
+                }
+                default:
+                throw new Exception("Unknown Time Implemntation");
             }
+        } catch (TimeRegulationAlreadyEnabled ex) {
+            logger.log(Level.ERROR, "Time regulation is already enabled", ex);
+        } catch (InvalidLookahead ex) {
+            logger.log(Level.ERROR, "Invalid lookahead", ex);
+        } catch (InTimeAdvancingState ex) {
+            logger.log(Level.ERROR, "Time regulation cannot be enabled while in time advancing state", ex);
+        } catch (RequestForTimeRegulationPending ex) {
+            logger.log(Level.ERROR, "Request for Time regulation is pending", ex);
         } catch (FederateNotExecutionMember ex) {
-            logger.log(Level.ERROR, "Federate is not Exeuction Member", ex);
-        } catch (FederateUnableToUseTime ex) {
-            logger.log(Level.ERROR, "Federate is unable to use time", ex);
-        } catch (InvalidLogicalTime ex) {
-            logger.log(Level.ERROR, "Invalid Logical Time", ex);
-        } catch (LogicalTimeAlreadyPassed ex) {
-            logger.log(Level.ERROR, "Logical Time already Passed", ex);
+            logger.log(Level.ERROR, "Federate is not Execution Member", ex);
         } catch (SaveInProgress ex) {
-            logger.log(Level.ERROR, "Save in Progress", ex);
+            logger.log(Level.ERROR, "Save In Progress", ex);
         } catch (RestoreInProgress ex) {
-            logger.log(Level.ERROR, "Restore in Progress", ex);
+            logger.log(Level.ERROR, "Restore In Progress", ex);
         } catch (NotConnected ex) {
             logger.log(Level.ERROR, "Not connected to RTI", ex);
         } catch (RTIinternalError ex) {
             logger.log(Level.ERROR, "Internal error in RTI", ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in Requesting Federation Save", ex);
+            logger.log(Level.FATAL, "Error in enabling time regulation", ex);
         }
-        ((Stage) OkButton.getScene().getWindow()).close();
+        ((Stage) Lookahead.getScene().getWindow()).close();
     }
+
 }

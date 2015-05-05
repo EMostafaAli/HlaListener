@@ -100,11 +100,11 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="8 Time">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="8.2 Enable Time Regulation" />
-                        <MenuItem mnemonicParsing="false" text="8.3 Disable Time Regulation" />
+                        <MenuItem mnemonicParsing="false" text="8.2 Enable Time Regulation..." onAction="#EnableTimeRegulation_click" />
+                        <MenuItem mnemonicParsing="false" text="8.3 Disable Time Regulation" onAction="#DisableTimeRegulation_click" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="8.4 Enable Time Constrained" />
-                        <MenuItem mnemonicParsing="false" text="8.5 Disable Time Constrained" />
+                        <MenuItem mnemonicParsing="false" text="8.4 Enable Time Constrained" onAction="#EnableTimeConstrained_click"/>
+                        <MenuItem mnemonicParsing="false" text="8.5 Disable Time Constrained" onAction="#DisableTimeConstrained_click" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="8.8 Time Advance Request" />
                         <MenuItem mnemonicParsing="false" text="8.9 Time Advance Request Available" />

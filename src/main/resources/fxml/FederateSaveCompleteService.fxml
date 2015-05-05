@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="96.0" prefWidth="406.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.FederateSaveCompleteServiceController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="96.0" prefWidth="344.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.FederateSaveCompleteServiceController">
    <children>
       <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="570.0">
          <VBox.margin>
@@ -19,7 +19,7 @@
             <ChoiceBox fx:id="SavedSuccessfully" prefHeight="39.0" prefWidth="210.0" />
          </children>
       </HBox>
-      <HBox alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="510.0">
+      <HBox alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="292.0">
          <children>
             <Button fx:id="CancelButton" cancelButton="true" mnemonicParsing="false" onAction="#Cancel_click" text="Cancel">
                <HBox.margin>
