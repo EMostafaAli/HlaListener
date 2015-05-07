@@ -31,10 +31,18 @@ import hla.rti1516e.exceptions.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import javafx.beans.binding.*;
 import javafx.event.*;
 import javafx.fxml.*;
+import javafx.geometry.*;
 import javafx.scene.*;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.*;
+import javafx.scene.image.*;
+import javafx.scene.layout.*;
+import javafx.scene.paint.*;
 import javafx.stage.*;
+import javafx.util.Callback;
 
 import org.apache.logging.log4j.*;
 
@@ -47,13 +55,69 @@ public class MainWindowController implements Initializable {
 
     //Logger
     private static final Logger logger = LogManager.getLogger();
+    @FXML
+    TableView parametersTable;
+    @FXML
+    TableView returnTable;
+    @FXML
+    TableView<LogEntry> logTable;
+    @FXML
+    TableColumn<LogEntry, String> sectionCol;
+    @FXML
+    TableColumn<LogEntry, String> titleCol;
+    @FXML
+    TableColumn<LogEntry, String> timeCol;
+    @FXML
+    TableColumn<LogEntry, Image> iconCol;
+    @FXML
+    Label titleLbl;
+    @FXML
+    Label sectionLbl;
+    @FXML
+    ImageView iconViewer;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        Label label = new Label("No content in the logger table");
+        label.setBackground(new Background(new BackgroundFill(Color.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
+        logTable.setPlaceholder(label);
+        Label emptyLabel = new Label();
+        parametersTable.setPlaceholder(emptyLabel);
+        returnTable.setPlaceholder(emptyLabel);
+        sectionCol.setCellValueFactory(new PropertyValueFactory<>("sectionNo"));
+        titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        timeCol.setCellValueFactory(new PropertyValueFactory<>("simulationTime"));
+        iconCol.setCellValueFactory(new PropertyValueFactory<>("icon"));
+        iconCol.setCellFactory(new Callback<TableColumn<LogEntry, Image>, TableCell<LogEntry, Image>>() {
+            @Override
+            public TableCell<LogEntry, Image> call(TableColumn<LogEntry, Image> param) {
+                return new TableCell<LogEntry, Image>() {
+                    ImageView imgView;
+
+                    {
+                        alignmentProperty().set(Pos.CENTER);
+                        imgView = new ImageView();
+                        imgView.setFitHeight(10);
+                        imgView.setFitWidth(10);
+                        setGraphic(imgView);
+                    }
+
+                    @Override
+                    protected void updateItem(Image item, boolean empty) {
+                        if (item != null) {
+                            imgView.setImage(item);
+                        }
+                    }
+                };
+            }
+        });
+        logTable.setItems(logEntries);
+        titleLbl.textProperty().bind(Bindings.selectString(logTable.getSelectionModel().selectedItemProperty(), "title"));
+        sectionLbl.textProperty().bind(Bindings.selectString(logTable.getSelectionModel().selectedItemProperty(), "sectionNo"));
+        iconViewer.imageProperty().bind(Bindings.select(logTable.getSelectionModel().selectedItemProperty(), "icon"));
     }
 
     private void DisplayDialog(String title, String fxmlPath) throws IOException {
@@ -102,6 +166,10 @@ public class MainWindowController implements Initializable {
         try {
             logger.entry();
             rtiAmb.disconnect();
+            LogEntry log = new LogEntry("4.3", "Disconnect service");
+            log.setLogType(LogEntryType.REQUEST);
+            log.setSimulationTime("NA");
+            logEntries.add(log);
             logger.exit();
         } catch (FederateIsExecutionMember ex) {
             logger.log(Level.ERROR, "Error disconnecting, please resign first", ex);
@@ -151,7 +219,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error listing Federation Executions", ex);
         }
     }
-    
+
     //4.9
     @FXML
     private void JoinFederation_click(ActionEvent event) {
@@ -350,7 +418,7 @@ public class MainWindowController implements Initializable {
         }
     }
 // </editor-fold>
-    
+
     //8.2
     @FXML
     private void EnableTimeRegulation_click(ActionEvent event) {

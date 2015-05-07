@@ -26,6 +26,7 @@
 package ca.mali.dialogs;
 
 import static ca.mali.hlalistener.PublicVariables.*;
+import ca.mali.hlalistener.*;
 
 import hla.rti1516e.*;
 import hla.rti1516e.exceptions.*;
@@ -72,17 +73,17 @@ public class ConnectServiceController implements Initializable {
     private void OK_click(ActionEvent event) {
         logger.entry();
         try {
-            rtiAmb.connect(fedAmb, CallbackModel_choiceBox.getValue(), LocalSettingsDesignator.getText());
-        } catch (ConnectionFailed ex) {
-            logger.log(Level.ERROR, "Connection to RTI failed", ex);
-        } catch (UnsupportedCallbackModel ex) {
-            logger.log(Level.ERROR, "Unsupported Callback Model", ex);
-        } catch (InvalidLocalSettingsDesignator ex) {
-            logger.log(Level.ERROR, "Invalid connection string", ex);
-        } catch (AlreadyConnected ex) {
-            logger.log(Level.ERROR, "Already connected to RTI", ex);
-        } catch (RTIinternalError ex) {
-            logger.log(Level.ERROR, "Internal error in RTI", ex);
+            if (LocalSettingsDesignator.getText().isEmpty()) {
+                rtiAmb.connect(fedAmb, CallbackModel_choiceBox.getValue());
+            } else {
+                rtiAmb.connect(fedAmb, CallbackModel_choiceBox.getValue(), LocalSettingsDesignator.getText());
+            }
+            LogEntry log = new LogEntry("4.2", "Connected successfully to RTI");
+            log.setLogType(LogEntryType.REQUEST);
+            log.setSimulationTime("NA");
+            logEntries.add(log);
+        } catch (ConnectionFailed | UnsupportedCallbackModel | InvalidLocalSettingsDesignator | AlreadyConnected | RTIinternalError ex) {
+            logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error in connecting to RTI", ex);
         }

@@ -22,7 +22,7 @@
                <children>
                   <ImageView fitHeight="22.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../TipIcon.jpg" />
+                        <Image url="@../icons/TipIcon.jpg" />
                      </image>
                      <HBox.margin>
                         <Insets right="7.0" />

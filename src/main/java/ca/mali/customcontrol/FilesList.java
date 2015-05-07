@@ -157,7 +157,7 @@ public class FilesList extends VBox {
             super.updateItem(item, empty);
             if (item != null) {
                 Button button = new Button();
-                Image deleteImage = new Image(getClass().getResourceAsStream("/deleteButton.jpg"));
+                Image deleteImage = new Image(getClass().getResourceAsStream("/icons/deleteButton.jpg"));
                 button.setGraphic(new ImageView(deleteImage));
                 button.setOnAction((event) -> {
                     filesDict.remove(item);
@@ -168,7 +168,6 @@ public class FilesList extends VBox {
                 hbox.getChildren().addAll(button);
                 setContentDisplay(ContentDisplay.LEFT);
                 setGraphic(hbox);
-
             } else {
                 setGraphic(null);
                 setText("");

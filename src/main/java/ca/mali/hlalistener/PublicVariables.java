@@ -27,6 +27,7 @@ package ca.mali.hlalistener;
 
 import hla.rti1516e.*;
 import hla.rti1516e.encoding.*;
+import javafx.collections.*;
 import javafx.stage.*;
 
 /**
@@ -46,7 +47,7 @@ public class PublicVariables {
      * Federate ambassador
      */
     public static ListenerFederateAmb fedAmb;
-    
+
     /**
      * Logical Time Factory
      */
@@ -63,4 +64,6 @@ public class PublicVariables {
     public static HLAunicodeString stringEncoder;
 
     public static Stage primaryStage;
+
+    public final static ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();
 }
