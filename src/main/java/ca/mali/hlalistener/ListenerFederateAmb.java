@@ -25,7 +25,7 @@
  */
 package ca.mali.hlalistener;
 
-import ca.mali.fomParser.*;
+import ca.mali.fomparser.FomParser;
 import static ca.mali.hlalistener.PublicVariables.*;
 
 import hla.rti1516e.*;

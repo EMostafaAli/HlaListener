@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import java.util.*?>
@@ -7,46 +9,44 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="517.0" prefWidth="636.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.hlalistener.MainWindowController">
-    <stylesheets>
-        <URL value="@/styles/Styles.css" />
-    </stylesheets>
-    <children>
-        <MenuBar layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+<BorderPane prefHeight="1308.0" prefWidth="1076.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.hlalistener.MainWindowController">
+   <top>
+        <MenuBar BorderPane.alignment="CENTER">
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="RTI info" onAction="#RtiInfo_click"/>
+                        <MenuItem mnemonicParsing="false" onAction="#RtiInfo_click" text="RTI info" />
                         <MenuItem mnemonicParsing="false" text="Clear Log" />
                         <MenuItem mnemonicParsing="false" text="Close" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="4 Federation">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="4.2 Connect..." onAction="#Connect_click" />
-                        <MenuItem mnemonicParsing="false" text="4.3 Disconnect" onAction="#Disconnect_click"/>
+                        <MenuItem mnemonicParsing="false" onAction="#Connect_click" text="4.2 Connect..." />
+                        <MenuItem mnemonicParsing="false" onAction="#Disconnect_click" text="4.3 Disconnect" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="4.5 Create Federation Execution..." onAction="#CreateFederation_click" />
-                        <MenuItem mnemonicParsing="false" text="4.6 Destroy Federation Execution..." onAction="#DestroyFederation_click" />
+                        <MenuItem mnemonicParsing="false" onAction="#CreateFederation_click" text="4.5 Create Federation Execution..." />
+                        <MenuItem mnemonicParsing="false" onAction="#DestroyFederation_click" text="4.6 Destroy Federation Execution..." />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="4.7 List Federation Execution" onAction="#ListFederationExecutions_click" />
+                        <MenuItem mnemonicParsing="false" onAction="#ListFederationExecutions_click" text="4.7 List Federation Execution" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="4.9 Join Federation Execution..." onAction="#JoinFederation_click" />
-                        <MenuItem mnemonicParsing="false" text="4.10 Resign Federation Execution..." onAction="#ResignFederation_click" />
+                        <MenuItem mnemonicParsing="false" onAction="#JoinFederation_click" text="4.9 Join Federation Execution..." />
+                        <MenuItem mnemonicParsing="false" onAction="#ResignFederation_click" text="4.10 Resign Federation Execution..." />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="4.11 Register Sync Point..." onAction="#RegisterSyncPoint_click" />
-                        <MenuItem mnemonicParsing="false" text="4.14 Sync Point Achieved..." onAction="#SyncPointAchieved_click" />
+                        <MenuItem mnemonicParsing="false" onAction="#RegisterSyncPoint_click" text="4.11 Register Sync Point..." />
+                        <MenuItem mnemonicParsing="false" onAction="#SyncPointAchieved_click" text="4.14 Sync Point Achieved..." />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="4.16 Request Federation Save..." onAction="#RequestFederationSave_click" />
-                        <MenuItem mnemonicParsing="false" text="4.18 Federate Save Begun" onAction="#FederateSaveBegun_click" />
-                        <MenuItem mnemonicParsing="false" text="4.19 Federate Save Complete..." onAction="#FederateSaveComplete_click" />
-                        <MenuItem mnemonicParsing="false" text="4.21 Abort Federation Save" onAction="#AbortFederationSave_click" />
-                        <MenuItem mnemonicParsing="false" text="4.22 Query Federation Save Status" onAction="#QueryFederationSave_click" />
+                        <MenuItem mnemonicParsing="false" onAction="#RequestFederationSave_click" text="4.16 Request Federation Save..." />
+                        <MenuItem mnemonicParsing="false" onAction="#FederateSaveBegun_click" text="4.18 Federate Save Begun" />
+                        <MenuItem mnemonicParsing="false" onAction="#FederateSaveComplete_click" text="4.19 Federate Save Complete..." />
+                        <MenuItem mnemonicParsing="false" onAction="#AbortFederationSave_click" text="4.21 Abort Federation Save" />
+                        <MenuItem mnemonicParsing="false" onAction="#QueryFederationSave_click" text="4.22 Query Federation Save Status" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="4.24 Request Federation Restore..." onAction="#RequestFederationRestore_click" />
-                        <MenuItem mnemonicParsing="false" text="4.28 Federate Restore Complete..." onAction="#FederateRestoreComplete_click" />
-                        <MenuItem mnemonicParsing="false" text="4.30 Abort Federation Restore" onAction="#AbortFederationRestore_click" />
-                        <MenuItem mnemonicParsing="false" text="4.31 Query Federation Restore" onAction="#QueryFederationRestore_click" />
+                        <MenuItem mnemonicParsing="false" onAction="#RequestFederationRestore_click" text="4.24 Request Federation Restore..." />
+                        <MenuItem mnemonicParsing="false" onAction="#FederateRestoreComplete_click" text="4.28 Federate Restore Complete..." />
+                        <MenuItem mnemonicParsing="false" onAction="#AbortFederationRestore_click" text="4.30 Abort Federation Restore" />
+                        <MenuItem mnemonicParsing="false" onAction="#QueryFederationRestore_click" text="4.31 Query Federation Restore" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="5 Declaration (DM)">
@@ -100,11 +100,11 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="8 Time">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="8.2 Enable Time Regulation..." onAction="#EnableTimeRegulation_click" />
-                        <MenuItem mnemonicParsing="false" text="8.3 Disable Time Regulation" onAction="#DisableTimeRegulation_click" />
+                        <MenuItem mnemonicParsing="false" onAction="#EnableTimeRegulation_click" text="8.2 Enable Time Regulation..." />
+                        <MenuItem mnemonicParsing="false" onAction="#DisableTimeRegulation_click" text="8.3 Disable Time Regulation" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="8.4 Enable Time Constrained" onAction="#EnableTimeConstrained_click"/>
-                        <MenuItem mnemonicParsing="false" text="8.5 Disable Time Constrained" onAction="#DisableTimeConstrained_click" />
+                        <MenuItem mnemonicParsing="false" onAction="#EnableTimeConstrained_click" text="8.4 Enable Time Constrained" />
+                        <MenuItem mnemonicParsing="false" onAction="#DisableTimeConstrained_click" text="8.5 Disable Time Constrained" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="8.8 Time Advance Request" />
                         <MenuItem mnemonicParsing="false" text="8.9 Time Advance Request Available" />
@@ -252,5 +252,45 @@
                 </Menu>
             </menus>
         </MenuBar>
-    </children>
-</AnchorPane>
+   </top>
+   <center>
+      <BorderPane prefHeight="1886.0" prefWidth="1076.0" BorderPane.alignment="CENTER">
+         <top>
+            <HBox alignment="CENTER_LEFT" prefHeight="74.0" prefWidth="1076.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="101.0" fitWidth="101.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label>
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="titleLbl" prefHeight="27.0" prefWidth="894.0" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </top>
+         <center>
+            <SplitPane dividerPositions="0.5251396648044693" prefHeight="1108.0" prefWidth="1076.0" BorderPane.alignment="CENTER">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                     <children>
+                        <TableView fx:id="logTable" layoutX="14.0" layoutY="20.0" prefHeight="1399.0" prefWidth="559.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columns>
+                            <TableColumn fx:id="iconCol" prefWidth="56.0" text="i" />
+                            <TableColumn fx:id="sectionCol" prefWidth="71.0" text="#" />
+                              <TableColumn fx:id="titleCol" prefWidth="321.0" text="Title" />
+                              <TableColumn fx:id="timeCol" prefWidth="105.0" text="Time" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+              </items>
+            </SplitPane>
+         </center>
+      </BorderPane>
+   </center>
+</BorderPane>

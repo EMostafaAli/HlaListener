@@ -31,9 +31,14 @@ import hla.rti1516e.exceptions.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import javafx.beans.binding.*;
+import javafx.beans.property.*;
+import javafx.collections.*;
 import javafx.event.*;
 import javafx.fxml.*;
 import javafx.scene.*;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.*;
 import javafx.stage.*;
 
 import org.apache.logging.log4j.*;
@@ -48,12 +53,24 @@ public class MainWindowController implements Initializable {
     //Logger
     private static final Logger logger = LogManager.getLogger();
 
+    @FXML
+    TableView<LogEntry> logTable;
+    @FXML
+    TableColumn titleCol;
+    @FXML
+    Label titleLbl;
+    
+    final ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        logTable.setItems(logEntries);
+        titleLbl.textProperty().bind(Bindings.selectString(logTable.getSelectionModel().selectedItemProperty(), "title"));
+
     }
 
     private void DisplayDialog(String title, String fxmlPath) throws IOException {
@@ -101,6 +118,7 @@ public class MainWindowController implements Initializable {
     private void Disconnect_click(ActionEvent event) {
         try {
             logger.entry();
+            logEntries.add(new LogEntry((float) 4.3, "Disconnect service"));
             rtiAmb.disconnect();
             logger.exit();
         } catch (FederateIsExecutionMember ex) {
@@ -151,7 +169,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error listing Federation Executions", ex);
         }
     }
-    
+
     //4.9
     @FXML
     private void JoinFederation_click(ActionEvent event) {
@@ -350,7 +368,7 @@ public class MainWindowController implements Initializable {
         }
     }
 // </editor-fold>
-    
+
     //8.2
     @FXML
     private void EnableTimeRegulation_click(ActionEvent event) {
