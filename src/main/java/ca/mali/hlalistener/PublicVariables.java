@@ -66,4 +66,12 @@ public class PublicVariables {
     public static Stage primaryStage;
 
     public final static ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();
+    
+    public static void AddExceptionToLog(String section, String title, Exception ex, LogEntryType type){
+        LogEntry log = new LogEntry(section, title);
+        log.setException(ex);
+        log.setSimulationTime("NA");
+        log.setLogType(type);
+        logEntries.add(log);
+    }
 }

@@ -32,6 +32,9 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 import javafx.beans.binding.*;
+import javafx.beans.value.ObservableSetValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.*;
 import javafx.fxml.*;
 import javafx.geometry.*;
@@ -62,6 +65,8 @@ public class MainWindowController implements Initializable {
     @FXML
     TableView<LogEntry> logTable;
     @FXML
+    TableColumn<LogEntry, String> idCol;
+    @FXML
     TableColumn<LogEntry, String> sectionCol;
     @FXML
     TableColumn<LogEntry, String> titleCol;
@@ -75,18 +80,28 @@ public class MainWindowController implements Initializable {
     Label sectionLbl;
     @FXML
     ImageView iconViewer;
+    @FXML
+    TextArea StackTraceTextArea;
+    @FXML
+    TitledPane SuppliedPane;
+    @FXML
+    TitledPane ReturnedPane;
+    @FXML
+    TitledPane StackTracePane;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        logger.entry();
         Label label = new Label("No content in the logger table");
         label.setBackground(new Background(new BackgroundFill(Color.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
         logTable.setPlaceholder(label);
         Label emptyLabel = new Label();
         parametersTable.setPlaceholder(emptyLabel);
         returnTable.setPlaceholder(emptyLabel);
+        idCol.setCellValueFactory(new PropertyValueFactory<>("logID"));
         sectionCol.setCellValueFactory(new PropertyValueFactory<>("sectionNo"));
         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
         timeCol.setCellValueFactory(new PropertyValueFactory<>("simulationTime"));
@@ -118,6 +133,16 @@ public class MainWindowController implements Initializable {
         titleLbl.textProperty().bind(Bindings.selectString(logTable.getSelectionModel().selectedItemProperty(), "title"));
         sectionLbl.textProperty().bind(Bindings.selectString(logTable.getSelectionModel().selectedItemProperty(), "sectionNo"));
         iconViewer.imageProperty().bind(Bindings.select(logTable.getSelectionModel().selectedItemProperty(), "icon"));
+
+        SuppliedPane.managedProperty().bind(SuppliedPane.visibleProperty());
+        SuppliedPane.visibleProperty().bind((Bindings.select(logTable.getSelectionModel().selectedItemProperty(), "suppliedArgsClass")).isNotNull());
+        ReturnedPane.managedProperty().bind(ReturnedPane.visibleProperty());
+        ReturnedPane.visibleProperty().bind((Bindings.select(logTable.getSelectionModel().selectedItemProperty(), "returnedArgsClass")).isNotNull());
+
+        StackTracePane.visibleProperty().bind(Bindings.selectString(logTable.getSelectionModel().selectedItemProperty(), "stackTrace").isNotEmpty());
+        StackTraceTextArea.textProperty().bind(Bindings.selectString(logTable.getSelectionModel().selectedItemProperty(), "stackTrace"));
+        logger.exit();
+
     }
 
     private void DisplayDialog(String title, String fxmlPath) throws IOException {
@@ -147,6 +172,17 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    @FXML
+    private void ClearLog_click(ActionEvent event) {
+        try {
+            logger.entry();
+            logEntries.clear();
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error clearing the log", ex);
+        }
+    }
+
 // <editor-fold desc="Chapter 4">
     //4.2
     @FXML
@@ -169,12 +205,12 @@ public class MainWindowController implements Initializable {
             LogEntry log = new LogEntry("4.3", "Disconnect service");
             log.setLogType(LogEntryType.REQUEST);
             log.setSimulationTime("NA");
+            ObservableList<Class> xyz = FXCollections.observableArrayList();
+            log.setSuppliedArgsClass(xyz);
             logEntries.add(log);
             logger.exit();
-        } catch (FederateIsExecutionMember ex) {
-            logger.log(Level.ERROR, "Error disconnecting, please resign first", ex);
-        } catch (CallNotAllowedFromWithinCallback ex) {
-            logger.log(Level.ERROR, "Error disconnecting, you are not connected", ex);
+        } catch (FederateIsExecutionMember | CallNotAllowedFromWithinCallback ex) {
+            logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (RTIinternalError ex) {
             logger.log(Level.FATAL, "Internal error in RTI", ex);
         }

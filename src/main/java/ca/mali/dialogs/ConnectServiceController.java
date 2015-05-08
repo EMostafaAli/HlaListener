@@ -60,13 +60,17 @@ public class ConnectServiceController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        logger.entry();
         CallbackModel_choiceBox.getItems().addAll(CallbackModel.values());
         CallbackModel_choiceBox.setValue(CallbackModel.HLA_IMMEDIATE);
+        logger.exit();
     }
 
     @FXML
     private void Cancel_click(ActionEvent event) {
+        logger.entry();
         ((Stage) LocalSettingsDesignator.getScene().getWindow()).close();
+        logger.exit();
     }
 
     @FXML
@@ -78,14 +82,22 @@ public class ConnectServiceController implements Initializable {
             } else {
                 rtiAmb.connect(fedAmb, CallbackModel_choiceBox.getValue(), LocalSettingsDesignator.getText());
             }
+            Class[] args = new Class[2];
+            args[0] = FederateAmbassador.class;
+            args[1] = CallbackModel_choiceBox.getValue().getClass();
+//            args[2] = String.class;
+            System.out.println(rtiAmb.getClass().getMethod("connect",args).getReturnType().toString()
+);
             LogEntry log = new LogEntry("4.2", "Connected successfully to RTI");
             log.setLogType(LogEntryType.REQUEST);
             log.setSimulationTime("NA");
             logEntries.add(log);
         } catch (ConnectionFailed | UnsupportedCallbackModel | InvalidLocalSettingsDesignator | AlreadyConnected | RTIinternalError ex) {
+            AddExceptionToLog("4.2", ex.getMessage(), ex, LogEntryType.ERROR);
             logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in connecting to RTI", ex);
+            AddExceptionToLog("4.2", ex.getMessage(), ex, LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
         ((Stage) LocalSettingsDesignator.getScene().getWindow()).close();
         logger.exit();

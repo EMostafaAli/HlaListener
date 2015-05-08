@@ -10,14 +10,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="1308.0" prefWidth="1076.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.hlalistener.MainWindowController">
-   <top>
+<BorderPane prefHeight="1308.0" prefWidth="1076.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.hlalistener.MainWindowController">
+    <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#RtiInfo_click" text="RTI info" />
-                        <MenuItem mnemonicParsing="false" text="Clear Log" />
+                        <MenuItem mnemonicParsing="false" onAction="#ClearLog_click" text="Clear Log" />
                         <MenuItem mnemonicParsing="false" text="Close" />
                     </items>
                 </Menu>
@@ -252,91 +252,94 @@
                 </Menu>
             </menus>
         </MenuBar>
-   </top>
-   <center>
-      <BorderPane prefHeight="1886.0" prefWidth="1076.0" BorderPane.alignment="CENTER">
-         <center>
-            <SplitPane dividerPositions="0.5251396648044693" prefHeight="1108.0" prefWidth="1076.0" BorderPane.alignment="CENTER">
-              <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                     <children>
-                        <TableView fx:id="logTable" layoutX="14.0" layoutY="20.0" prefHeight="1399.0" prefWidth="559.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <columns>
-                            <TableColumn fx:id="iconCol" prefWidth="27.0" text="i" />
-                            <TableColumn fx:id="sectionCol" prefWidth="30.0" text="#" />
-                              <TableColumn fx:id="titleCol" prefWidth="414.0" text="Title" />
-                              <TableColumn fx:id="timeCol" prefWidth="82.0" text="Time" />
-                          </columns>
-                        </TableView>
-                     </children>
-                  </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                     <children>
-                        <VBox layoutX="51.0" layoutY="289.0" prefHeight="1192.0" prefWidth="507.0" spacing="15.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
-                           <padding>
-                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                           </padding>
-                           <children>
-                              <HBox alignment="CENTER_LEFT" prefHeight="36.0" prefWidth="1076.0" spacing="10.0">
-                                 <children>
-                                    <ImageView fx:id="iconViewer" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" />
-                                    <Label fx:id="sectionLbl">
-                                       <font>
-                                          <Font size="30.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Label fx:id="titleLbl" HBox.hgrow="ALWAYS">
-                                       <font>
-                                          <Font size="30.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </HBox>
-                              <TitledPane animated="false" text="Parameters">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                       <children>
-                                          <TableView fx:id="parametersTable" layoutX="60.0" layoutY="-34.0" prefHeight="180.0" prefWidth="445.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                            <columns>
-                                              <TableColumn prefWidth="133.0" text="Name" />
-                                              <TableColumn prefWidth="277.0" text="Value" />
-                                            </columns>
-                                          </TableView>
-                                       </children>
-                                    </AnchorPane>
-                                </content>
-                              </TitledPane>
-                              <TitledPane animated="false" text="Return">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                       <children>
-                                          <TableView fx:id="returnTable" prefHeight="180.0" prefWidth="445.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                             <columns>
-                                                <TableColumn prefWidth="133.0" text="Name" />
-                                                <TableColumn prefWidth="277.0" text="Value" />
-                                             </columns>
-                                          </TableView>
-                                       </children>
-                                    </AnchorPane>
-                                </content>
-                              </TitledPane>
-                              <TitledPane animated="false" text="Exception">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                       <children>
-                                          <TextArea editable="false" layoutX="60.0" prefHeight="180.0" prefWidth="445.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                       </children></AnchorPane>
-                                </content>
-                              </TitledPane>
-                           </children>
-                        </VBox>
-                     </children></AnchorPane>
-              </items>
-            </SplitPane>
-         </center>
-      </BorderPane>
-   </center>
+    </top>
+    <center>
+        <BorderPane prefHeight="1886.0" prefWidth="1076.0" BorderPane.alignment="CENTER">
+            <center>
+                <SplitPane dividerPositions="0.5251396648044693" prefHeight="1108.0" prefWidth="1076.0" BorderPane.alignment="CENTER">
+                    <items>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                            <children>
+                                <TableView fx:id="logTable" layoutX="14.0" layoutY="20.0" prefHeight="1399.0" prefWidth="559.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <columns>
+                                        <TableColumn fx:id="idCol" prefWidth="50.0" text="#" />
+                                        <TableColumn fx:id="iconCol" prefWidth="52.0" text="i" />
+                                        <TableColumn fx:id="sectionCol" prefWidth="55.0" text="Sect" />
+                                        <TableColumn fx:id="titleCol" prefWidth="389.0" text="Title" />
+                                        <TableColumn fx:id="timeCol" prefWidth="82.0" text="Time" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </AnchorPane>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                            <children>
+                                <VBox layoutX="51.0" layoutY="289.0" prefHeight="1192.0" prefWidth="507.0" spacing="15.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+                                    <padding>
+                                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                    </padding>
+                                    <children>
+                                        <HBox alignment="CENTER_LEFT" prefHeight="36.0" prefWidth="1076.0" spacing="10.0">
+                                            <children>
+                                                <ImageView fx:id="iconViewer" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" />
+                                                <Label fx:id="sectionLbl">
+                                                    <font>
+                                                        <Font size="30.0" />
+                                                    </font>
+                                                    <HBox.margin>
+                                                        <Insets />
+                                                    </HBox.margin>
+                                                </Label>
+                                                <Label fx:id="titleLbl" HBox.hgrow="ALWAYS">
+                                                    <font>
+                                                        <Font size="30.0" />
+                                                    </font>
+                                                </Label>
+                                            </children>
+                                        </HBox>
+                                        <TitledPane fx:id="SuppliedPane" animated="false" text="Supplied arguments">
+                                            <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                    <children>
+                                                        <TableView fx:id="parametersTable" layoutX="60.0" layoutY="-34.0" prefHeight="180.0" prefWidth="445.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                            <columns>
+                                                                <TableColumn prefWidth="133.0" text="Name" />
+                                                                <TableColumn prefWidth="277.0" text="Value" />
+                                                            </columns>
+                                                        </TableView>
+                                                    </children>
+                                                </AnchorPane>
+                                            </content>
+                                        </TitledPane>
+                                        <TitledPane fx:id="ReturnedPane" animated="false" text="Returned arguments">
+                                            <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                    <children>
+                                                        <TableView fx:id="returnTable" prefHeight="180.0" prefWidth="445.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                            <columns>
+                                                                <TableColumn prefWidth="133.0" text="Name" />
+                                                                <TableColumn prefWidth="277.0" text="Value" />
+                                                            </columns>
+                                                        </TableView>
+                                                    </children>
+                                                </AnchorPane>
+                                            </content>
+                                        </TitledPane>
+                                        <TitledPane fx:id="StackTracePane" animated="false" text="Stack Trace">
+                                            <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                    <children>
+                                                        <TextArea fx:id="StackTraceTextArea" editable="false" layoutX="60.0" prefHeight="180.0" prefWidth="445.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                    </children>
+                                                </AnchorPane>
+                                            </content>
+                                        </TitledPane>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </AnchorPane>
+                    </items>
+                </SplitPane>
+            </center>
+        </BorderPane>
+    </center>
 </BorderPane>
