@@ -44,22 +44,35 @@ public class LogEntry {
     private final ReadOnlyIntegerWrapper logID = new ReadOnlyIntegerWrapper();
     private final StringProperty sectionNo;
     private final StringProperty title;
-    private final StringProperty simulationTime = new SimpleStringProperty();
+    private final StringProperty description = new SimpleStringProperty();
+    private final StringProperty simulationTime = new SimpleStringProperty("NA");
     private final ObjectProperty<LogEntryType> logType = new SimpleObjectProperty<>();
     private final ObjectProperty<Image> icon = new SimpleObjectProperty<>();
     private final ObjectProperty<Exception> exception = new SimpleObjectProperty<>();
     private final ReadOnlyStringWrapper stackTrace = new ReadOnlyStringWrapper("");
-    
-    //cannot use map because some functions has two parameters with the same class
-    private final ListProperty<Class> suppliedArgsClass = new SimpleListProperty<>();
-    private final ListProperty<String> suppliedArgsValue = new SimpleListProperty<>();
-    private final ListProperty<Class> returnedArgsClass = new SimpleListProperty<>();
-    private final ListProperty<String> returnedArgsValue = new SimpleListProperty<>();
 
-    static int id = 1;
+    static int id = 0;
+    private final ObservableList<ClassValuePair> suppliedArguments = FXCollections.observableArrayList();
+    private final ObservableList<ClassValuePair> returnedArguments = FXCollections.observableArrayList();
+
+    public ObservableList<ClassValuePair> getSuppliedArguments() {
+        return suppliedArguments;
+    }
+
+    public ObservableList<ClassValuePair> getReturnedArguments() {
+        return returnedArguments;
+    }
+
+    public boolean getSuppliedArgumentsIsNotEmpty() {
+        return !suppliedArguments.isEmpty();
+    }
+
+    public boolean getReturnedArguementsIsNotEmpty() {
+        return !returnedArguments.isEmpty();
+    }
 
     public LogEntry(String sectionNo, String title) {
-        logID.set(id++);
+        logID.set(++id);
         this.sectionNo = new SimpleStringProperty(sectionNo);
         this.title = new SimpleStringProperty(title);
         logType.addListener((observable, oldValue, newValue) -> {
@@ -125,6 +138,18 @@ public class LogEntry {
         return title;
     }
 
+    public String getDescription() {
+        return description.get();
+    }
+
+    public void setDescription(String value) {
+        description.set(value);
+    }
+
+    public StringProperty descriptionProperty() {
+        return description;
+    }
+
     public String getSimulationTime() {
         return simulationTime.get();
     }
@@ -166,6 +191,7 @@ public class LogEntry {
     }
 
     public void setException(Exception value) {
+        setDescription(value.getMessage());
         exception.set(value);
     }
 
@@ -179,53 +205,5 @@ public class LogEntry {
 
     public ReadOnlyStringProperty stackTraceProperty() {
         return stackTrace.getReadOnlyProperty();
-    }
-
-    public ObservableList getSuppliedArgsClass() {
-        return suppliedArgsClass.get();
-    }
-
-    public void setSuppliedArgsClass(ObservableList value) {
-        suppliedArgsClass.set(value);
-    }
-
-    public ListProperty suppliedArgsClassProperty() {
-        return suppliedArgsClass;
-    }
-
-    public ObservableList getSuppliedArgsValue() {
-        return suppliedArgsValue.get();
-    }
-
-    public void setSuppliedArgsValue(ObservableList value) {
-        suppliedArgsValue.set(value);
-    }
-
-    public ListProperty suppliedArgsValueProperty() {
-        return suppliedArgsValue;
-    }
-
-    public ObservableList getReturnedArgsClass() {
-        return returnedArgsClass.get();
-    }
-
-    public void setReturnedArgsClass(ObservableList value) {
-        returnedArgsClass.set(value);
-    }
-
-    public ListProperty ReturnedArgsClassProperty() {
-        return returnedArgsClass;
-    }
-
-    public ObservableList getReturnedArgsValue() {
-        return returnedArgsValue.get();
-    }
-
-    public void setReturnedArgsValue(ObservableList value) {
-        returnedArgsValue.set(value);
-    }
-
-    public ListProperty ReturnedArgsValueProperty() {
-        return returnedArgsValue;
     }
 }

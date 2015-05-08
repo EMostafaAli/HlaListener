@@ -32,9 +32,9 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 import javafx.beans.binding.*;
-import javafx.beans.value.ObservableSetValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.*;
 import javafx.event.*;
 import javafx.fxml.*;
 import javafx.geometry.*;
@@ -45,7 +45,7 @@ import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.stage.*;
-import javafx.util.Callback;
+import javafx.util.*;
 
 import org.apache.logging.log4j.*;
 
@@ -59,13 +59,25 @@ public class MainWindowController implements Initializable {
     //Logger
     private static final Logger logger = LogManager.getLogger();
     @FXML
-    TableView parametersTable;
+    TableView<ClassValuePair> SupplyTable;
     @FXML
-    TableView returnTable;
+    TableColumn<ClassValuePair, String> SupplyNameCol;
+    @FXML
+    TableColumn<ClassValuePair, Class> SupplyTypeCol;
+    @FXML
+    TableColumn<ClassValuePair, String> SupplyValueCol;
+    @FXML
+    TableView<ClassValuePair> returnTable;
+    @FXML
+    TableColumn<ClassValuePair, String> ReturnNameCol;
+    @FXML
+    TableColumn<ClassValuePair, Class> ReturnTypeCol;
+    @FXML
+    TableColumn<ClassValuePair, String> ReturnValueCol;
     @FXML
     TableView<LogEntry> logTable;
     @FXML
-    TableColumn<LogEntry, String> idCol;
+    TableColumn<LogEntry, Integer> idCol;
     @FXML
     TableColumn<LogEntry, String> sectionCol;
     @FXML
@@ -78,6 +90,8 @@ public class MainWindowController implements Initializable {
     Label titleLbl;
     @FXML
     Label sectionLbl;
+    @FXML
+    Label DescLbl;
     @FXML
     ImageView iconViewer;
     @FXML
@@ -99,7 +113,7 @@ public class MainWindowController implements Initializable {
         label.setBackground(new Background(new BackgroundFill(Color.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
         logTable.setPlaceholder(label);
         Label emptyLabel = new Label();
-        parametersTable.setPlaceholder(emptyLabel);
+        SupplyTable.setPlaceholder(emptyLabel);
         returnTable.setPlaceholder(emptyLabel);
         idCol.setCellValueFactory(new PropertyValueFactory<>("logID"));
         sectionCol.setCellValueFactory(new PropertyValueFactory<>("sectionNo"));
@@ -117,13 +131,15 @@ public class MainWindowController implements Initializable {
                         imgView = new ImageView();
                         imgView.setFitHeight(10);
                         imgView.setFitWidth(10);
-                        setGraphic(imgView);
                     }
 
                     @Override
                     protected void updateItem(Image item, boolean empty) {
                         if (item != null) {
                             imgView.setImage(item);
+                            setGraphic(imgView);
+                        } else {
+                            setGraphic(null);
                         }
                     }
                 };
@@ -132,15 +148,37 @@ public class MainWindowController implements Initializable {
         logTable.setItems(logEntries);
         titleLbl.textProperty().bind(Bindings.selectString(logTable.getSelectionModel().selectedItemProperty(), "title"));
         sectionLbl.textProperty().bind(Bindings.selectString(logTable.getSelectionModel().selectedItemProperty(), "sectionNo"));
+        DescLbl.textProperty().bind(Bindings.selectString(logTable.getSelectionModel().selectedItemProperty(), "description"));
         iconViewer.imageProperty().bind(Bindings.select(logTable.getSelectionModel().selectedItemProperty(), "icon"));
 
         SuppliedPane.managedProperty().bind(SuppliedPane.visibleProperty());
-        SuppliedPane.visibleProperty().bind((Bindings.select(logTable.getSelectionModel().selectedItemProperty(), "suppliedArgsClass")).isNotNull());
+        SuppliedPane.visibleProperty().bind(Bindings.selectBoolean(logTable.getSelectionModel().selectedItemProperty(), "SuppliedArgumentsIsNotEmpty"));
+        SupplyNameCol.setCellValueFactory(new PropertyValueFactory<>("className"));
+        SupplyTypeCol.setCellValueFactory(new PropertyValueFactory<>("classType"));
+        SupplyValueCol.setCellValueFactory(new PropertyValueFactory<>("classValue"));
+
         ReturnedPane.managedProperty().bind(ReturnedPane.visibleProperty());
-        ReturnedPane.visibleProperty().bind((Bindings.select(logTable.getSelectionModel().selectedItemProperty(), "returnedArgsClass")).isNotNull());
+        ReturnedPane.visibleProperty().bind(Bindings.selectBoolean(logTable.getSelectionModel().selectedItemProperty(), "ReturnedArguementsIsNotEmpty"));
+        ReturnNameCol.setCellValueFactory(new PropertyValueFactory<>("className"));
+        ReturnTypeCol.setCellValueFactory(new PropertyValueFactory<>("classType"));
+        ReturnValueCol.setCellValueFactory(new PropertyValueFactory<>("classValue"));
 
         StackTracePane.visibleProperty().bind(Bindings.selectString(logTable.getSelectionModel().selectedItemProperty(), "stackTrace").isNotEmpty());
         StackTraceTextArea.textProperty().bind(Bindings.selectString(logTable.getSelectionModel().selectedItemProperty(), "stackTrace"));
+
+        logEntries.addListener((ListChangeListener.Change<? extends LogEntry> c) -> {
+            c.next();
+            if (c.wasAdded()) {
+                logTable.getSelectionModel().selectLast();
+            }
+        });
+
+        logTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                SupplyTable.setItems(newValue.getSuppliedArguments());
+                returnTable.setItems(newValue.getReturnedArguments());
+            }
+        });
         logger.exit();
     }
 
@@ -160,15 +198,24 @@ public class MainWindowController implements Initializable {
 
     @FXML
     private void RtiInfo_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("", "RTI Info");
         try {
-            logger.entry();
+            log.setLogType(LogEntryType.REQUEST);
+            log.getReturnedArguments().add(new ClassValuePair("RTI Name", String.class, rtiFactory.rtiName()));
+            log.getReturnedArguments().add(new ClassValuePair("RTI Version", String.class, rtiFactory.rtiVersion()));
+            log.getReturnedArguments().add(new ClassValuePair("RTI HLA Version", String.class, rtiAmb.getHLAversion()));
             logger.log(Level.INFO, rtiFactory.rtiName());
             logger.log(Level.INFO, rtiFactory.rtiVersion());
             logger.log(Level.INFO, rtiAmb.getHLAversion());
-            logger.exit();
+            log.setDescription("RTI Info retrieved successfully");
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error getting RTI info", ex);
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
+        logEntries.add(log);
+        logger.exit();
     }
 
     @FXML
@@ -176,6 +223,7 @@ public class MainWindowController implements Initializable {
         try {
             logger.entry();
             logEntries.clear();
+            LogEntry.id = 0;
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error clearing the log", ex);
@@ -198,20 +246,22 @@ public class MainWindowController implements Initializable {
     //4.3
     @FXML
     private void Disconnect_click(ActionEvent event) {
+        LogEntry log = new LogEntry("4.3", "Disconnect service");
         try {
             logger.entry();
             rtiAmb.disconnect();
-            LogEntry log = new LogEntry("4.3", "Disconnect service");
+            log.setDescription("Disconnected successfully, you can terminate the program");
             log.setLogType(LogEntryType.REQUEST);
-            log.setSimulationTime("NA");
-            ObservableList<Class> xyz = FXCollections.observableArrayList();
-            log.setSuppliedArgsClass(xyz);
             logEntries.add(log);
             logger.exit();
-        } catch (FederateIsExecutionMember | CallNotAllowedFromWithinCallback ex) {
+        } catch (FederateIsExecutionMember | CallNotAllowedFromWithinCallback | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
             logger.log(Level.ERROR, ex.getMessage(), ex);
-        } catch (RTIinternalError ex) {
-            logger.log(Level.FATAL, "Internal error in RTI", ex);
+        } catch (Exception ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
     }
 

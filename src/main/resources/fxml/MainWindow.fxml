@@ -10,7 +10,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="1308.0" prefWidth="1076.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.hlalistener.MainWindowController">
+<BorderPane prefHeight="1308.0" prefWidth="1282.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.hlalistener.MainWindowController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
@@ -256,11 +256,11 @@
     <center>
         <BorderPane prefHeight="1886.0" prefWidth="1076.0" BorderPane.alignment="CENTER">
             <center>
-                <SplitPane dividerPositions="0.5251396648044693" prefHeight="1108.0" prefWidth="1076.0" BorderPane.alignment="CENTER">
+                <SplitPane dividerPositions="0.5167597765363129" prefHeight="1108.0" prefWidth="1076.0" BorderPane.alignment="CENTER">
                     <items>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1281.0" prefWidth="594.0">
                             <children>
-                                <TableView fx:id="logTable" layoutX="14.0" layoutY="20.0" prefHeight="1399.0" prefWidth="559.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <TableView fx:id="logTable" layoutX="14.0" layoutY="20.0" prefHeight="1281.0" prefWidth="647.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <columns>
                                         <TableColumn fx:id="idCol" prefWidth="50.0" text="#" />
                                         <TableColumn fx:id="iconCol" prefWidth="52.0" text="i" />
@@ -281,29 +281,40 @@
                                         <HBox alignment="CENTER_LEFT" prefHeight="36.0" prefWidth="1076.0" spacing="10.0">
                                             <children>
                                                 <ImageView fx:id="iconViewer" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" />
-                                                <Label fx:id="sectionLbl">
-                                                    <font>
-                                                        <Font size="30.0" />
-                                                    </font>
-                                                    <HBox.margin>
-                                                        <Insets />
-                                                    </HBox.margin>
-                                                </Label>
-                                                <Label fx:id="titleLbl" HBox.hgrow="ALWAYS">
-                                                    <font>
-                                                        <Font size="30.0" />
-                                                    </font>
-                                                </Label>
+                                                <VBox>
+                                                    <children>
+                                                        <HBox>
+                                                            <children>
+                                                                <Label fx:id="sectionLbl">
+                                                                    <font>
+                                                                        <Font size="30.0" />
+                                                                    </font>
+                                                                </Label>
+                                                                <Label fx:id="titleLbl">
+                                                                    <font>
+                                                                        <Font size="30.0" />
+                                                                    </font>
+                                                                </Label>
+                                                            </children>
+                                                        </HBox>
+                                                        <Label fx:id="DescLbl" textFill="#571cbc">
+                                                            <font>
+                                                                <Font size="18.0" />
+                                                            </font>
+                                                        </Label>
+                                                    </children>
+                                                </VBox>
                                             </children>
                                         </HBox>
                                         <TitledPane fx:id="SuppliedPane" animated="false" text="Supplied arguments">
                                             <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                     <children>
-                                                        <TableView fx:id="parametersTable" layoutX="60.0" layoutY="-34.0" prefHeight="180.0" prefWidth="445.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                        <TableView fx:id="SupplyTable" layoutX="60.0" layoutY="-34.0" prefHeight="180.0" prefWidth="445.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                             <columns>
-                                                                <TableColumn prefWidth="133.0" text="Name" />
-                                                                <TableColumn prefWidth="277.0" text="Value" />
+                                                                <TableColumn fx:id="SupplyNameCol" prefWidth="160.0" text="Name" />
+                                                                <TableColumn fx:id="SupplyTypeCol" prefWidth="160.0" text="Type" />
+                                                                <TableColumn fx:id="SupplyValueCol" prefWidth="220.0" text="Value" />
                                                             </columns>
                                                         </TableView>
                                                     </children>
@@ -316,8 +327,9 @@
                                                     <children>
                                                         <TableView fx:id="returnTable" prefHeight="180.0" prefWidth="445.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                             <columns>
-                                                                <TableColumn prefWidth="133.0" text="Name" />
-                                                                <TableColumn prefWidth="277.0" text="Value" />
+                                                                <TableColumn fx:id="ReturnNameCol" prefWidth="160.0" text="Name" />
+                                                                <TableColumn fx:id="ReturnTypeCol" prefWidth="160.0" text="Type" />
+                                                                <TableColumn fx:id="ReturnValueCol" prefWidth="220.0" text="Value" />
                                                             </columns>
                                                         </TableView>
                                                     </children>

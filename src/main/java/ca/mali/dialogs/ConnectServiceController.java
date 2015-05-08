@@ -76,23 +76,30 @@ public class ConnectServiceController implements Initializable {
     @FXML
     private void OK_click(ActionEvent event) {
         logger.entry();
+        LogEntry log = new LogEntry("4.2", "Connect service");
         try {
+            log.getSuppliedArguments().add(new ClassValuePair("Federate Ambassador", FederateAmbassador.class, fedAmb.toString()));
+            log.getSuppliedArguments().add(new ClassValuePair("Callback Model", CallbackModel.class, CallbackModel_choiceBox.getValue().toString()));
             if (LocalSettingsDesignator.getText().isEmpty()) {
                 rtiAmb.connect(fedAmb, CallbackModel_choiceBox.getValue());
             } else {
+                log.getSuppliedArguments().add(new ClassValuePair("Local settings designator", String.class, LocalSettingsDesignator.getText()));
                 rtiAmb.connect(fedAmb, CallbackModel_choiceBox.getValue(), LocalSettingsDesignator.getText());
             }
-            LogEntry log = new LogEntry("4.2", "Connected successfully to RTI");
+            log.setDescription("Connected successfully to RTI");
             log.setLogType(LogEntryType.REQUEST);
-            log.setSimulationTime("NA");
-            logEntries.add(log);
         } catch (ConnectionFailed | UnsupportedCallbackModel | InvalidLocalSettingsDesignator | AlreadyConnected | RTIinternalError ex) {
-            AddExceptionToLog("4.2", ex.getMessage(), ex, LogEntryType.ERROR);
+//            log.setDescription(ex.getMessage());
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
             logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
-            AddExceptionToLog("4.2", ex.getMessage(), ex, LogEntryType.FATAL);
+//            log.setDescription(ex.getMessage());
+            log.setLogType(LogEntryType.FATAL);
+            log.setException(ex);
             logger.log(Level.FATAL, ex.getMessage(), ex);
         }
+        logEntries.add(log);
         ((Stage) LocalSettingsDesignator.getScene().getWindow()).close();
         logger.exit();
     }

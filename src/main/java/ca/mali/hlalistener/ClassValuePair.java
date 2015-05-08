@@ -25,46 +25,58 @@
  */
 package ca.mali.hlalistener;
 
-import hla.rti1516e.*;
-import hla.rti1516e.encoding.*;
-import javafx.collections.*;
-import javafx.stage.*;
+import javafx.beans.property.*;
 
 /**
  *
  * @author Mostafa Ali <engabdomostafa@gmail.com>
  */
-public class PublicVariables {
+public final class ClassValuePair {
 
-    public static RtiFactory rtiFactory;
+    private final StringProperty className = new SimpleStringProperty();
+    private final ObjectProperty<Class> classType = new ReadOnlyObjectWrapper<>();
+    private final StringProperty classValue = new ReadOnlyStringWrapper();
 
-    /**
-     * RTI ambassador
-     */
-    public static RTIambassador rtiAmb;
+    public ClassValuePair(String name, Class type, String value) {
+        setClassName(name);
+        setClassType(type);
+        setClassValue(value);
+    }
 
-    /**
-     * Federate ambassador
-     */
-    public static ListenerFederateAmb fedAmb;
+    public String getClassName() {
+        return className.get();
+    }
 
-    /**
-     * Logical Time Factory
-     */
-    public static LogicalTimeFactory logicalTimeFactory;
+    public void setClassName(String value) {
+        className.set(value);
+    }
 
-    /**
-     * Encoder Factory
-     */
-    public static EncoderFactory encoderFactory;
+    public StringProperty classNameProperty() {
+        return className;
+    }
 
-    /**
-     *
-     */
-    public static HLAunicodeString stringEncoder;
+    public Class getClassType() {
+        return classType.get();
+    }
 
-    public static Stage primaryStage;
+    public void setClassType(Class value) {
+        classType.set(value);
+    }
 
-    public final static ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();
-    
+    public ObjectProperty classTypeProperty() {
+        return classType;
+    }
+
+    public String getClassValue() {
+        return classValue.get();
+    }
+
+    public void setClassValue(String value) {
+        classValue.set(value);
+    }
+
+    public StringProperty classValueProperty() {
+        return classValue;
+    }
+
 }
