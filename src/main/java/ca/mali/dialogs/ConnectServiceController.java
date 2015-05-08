@@ -82,12 +82,6 @@ public class ConnectServiceController implements Initializable {
             } else {
                 rtiAmb.connect(fedAmb, CallbackModel_choiceBox.getValue(), LocalSettingsDesignator.getText());
             }
-            Class[] args = new Class[2];
-            args[0] = FederateAmbassador.class;
-            args[1] = CallbackModel_choiceBox.getValue().getClass();
-//            args[2] = String.class;
-            System.out.println(rtiAmb.getClass().getMethod("connect",args).getReturnType().toString()
-);
             LogEntry log = new LogEntry("4.2", "Connected successfully to RTI");
             log.setLogType(LogEntryType.REQUEST);
             log.setSimulationTime("NA");

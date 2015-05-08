@@ -49,6 +49,7 @@ public class LogEntry {
     private final ObjectProperty<Image> icon = new SimpleObjectProperty<>();
     private final ObjectProperty<Exception> exception = new SimpleObjectProperty<>();
     private final ReadOnlyStringWrapper stackTrace = new ReadOnlyStringWrapper("");
+    
     //cannot use map because some functions has two parameters with the same class
     private final ListProperty<Class> suppliedArgsClass = new SimpleListProperty<>();
     private final ListProperty<String> suppliedArgsValue = new SimpleListProperty<>();

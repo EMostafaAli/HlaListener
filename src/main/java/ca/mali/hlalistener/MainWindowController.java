@@ -142,7 +142,6 @@ public class MainWindowController implements Initializable {
         StackTracePane.visibleProperty().bind(Bindings.selectString(logTable.getSelectionModel().selectedItemProperty(), "stackTrace").isNotEmpty());
         StackTraceTextArea.textProperty().bind(Bindings.selectString(logTable.getSelectionModel().selectedItemProperty(), "stackTrace"));
         logger.exit();
-
     }
 
     private void DisplayDialog(String title, String fxmlPath) throws IOException {
