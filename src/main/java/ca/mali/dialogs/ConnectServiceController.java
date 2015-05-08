@@ -83,9 +83,11 @@ public class ConnectServiceController implements Initializable {
             log.setSimulationTime("NA");
             logEntries.add(log);
         } catch (ConnectionFailed | UnsupportedCallbackModel | InvalidLocalSettingsDesignator | AlreadyConnected | RTIinternalError ex) {
+            AddExceptionToLog("4.2", ex.getMessage(), ex, LogEntryType.ERROR);
             logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in connecting to RTI", ex);
+            AddExceptionToLog("4.2", ex.getMessage(), ex, LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
         ((Stage) LocalSettingsDesignator.getScene().getWindow()).close();
         logger.exit();

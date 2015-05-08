@@ -40,15 +40,19 @@ public class LogEntry {
     private final Image errorImage = new Image(getClass().getResourceAsStream("/icons/red.png"));
     private final Image fatalImage = new Image(getClass().getResourceAsStream("/icons/fatal.png"));
 
+    private final ReadOnlyIntegerWrapper logID = new ReadOnlyIntegerWrapper();
     private final StringProperty sectionNo;
     private final StringProperty title;
     private final StringProperty simulationTime = new SimpleStringProperty();
     private final ObjectProperty<LogEntryType> logType = new SimpleObjectProperty<>();
     private final ObjectProperty<Image> icon = new SimpleObjectProperty<>();
     private final ObjectProperty<Exception> exception = new SimpleObjectProperty<>();
-    private final ReadOnlyStringWrapper stackTrack = new ReadOnlyStringWrapper();
+    private final ReadOnlyStringWrapper stackTrace = new ReadOnlyStringWrapper("");
+
+    static int id = 1;
 
     public LogEntry(String sectionNo, String title) {
+        logID.set(id++);
         this.sectionNo = new SimpleStringProperty(sectionNo);
         this.title = new SimpleStringProperty(title);
         logType.addListener((observable, oldValue, newValue) -> {
@@ -71,7 +75,7 @@ public class LogEntry {
         });
 
         exception.addListener((observable, oldValue, newValue) -> {
-            stackTrack.set(getStackTrace(newValue));
+            stackTrace.set(getStackTrace(newValue));
         });
     }
 
@@ -80,6 +84,14 @@ public class LogEntry {
         final PrintWriter pw = new PrintWriter(sw, true);
         throwable.printStackTrace(pw);
         return sw.getBuffer().toString();
+    }
+
+    public int getLogID() {
+        return logID.get();
+    }
+
+    public ReadOnlyIntegerProperty logIDProperty() {
+        return logID.getReadOnlyProperty();
     }
 
     public String getSectionNo() {
@@ -154,12 +166,12 @@ public class LogEntry {
         return exception;
     }
 
-    public String getStackTrack() {
-        return stackTrack.get();
+    public String getStackTrace() {
+        return stackTrace.get();
     }
 
-    public ReadOnlyStringProperty stackTrackProperty() {
-        return stackTrack.getReadOnlyProperty();
+    public ReadOnlyStringProperty stackTraceProperty() {
+        return stackTrace.getReadOnlyProperty();
     }
 
 }
