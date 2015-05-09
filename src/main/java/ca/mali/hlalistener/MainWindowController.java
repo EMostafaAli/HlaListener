@@ -32,8 +32,6 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 import javafx.beans.binding.*;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.*;
 import javafx.event.*;
 import javafx.fxml.*;
@@ -63,17 +61,17 @@ public class MainWindowController implements Initializable {
     @FXML
     TableColumn<ClassValuePair, String> SupplyNameCol;
     @FXML
-    TableColumn<ClassValuePair, Class> SupplyTypeCol;
-    @FXML
     TableColumn<ClassValuePair, String> SupplyValueCol;
+    @FXML
+    Label SuppliedArgsLbl;
     @FXML
     TableView<ClassValuePair> returnTable;
     @FXML
     TableColumn<ClassValuePair, String> ReturnNameCol;
     @FXML
-    TableColumn<ClassValuePair, Class> ReturnTypeCol;
-    @FXML
     TableColumn<ClassValuePair, String> ReturnValueCol;
+    @FXML
+    Label ReturnedArgsLbl;
     @FXML
     TableView<LogEntry> logTable;
     @FXML
@@ -154,14 +152,14 @@ public class MainWindowController implements Initializable {
         SuppliedPane.managedProperty().bind(SuppliedPane.visibleProperty());
         SuppliedPane.visibleProperty().bind(Bindings.selectBoolean(logTable.getSelectionModel().selectedItemProperty(), "SuppliedArgumentsIsNotEmpty"));
         SupplyNameCol.setCellValueFactory(new PropertyValueFactory<>("className"));
-        SupplyTypeCol.setCellValueFactory(new PropertyValueFactory<>("classType"));
         SupplyValueCol.setCellValueFactory(new PropertyValueFactory<>("classValue"));
+        SuppliedArgsLbl.textProperty().bind(Bindings.selectString(SupplyTable.getSelectionModel().selectedItemProperty(), "classType"));
 
         ReturnedPane.managedProperty().bind(ReturnedPane.visibleProperty());
         ReturnedPane.visibleProperty().bind(Bindings.selectBoolean(logTable.getSelectionModel().selectedItemProperty(), "ReturnedArguementsIsNotEmpty"));
         ReturnNameCol.setCellValueFactory(new PropertyValueFactory<>("className"));
-        ReturnTypeCol.setCellValueFactory(new PropertyValueFactory<>("classType"));
         ReturnValueCol.setCellValueFactory(new PropertyValueFactory<>("classValue"));
+        ReturnedArgsLbl.textProperty().bind(Bindings.selectString(returnTable.getSelectionModel().selectedItemProperty(), "classType"));
 
         StackTracePane.visibleProperty().bind(Bindings.selectString(logTable.getSelectionModel().selectedItemProperty(), "stackTrace").isNotEmpty());
         StackTraceTextArea.textProperty().bind(Bindings.selectString(logTable.getSelectionModel().selectedItemProperty(), "stackTrace"));

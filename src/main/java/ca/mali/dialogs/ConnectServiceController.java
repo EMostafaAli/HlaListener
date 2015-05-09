@@ -78,7 +78,7 @@ public class ConnectServiceController implements Initializable {
         logger.entry();
         LogEntry log = new LogEntry("4.2", "Connect service");
         try {
-            log.getSuppliedArguments().add(new ClassValuePair("Federate Ambassador", FederateAmbassador.class, fedAmb.toString()));
+            log.getSuppliedArguments().add(new ClassValuePair("Federate Ambassador", FederateAmbassador.class, "Listener Federate Amb"));
             log.getSuppliedArguments().add(new ClassValuePair("Callback Model", CallbackModel.class, CallbackModel_choiceBox.getValue().toString()));
             if (LocalSettingsDesignator.getText().isEmpty()) {
                 rtiAmb.connect(fedAmb, CallbackModel_choiceBox.getValue());
@@ -89,12 +89,10 @@ public class ConnectServiceController implements Initializable {
             log.setDescription("Connected successfully to RTI");
             log.setLogType(LogEntryType.REQUEST);
         } catch (ConnectionFailed | UnsupportedCallbackModel | InvalidLocalSettingsDesignator | AlreadyConnected | RTIinternalError ex) {
-//            log.setDescription(ex.getMessage());
             log.setException(ex);
             log.setLogType(LogEntryType.ERROR);
             logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
-//            log.setDescription(ex.getMessage());
             log.setLogType(LogEntryType.FATAL);
             log.setException(ex);
             logger.log(Level.FATAL, ex.getMessage(), ex);
