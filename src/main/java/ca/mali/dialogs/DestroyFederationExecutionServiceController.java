@@ -25,6 +25,7 @@
  */
 package ca.mali.dialogs;
 
+import ca.mali.hlalistener.*;
 import static ca.mali.hlalistener.PublicVariables.*;
 import hla.rti1516e.exceptions.*;
 import java.net.*;
@@ -48,7 +49,7 @@ public class DestroyFederationExecutionServiceController implements Initializabl
 
     @FXML
     private TextField FederationExecutionName;
-    
+
     @FXML
     private Button OkButton;
 
@@ -57,30 +58,40 @@ public class DestroyFederationExecutionServiceController implements Initializabl
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        logger.entry();
         OkButton.disableProperty().bind(
                 Bindings.isEmpty(FederationExecutionName.textProperty()));
+        logger.exit();
     }
 
     @FXML
     private void Cancel_click(ActionEvent event) {
+        logger.entry();
         ((Stage) FederationExecutionName.getScene().getWindow()).close();
+        logger.exit();
     }
 
     @FXML
     private void Ok_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("4.6", "Destroy Federation Execution service");
         try {
+            log.getSuppliedArguments().add(new ClassValuePair("Federation Execution Name", String.class, FederationExecutionName.getText()));
             rtiAmb.destroyFederationExecution(FederationExecutionName.getText());
-        } catch (FederatesCurrentlyJoined ex) {
-            logger.log(Level.ERROR, "Federates are currently joined", ex);
-        } catch (FederationExecutionDoesNotExist ex) {
-            logger.log(Level.ERROR, "Federaion Exeuction does not exist", ex);
-        } catch (NotConnected ex) {
-            logger.log(Level.ERROR, "Not connected to RTI", ex);
-        } catch (RTIinternalError ex) {
-            logger.log(Level.ERROR, "Internal error in RTI", ex);
+            log.setDescription("Federation execution destroyed successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (FederatesCurrentlyJoined | FederationExecutionDoesNotExist |
+                NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in destroying Federation Execution", ex);
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
+        logEntries.add(log);
         ((Stage) FederationExecutionName.getScene().getWindow()).close();
+        logger.exit();
     }
 }

@@ -265,7 +265,7 @@
                                         <TableColumn fx:id="idCol" prefWidth="50.0" text="#" />
                                         <TableColumn fx:id="iconCol" prefWidth="52.0" text="i" />
                                         <TableColumn fx:id="sectionCol" prefWidth="55.0" text="Sect" />
-                                        <TableColumn fx:id="titleCol" prefWidth="389.0" text="Title" />
+                                        <TableColumn fx:id="titleCol" prefWidth="450.0" text="Title" />
                                         <TableColumn fx:id="timeCol" prefWidth="82.0" text="Time" />
                                     </columns>
                                 </TableView>
@@ -314,8 +314,8 @@
                                                           <children>
                                                               <TableView fx:id="SupplyTable" layoutX="60.0" layoutY="-34.0" prefHeight="184.0" prefWidth="524.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                                   <columns>
-                                                                      <TableColumn fx:id="SupplyNameCol" prefWidth="200.0" text="Name" />
-                                                                      <TableColumn fx:id="SupplyValueCol" prefWidth="300.0" text="Value" />
+                                                                      <TableColumn fx:id="SupplyNameCol" prefWidth="325.0" text="Name" />
+                                                                      <TableColumn fx:id="SupplyValueCol" prefWidth="500.0" text="Value" />
                                                                   </columns>
                                                               </TableView>
                                                           </children>
@@ -333,8 +333,8 @@
                                                           <children>
                                                               <TableView fx:id="returnTable" prefHeight="180.0" prefWidth="445.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                                   <columns>
-                                                                      <TableColumn fx:id="ReturnNameCol" prefWidth="200.0" text="Name" />
-                                                                      <TableColumn fx:id="ReturnValueCol" prefWidth="300.0" text="Value" />
+                                                                      <TableColumn fx:id="ReturnNameCol" prefWidth="325.0" text="Name" />
+                                                                      <TableColumn fx:id="ReturnValueCol" prefWidth="500.0" text="Value" />
                                                                   </columns>
                                                               </TableView>
                                                           </children>

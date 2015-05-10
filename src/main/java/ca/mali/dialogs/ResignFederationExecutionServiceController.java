@@ -25,6 +25,7 @@
  */
 package ca.mali.dialogs;
 
+import ca.mali.hlalistener.*;
 import static ca.mali.hlalistener.PublicVariables.*;
 import hla.rti1516e.*;
 import hla.rti1516e.exceptions.*;
@@ -54,37 +55,42 @@ public class ResignFederationExecutionServiceController implements Initializable
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        logger.entry();
         ResignActionChoiceBox.getItems().addAll(ResignAction.values());
         ResignActionChoiceBox.setValue(ResignAction.NO_ACTION);
+        logger.exit();
     }
 
     @FXML
     private void Cancel_click(ActionEvent event) {
+        logger.entry();
         ((Stage) ResignActionChoiceBox.getScene().getWindow()).close();
+        logger.exit();
     }
 
     @FXML
     private void OK_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("4.10", "Resign Federation Execution service");
         try {
+            log.getSuppliedArguments().add(new ClassValuePair("Directive to", ResignAction.class, ResignActionChoiceBox.getValue().toString()));
             rtiAmb.resignFederationExecution(ResignActionChoiceBox.getValue());
+            log.setDescription("Federate resigned federation execution successfully");
+            log.setLogType(LogEntryType.REQUEST);
             logicalTimeFactory = null;
-        } catch (CallNotAllowedFromWithinCallback ex) {
-            logger.log(Level.ERROR, "Call not allowed from within callback", ex);
-        } catch (FederateNotExecutionMember ex) {
-            logger.log(Level.ERROR, "Federate is not Execution Member", ex);
-        } catch (InvalidResignAction ex) {
-            logger.log(Level.ERROR, "Invalid Resign Action", ex);
-        } catch (OwnershipAcquisitionPending ex) {
-            logger.log(Level.ERROR, "Ownership Acquistion Pending", ex);
-        } catch (FederateOwnsAttributes ex) {
-            logger.log(Level.ERROR, "Federate owns Attribute", ex);
-        } catch (NotConnected ex) {
-            logger.log(Level.ERROR, "Not connected to RTI", ex);
-        } catch (RTIinternalError ex) {
-            logger.log(Level.ERROR, "Internal error in RTI", ex);
+        } catch (CallNotAllowedFromWithinCallback | FederateNotExecutionMember |
+                InvalidResignAction | OwnershipAcquisitionPending | FederateOwnsAttributes |
+                NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in resigning Federation Execution", ex);
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
         ((Stage) ResignActionChoiceBox.getScene().getWindow()).close();
+        logEntries.add(log);
+        logger.exit();
     }
 }

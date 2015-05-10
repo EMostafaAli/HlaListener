@@ -31,6 +31,7 @@ import hla.rti1516e.exceptions.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import javafx.application.*;
 import javafx.beans.binding.*;
 import javafx.collections.*;
 import javafx.event.*;
@@ -161,13 +162,20 @@ public class MainWindowController implements Initializable {
         ReturnValueCol.setCellValueFactory(new PropertyValueFactory<>("classValue"));
         ReturnedArgsLbl.textProperty().bind(Bindings.selectString(returnTable.getSelectionModel().selectedItemProperty(), "classType"));
 
+        StackTracePane.managedProperty().bind(StackTracePane.visibleProperty());
         StackTracePane.visibleProperty().bind(Bindings.selectString(logTable.getSelectionModel().selectedItemProperty(), "stackTrace").isNotEmpty());
         StackTraceTextArea.textProperty().bind(Bindings.selectString(logTable.getSelectionModel().selectedItemProperty(), "stackTrace"));
 
-        logEntries.addListener((ListChangeListener.Change<? extends LogEntry> c) -> {
+        logTable.itemsProperty().get().addListener((ListChangeListener.Change<? extends LogEntry> c) -> {
             c.next();
             if (c.wasAdded()) {
-                logTable.getSelectionModel().selectLast();
+                //Use platform becasue trying to update UI from another thread (ListenerFederateAmb) raises an error
+                Platform.runLater(() -> {
+                    logTable.getSelectionModel().selectLast();
+                    //work around to refresh the log table view
+                    logTable.getColumns().get(0).setVisible(false);
+                    logTable.getColumns().get(0).setVisible(true);
+                });
             }
         });
 
@@ -250,8 +258,6 @@ public class MainWindowController implements Initializable {
             rtiAmb.disconnect();
             log.setDescription("Disconnected successfully, you can terminate the program");
             log.setLogType(LogEntryType.REQUEST);
-            logEntries.add(log);
-            logger.exit();
         } catch (FederateIsExecutionMember | CallNotAllowedFromWithinCallback | RTIinternalError ex) {
             log.setException(ex);
             log.setLogType(LogEntryType.ERROR);
@@ -261,6 +267,8 @@ public class MainWindowController implements Initializable {
             log.setLogType(LogEntryType.FATAL);
             logger.log(Level.FATAL, ex.getMessage(), ex);
         }
+        logEntries.add(log);
+        logger.exit();
     }
 
     //4.5
@@ -290,17 +298,23 @@ public class MainWindowController implements Initializable {
     //4.7
     @FXML
     private void ListFederationExecutions_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("4.7", "List Federation Execution service");
         try {
-            logger.entry();
             rtiAmb.listFederationExecutions();
-            logger.exit();
-        } catch (NotConnected ex) {
-            logger.log(Level.ERROR, "Not connected to RTI", ex);
-        } catch (RTIinternalError ex) {
-            logger.log(Level.ERROR, "Internal error in RTI", ex);
+            log.setDescription("Federation execution list requested successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error listing Federation Executions", ex);
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
+        logEntries.add(log);
+        logger.exit();
     }
 
     //4.9
@@ -366,23 +380,24 @@ public class MainWindowController implements Initializable {
     //4.18
     @FXML
     private void FederateSaveBegun_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("4.18", "Federate Save Begun service");
         try {
-            logger.entry();
             rtiAmb.federateSaveBegun();
-            logger.exit();
-        } catch (FederateNotExecutionMember ex) {
-            logger.log(Level.ERROR, "Federate is not Execution Member", ex);
-        } catch (RestoreInProgress ex) {
-            logger.log(Level.ERROR, "Restore in Progress", ex);
-        } catch (SaveNotInitiated ex) {
-            logger.log(Level.ERROR, "Save Not Initiated", ex);
-        } catch (NotConnected ex) {
-            logger.log(Level.ERROR, "Not connected to RTI", ex);
-        } catch (RTIinternalError ex) {
-            logger.log(Level.ERROR, "Internal error in RTI", ex);
+            log.setDescription("Federate save can begin now");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (FederateNotExecutionMember | RestoreInProgress |
+                SaveNotInitiated | NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in reporting Federate Save Begun", ex);
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
+        logEntries.add(log);
+        logger.exit();
     }
 
     //4.19
@@ -400,41 +415,47 @@ public class MainWindowController implements Initializable {
     //4.21
     @FXML
     private void AbortFederationSave_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("4.21", "Abort Federation Save service");
         try {
-            logger.entry();
             rtiAmb.abortFederationSave();
-            logger.exit();
-        } catch (FederateNotExecutionMember ex) {
-            logger.log(Level.ERROR, "Federate is not Execution Member", ex);
-        } catch (SaveNotInProgress ex) {
-            logger.log(Level.ERROR, "Save not in Progress", ex);
-        } catch (NotConnected ex) {
-            logger.log(Level.ERROR, "Not connected to RTI", ex);
-        } catch (RTIinternalError ex) {
-            logger.log(Level.ERROR, "Internal error in RTI", ex);
+            log.setDescription("Federation save aborted");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (FederateNotExecutionMember | SaveNotInProgress |
+                NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in aborting federation save", ex);
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
+        logEntries.add(log);
+        logger.exit();
     }
 
     //4.22
     @FXML
     private void QueryFederationSave_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("4.22", " Query Federation Save Status service");
         try {
-            logger.entry();
             rtiAmb.queryFederationSaveStatus();
-            logger.exit();
-        } catch (FederateNotExecutionMember ex) {
-            logger.log(Level.ERROR, "Federate is not Execution Member", ex);
-        } catch (RestoreInProgress ex) {
-            logger.log(Level.ERROR, "Restore in Progress", ex);
-        } catch (NotConnected ex) {
-            logger.log(Level.ERROR, "Not connected to RTI", ex);
-        } catch (RTIinternalError ex) {
-            logger.log(Level.ERROR, "Internal error in RTI", ex);
+            log.setDescription("Federation save status queried successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (FederateNotExecutionMember | RestoreInProgress |
+                NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in reporting Federate Save Begun", ex);
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
+        logEntries.add(log);
+        logger.exit();
     }
 
     //4.24

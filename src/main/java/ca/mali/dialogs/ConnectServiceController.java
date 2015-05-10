@@ -88,7 +88,8 @@ public class ConnectServiceController implements Initializable {
             }
             log.setDescription("Connected successfully to RTI");
             log.setLogType(LogEntryType.REQUEST);
-        } catch (ConnectionFailed | UnsupportedCallbackModel | InvalidLocalSettingsDesignator | AlreadyConnected | RTIinternalError ex) {
+        } catch (ConnectionFailed | UnsupportedCallbackModel | InvalidLocalSettingsDesignator |
+                AlreadyConnected | RTIinternalError ex) {
             log.setException(ex);
             log.setLogType(LogEntryType.ERROR);
             logger.log(Level.ERROR, ex.getMessage(), ex);

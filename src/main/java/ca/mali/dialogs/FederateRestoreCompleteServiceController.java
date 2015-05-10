@@ -84,7 +84,7 @@ public class FederateRestoreCompleteServiceController implements Initializable {
         } catch (RTIinternalError ex) {
             logger.log(Level.ERROR, "Internal error in RTI", ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in reprorting restore complete to RTI", ex);
+            logger.log(Level.FATAL, "Error in reporting restore complete to RTI", ex);
         }
         ((Stage) RestoredSuccessfully.getScene().getWindow()).close();
     }

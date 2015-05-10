@@ -25,9 +25,9 @@
  */
 package ca.mali.dialogs;
 
+import ca.mali.hlalistener.*;
 import static ca.mali.hlalistener.PublicVariables.*;
 
-import hla.rti1516e.*;
 import hla.rti1516e.exceptions.*;
 
 import java.net.*;
@@ -56,37 +56,46 @@ public class FederateSaveCompleteServiceController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        logger.entry();
         SavedSuccessfully.getItems().add(Boolean.TRUE);
         SavedSuccessfully.getItems().add(Boolean.FALSE);
         SavedSuccessfully.setValue(Boolean.TRUE);
+        logger.exit();
     }
 
     @FXML
     private void Cancel_click(ActionEvent event) {
+        logger.entry();
         ((Stage) SavedSuccessfully.getScene().getWindow()).close();
+        logger.exit();
     }
 
     @FXML
     private void Ok_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("4.19", "Federate Save Complete service");
         try {
+            log.getSuppliedArguments().add(new ClassValuePair("Federate save-success indicator", boolean.class, SavedSuccessfully.getValue().toString()));
             if (SavedSuccessfully.getValue()) {
+                log.setDescription("Federate save complete successfully");
                 rtiAmb.federateSaveComplete();
             } else {
+                log.setDescription("Federate save not complete");
                 rtiAmb.federateSaveNotComplete();
             }
-        } catch (FederateNotExecutionMember ex) {
-            logger.log(Level.ERROR, "Federate is not Execution Member", ex);
-        } catch (RestoreInProgress ex) {
-            logger.log(Level.ERROR, "Restore in Progress", ex);
-        } catch (FederateHasNotBegunSave ex) {
-            logger.log(Level.ERROR, "Federate has not begun Save", ex);
-        } catch (NotConnected ex) {
-            logger.log(Level.ERROR, "Not connected to RTI", ex);
-        } catch (RTIinternalError ex) {
-            logger.log(Level.ERROR, "Internal error in RTI", ex);
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (FederateNotExecutionMember | RestoreInProgress |
+                FederateHasNotBegunSave | NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in reprorting save complete to RTI", ex);
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
         ((Stage) SavedSuccessfully.getScene().getWindow()).close();
+        logEntries.add(log);
+        logger.exit();
     }
 }

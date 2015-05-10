@@ -25,6 +25,7 @@
  */
 package ca.mali.dialogs;
 
+import ca.mali.hlalistener.*;
 import static ca.mali.hlalistener.PublicVariables.*;
 import hla.rti1516e.exceptions.*;
 import java.net.*;
@@ -56,32 +57,32 @@ public class RequestFederationRestoreServiceController implements Initializable 
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        logger.entry();
         OkButton.disableProperty().bind(
                 Bindings.isEmpty(FederationRestoreLabel.textProperty()));
+        logger.exit();
     }
 
     @FXML
     private void Cancel_click(ActionEvent event) {
+        logger.entry();
         ((Stage) OkButton.getScene().getWindow()).close();
+        logger.exit();
     }
 
     @FXML
     private void Ok_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("4.24", "Request Federation Restore service");
         try {
             rtiAmb.requestFederationRestore(FederationRestoreLabel.getText());
-        } catch (FederateNotExecutionMember ex) {
-            logger.log(Level.ERROR, "Federate is not Exeuction Member", ex);
-        } catch (SaveInProgress ex) {
-            logger.log(Level.ERROR, "Save in Progress", ex);
-        } catch (RestoreInProgress ex) {
-            logger.log(Level.ERROR, "Restore in Progress", ex);
-        } catch (NotConnected ex) {
-            logger.log(Level.ERROR, "Not connected to RTI", ex);
-        } catch (RTIinternalError ex) {
-            logger.log(Level.ERROR, "Internal error in RTI", ex);
+        } catch (FederateNotExecutionMember | SaveInProgress |
+                RestoreInProgress | NotConnected | RTIinternalError ex) {
+            logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in Requesting Federation Save", ex);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
         ((Stage) OkButton.getScene().getWindow()).close();
+        logger.exit();
     }
 }

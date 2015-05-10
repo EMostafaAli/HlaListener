@@ -25,6 +25,7 @@
  */
 package ca.mali.dialogs;
 
+import ca.mali.hlalistener.*;
 import static ca.mali.hlalistener.PublicVariables.*;
 import hla.rti1516e.*;
 import hla.rti1516e.exceptions.*;
@@ -64,18 +65,26 @@ public class RegisterFederationSyncPointServiceController implements Initializab
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        logger.entry();
         OkButton.disableProperty().bind(
                 Bindings.isEmpty(SyncPointLabel.textProperty()));
+        logger.exit();
     }
 
     @FXML
     private void CancelButton_Click(ActionEvent event) {
+        logger.entry();
         ((Stage) SyncPointLabel.getScene().getWindow()).close();
+        logger.exit();
     }
 
     @FXML
     private void OkButton_Click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("4.11", "Register Federation Synchronization Point service");
         try {
+            log.getSuppliedArguments().add(new ClassValuePair("Synchronization point label", String.class, SyncPointLabel.getText()));
+            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", Byte.class, Arrays.toString(UserSuppliedTag.getText().getBytes(Charset.forName("UTF-8")))));
             if (JoinedFederateDesignator.getText().isEmpty()) {
                 rtiAmb.registerFederationSynchronizationPoint(SyncPointLabel.getText(), UserSuppliedTag.getText().getBytes(Charset.forName("UTF-8")));
             } else {
@@ -86,27 +95,25 @@ public class RegisterFederationSyncPointServiceController implements Initializab
                             .decode(ByteBuffer.allocate(4).putInt(Integer.parseInt(handle)).array(), 0);
                     fedHandleSet.add(federateHandle);
                 }
+                log.getSuppliedArguments().add(new ClassValuePair("set of joined federate designators", fedHandleSet.getClass(), fedHandleSet.toString()));
                 rtiAmb.registerFederationSynchronizationPoint(SyncPointLabel.getText(),
                         UserSuppliedTag.getText().getBytes(Charset.forName("UTF-8")),
                         fedHandleSet);
             }
-        } catch (CouldNotDecode ex) {
-            logger.log(Level.ERROR, "Could not decode Federate Handle", ex);
-        } catch (InvalidFederateHandle ex) {
-            logger.log(Level.ERROR, "Invalid Federate Handle", ex);
-        } catch (FederateNotExecutionMember ex) {
-            logger.log(Level.ERROR, "Federate is not Execution Member", ex);
-        } catch (SaveInProgress ex) {
-            logger.log(Level.ERROR, "Save in Progress", ex);
-        } catch (RestoreInProgress ex) {
-            logger.log(Level.ERROR, "Restore in Progress", ex);
-        } catch (NotConnected ex) {
-            logger.log(Level.ERROR, "Not Connected to RTI", ex);
-        } catch (RTIinternalError ex) {
-            logger.log(Level.ERROR, "Internal Error in RTI", ex);
+            log.setDescription("Federation synchronization point requested successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (CouldNotDecode | InvalidFederateHandle | FederateNotExecutionMember |
+                SaveInProgress | RestoreInProgress | NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in Registering Sync Point Label", ex);
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
         ((Stage) SyncPointLabel.getScene().getWindow()).close();
+        logEntries.add(log);
+        logger.exit();
     }
 }

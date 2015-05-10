@@ -26,7 +26,9 @@
 package ca.mali.dialogs;
 
 import ca.mali.customcontrol.*;
+import ca.mali.hlalistener.*;
 import static ca.mali.hlalistener.PublicVariables.*;
+import hla.rti1516e.*;
 import hla.rti1516e.exceptions.*;
 import java.io.*;
 import java.net.*;
@@ -64,60 +66,65 @@ public class JoinFederationExecutionServiceController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        logger.entry();
         OkButton.disableProperty().bind(
                 Bindings.isEmpty(FederationExecutionName.textProperty())
                 .or(Bindings.isEmpty(FederateType.textProperty())));
+        logger.exit();
     }
 
     @FXML
     private void Cancel_click(ActionEvent event) {
+        logger.entry();
         ((Stage) FederationExecutionName.getScene().getWindow()).close();
+        logger.exit();
     }
 
     @FXML
     private void OK_click(ActionEvent event) {
+        logger.entry();
+        FederateHandle federateHandle;
+        LogEntry log = new LogEntry("4.9", "Join Federation Execution service");
         try {
+            if (!FederateName.getText().isEmpty()) {
+                log.getSuppliedArguments().add(new ClassValuePair("Federate Name", String.class, FederateName.getText()));
+            }
+            log.getSuppliedArguments().add(new ClassValuePair("Federate Type", String.class, FederateType.getText()));
+            log.getSuppliedArguments().add(new ClassValuePair("Federation Execution Name", String.class, FederationExecutionName.getText()));
             List<URL> foms = new ArrayList<>();
+            int i=1;
             for (File file : FomModuleDesignators.getFiles()) {
                 foms.add(file.toURI().toURL());
+                log.getSuppliedArguments().add(new ClassValuePair("FOM Module Deisgnator " + i++, URL.class, file.toURI().toURL().toString()));
             }
             if (FederateName.getText().isEmpty() && FomModuleDesignators.getFileNames().isEmpty()) {
-                rtiAmb.joinFederationExecution(FederateType.getText(), FederationExecutionName.getText());
+                federateHandle=rtiAmb.joinFederationExecution(FederateType.getText(), FederationExecutionName.getText());
             } else if (FomModuleDesignators.getFileNames().isEmpty()) {
-                rtiAmb.joinFederationExecution(FederateName.getText(), FederateType.getText(), FederationExecutionName.getText());
+                federateHandle=rtiAmb.joinFederationExecution(FederateName.getText(), FederateType.getText(), FederationExecutionName.getText());
             } else if (FederateName.getText().isEmpty()) {
-                rtiAmb.joinFederationExecution(FederateType.getText(), FederationExecutionName.getText(), foms.toArray(new URL[foms.size()]));
+                federateHandle=rtiAmb.joinFederationExecution(FederateType.getText(), FederationExecutionName.getText(), foms.toArray(new URL[foms.size()]));
             } else {
-                rtiAmb.joinFederationExecution(FederateName.getText(), FederateType.getText(), FederationExecutionName.getText(), foms.toArray(new URL[foms.size()]));
+                federateHandle=rtiAmb.joinFederationExecution(FederateName.getText(), FederateType.getText(), FederationExecutionName.getText(), foms.toArray(new URL[foms.size()]));
             }
+            log.getReturnedArguments().add(new ClassValuePair("Federate Handle", federateHandle.getClass(), federateHandle.toString()));
+            log.setDescription("Federate joined federation execution successfully");
+            log.setLogType(LogEntryType.REQUEST);
             logicalTimeFactory = rtiAmb.getTimeFactory();
-        } catch (CouldNotCreateLogicalTimeFactory ex) {
-            logger.log(Level.ERROR, "Couldn't create logical time factory", ex);
-        } catch (CallNotAllowedFromWithinCallback ex) {
-            logger.log(Level.ERROR, "Call not allowed from within callback", ex);
-        } catch (CouldNotOpenFDD ex) {
-            logger.log(Level.ERROR, "Couldn't open FDD", ex);
-        } catch (ErrorReadingFDD ex) {
-            logger.log(Level.ERROR, "Error reading FDD", ex);
-        } catch (InconsistentFDD ex) {
-            logger.log(Level.ERROR, "Inconsistend FDD", ex);
-        } catch (FederateNameAlreadyInUse ex) {
-            logger.log(Level.ERROR, "Federate name is already in use", ex);
-        } catch (FederateAlreadyExecutionMember ex) {
-            logger.log(Level.ERROR, "Federate is already Execution Member", ex);
-        } catch (FederationExecutionDoesNotExist ex) {
-            logger.log(Level.ERROR, "Federation Exeuction doesn't Exist", ex);
-        } catch (SaveInProgress ex) {
-            logger.log(Level.ERROR, "Save is in Progress", ex);
-        } catch (RestoreInProgress ex) {
-            logger.log(Level.ERROR, "Restore is in Progress", ex);
-        } catch (NotConnected ex) {
-            logger.log(Level.ERROR, "Not connected to RTI", ex);
-        } catch (RTIinternalError ex) {
-            logger.log(Level.ERROR, "Internal error in RTI", ex);
+        } catch (CouldNotCreateLogicalTimeFactory | CallNotAllowedFromWithinCallback |
+                CouldNotOpenFDD | ErrorReadingFDD | InconsistentFDD |
+                FederateNameAlreadyInUse | FederateAlreadyExecutionMember |
+                FederationExecutionDoesNotExist | SaveInProgress | RestoreInProgress |
+                NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in joining Federation Execution", ex);
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
+        logEntries.add(log);
         ((Stage) FederationExecutionName.getScene().getWindow()).close();
+        logger.exit();
     }
 }

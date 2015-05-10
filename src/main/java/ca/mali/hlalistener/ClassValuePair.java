@@ -78,5 +78,4 @@ public final class ClassValuePair {
     public StringProperty classValueProperty() {
         return classValue;
     }
-
 }

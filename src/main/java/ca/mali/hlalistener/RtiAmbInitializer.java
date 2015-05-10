@@ -120,7 +120,7 @@ public class RtiAmbInitializer implements Initializable {
         } catch (Exception ex) {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error loading library");
-            alert.setHeaderText("Errror processing the provided file");
+            alert.setHeaderText("Error processing the provided file");
             alert.setContentText("Please make sure the selected file is a valid HLA1516e jar library");
             alert.showAndWait();
             logger.log(Level.FATAL, "Exception", ex);

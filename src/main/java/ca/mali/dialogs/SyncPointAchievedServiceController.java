@@ -25,6 +25,7 @@
  */
 package ca.mali.dialogs;
 
+import ca.mali.hlalistener.*;
 import static ca.mali.hlalistener.PublicVariables.*;
 import hla.rti1516e.exceptions.*;
 import java.net.*;
@@ -58,44 +59,52 @@ public class SyncPointAchievedServiceController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        logger.entry();
         OkButton.disableProperty().bind(
                 Bindings.isEmpty(SyncPointLabel.textProperty()));
+        logger.exit();
     }
 
     @FXML
     private void Cancel_click(ActionEvent event) {
+        logger.entry();
         ((Stage) OkButton.getScene().getWindow()).close();
+        logger.exit();
     }
 
     @FXML
     private void Ok_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("4.14", "Synchronization Point Achieved service");
         try {
+            log.getSuppliedArguments().add(new ClassValuePair("Synchronization point label", String.class, SyncPointLabel.getText()));
             switch (SuccessIndicator.getValue()) {
                 case "":
                     rtiAmb.synchronizationPointAchieved(SyncPointLabel.getText());
                     break;
                 case "true":
+                    log.getSuppliedArguments().add(new ClassValuePair("synchronization-success indicator", boolean.class, "true"));
                     rtiAmb.synchronizationPointAchieved(SyncPointLabel.getText(), true);
                     break;
                 case "false":
+                    log.getSuppliedArguments().add(new ClassValuePair("synchronization-success indicator", boolean.class, "false"));
                     rtiAmb.synchronizationPointAchieved(SyncPointLabel.getText(), false);
                     break;
             }
-        } catch (SynchronizationPointLabelNotAnnounced ex) {
-            logger.log(Level.ERROR, "Syncronization Point Label not Announced", ex);
-        } catch (FederateNotExecutionMember ex) {
-            logger.log(Level.ERROR, "Federate is not Execution Member", ex);
-        } catch (SaveInProgress ex) {
-            logger.log(Level.ERROR, "Save In Progress", ex);
-        } catch (RestoreInProgress ex) {
-            logger.log(Level.ERROR, "Restore In Progress", ex);
-        } catch (NotConnected ex) {
-            logger.log(Level.ERROR, "Not connected to RTI", ex);
-        } catch (RTIinternalError ex) {
-            logger.log(Level.ERROR, "Internal error in RTI", ex);
+            log.setDescription("Federation synchronization point achieved successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (SynchronizationPointLabelNotAnnounced | FederateNotExecutionMember |
+                SaveInProgress | RestoreInProgress | NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in achieving Synchronization Point", ex);
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
         ((Stage) OkButton.getScene().getWindow()).close();
+        logEntries.add(log);
+        logger.exit();
     }
 }

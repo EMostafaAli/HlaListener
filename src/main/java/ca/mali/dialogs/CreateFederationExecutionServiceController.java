@@ -26,9 +26,10 @@
 package ca.mali.dialogs;
 
 import ca.mali.customcontrol.*;
+import ca.mali.hlalistener.*;
 import static ca.mali.hlalistener.PublicVariables.*;
 import hla.rti1516e.exceptions.*;
-import java.io.File;
+import java.io.*;
 import java.net.*;
 import java.util.*;
 import javafx.beans.binding.*;
@@ -55,7 +56,7 @@ public class CreateFederationExecutionServiceController implements Initializable
     private TextField MimDesignator;
 
     @FXML
-    private ChoiceBox LogicalTimeImplementation;
+    private ChoiceBox<String> LogicalTimeImplementation;
 
     @FXML
     private FilesList FomModuleDesignators;
@@ -68,6 +69,7 @@ public class CreateFederationExecutionServiceController implements Initializable
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        logger.entry();
         OkButton.disableProperty().bind(
                 Bindings.isEmpty(FederationExecutionName.textProperty())
                 .or(Bindings.isEmpty(FomModuleDesignators.getFileNames())));
@@ -84,56 +86,58 @@ public class CreateFederationExecutionServiceController implements Initializable
                 }
             }
         });
+        logger.exit();
     }
 
     @FXML
     private void Cancel_click(ActionEvent event) {
+        logger.entry();
         ((Stage) FederationExecutionName.getScene().getWindow()).close();
+        logger.exit();
+
     }
 
     @FXML
     private void OK_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("4.5", "Create Federation Execution service");
         try {
+            log.getSuppliedArguments().add(new ClassValuePair("Federation Execution Name", String.class, FederationExecutionName.getText()));
             List<URL> foms = new ArrayList<>();
+            int i = 1;
             for (File file : FomModuleDesignators.getFiles()) {
                 foms.add(file.toURI().toURL());
+                log.getSuppliedArguments().add(new ClassValuePair("FOM Module Designator " + i++, URL.class, file.toURI().toURL().toString()));
             }
             if (MimDesignator.getText().isEmpty()) {
-                rtiAmb.createFederationExecution(
-                        FederationExecutionName.getText(),
+                log.getSuppliedArguments().add(new ClassValuePair("Logical Time Implementation", String.class, LogicalTimeImplementation.getValue()));
+                rtiAmb.createFederationExecution(FederationExecutionName.getText(),
                         foms.toArray(new URL[foms.size()]),
-                        LogicalTimeImplementation.getValue().toString());
+                        LogicalTimeImplementation.getValue());
             } else {
                 File mimFile = new File(MimDesignator.getText());
-                rtiAmb.createFederationExecution(
-                        FederationExecutionName.getText(),
+                log.getSuppliedArguments().add(new ClassValuePair("MIM Module Designator", URL.class, mimFile.toURI().toURL().toString()));
+                log.getSuppliedArguments().add(new ClassValuePair("Logical Time Implementation", String.class, LogicalTimeImplementation.getValue()));
+                rtiAmb.createFederationExecution(FederationExecutionName.getText(),
                         foms.toArray(new URL[foms.size()]),
                         mimFile.toURI().toURL(),
-                        LogicalTimeImplementation.getValue().toString());
+                        LogicalTimeImplementation.getValue());
             }
-        } catch (CouldNotCreateLogicalTimeFactory ex) {
-            logger.log(Level.ERROR, "Error in creating Logical Time", ex);
-        } catch (InconsistentFDD ex) {
-            logger.log(Level.ERROR, "Inconsistent FDD", ex);
-        } catch (ErrorReadingFDD ex) {
-            logger.log(Level.ERROR, "Error reading FDD", ex);
-        } catch (CouldNotOpenFDD ex) {
-            logger.log(Level.ERROR, "Error opening FDD", ex);
-        } catch (ErrorReadingMIM ex) {
-            logger.log(Level.ERROR, "Error reading MIM", ex);
-        } catch (CouldNotOpenMIM ex) {
-            logger.log(Level.ERROR, "Error opening MIM", ex);
-        } catch (DesignatorIsHLAstandardMIM ex) {
-            logger.log(Level.ERROR, "You can't load the standard MIM", ex);
-        } catch (FederationExecutionAlreadyExists ex) {
-            logger.log(Level.ERROR, "Federation Execution already exists", ex);
-        } catch (NotConnected ex) {
-            logger.log(Level.ERROR, "Not connected to RTI", ex);
-        } catch (RTIinternalError ex) {
-            logger.log(Level.ERROR, "Internal error in RTI", ex);
+            log.setDescription("Federation execution created successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (CouldNotCreateLogicalTimeFactory | InconsistentFDD | ErrorReadingFDD | 
+                CouldNotOpenFDD | ErrorReadingMIM | CouldNotOpenMIM | DesignatorIsHLAstandardMIM | 
+                FederationExecutionAlreadyExists | NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in creating Federation Execution", ex);
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
+        logEntries.add(log);
         ((Stage) FederationExecutionName.getScene().getWindow()).close();
+        logger.exit();
     }
 }

@@ -79,7 +79,7 @@ public class EnableTimeRegulationServiceController implements Initializable {
                     break;
                 }
                 default:
-                throw new Exception("Unknown Time Implemntation");
+                throw new Exception("Unknown Time Implementation");
             }
         } catch (TimeRegulationAlreadyEnabled ex) {
             logger.log(Level.ERROR, "Time regulation is already enabled", ex);
