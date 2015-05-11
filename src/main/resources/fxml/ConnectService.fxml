@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="134.0" prefWidth="526.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.ConnectServiceController">
+<AnchorPane id="AnchorPane" prefHeight="134.0" prefWidth="526.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.chapter4.ConnectServiceController">
     <stylesheets>
         <URL value="@/styles/Styles.css" />
     </stylesheets>

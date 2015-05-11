@@ -11,7 +11,7 @@
 <?import ca.mali.customcontrol.*?>
 
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="279.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.CreateFederationExecutionServiceController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="279.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.chapter4.CreateFederationExecutionServiceController">
     <children>
         <HBox prefHeight="36.0" prefWidth="421.0" VBox.vgrow="NEVER">
             <children>

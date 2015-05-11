@@ -544,76 +544,71 @@ public class MainWindowController implements Initializable {
     //8.4
     @FXML
     private void DisableTimeRegulation_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("8.4", "Disable Time Regulation service");
         try {
-            logger.entry();
             rtiAmb.disableTimeRegulation();
-            logger.exit();
-        } catch (FederateNotExecutionMember ex) {
-            logger.log(Level.ERROR, "Federate is not Execution Member", ex);
-        } catch (TimeRegulationIsNotEnabled ex) {
-            logger.log(Level.ERROR, "Time Regulation is not enabled", ex);
-        } catch (SaveInProgress ex) {
-            logger.log(Level.ERROR, "Save in Progress", ex);
-        } catch (RestoreInProgress ex) {
-            logger.log(Level.ERROR, "Restore in Progress", ex);
-        } catch (NotConnected ex) {
-            logger.log(Level.ERROR, "Not connected to RTI", ex);
-        } catch (RTIinternalError ex) {
-            logger.log(Level.ERROR, "Internal error in RTI", ex);
+            log.setDescription("Time Regulation disabled successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (FederateNotExecutionMember | TimeRegulationIsNotEnabled |
+                SaveInProgress | RestoreInProgress | NotConnected |
+                RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in disabling time regulation", ex);
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
+        logEntries.add(log);
+        logger.exit();
     }
 
     //8.5
     @FXML
     private void EnableTimeConstrained_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("8.5", "Enable Time Constrained service");
         try {
-            logger.entry();
             rtiAmb.enableTimeConstrained();
-            logger.exit();
-        } catch (FederateNotExecutionMember ex) {
-            logger.log(Level.ERROR, "Federate is not Execution Member", ex);
-        } catch (TimeConstrainedAlreadyEnabled ex) {
-            logger.log(Level.ERROR, "Time Constrained is already enabled", ex);
-        } catch (InTimeAdvancingState ex) {
-            logger.log(Level.ERROR, "Federate is in time advance state", ex);
-        } catch (RequestForTimeConstrainedPending ex) {
-            logger.log(Level.ERROR, "Request for time constrained is pending", ex);
-        } catch (SaveInProgress ex) {
-            logger.log(Level.ERROR, "Save in Progress", ex);
-        } catch (RestoreInProgress ex) {
-            logger.log(Level.ERROR, "Restore in Progress", ex);
-        } catch (NotConnected ex) {
-            logger.log(Level.ERROR, "Not connected to RTI", ex);
-        } catch (RTIinternalError ex) {
-            logger.log(Level.ERROR, "Internal error in RTI", ex);
+            log.setDescription("Time Constrained requested successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (FederateNotExecutionMember | TimeConstrainedAlreadyEnabled |
+                InTimeAdvancingState | RequestForTimeConstrainedPending |
+                SaveInProgress | RestoreInProgress | NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in enabling time constrained", ex);
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
+        logEntries.add(log);
+        logger.exit();
     }
 
     //8.7
     @FXML
     private void DisableTimeConstrained_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("8.7", "Disable Time Constrained service");
         try {
-            logger.entry();
             rtiAmb.disableTimeConstrained();
-            logger.exit();
-        } catch (FederateNotExecutionMember ex) {
-            logger.log(Level.ERROR, "Federate is not Execution Member", ex);
-        } catch (TimeConstrainedIsNotEnabled ex) {
-            logger.log(Level.ERROR, "Time Constrained is not enabled", ex);
-        } catch (SaveInProgress ex) {
-            logger.log(Level.ERROR, "Save in Progress", ex);
-        } catch (RestoreInProgress ex) {
-            logger.log(Level.ERROR, "Restore in Progress", ex);
-        } catch (NotConnected ex) {
-            logger.log(Level.ERROR, "Not connected to RTI", ex);
-        } catch (RTIinternalError ex) {
-            logger.log(Level.ERROR, "Internal error in RTI", ex);
+            log.setDescription("Time Constrained disabled successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (FederateNotExecutionMember | TimeConstrainedIsNotEnabled |
+                SaveInProgress | RestoreInProgress | NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in disabling time constrained", ex);
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
+        logEntries.add(log);
+        logger.exit();
     }
 }

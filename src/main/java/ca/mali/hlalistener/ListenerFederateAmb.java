@@ -157,7 +157,7 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
             logger.log(Level.INFO, "The following federates failed to sync: ");
             for (FederateHandle federateHandle : failedToSyncSet) {
                 log.getSuppliedArguments().add(new ClassValuePair("failed federate " + i++, FederateHandle.class, federateHandle.toString()));
-                logger.log(Level.INFO, "\t -{}", federateHandle.toString());
+                logger.log(Level.INFO, "\t *{}", federateHandle.toString());
             }
         }
         logEntries.add(log);
@@ -338,7 +338,12 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
     @Override
     public void timeRegulationEnabled(LogicalTime time) throws FederateInternalError {
         logger.entry();
+        LogEntry log = new LogEntry("8.3", "Time Regulation Enabled † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Current logical time", LogicalTime.class, time.toString()));
+        log.setDescription("Time Regulation enabled successfully");
+        log.setLogType(LogEntryType.CALLBACK);
         logger.log(Level.INFO, "Time regulation enabled successfully, current logical time: {}", time.toString());
+        logEntries.add(log);
         logger.exit();
     }
 
@@ -346,7 +351,12 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
     @Override
     public void timeConstrainedEnabled(LogicalTime time) throws FederateInternalError {
         logger.entry();
+        LogEntry log = new LogEntry("8.6", "Time Constrained Enabled † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Current logical time", LogicalTime.class, time.toString()));
+        log.setDescription("Time Constrained enabled successfully");
+        log.setLogType(LogEntryType.CALLBACK);
         logger.log(Level.INFO, "Time constrained enabled successfully, current logical time: {}", time.toString());
+        logEntries.add(log);
         logger.exit();
     }
 

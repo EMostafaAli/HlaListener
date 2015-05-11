@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.*?>
 <?import ca.mali.customcontrol.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="107.0" prefWidth="431.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.ResignFederationExecutionServiceController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="107.0" prefWidth="431.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.chapter4.ResignFederationExecutionServiceController">
     <children>
       <HBox layoutX="25.0" layoutY="25.0" prefHeight="36.0" prefWidth="421.0">
          <children>
