@@ -191,7 +191,7 @@ public class LogEntry {
     }
 
     public void setException(Exception value) {
-        setDescription(value.getMessage());
+        setDescription(value.getClass().getCanonicalName());
         exception.set(value);
     }
 

@@ -80,7 +80,7 @@ public class FederateSaveCompleteServiceController implements Initializable {
                 log.setDescription("Federate save complete successfully");
                 rtiAmb.federateSaveComplete();
             } else {
-                log.setDescription("Federate save not complete");
+                log.setDescription("Federate save failed");
                 rtiAmb.federateSaveNotComplete();
             }
             log.setLogType(LogEntryType.REQUEST);

@@ -485,41 +485,47 @@ public class MainWindowController implements Initializable {
     //4.30
     @FXML
     private void AbortFederationRestore_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("4.30", "Abort Federation Restore service");
         try {
-            logger.entry();
             rtiAmb.abortFederationRestore();
-            logger.exit();
-        } catch (FederateNotExecutionMember ex) {
-            logger.log(Level.ERROR, "Federate is not Execution Member", ex);
-        } catch (RestoreNotInProgress ex) {
-            logger.log(Level.ERROR, "Restore not in Progress", ex);
-        } catch (NotConnected ex) {
-            logger.log(Level.ERROR, "Not connected to RTI", ex);
-        } catch (RTIinternalError ex) {
-            logger.log(Level.ERROR, "Internal error in RTI", ex);
+            log.setDescription("Federation restore aborted");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (FederateNotExecutionMember | RestoreNotInProgress |
+                NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in aborting federation restore", ex);
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
+        logEntries.add(log);
+        logger.exit();
     }
 
     //4.31
     @FXML
     private void QueryFederationRestore_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("4.31", "Query Federation Restore Status service");
         try {
-            logger.entry();
             rtiAmb.queryFederationRestoreStatus();
-            logger.exit();
-        } catch (FederateNotExecutionMember ex) {
-            logger.log(Level.ERROR, "Federate is not Execution Member", ex);
-        } catch (SaveInProgress ex) {
-            logger.log(Level.ERROR, "Save in Progress", ex);
-        } catch (NotConnected ex) {
-            logger.log(Level.ERROR, "Not connected to RTI", ex);
-        } catch (RTIinternalError ex) {
-            logger.log(Level.ERROR, "Internal error in RTI", ex);
+            log.setDescription("Federation restore status queried successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (FederateNotExecutionMember | SaveInProgress |
+                NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in querying federation restore status", ex);
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
+        logEntries.add(log);
+        logger.exit();
     }
 // </editor-fold>
 

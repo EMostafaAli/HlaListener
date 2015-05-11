@@ -89,9 +89,9 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         log.setDescription("Federation execution list retrieved successfully");
         log.setLogType(LogEntryType.CALLBACK);
         for (FederationExecutionInformation theFederationExecution : theFederationExecutionInformationSet) {
-            log.getSuppliedArguments().add(new ClassValuePair("Federation Name <Time Implementation>", 
+            log.getSuppliedArguments().add(new ClassValuePair("Federation Name <Time Implementation>",
                     FederationExecutionInformation.class,
-                    String.format("%1$s <%2$s>",theFederationExecution.federationExecutionName, theFederationExecution.logicalTimeImplementationName)));
+                    String.format("%1$s <%2$s>", theFederationExecution.federationExecutionName, theFederationExecution.logicalTimeImplementationName)));
             logger.log(Level.INFO, "Federation Execution Name: {}, Time Implementation: {}",
                     theFederationExecution.federationExecutionName, theFederationExecution.logicalTimeImplementationName);
         }
@@ -107,8 +107,8 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         log.setDescription("Confirm Synchronization Point Registration Succeeded");
         log.setLogType(LogEntryType.CALLBACK);
         log.getSuppliedArguments().add(new ClassValuePair("Synchronization point label", String.class, synchronizationPointLabel));
-        logger.log(Level.INFO, "Sync Point: {} has been successfully registered", synchronizationPointLabel);
         logEntries.add(log);
+        logger.log(Level.INFO, "Sync Point: {} has been successfully registered", synchronizationPointLabel);
         logger.exit();
     }
 
@@ -121,8 +121,8 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         log.setLogType(LogEntryType.CALLBACK);
         log.getSuppliedArguments().add(new ClassValuePair("Synchronization point label", String.class, synchronizationPointLabel));
         log.getSuppliedArguments().add(new ClassValuePair("Synchronization point failure reason", reason.getClass(), reason.toString()));
-        logger.log(Level.INFO, "Sync Point: {} registration failed because: {}", synchronizationPointLabel, reason);
         logEntries.add(log);
+        logger.log(Level.INFO, "Sync Point: {} registration failed because: {}", synchronizationPointLabel, reason);
         logger.exit();
     }
 
@@ -138,8 +138,8 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
             log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte.class, Arrays.toString(userSuppliedTag)));
             log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", String.class, new String(userSuppliedTag)));
         }
-        logger.log(Level.INFO, "Sync Point: {} has been announced with the following Tag: {}", synchronizationPointLabel, new String(userSuppliedTag));
         logEntries.add(log);
+        logger.log(Level.INFO, "Sync Point: {} has been announced with the following Tag: {}", synchronizationPointLabel, new String(userSuppliedTag));
         logger.exit();
     }
 
@@ -172,8 +172,8 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         log.setDescription("Federate save initiated");
         log.setLogType(LogEntryType.CALLBACK);
         log.getSuppliedArguments().add(new ClassValuePair("Federation save label", String.class, label));
-        logger.log(Level.INFO, "Federate save initiated with label: '{}'", label);
         logEntries.add(log);
+        logger.log(Level.INFO, "Federate save initiated with label: '{}'", label);
         logger.exit();
     }
 
@@ -186,8 +186,8 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         log.setLogType(LogEntryType.CALLBACK);
         log.getSuppliedArguments().add(new ClassValuePair("Federation save label", String.class, label));
         log.getSuppliedArguments().add(new ClassValuePair("Timestamp", LogicalTime.class, time.toString()));
-        logger.log(Level.INFO, "Federate save initiated with label: '{} at: '{}'", label, time);
         logEntries.add(log);
+        logger.log(Level.INFO, "Federate save initiated with label: '{} at: '{}'", label, time);
         logger.exit();
     }
 
@@ -198,8 +198,8 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         LogEntry log = new LogEntry("4.20", "Federation Saved † service");
         log.setDescription("Federation saved successfully");
         log.setLogType(LogEntryType.CALLBACK);
-        logger.log(Level.INFO, "Federation saved successfully");
         logEntries.add(log);
+        logger.log(Level.INFO, "Federation saved successfully");
         logger.exit();
     }
 
@@ -211,8 +211,8 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         log.setDescription("Federation save failed");
         log.getSuppliedArguments().add(new ClassValuePair("Failure reason", SaveFailureReason.class, reason.toString()));
         log.setLogType(LogEntryType.CALLBACK);
-        logger.log(Level.INFO, "Federation save failed because: {}", reason);
         logEntries.add(log);
+        logger.log(Level.INFO, "Federation save failed because: {}", reason);
         logger.exit();
     }
 
@@ -225,7 +225,8 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         log.setLogType(LogEntryType.CALLBACK);
         logger.log(Level.INFO, "Save status for each federate: ");
         for (FederateHandleSaveStatusPair statusPair : response) {
-            log.getSuppliedArguments().add(new ClassValuePair("Federate <save status>", FederateHandleSaveStatusPair.class, String.format("%1$s <%2$s>", statusPair.handle, statusPair.status)));
+            log.getSuppliedArguments().add(new ClassValuePair("Federate <save status>",
+                    FederateHandleSaveStatusPair.class, String.format("%1$s <%2$s>", statusPair.handle, statusPair.status)));
 //            log.getSuppliedArguments().add(new ClassValuePair("Federate <save status>", FederateHandleSaveStatusPair.class, MessageFormat.format("{0} <{1}>", statusPair.handle, statusPair.status)));
             logger.log(Level.INFO, "Federate '{}' status is '{}'", statusPair.handle, statusPair.status);
         }
@@ -237,6 +238,11 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
     @Override
     public void requestFederationRestoreSucceeded(String label) throws FederateInternalError {
         logger.entry();
+        LogEntry log = new LogEntry("4.25", "Confirm Federation Restoration Request † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Federation save label", String.class, label));
+        log.setDescription("Federation restoration requested successfully");
+        log.setLogType(LogEntryType.CALLBACK);
+        logEntries.add(log);
         logger.log(Level.INFO, "Restore request for the label: '{}' succeeded", label);
         logger.exit();
     }
@@ -245,6 +251,11 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
     @Override
     public void requestFederationRestoreFailed(String label) throws FederateInternalError {
         logger.entry();
+        LogEntry log = new LogEntry("4.25", "Confirm Federation Restoration Request † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Federation save label", String.class, label));
+        log.setDescription("Federation restoration request failed");
+        log.setLogType(LogEntryType.CALLBACK);
+        logEntries.add(log);
         logger.log(Level.INFO, "Restore request for the label: '{}' failed", label);
         logger.exit();
     }
@@ -253,6 +264,10 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
     @Override
     public void federationRestoreBegun() throws FederateInternalError {
         logger.entry();
+        LogEntry log = new LogEntry("4.26", "Federation Restore Begun † service");
+        log.setDescription("Federation restoration can restart now");
+        log.setLogType(LogEntryType.CALLBACK);
+        logEntries.add(log);
         logger.log(Level.INFO, "Federation restore begun");
         logger.exit();
     }
@@ -261,6 +276,13 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
     @Override
     public void initiateFederateRestore(String label, String federateName, FederateHandle federateHandle) throws FederateInternalError {
         logger.entry();
+        LogEntry log = new LogEntry("4.27", "Initiate Federate Restore † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Federation save label", String.class, label));
+        log.getSuppliedArguments().add(new ClassValuePair("Federate name", String.class, federateName));
+        log.getSuppliedArguments().add(new ClassValuePair("Federate Handle", FederateHandle.class, federateHandle.toString()));
+        log.setDescription("Federation restoration initiated");
+        log.setLogType(LogEntryType.CALLBACK);
+        logEntries.add(log);
         logger.log(Level.INFO, "Federation restore initiated for the label: '{}', "
                 + "Federate Name: '{}', and Federate handle: '{}'", label, federateName, federateHandle);
         logger.exit();
@@ -270,6 +292,10 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
     @Override
     public void federationRestored() throws FederateInternalError {
         logger.entry();
+        LogEntry log = new LogEntry("4.29", "Federation Restored † service");
+        log.setDescription("Federation restored successfully");
+        log.setLogType(LogEntryType.CALLBACK);
+        logEntries.add(log);
         logger.log(Level.INFO, "Federation restored successfully");
         logger.exit();
     }
@@ -278,6 +304,11 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
     @Override
     public void federationNotRestored(RestoreFailureReason reason) throws FederateInternalError {
         logger.entry();
+        LogEntry log = new LogEntry("4.29", "Federation Restored † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Failure reason", RestoreFailureReason.class, reason.toString()));
+        log.setDescription("Federation restoration failed");
+        log.setLogType(LogEntryType.CALLBACK);
+        logEntries.add(log);
         logger.log(Level.INFO, "Federation restore failed because: {}", reason);
         logger.exit();
     }
@@ -286,11 +317,18 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
     @Override
     public void federationRestoreStatusResponse(FederateRestoreStatus[] response) throws FederateInternalError {
         logger.entry();
+        LogEntry log = new LogEntry("4.32", "Federation Restore Status Response † service");
+        log.setDescription("Restore status for each federate");
+        log.setLogType(LogEntryType.CALLBACK);
         logger.log(Level.INFO, "Save restore for each federate: ");
         for (FederateRestoreStatus RestorePair : response) {
+            log.getSuppliedArguments().add(new ClassValuePair("(Pre-restore handle, Post-restore handle) <restore status>",
+                    FederateRestoreStatus.class, String.format("(%1$s,%2$s) <%3$s>",
+                            RestorePair.preRestoreHandle, RestorePair.preRestoreHandle, RestorePair.status)));
             logger.log(Level.INFO, "Pre-restore handle '{}' (post-restore handle '{}') status is '{}'",
                     RestorePair.preRestoreHandle, RestorePair.preRestoreHandle, RestorePair.status);
         }
+        logEntries.add(log);
         logger.exit();
     }
 // </editor-fold>

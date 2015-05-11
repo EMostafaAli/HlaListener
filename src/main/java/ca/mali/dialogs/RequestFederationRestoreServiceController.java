@@ -69,20 +69,28 @@ public class RequestFederationRestoreServiceController implements Initializable 
         ((Stage) OkButton.getScene().getWindow()).close();
         logger.exit();
     }
-
+    
     @FXML
     private void Ok_click(ActionEvent event) {
         logger.entry();
         LogEntry log = new LogEntry("4.24", "Request Federation Restore service");
         try {
+            log.getSuppliedArguments().add(new ClassValuePair("Federation restore label", String.class, FederationRestoreLabel.getText()));
             rtiAmb.requestFederationRestore(FederationRestoreLabel.getText());
+            log.setDescription("Federation restore requested successfully");
+            log.setLogType(LogEntryType.REQUEST);
         } catch (FederateNotExecutionMember | SaveInProgress |
                 RestoreInProgress | NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
             logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
             logger.log(Level.FATAL, ex.getMessage(), ex);
         }
         ((Stage) OkButton.getScene().getWindow()).close();
+        logEntries.add(log);
         logger.exit();
     }
 }

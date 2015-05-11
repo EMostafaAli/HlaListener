@@ -25,6 +25,7 @@
  */
 package ca.mali.dialogs;
 
+import ca.mali.hlalistener.*;
 import static ca.mali.hlalistener.PublicVariables.*;
 
 import hla.rti1516e.exceptions.*;
@@ -55,37 +56,45 @@ public class FederateRestoreCompleteServiceController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        logger.entry();
         RestoredSuccessfully.getItems().add(Boolean.TRUE);
         RestoredSuccessfully.getItems().add(Boolean.FALSE);
         RestoredSuccessfully.setValue(Boolean.TRUE);
+        logger.exit();
     }
 
     @FXML
     private void Cancel_click(ActionEvent event) {
+        logger.entry();
         ((Stage) RestoredSuccessfully.getScene().getWindow()).close();
+        logger.exit();
     }
 
     @FXML
     private void Ok_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("4.28", "Federate Restore Complete service");
         try {
             if (RestoredSuccessfully.getValue()) {
+                log.setDescription("Federation restore completed successfully");
                 rtiAmb.federateRestoreComplete();
             } else {
+                log.setDescription("Federation restore failed");
                 rtiAmb.federateRestoreNotComplete();
             }
-        } catch (FederateNotExecutionMember ex) {
-            logger.log(Level.ERROR, "Federate is not Execution Member", ex);
-        } catch (SaveInProgress ex) {
-            logger.log(Level.ERROR, "Save in Progress", ex);
-        } catch (RestoreNotRequested ex) {
-            logger.log(Level.ERROR, "Restore has not requested", ex);
-        } catch (NotConnected ex) {
-            logger.log(Level.ERROR, "Not connected to RTI", ex);
-        } catch (RTIinternalError ex) {
-            logger.log(Level.ERROR, "Internal error in RTI", ex);
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (FederateNotExecutionMember | SaveInProgress |
+                RestoreNotRequested | NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error in reporting restore complete to RTI", ex);
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
         ((Stage) RestoredSuccessfully.getScene().getWindow()).close();
+        logEntries.add(log);
+        logger.exit();
     }
 }

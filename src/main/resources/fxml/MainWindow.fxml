@@ -283,7 +283,7 @@
                                                 <ImageView fx:id="iconViewer" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" />
                                                 <VBox>
                                                     <children>
-                                                        <HBox>
+                                                        <HBox spacing="7.0">
                                                             <children>
                                                                 <Label fx:id="sectionLbl">
                                                                     <font>
