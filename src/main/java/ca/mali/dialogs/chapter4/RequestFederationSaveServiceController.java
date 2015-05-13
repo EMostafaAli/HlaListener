@@ -82,6 +82,9 @@ public class RequestFederationSaveServiceController implements Initializable {
             if (TimeStamp.getText().isEmpty()) {
                 rtiAmb.requestFederationSave(FederationSaveLabel.getText());
             } else {
+                if (logicalTimeFactory == null) { //means not connected or federate is not execution member
+                    rtiAmb.getTimeFactory(); //this line will raise the appropriate exception
+                }
                 switch (logicalTimeFactory.getName()) {
                     case "HLAfloat64Time": {
                         HLAfloat64Time logicalTime

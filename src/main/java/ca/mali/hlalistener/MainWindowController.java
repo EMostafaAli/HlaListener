@@ -611,4 +611,64 @@ public class MainWindowController implements Initializable {
         logEntries.add(log);
         logger.exit();
     }
+    
+    //8.8
+    @FXML
+    private void TimeAdvanceRequest_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("8.8 Time Advance Request", "/fxml/TimeAdvanceRequestService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Time Advance Request service dialog box", ex);
+        }
+    }
+    
+    //8.9
+    @FXML
+    private void TimeAdvanceRequestAvailable_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("8.9 Time Advance Request Available", "/fxml/TimeAdvanceRequestAvailableService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Time Advance Request Available service dialog box", ex);
+        }
+    }
+    
+    //8.10
+    @FXML
+    private void NextMessageRequest_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("8.10 Next Message Request", "/fxml/NextMessageRequestService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Next Message Request service dialog box", ex);
+        }
+    }
+    
+    //8.11
+    @FXML
+    private void NextMessageRequestAvailable_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("8.11 Next Message Request Available", "/fxml/NextMessageRequestAvailableService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Next Message Request Available service dialog box", ex);
+        }
+    }
+    
+    //8.12
+    @FXML
+    private void FlushQueueRequest_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("8.12 Flush Queue Message", "/fxml/FlushQueueRequestService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Flush Queue Request service dialog box", ex);
+        }
+    }
 }

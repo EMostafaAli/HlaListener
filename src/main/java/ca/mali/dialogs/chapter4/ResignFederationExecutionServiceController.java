@@ -78,6 +78,7 @@ public class ResignFederationExecutionServiceController implements Initializable
             log.setDescription("Federate resigned federation execution successfully");
             log.setLogType(LogEntryType.REQUEST);
             logicalTimeFactory = null;
+            currentLogicalTime = null;
         } catch (CallNotAllowedFromWithinCallback | FederateNotExecutionMember |
                 InvalidResignAction | OwnershipAcquisitionPending | FederateOwnsAttributes |
                 NotConnected | RTIinternalError ex) {

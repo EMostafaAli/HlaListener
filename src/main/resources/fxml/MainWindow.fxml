@@ -106,11 +106,11 @@
                         <MenuItem mnemonicParsing="false" onAction="#EnableTimeConstrained_click" text="8.4 Enable Time Constrained" />
                         <MenuItem mnemonicParsing="false" onAction="#DisableTimeConstrained_click" text="8.5 Disable Time Constrained" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="8.8 Time Advance Request" />
-                        <MenuItem mnemonicParsing="false" text="8.9 Time Advance Request Available" />
-                        <MenuItem mnemonicParsing="false" text="8.10 Next Message Request" />
-                        <MenuItem mnemonicParsing="false" text="8.11 Next Message Request Available" />
-                        <MenuItem mnemonicParsing="false" text="8.12 Flush Queue Message" />
+                        <MenuItem mnemonicParsing="false" onAction="#TimeAdvanceRequest_click" text="8.8 Time Advance Request..." />
+                        <MenuItem mnemonicParsing="false" onAction="#TimeAdvanceRequestAvailable_click" text="8.9 Time Advance Request Available..." />
+                        <MenuItem mnemonicParsing="false" onAction="#NextMessageRequest_click" text="8.10 Next Message Request..." />
+                        <MenuItem mnemonicParsing="false" onAction="#NextMessageRequestAvailable_click" text="8.11 Next Message Request Available..." />
+                        <MenuItem mnemonicParsing="false" onAction="#FlushQueueRequest_click" text="8.12 Flush Queue Request..." />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="8.14 Enable Asynchronous Delivery" />
                         <MenuItem mnemonicParsing="false" text="8.15 Disable Asynchronous Delivery" />

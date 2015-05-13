@@ -110,6 +110,7 @@ public class JoinFederationExecutionServiceController implements Initializable {
             log.setDescription("Federate joined federation execution successfully");
             log.setLogType(LogEntryType.REQUEST);
             logicalTimeFactory = rtiAmb.getTimeFactory();
+            currentLogicalTime = logicalTimeFactory.makeInitial();
         } catch (CouldNotCreateLogicalTimeFactory | CallNotAllowedFromWithinCallback |
                 CouldNotOpenFDD | ErrorReadingFDD | InconsistentFDD |
                 FederateNameAlreadyInUse | FederateAlreadyExecutionMember |
