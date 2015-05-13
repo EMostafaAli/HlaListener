@@ -40,15 +40,14 @@ import org.apache.logging.log4j.*;
 /**
  * FXML Controller class
  *
- * @author Mostafa Ali <engabdomostafa@gmail.com>
+ * @author Mostafa
  */
-public class EnableTimeRegulationServiceController implements Initializable {
-
-    //Logger
+public class NextMessageRequestAvailableServiceController implements Initializable {
+   //Logger
     private static final Logger logger = LogManager.getLogger();
 
     @FXML
-    private Spinner<Double> Lookahead;
+    private Spinner<Double> LogicalTimeSpin;
 
     /**
      * Initializes the controller class.
@@ -56,46 +55,74 @@ public class EnableTimeRegulationServiceController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         logger.entry();
-        SpinnerValueFactory sVF = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, Double.MAX_VALUE, 0, .1);
-        Lookahead.setValueFactory(sVF);
+        double currentValue = 0;
+        double step = .1;
+        try {
+            if (logicalTimeFactory != null) {
+                switch (logicalTimeFactory.getName()) {
+                    case "HLAfloat64Time":
+                        currentValue = ((HLAfloat64Time) currentLogicalTime).getValue();
+                        break;
+                    case "HLAinteger64Time":
+                        step = 1;
+                        currentValue = ((HLAinteger64Time) currentLogicalTime).getValue();
+                        break;
+                }
+            }
+        } catch (Exception ex) {
+            logger.log(Level.WARN, ex.getMessage(), ex);
+        }
+
+        SpinnerValueFactory sVF = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, Double.MAX_VALUE, 0, step);
+        sVF.setValue(currentValue);
+        LogicalTimeSpin.setValueFactory(sVF);
         logger.exit();
     }
 
     @FXML
     private void Cancel_click(ActionEvent event) {
         logger.entry();
-        ((Stage) Lookahead.getScene().getWindow()).close();
+        ((Stage) LogicalTimeSpin.getScene().getWindow()).close();
         logger.exit();
     }
 
     @FXML
     private void Ok_click(ActionEvent event) {
         logger.entry();
-        LogEntry log = new LogEntry("8.2", "Enable Time Regulation service");
+        LogEntry log = new LogEntry("8.11", "Next Message Request Available service");
         try {
             if (logicalTimeFactory == null) { //means not connected or federate is not execution member
                 rtiAmb.getTimeFactory(); //this line will raise the appropriate exception
             }
             switch (logicalTimeFactory.getName()) {
-                case "HLAfloat64Time": 
-                    LookaheadValue = ((HLAfloat64TimeFactory) logicalTimeFactory).makeInterval(Lookahead.getValue());
-                    log.getSuppliedArguments().add(new ClassValuePair("lookahead", HLAfloat64Interval.class, Lookahead.getValue().toString()));
+                case "HLAfloat64Time": {
+                    HLAfloat64Time logicalTime = ((HLAfloat64TimeFactory) logicalTimeFactory).makeTime(LogicalTimeSpin.getValue());
+                    log.getSuppliedArguments().add(new ClassValuePair("Logical Time", HLAfloat64Time.class, logicalTime.toString()));
+                    log.setSimulationTime(LogicalTimeSpin.getValue().toString());
+                    rtiAmb.nextMessageRequestAvailable(logicalTime);
                     break;
-                case "HLAinteger64Time": 
-                    LookaheadValue
-                            = ((HLAinteger64TimeFactory) logicalTimeFactory).makeInterval(Lookahead.getValue().longValue());
-                    log.getSuppliedArguments().add(new ClassValuePair("lookahead", HLAfloat64Interval.class, Lookahead.getValue().toString()));
+                }
+                case "HLAinteger64Time": {
+                    if (!(LogicalTimeSpin.getValue() % 1 == 0)) {
+                        throw new InvalidLogicalTime("The federate time is HLAinteger64Time, logical time cannot be double");
+                    }
+                    HLAinteger64Time logicalTime
+                            = ((HLAinteger64TimeFactory) logicalTimeFactory).makeTime(LogicalTimeSpin.getValue().longValue());
+                    log.getSuppliedArguments().add(new ClassValuePair("Logical Time", HLAinteger64Time.class, logicalTime.toString()));
+                    log.setSimulationTime(String.valueOf(LogicalTimeSpin.getValue().longValue()));
+                    rtiAmb.nextMessageRequestAvailable(logicalTime);
                     break;
+                }
                 default:
                     throw new Exception("Unknown Time Implementation");
             }
-            rtiAmb.enableTimeRegulation(LookaheadValue);
-            log.setDescription("Time Regulation requested successfully");
+            log.setDescription("Next Message Available requested successfully");
             log.setLogType(LogEntryType.REQUEST);
-        } catch (TimeRegulationAlreadyEnabled | InvalidLookahead |
+        } catch (LogicalTimeAlreadyPassed | InvalidLogicalTime |
                 InTimeAdvancingState | RequestForTimeRegulationPending |
-                FederateNotExecutionMember | SaveInProgress | RestoreInProgress |
-                NotConnected | RTIinternalError ex) {
+                RequestForTimeConstrainedPending | SaveInProgress |
+                RestoreInProgress | FederateNotExecutionMember | NotConnected |
+                RTIinternalError ex) {
             log.setException(ex);
             log.setLogType(LogEntryType.ERROR);
             logger.log(Level.ERROR, ex.getMessage(), ex);
@@ -104,7 +131,7 @@ public class EnableTimeRegulationServiceController implements Initializable {
             log.setLogType(LogEntryType.FATAL);
             logger.log(Level.FATAL, ex.getMessage(), ex);
         }
-        ((Stage) Lookahead.getScene().getWindow()).close();
+        ((Stage) LogicalTimeSpin.getScene().getWindow()).close();
         logEntries.add(log);
         logger.exit();
     }

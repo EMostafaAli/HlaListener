@@ -31,6 +31,7 @@ import static ca.mali.hlalistener.PublicVariables.*;
 import hla.rti1516e.*;
 import hla.rti1516e.encoding.*;
 import hla.rti1516e.exceptions.*;
+import hla.rti1516e.time.*;
 import java.util.*;
 import org.apache.logging.log4j.*;
 
@@ -357,6 +358,31 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         log.setLogType(LogEntryType.CALLBACK);
         logger.log(Level.INFO, "Time constrained enabled successfully, current logical time: {}", time.toString());
         logEntries.add(log);
+        logger.exit();
+    }
+
+    //8.13
+    @Override
+    public void timeAdvanceGrant(LogicalTime theTime) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("8.13", "Time Advance Grant † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Current logical time", LogicalTime.class, theTime.toString()));
+        log.setDescription("Time Advance Granted");
+//        log.setSimulationTime(theTime.);
+        switch (logicalTimeFactory.getName()) {
+            case "HLAfloat64Time": {
+                log.setSimulationTime(String.valueOf(((HLAfloat64Time) theTime).getValue()));
+                break;
+            }
+            case "HLAinteger64Time": {
+                log.setSimulationTime(String.valueOf(((HLAinteger64Time) theTime).getValue()));
+                break;
+            }
+        }
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Time Advance Granted, current logical time: {}", theTime.toString());
+        logEntries.add(log);
+        currentLogicalTime = theTime;
         logger.exit();
     }
 
