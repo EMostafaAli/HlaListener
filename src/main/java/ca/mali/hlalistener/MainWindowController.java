@@ -26,6 +26,9 @@ package ca.mali.hlalistener;
  * POSSIBILITY OF SUCH DAMAGE.
  */
 import static ca.mali.hlalistener.PublicVariables.*;
+import hla.rti1516e.LogicalTime;
+import hla.rti1516e.LogicalTimeInterval;
+import hla.rti1516e.TimeQueryReturn;
 
 import hla.rti1516e.exceptions.*;
 import java.io.*;
@@ -600,6 +603,160 @@ public class MainWindowController implements Initializable {
             log.setLogType(LogEntryType.REQUEST);
         } catch (FederateNotExecutionMember | TimeConstrainedIsNotEnabled |
                 SaveInProgress | RestoreInProgress | NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
+        } catch (Exception ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
+        }
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //8.14
+    @FXML
+    private void EnableAsynchronousDelivery_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("8.14", "Enable Asynchronous Delivery service");
+        try {
+            rtiAmb.enableAsynchronousDelivery();
+            log.setDescription("Asynchronous Delivery enabled successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (AsynchronousDeliveryAlreadyEnabled | SaveInProgress |
+                RestoreInProgress | FederateNotExecutionMember | NotConnected |
+                RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
+        } catch (Exception ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
+        }
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //8.15
+    @FXML
+    private void DisableAsynchronousDelivery_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("8.15", "Disable Asynchronous Delivery service");
+        try {
+            rtiAmb.disableAsynchronousDelivery();
+            log.setDescription("Asynchronous Delivery disabled successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (AsynchronousDeliveryAlreadyDisabled | SaveInProgress |
+                RestoreInProgress | FederateNotExecutionMember | NotConnected |
+                RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
+        } catch (Exception ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
+        }
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //8.16
+    @FXML
+    private void QueryGALT_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("8.16", "Query GALT service");
+        try {
+            TimeQueryReturn tQR = rtiAmb.queryGALT();
+            if (tQR.timeIsValid) {
+                log.getReturnedArguments().add((new ClassValuePair("Time is valid", boolean.class, "true")));
+                log.getReturnedArguments().add((new ClassValuePair("Logical Time", LogicalTime.class, tQR.time.toString())));
+            } else {
+                log.getReturnedArguments().add((new ClassValuePair("Time is valid", boolean.class, "false")));
+            }
+            log.setDescription("Greatest Available Logical Time (GALT) queried successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (SaveInProgress | RestoreInProgress |
+                FederateNotExecutionMember | NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
+        } catch (Exception ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
+        }
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //8.17
+    @FXML
+    private void QueryLogicalTime_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("8.17", "Query Logical Time service");
+        try {
+            LogicalTime logicalTime = rtiAmb.queryLogicalTime();
+            log.getReturnedArguments().add((new ClassValuePair("Logical Time", LogicalTime.class, logicalTime.toString())));
+            log.setDescription("Logical Time queried successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (SaveInProgress | RestoreInProgress |
+                FederateNotExecutionMember | NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
+        } catch (Exception ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
+        }
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //8.18
+    @FXML
+    private void QueryLITS_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("8.18", "Query LITS service");
+        try {
+            TimeQueryReturn tQR = rtiAmb.queryLITS();
+            if (tQR.timeIsValid) {
+                log.getReturnedArguments().add((new ClassValuePair("Time is valid", boolean.class, "true")));
+                log.getReturnedArguments().add((new ClassValuePair("Logical Time", LogicalTime.class, tQR.time.toString())));
+            } else {
+                log.getReturnedArguments().add((new ClassValuePair("Time is valid", boolean.class, "false")));
+            }
+            log.setDescription("Least Incoming Timestamp (LITS) queried successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (SaveInProgress | RestoreInProgress |
+                FederateNotExecutionMember | NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
+        } catch (Exception ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
+        }
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //8.20
+    @FXML
+    private void QueryLookahead_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("8.20", "Query Lookahead service");
+        try {
+            LogicalTimeInterval logicalTimeInterval = rtiAmb.queryLookahead();
+            log.getReturnedArguments().add((new ClassValuePair("Lookahead", LogicalTimeInterval.class, logicalTimeInterval.toString())));
+            log.setDescription("Lookahead queried successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (TimeRegulationIsNotEnabled | SaveInProgress | RestoreInProgress |
+                FederateNotExecutionMember | NotConnected | RTIinternalError ex) {
             log.setException(ex);
             log.setLogType(LogEntryType.ERROR);
             logger.log(Level.ERROR, ex.getMessage(), ex);

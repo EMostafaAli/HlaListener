@@ -112,15 +112,15 @@
                         <MenuItem mnemonicParsing="false" text="8.11 Next Message Request Available" />
                         <MenuItem mnemonicParsing="false" text="8.12 Flush Queue Message" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="8.14 Enable Asynchronous Delivery" />
-                        <MenuItem mnemonicParsing="false" text="8.15 Disable Asynchronous Delivery" />
+                        <MenuItem mnemonicParsing="false" onAction="#EnableAsynchronousDelivery_click" text="8.14 Enable Asynchronous Delivery" />
+                        <MenuItem mnemonicParsing="false" onAction="#DisableAsynchronousDelivery_click" text="8.15 Disable Asynchronous Delivery" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="8.16 Query GALT" />
-                        <MenuItem mnemonicParsing="false" text="8.17 Query Logical Time" />
-                        <MenuItem mnemonicParsing="false" text="8.17 Query LITS" />
+                        <MenuItem mnemonicParsing="false" onAction="#QueryGALT_click" text="8.16 Query GALT" />
+                        <MenuItem mnemonicParsing="false" onAction="#QueryLogicalTime_click" text="8.17 Query Logical Time" />
+                        <MenuItem mnemonicParsing="false" onAction="#QueryLITS_click" text="8.17 Query LITS" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="8.19 Modify Lookahead" />
-                        <MenuItem mnemonicParsing="false" text="8.20 Query Lookahead" />
+                        <MenuItem mnemonicParsing="false" onAction="#QueryLookahead_click" text="8.20 Query Lookahead" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="8.21 Retract" />
                         <SeparatorMenuItem mnemonicParsing="false" />
