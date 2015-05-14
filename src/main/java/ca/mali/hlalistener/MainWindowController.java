@@ -26,10 +26,7 @@ package ca.mali.hlalistener;
  * POSSIBILITY OF SUCH DAMAGE.
  */
 import static ca.mali.hlalistener.PublicVariables.*;
-import hla.rti1516e.LogicalTime;
-import hla.rti1516e.LogicalTimeInterval;
-import hla.rti1516e.TimeQueryReturn;
-
+import hla.rti1516e.*;
 import hla.rti1516e.exceptions.*;
 import java.io.*;
 import java.net.*;
@@ -245,7 +242,7 @@ public class MainWindowController implements Initializable {
     private void Connect_click(ActionEvent event) {
         try {
             logger.entry();
-            DisplayDialog("4.2 Connect service", "/fxml/ConnectService.fxml");
+            DisplayDialog("4.2 Connect service", "/fxml/chapter4/ConnectService.fxml");
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Connect service dialog box", ex);
@@ -279,7 +276,7 @@ public class MainWindowController implements Initializable {
     private void CreateFederation_click(ActionEvent event) {
         try {
             logger.entry();
-            DisplayDialog("4.5 Create Federation Execution service", "/fxml/CreateFederationExecutionService.fxml");
+            DisplayDialog("4.5 Create Federation Execution service", "/fxml/chapter4/CreateFederationExecutionService.fxml");
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Create Federation service dialog box", ex);
@@ -291,7 +288,7 @@ public class MainWindowController implements Initializable {
     private void DestroyFederation_click(ActionEvent event) {
         try {
             logger.entry();
-            DisplayDialog("4.6 Destroy Federation Execution service", "/fxml/DestroyFederationExecutionService.fxml");
+            DisplayDialog("4.6 Destroy Federation Execution service", "/fxml/chapter4/DestroyFederationExecutionService.fxml");
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Destroy Federation service dialog box", ex);
@@ -325,7 +322,7 @@ public class MainWindowController implements Initializable {
     private void JoinFederation_click(ActionEvent event) {
         try {
             logger.entry();
-            DisplayDialog("4.9 Join Federation Execution service", "/fxml/JoinFederationExecutionService.fxml");
+            DisplayDialog("4.9 Join Federation Execution service", "/fxml/chapter4/JoinFederationExecutionService.fxml");
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Join Federation service dialog box", ex);
@@ -337,7 +334,7 @@ public class MainWindowController implements Initializable {
     private void ResignFederation_click(ActionEvent event) {
         try {
             logger.entry();
-            DisplayDialog("4.10 Resign Federation Execution service", "/fxml/ResignFederationExecutionService.fxml");
+            DisplayDialog("4.10 Resign Federation Execution service", "/fxml/chapter4/ResignFederationExecutionService.fxml");
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Resign Federation service dialog box", ex);
@@ -349,7 +346,7 @@ public class MainWindowController implements Initializable {
     private void RegisterSyncPoint_click(ActionEvent event) {
         try {
             logger.entry();
-            DisplayDialog("4.11 Register Federation Synchronization Point service", "/fxml/RegisterFederationSyncPointService.fxml");
+            DisplayDialog("4.11 Register Federation Synchronization Point service", "/fxml/chapter4/RegisterFederationSyncPointService.fxml");
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Register Sync Point service dialog box", ex);
@@ -361,7 +358,7 @@ public class MainWindowController implements Initializable {
     private void SyncPointAchieved_click(ActionEvent event) {
         try {
             logger.entry();
-            DisplayDialog("4.14 Synchronization Point Achieved service", "/fxml/SyncPointAchievedService.fxml");
+            DisplayDialog("4.14 Synchronization Point Achieved service", "/fxml/chapter4/SyncPointAchievedService.fxml");
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Sync Point Achieved dialog box", ex);
@@ -373,7 +370,7 @@ public class MainWindowController implements Initializable {
     private void RequestFederationSave_click(ActionEvent event) {
         try {
             logger.entry();
-            DisplayDialog("4.16 Request Federation Save service", "/fxml/RequestFederationSaveService.fxml");
+            DisplayDialog("4.16 Request Federation Save service", "/fxml/chapter4/RequestFederationSaveService.fxml");
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Request Save service dialog box", ex);
@@ -408,7 +405,7 @@ public class MainWindowController implements Initializable {
     private void FederateSaveComplete_click(ActionEvent event) {
         try {
             logger.entry();
-            DisplayDialog("4.19 Federate Save Complete service", "/fxml/FederateSaveCompleteService.fxml");
+            DisplayDialog("4.19 Federate Save Complete service", "/fxml/chapter4/FederateSaveCompleteService.fxml");
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Federate Save Complete service dialog box", ex);
@@ -466,7 +463,7 @@ public class MainWindowController implements Initializable {
     private void RequestFederationRestore_click(ActionEvent event) {
         try {
             logger.entry();
-            DisplayDialog("4.24 Request Federation Restore service", "/fxml/RequestFederationRestoreService.fxml");
+            DisplayDialog("4.24 Request Federation Restore service", "/fxml/chapter4/RequestFederationRestoreService.fxml");
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Request Federation Store service dialog box", ex);
@@ -478,7 +475,7 @@ public class MainWindowController implements Initializable {
     private void FederateRestoreComplete_click(ActionEvent event) {
         try {
             logger.entry();
-            DisplayDialog("4.28 Federate Restore Complete service", "/fxml/FederateRestoreCompleteService.fxml");
+            DisplayDialog("4.28 Federate Restore Complete service", "/fxml/chapter4/FederateRestoreCompleteService.fxml");
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Federate Restore Complete service dialog box", ex);
@@ -532,12 +529,13 @@ public class MainWindowController implements Initializable {
     }
 // </editor-fold>
 
+// <editor-fold desc="Chapter 8">
     //8.2
     @FXML
     private void EnableTimeRegulation_click(ActionEvent event) {
         try {
             logger.entry();
-            DisplayDialog("8.2 Enable Time Regulation service", "/fxml/EnableTimeRegulationService.fxml");
+            DisplayDialog("8.2 Enable Time Regulation service", "/fxml/chapter8/EnableTimeRegulationService.fxml");
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Enabling Time Regulation service dialog box", ex);
@@ -620,7 +618,7 @@ public class MainWindowController implements Initializable {
     private void TimeAdvanceRequest_click(ActionEvent event) {
         try {
             logger.entry();
-            DisplayDialog("8.8 Time Advance Request", "/fxml/TimeAdvanceRequestService.fxml");
+            DisplayDialog("8.8 Time Advance Request", "/fxml/chapter8/TimeAdvanceRequestService.fxml");
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Time Advance Request service dialog box", ex);
@@ -632,7 +630,7 @@ public class MainWindowController implements Initializable {
     private void TimeAdvanceRequestAvailable_click(ActionEvent event) {
         try {
             logger.entry();
-            DisplayDialog("8.9 Time Advance Request Available", "/fxml/TimeAdvanceRequestAvailableService.fxml");
+            DisplayDialog("8.9 Time Advance Request Available", "/fxml/chapter8/TimeAdvanceRequestAvailableService.fxml");
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Time Advance Request Available service dialog box", ex);
@@ -644,7 +642,7 @@ public class MainWindowController implements Initializable {
     private void NextMessageRequest_click(ActionEvent event) {
         try {
             logger.entry();
-            DisplayDialog("8.10 Next Message Request", "/fxml/NextMessageRequestService.fxml");
+            DisplayDialog("8.10 Next Message Request", "/fxml/chapter8/NextMessageRequestService.fxml");
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Next Message Request service dialog box", ex);
@@ -656,7 +654,7 @@ public class MainWindowController implements Initializable {
     private void NextMessageRequestAvailable_click(ActionEvent event) {
         try {
             logger.entry();
-            DisplayDialog("8.11 Next Message Request Available", "/fxml/NextMessageRequestAvailableService.fxml");
+            DisplayDialog("8.11 Next Message Request Available", "/fxml/chapter8/NextMessageRequestAvailableService.fxml");
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Next Message Request Available service dialog box", ex);
@@ -668,7 +666,7 @@ public class MainWindowController implements Initializable {
     private void FlushQueueRequest_click(ActionEvent event) {
         try {
             logger.entry();
-            DisplayDialog("8.12 Flush Queue Message", "/fxml/FlushQueueRequestService.fxml");
+            DisplayDialog("8.12 Flush Queue Request service", "/fxml/chapter8/FlushQueueRequestService.fxml");
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Flush Queue Request service dialog box", ex);
@@ -805,6 +803,18 @@ public class MainWindowController implements Initializable {
         logger.exit();
     }
 
+    //8.19
+    @FXML
+    private void ModifyLookahead_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("8.19 Modify Lookahead service", "/fxml/chapter8/ModifyLookaheadService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Modify Lookahed service dialog box", ex);
+        }
+    }
+    
     //8.20
     @FXML
     private void QueryLookahead_click(ActionEvent event) {
@@ -827,5 +837,41 @@ public class MainWindowController implements Initializable {
         }
         logEntries.add(log);
         logger.exit();
+    }
+// </editor-fold>
+    
+    //10.2
+    @FXML
+    private void GetAutomaticResignDirective_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("10.2", "Get Automatic Resign Directive service");
+        try {
+            ResignAction resignAction = rtiAmb.getAutomaticResignDirective();
+            log.getReturnedArguments().add((new ClassValuePair("Automatic resign directive", ResignAction.class, resignAction.toString())));
+            log.setDescription("Automatic Resign Directive retrieved successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (FederateNotExecutionMember | NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
+        } catch (Exception ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
+        }
+        logEntries.add(log);
+        logger.exit();
+    }
+    
+    //10.3
+    @FXML
+    private void SetAutomaticResignDirective_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.3 Set Automatic Resign Directive service", "/fxml/chapter10/SetAutomaticResignDirectiveService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Set Automatic Resign Directive service dialog box", ex);
+        }
     }
 }

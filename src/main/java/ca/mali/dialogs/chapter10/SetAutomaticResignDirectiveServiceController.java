@@ -23,12 +23,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package ca.mali.dialogs.chapter8;
+package ca.mali.dialogs.chapter10;
 
 import ca.mali.hlalistener.*;
 import static ca.mali.hlalistener.PublicVariables.*;
+import hla.rti1516e.*;
 import hla.rti1516e.exceptions.*;
-import hla.rti1516e.time.*;
 import java.net.*;
 import java.util.*;
 import javafx.event.*;
@@ -42,13 +42,13 @@ import org.apache.logging.log4j.*;
  *
  * @author Mostafa Ali <engabdomostafa@gmail.com>
  */
-public class EnableTimeRegulationServiceController implements Initializable {
+public class SetAutomaticResignDirectiveServiceController implements Initializable {
 
     //Logger
     private static final Logger logger = LogManager.getLogger();
 
     @FXML
-    private Spinner<Double> Lookahead;
+    private ChoiceBox<ResignAction> ResignActionChoiceBox;
 
     /**
      * Initializes the controller class.
@@ -56,45 +56,30 @@ public class EnableTimeRegulationServiceController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         logger.entry();
-        SpinnerValueFactory sVF = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, Double.MAX_VALUE, 0, .1);
-        Lookahead.setValueFactory(sVF);
+        ResignActionChoiceBox.getItems().addAll(ResignAction.values());
+        ResignActionChoiceBox.setValue(ResignAction.NO_ACTION);
         logger.exit();
     }
 
     @FXML
     private void Cancel_click(ActionEvent event) {
         logger.entry();
-        ((Stage) Lookahead.getScene().getWindow()).close();
+        ((Stage) ResignActionChoiceBox.getScene().getWindow()).close();
         logger.exit();
     }
 
     @FXML
-    private void Ok_click(ActionEvent event) {
+    private void OK_click(ActionEvent event) {
         logger.entry();
-        LogEntry log = new LogEntry("8.2", "Enable Time Regulation service");
+        LogEntry log = new LogEntry("10.3", "Set Automatic Resign Directive service");
         try {
-            if (logicalTimeFactory == null) { //means not connected or federate is not execution member
-                rtiAmb.getTimeFactory(); //this line will raise the appropriate exception
-            }
-            switch (logicalTimeFactory.getName()) {
-                case "HLAfloat64Time": 
-                    LookaheadValue = ((HLAfloat64TimeFactory) logicalTimeFactory).makeInterval(Lookahead.getValue());
-                    log.getSuppliedArguments().add(new ClassValuePair("Lookahead", HLAfloat64Interval.class, Lookahead.getValue().toString()));
-                    break;
-                case "HLAinteger64Time": 
-                    LookaheadValue
-                            = ((HLAinteger64TimeFactory) logicalTimeFactory).makeInterval(Lookahead.getValue().longValue());
-                    log.getSuppliedArguments().add(new ClassValuePair("Lookahead", HLAfloat64Interval.class, Lookahead.getValue().toString()));
-                    break;
-                default:
-                    throw new Exception("Unknown Time Implementation");
-            }
-            rtiAmb.enableTimeRegulation(LookaheadValue);
-            log.setDescription("Time Regulation requested successfully");
+            log.getSuppliedArguments().add(new ClassValuePair("Automatic resign directive", ResignAction.class, ResignActionChoiceBox.getValue().toString()));
+            rtiAmb.setAutomaticResignDirective(ResignActionChoiceBox.getValue());
+            log.setDescription("Automatic Resign Directive set successfully");
             log.setLogType(LogEntryType.REQUEST);
-        } catch (TimeRegulationAlreadyEnabled | InvalidLookahead |
-                InTimeAdvancingState | RequestForTimeRegulationPending |
-                FederateNotExecutionMember | SaveInProgress | RestoreInProgress |
+            logicalTimeFactory = null;
+            currentLogicalTime = null;
+        } catch (InvalidResignAction | FederateNotExecutionMember |
                 NotConnected | RTIinternalError ex) {
             log.setException(ex);
             log.setLogType(LogEntryType.ERROR);
@@ -104,7 +89,7 @@ public class EnableTimeRegulationServiceController implements Initializable {
             log.setLogType(LogEntryType.FATAL);
             logger.log(Level.FATAL, ex.getMessage(), ex);
         }
-        ((Stage) Lookahead.getScene().getWindow()).close();
+        ((Stage) ResignActionChoiceBox.getScene().getWindow()).close();
         logEntries.add(log);
         logger.exit();
     }

@@ -40,11 +40,12 @@ import org.apache.logging.log4j.*;
 /**
  * FXML Controller class
  *
- * @author Mostafa Ali <engabdomostafa@gmail.com>
+ * @author Mostafa
  */
-public class EnableTimeRegulationServiceController implements Initializable {
+public class ModifyLookaheadServiceController implements Initializable {
 
     //Logger
+
     private static final Logger logger = LogManager.getLogger();
 
     @FXML
@@ -71,31 +72,30 @@ public class EnableTimeRegulationServiceController implements Initializable {
     @FXML
     private void Ok_click(ActionEvent event) {
         logger.entry();
-        LogEntry log = new LogEntry("8.2", "Enable Time Regulation service");
+        LogEntry log = new LogEntry("8.19", "Modify Lookahead service");
         try {
             if (logicalTimeFactory == null) { //means not connected or federate is not execution member
                 rtiAmb.getTimeFactory(); //this line will raise the appropriate exception
             }
             switch (logicalTimeFactory.getName()) {
-                case "HLAfloat64Time": 
+                case "HLAfloat64Time":
                     LookaheadValue = ((HLAfloat64TimeFactory) logicalTimeFactory).makeInterval(Lookahead.getValue());
-                    log.getSuppliedArguments().add(new ClassValuePair("Lookahead", HLAfloat64Interval.class, Lookahead.getValue().toString()));
+                    log.getSuppliedArguments().add(new ClassValuePair("Requested lookahead", HLAfloat64Interval.class, Lookahead.getValue().toString()));
                     break;
-                case "HLAinteger64Time": 
+                case "HLAinteger64Time":
                     LookaheadValue
                             = ((HLAinteger64TimeFactory) logicalTimeFactory).makeInterval(Lookahead.getValue().longValue());
-                    log.getSuppliedArguments().add(new ClassValuePair("Lookahead", HLAfloat64Interval.class, Lookahead.getValue().toString()));
+                    log.getSuppliedArguments().add(new ClassValuePair("Requested lookahead", HLAfloat64Interval.class, Lookahead.getValue().toString()));
                     break;
                 default:
-                    throw new Exception("Unknown Time Implementation");
+//                    throw new Exception("Unknown Time Implementation");
             }
-            rtiAmb.enableTimeRegulation(LookaheadValue);
-            log.setDescription("Time Regulation requested successfully");
+            rtiAmb.modifyLookahead(LookaheadValue);
+            log.setDescription("Lookahead modification requested successfully");
             log.setLogType(LogEntryType.REQUEST);
-        } catch (TimeRegulationAlreadyEnabled | InvalidLookahead |
-                InTimeAdvancingState | RequestForTimeRegulationPending |
-                FederateNotExecutionMember | SaveInProgress | RestoreInProgress |
-                NotConnected | RTIinternalError ex) {
+        } catch (FederateNotExecutionMember | NotConnected | InvalidLookahead |
+                InTimeAdvancingState | TimeRegulationIsNotEnabled | SaveInProgress |
+                RestoreInProgress | RTIinternalError ex) {
             log.setException(ex);
             log.setLogType(LogEntryType.ERROR);
             logger.log(Level.ERROR, ex.getMessage(), ex);

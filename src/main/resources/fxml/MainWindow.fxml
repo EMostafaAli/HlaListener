@@ -119,7 +119,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#QueryLogicalTime_click" text="8.17 Query Logical Time" />
                         <MenuItem mnemonicParsing="false" onAction="#QueryLITS_click" text="8.17 Query LITS" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="8.19 Modify Lookahead" />
+                        <MenuItem mnemonicParsing="false" onAction="#ModifyLookahead_click" text="8.19 Modify Lookahead..." />
                         <MenuItem mnemonicParsing="false" onAction="#QueryLookahead_click" text="8.20 Query Lookahead" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="8.21 Retract" />
@@ -152,8 +152,8 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="10 Support">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="10.2 Get Automatic Resign Directive" />
-                        <MenuItem mnemonicParsing="false" text="10.3 Set Automatic Resign Directive" />
+                        <MenuItem mnemonicParsing="false" onAction="#GetAutomaticResignDirective_click" text="10.2 Get Automatic Resign Directive" />
+                        <MenuItem mnemonicParsing="false" onAction="#SetAutomaticResignDirective_click" text="10.3 Set Automatic Resign Directive" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <Menu mnemonicParsing="false" text="Get Handle">
                             <items>
