@@ -20,7 +20,46 @@
     </organization>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <!--
+                    If we e.g. execute on JDK 1.7, we should compile for Java 7 to get
+                    the same (or higher) JAXB API version as used during the xjc execution.
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>2.1</version>
+                <executions>
+                    <execution>
+                        <id>xjc</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- The package of your generated sources -->
+                    <packageName>ca.mali.fdd</packageName>
+                    <sources>
+                        <source>${basedir}/src/main/resources/fom/IEEE1516-OMT-2010.xsd</source>
+                    </sources>
+                    <xjbSources>
+                        <source>${basedir}/src/main/resources/fom/1.xjb</source>
+                    </xjbSources>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -128,5 +167,5 @@
             <artifactId>HlaInterface</artifactId>
             <version>1.0.0</version>
         </dependency>
-    </dependencies>
+    </dependencies>   
 </project>
