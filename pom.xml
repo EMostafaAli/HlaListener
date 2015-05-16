@@ -128,5 +128,10 @@
             <artifactId>HlaInterface</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>Hla1516e</groupId>
+            <artifactId>FddObjectModel</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 </project>

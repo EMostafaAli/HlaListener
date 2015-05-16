@@ -25,6 +25,7 @@
  */
 package ca.mali.hlalistener;
 
+import ca.mali.fdd.ObjectClass;
 import ca.mali.fomparser.*;
 import static ca.mali.hlalistener.PublicVariables.*;
 
@@ -32,7 +33,11 @@ import hla.rti1516e.*;
 import hla.rti1516e.encoding.*;
 import hla.rti1516e.exceptions.*;
 import hla.rti1516e.time.*;
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
 import org.apache.logging.log4j.*;
 
 /**
@@ -60,10 +65,18 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
             stringEncoder = encoderFactory.createHLAunicodeString();
             stringEncoder.decode(theAttributes.get(RtiAmbInitializer.currentFDDHandle));
             System.out.println(stringEncoder.getValue());
-            FomParser fomParser = new FomParser(stringEncoder.getValue());
-            fomParser.getObjectClass();
-            fomParser.getInteractionClass();
-        } catch (DecoderException ex) {
+//            FomParser fomParser = new FomParser(stringEncoder.getValue());
+//            fomParser.getObjectClass();
+//            fomParser.getInteractionClass();
+            JAXBContext jaxbContext = JAXBContext.newInstance(ca.mali.fdd.ObjectFactory.class);
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            javax.xml.bind.JAXBElement unmarshal = (javax.xml.bind.JAXBElement) unmarshaller.unmarshal(new ByteArrayInputStream(stringEncoder.getValue().getBytes(StandardCharsets.UTF_8)));
+            System.out.println(unmarshal.getDeclaredType());
+            ca.mali.fdd.ObjectModelType fdd = (ca.mali.fdd.ObjectModelType) unmarshal.getValue();
+            for (ObjectClass objectClas : fdd.getObjects().getObjectClass().getObjectClass()) {
+                System.out.println(objectClas.getName().getValue());
+            }
+        } catch (Exception ex) {
             logger.log(Level.FATAL, "Exception in reflecting attribute values", ex);
         }
     }

@@ -111,6 +111,15 @@ public class JoinFederationExecutionServiceController implements Initializable {
             log.setLogType(LogEntryType.REQUEST);
             logicalTimeFactory = rtiAmb.getTimeFactory();
             currentLogicalTime = logicalTimeFactory.makeInitial();
+            
+            ObjectClassHandle FederationHandle = rtiAmb.getObjectClassHandle("HLAobjectRoot.HLAmanager.HLAfederation");
+            System.out.println(FederationHandle.toString());
+            RtiAmbInitializer.currentFDDHandle = rtiAmb.getAttributeHandle(FederationHandle, "HLAcurrentFDD");
+            System.out.println(RtiAmbInitializer.currentFDDHandle.toString());
+            AttributeHandleSet set = rtiAmb.getAttributeHandleSetFactory().create();
+            set.add(RtiAmbInitializer.currentFDDHandle);
+            rtiAmb.subscribeObjectClassAttributes(FederationHandle, set);
+            rtiAmb.requestAttributeValueUpdate(FederationHandle, set, null);
         } catch (CouldNotCreateLogicalTimeFactory | CallNotAllowedFromWithinCallback |
                 CouldNotOpenFDD | ErrorReadingFDD | InconsistentFDD |
                 FederateNameAlreadyInUse | FederateAlreadyExecutionMember |
