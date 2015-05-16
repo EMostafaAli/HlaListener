@@ -23,57 +23,29 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package ca.mali.hlalistener;
-
-import ca.mali.fomparser.FddObjectModel;
-import hla.rti1516e.*;
-import hla.rti1516e.encoding.*;
-import javafx.collections.*;
-import javafx.stage.*;
+package ca.mali.fomparser;
 
 /**
  *
- * @author Mostafa Ali <engabdomostafa@gmail.com>
+ * @author Mostafa
  */
-public class PublicVariables {
+public class ParameterFDD {
+    private String name;
+    private String dataType;
 
-    public static RtiFactory rtiFactory;
+    public String getName() {
+        return name;
+    }
 
-    /**
-     * RTI ambassador
-     */
-    public static RTIambassador rtiAmb;
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    /**
-     * Federate ambassador
-     */
-    public static ListenerFederateAmb fedAmb;
+    public String getDataType() {
+        return dataType;
+    }
 
-    /**
-     * Logical Time Factory
-     */
-    public static LogicalTimeFactory logicalTimeFactory;
-
-    public static LogicalTime currentLogicalTime;
-
-    public static LogicalTimeInterval LookaheadValue;
-
-    public static AttributeHandle currentFDDHandle;
-    
-    public static FddObjectModel fddObjectModel;
-
-    /**
-     * Encoder Factory
-     */
-    public static EncoderFactory encoderFactory;
-
-    /**
-     *
-     */
-//    public static HLAunicodeString stringEncoder;
-
-    public static Stage primaryStage;
-
-    public final static ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();
-
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
 }

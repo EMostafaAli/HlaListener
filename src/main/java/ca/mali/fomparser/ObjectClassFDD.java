@@ -23,57 +23,63 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package ca.mali.hlalistener;
+package ca.mali.fomparser;
 
-import ca.mali.fomparser.FddObjectModel;
-import hla.rti1516e.*;
-import hla.rti1516e.encoding.*;
-import javafx.collections.*;
-import javafx.stage.*;
+import hla.rti1516e.ObjectClassHandle;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
- * @author Mostafa Ali <engabdomostafa@gmail.com>
+ * @author Mostafa
  */
-public class PublicVariables {
+public class ObjectClassFDD {
+    private final String name;
+    private String fullName;
+    private List<AttributeFDD> attributes;
+    private final ObjectClassFDD parent;
+    private ObjectClassHandle handle;
 
-    public static RtiFactory rtiFactory;
+    public ObjectClassFDD(String name, ObjectClassFDD parent) {
+        this.name = name;
+        this.parent = parent;
+        this.fullName = this.name;
+        
+        if (this.parent != null) {
+            attributes = new ArrayList<>(this.parent.getAttributes());
+            fullName = this.parent.fullName + "." + this.name;
+        }
+    }
 
-    /**
-     * RTI ambassador
-     */
-    public static RTIambassador rtiAmb;
+    public String getName() {
+        return name;
+    }
 
-    /**
-     * Federate ambassador
-     */
-    public static ListenerFederateAmb fedAmb;
+    public String getFullName() {
+        return fullName;
+    }
 
-    /**
-     * Logical Time Factory
-     */
-    public static LogicalTimeFactory logicalTimeFactory;
+    public ObjectClassFDD getParent() {
+        return parent;
+    }
 
-    public static LogicalTime currentLogicalTime;
+    public List<AttributeFDD> getAttributes() {
+        if (attributes == null) {
+            attributes = new ArrayList<>();
+        }
+        return attributes;
+    }
 
-    public static LogicalTimeInterval LookaheadValue;
+    public ObjectClassHandle getHandle() {
+        return handle;
+    }
 
-    public static AttributeHandle currentFDDHandle;
-    
-    public static FddObjectModel fddObjectModel;
+    public void setHandle(ObjectClassHandle handle) {
+        this.handle = handle;
+    }
 
-    /**
-     * Encoder Factory
-     */
-    public static EncoderFactory encoderFactory;
-
-    /**
-     *
-     */
-//    public static HLAunicodeString stringEncoder;
-
-    public static Stage primaryStage;
-
-    public final static ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();
-
+    @Override
+    public String toString() {
+        return fullName;
+    }
 }

@@ -25,6 +25,7 @@
  */
 package ca.mali.hlalistener;
 
+import ca.mali.fdd.Attribute;
 import ca.mali.fdd.ObjectClass;
 import ca.mali.fomparser.*;
 import static ca.mali.hlalistener.PublicVariables.*;
@@ -62,20 +63,15 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
     @Override
     public void reflectAttributeValues(ObjectInstanceHandle theObject, AttributeHandleValueMap theAttributes, byte[] userSuppliedTag, OrderType sentOrdering, TransportationTypeHandle theTransport, SupplementalReflectInfo reflectInfo) throws FederateInternalError {
         try {
-            stringEncoder = encoderFactory.createHLAunicodeString();
-            stringEncoder.decode(theAttributes.get(RtiAmbInitializer.currentFDDHandle));
-            System.out.println(stringEncoder.getValue());
+            if (theAttributes.containsKey(currentFDDHandle)) {
+                HLAunicodeString stringEncoder = encoderFactory.createHLAunicodeString();
+                stringEncoder.decode(theAttributes.get(currentFDDHandle));
+                fddObjectModel = new FddObjectModel(stringEncoder.getValue());
+            }
+//            System.out.println(stringEncoder.getValue());
 //            FomParser fomParser = new FomParser(stringEncoder.getValue());
 //            fomParser.getObjectClass();
 //            fomParser.getInteractionClass();
-            JAXBContext jaxbContext = JAXBContext.newInstance(ca.mali.fdd.ObjectFactory.class);
-            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-            javax.xml.bind.JAXBElement unmarshal = (javax.xml.bind.JAXBElement) unmarshaller.unmarshal(new ByteArrayInputStream(stringEncoder.getValue().getBytes(StandardCharsets.UTF_8)));
-            System.out.println(unmarshal.getDeclaredType());
-            ca.mali.fdd.ObjectModelType fdd = (ca.mali.fdd.ObjectModelType) unmarshal.getValue();
-            for (ObjectClass objectClas : fdd.getObjects().getObjectClass().getObjectClass()) {
-                System.out.println(objectClas.getName().getValue());
-            }
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Exception in reflecting attribute values", ex);
         }

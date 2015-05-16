@@ -23,10 +23,10 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package ca.mali.dialogs.chapter4;
+package ca.mali.dialogs.chapter10;
 
-import ca.mali.hlalistener.*;
 import static ca.mali.hlalistener.PublicVariables.*;
+import ca.mali.hlalistener.*;
 import hla.rti1516e.*;
 import hla.rti1516e.exceptions.*;
 import java.net.*;
@@ -40,15 +40,15 @@ import org.apache.logging.log4j.*;
 /**
  * FXML Controller class
  *
- * @author Mostafa Ali <engabdomostafa@gmail.com>
+ * @author Mostafa
  */
-public class ResignFederationExecutionServiceController implements Initializable {
+public class GetObjectClassHandleServiceController implements Initializable {
 
     //Logger
     private static final Logger logger = LogManager.getLogger();
 
     @FXML
-    private ChoiceBox<ResignAction> ResignActionChoiceBox;
+    private ComboBox<String> ObjectClassName;
 
     /**
      * Initializes the controller class.
@@ -56,33 +56,35 @@ public class ResignFederationExecutionServiceController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         logger.entry();
-        ResignActionChoiceBox.getItems().addAll(ResignAction.values());
-        ResignActionChoiceBox.setValue(ResignAction.NO_ACTION);
+        try {
+            if (fddObjectModel!=null) {
+                ObjectClassName.getItems().addAll(fddObjectModel.getObjectClasses().keySet());
+            }
+            ObjectClassName.setValue("");
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, ex.getMessage(), ex);
+        }
         logger.exit();
     }
 
     @FXML
     private void Cancel_click(ActionEvent event) {
         logger.entry();
-        ((Stage) ResignActionChoiceBox.getScene().getWindow()).close();
+        ((Stage) ObjectClassName.getScene().getWindow()).close();
         logger.exit();
     }
 
     @FXML
     private void OK_click(ActionEvent event) {
         logger.entry();
-        LogEntry log = new LogEntry("4.10", "Resign Federation Execution service");
+        LogEntry log = new LogEntry("10.6", "Get Object Class Handle service");
         try {
-            log.getSuppliedArguments().add(new ClassValuePair("Directive to", ResignAction.class, ResignActionChoiceBox.getValue().toString()));
-            rtiAmb.resignFederationExecution(ResignActionChoiceBox.getValue());
-            log.setDescription("Federate resigned federation execution successfully");
+            log.getSuppliedArguments().add(new ClassValuePair("Object Class Name", String.class, ObjectClassName.getValue()));
+            ObjectClassHandle objectClassHandle = rtiAmb.getObjectClassHandle(ObjectClassName.getValue());
+            log.getReturnedArguments().add(new ClassValuePair("Object Class Handle", ObjectClassHandle.class, objectClassHandle.toString()));
+            log.setDescription("Object class handle retrieved successfully");
             log.setLogType(LogEntryType.REQUEST);
-            logicalTimeFactory = null;
-            currentLogicalTime = null;
-            fddObjectModel = null;
-        } catch (CallNotAllowedFromWithinCallback | FederateNotExecutionMember |
-                InvalidResignAction | OwnershipAcquisitionPending | FederateOwnsAttributes |
-                NotConnected | RTIinternalError ex) {
+        } catch (NameNotFound | FederateNotExecutionMember | NotConnected | RTIinternalError ex) {
             log.setException(ex);
             log.setLogType(LogEntryType.ERROR);
             logger.log(Level.ERROR, ex.getMessage(), ex);
@@ -91,8 +93,8 @@ public class ResignFederationExecutionServiceController implements Initializable
             log.setLogType(LogEntryType.FATAL);
             logger.log(Level.FATAL, ex.getMessage(), ex);
         }
-        ((Stage) ResignActionChoiceBox.getScene().getWindow()).close();
         logEntries.add(log);
+        ((Stage) ObjectClassName.getScene().getWindow()).close();
         logger.exit();
     }
 }

@@ -23,57 +23,42 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package ca.mali.hlalistener;
+package ca.mali.fomparser;
 
-import ca.mali.fomparser.FddObjectModel;
-import hla.rti1516e.*;
-import hla.rti1516e.encoding.*;
-import javafx.collections.*;
-import javafx.stage.*;
+import hla.rti1516e.AttributeHandle;
 
 /**
  *
- * @author Mostafa Ali <engabdomostafa@gmail.com>
+ * @author Mostafa
  */
-public class PublicVariables {
-
-    public static RtiFactory rtiFactory;
-
-    /**
-     * RTI ambassador
-     */
-    public static RTIambassador rtiAmb;
-
-    /**
-     * Federate ambassador
-     */
-    public static ListenerFederateAmb fedAmb;
-
-    /**
-     * Logical Time Factory
-     */
-    public static LogicalTimeFactory logicalTimeFactory;
-
-    public static LogicalTime currentLogicalTime;
-
-    public static LogicalTimeInterval LookaheadValue;
-
-    public static AttributeHandle currentFDDHandle;
+public class AttributeFDD {
+    private final String name;
+    private final String dataType;
+    private AttributeHandle handle;
     
-    public static FddObjectModel fddObjectModel;
+    public AttributeFDD(String name, String dataType) {
+        this.name = name;
+        this.dataType = dataType;
+    }
+    
+    public String getName() {
+        return name;
+    }
 
-    /**
-     * Encoder Factory
-     */
-    public static EncoderFactory encoderFactory;
+    public String getDataType() {
+        return dataType;
+    }
 
-    /**
-     *
-     */
-//    public static HLAunicodeString stringEncoder;
+    public AttributeHandle getHandle() {
+        return handle;
+    }
 
-    public static Stage primaryStage;
+    public void setHandle(AttributeHandle handle) {
+        this.handle = handle;
+    }
 
-    public final static ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();
-
+    @Override
+    public String toString() {
+        return name;
+    }
 }

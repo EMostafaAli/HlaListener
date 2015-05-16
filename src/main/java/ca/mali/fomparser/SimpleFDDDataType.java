@@ -23,57 +23,24 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package ca.mali.hlalistener;
-
-import ca.mali.fomparser.FddObjectModel;
-import hla.rti1516e.*;
-import hla.rti1516e.encoding.*;
-import javafx.collections.*;
-import javafx.stage.*;
+package ca.mali.fomparser;
 
 /**
  *
- * @author Mostafa Ali <engabdomostafa@gmail.com>
+ * @author Mostafa
  */
-public class PublicVariables {
+public class SimpleFDDDataType extends AbstractDataType{
 
-    public static RtiFactory rtiFactory;
+    private String representation;
+    public SimpleFDDDataType(String name) {
+        super(name, DataTypeEnum.SIMPLE);
+    }
 
-    /**
-     * RTI ambassador
-     */
-    public static RTIambassador rtiAmb;
+    public String getRepresentation() {
+        return representation;
+    }
 
-    /**
-     * Federate ambassador
-     */
-    public static ListenerFederateAmb fedAmb;
-
-    /**
-     * Logical Time Factory
-     */
-    public static LogicalTimeFactory logicalTimeFactory;
-
-    public static LogicalTime currentLogicalTime;
-
-    public static LogicalTimeInterval LookaheadValue;
-
-    public static AttributeHandle currentFDDHandle;
-    
-    public static FddObjectModel fddObjectModel;
-
-    /**
-     * Encoder Factory
-     */
-    public static EncoderFactory encoderFactory;
-
-    /**
-     *
-     */
-//    public static HLAunicodeString stringEncoder;
-
-    public static Stage primaryStage;
-
-    public final static ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();
-
+    public void setRepresentation(String representation) {
+        this.representation = representation;
+    }
 }

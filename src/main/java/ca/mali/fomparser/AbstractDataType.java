@@ -23,57 +23,26 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package ca.mali.hlalistener;
-
-import ca.mali.fomparser.FddObjectModel;
-import hla.rti1516e.*;
-import hla.rti1516e.encoding.*;
-import javafx.collections.*;
-import javafx.stage.*;
+package ca.mali.fomparser;
 
 /**
  *
- * @author Mostafa Ali <engabdomostafa@gmail.com>
+ * @author Mostafa
  */
-public class PublicVariables {
-
-    public static RtiFactory rtiFactory;
-
-    /**
-     * RTI ambassador
-     */
-    public static RTIambassador rtiAmb;
-
-    /**
-     * Federate ambassador
-     */
-    public static ListenerFederateAmb fedAmb;
-
-    /**
-     * Logical Time Factory
-     */
-    public static LogicalTimeFactory logicalTimeFactory;
-
-    public static LogicalTime currentLogicalTime;
-
-    public static LogicalTimeInterval LookaheadValue;
-
-    public static AttributeHandle currentFDDHandle;
+abstract class AbstractDataType {
+    private final String name;
+    private final DataTypeEnum type;
     
-    public static FddObjectModel fddObjectModel;
+    protected AbstractDataType(String name, DataTypeEnum type){
+        this.name = name;
+        this.type = type;
+    }
 
-    /**
-     * Encoder Factory
-     */
-    public static EncoderFactory encoderFactory;
+    public String getName() {
+        return name;
+    }
 
-    /**
-     *
-     */
-//    public static HLAunicodeString stringEncoder;
-
-    public static Stage primaryStage;
-
-    public final static ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();
-
+    public DataTypeEnum getType() {
+        return type;
+    }
 }

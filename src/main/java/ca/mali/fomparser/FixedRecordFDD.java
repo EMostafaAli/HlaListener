@@ -23,57 +23,57 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package ca.mali.hlalistener;
+package ca.mali.fomparser;
 
-import ca.mali.fomparser.FddObjectModel;
-import hla.rti1516e.*;
-import hla.rti1516e.encoding.*;
-import javafx.collections.*;
-import javafx.stage.*;
+import java.util.*;
 
 /**
  *
- * @author Mostafa Ali <engabdomostafa@gmail.com>
+ * @author Mostafa
  */
-public class PublicVariables {
+public class FixedRecordFDD extends AbstractDataType{
 
-    public static RtiFactory rtiFactory;
-
-    /**
-     * RTI ambassador
-     */
-    public static RTIambassador rtiAmb;
-
-    /**
-     * Federate ambassador
-     */
-    public static ListenerFederateAmb fedAmb;
-
-    /**
-     * Logical Time Factory
-     */
-    public static LogicalTimeFactory logicalTimeFactory;
-
-    public static LogicalTime currentLogicalTime;
-
-    public static LogicalTimeInterval LookaheadValue;
-
-    public static AttributeHandle currentFDDHandle;
+    private String encoding;
+    private List<Field> fields;
     
-    public static FddObjectModel fddObjectModel;
+    public FixedRecordFDD(String name) {
+        super(name, DataTypeEnum.FIXEDRECORD);
+    }
 
-    /**
-     * Encoder Factory
-     */
-    public static EncoderFactory encoderFactory;
+    public String getEncoding() {
+        return encoding;
+    }
 
-    /**
-     *
-     */
-//    public static HLAunicodeString stringEncoder;
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
+    }
+    
+    public List<Field> getFields() {
+        if (fields == null) {
+            fields = new ArrayList<>();
+        }
+        return this.fields;
+    }
+    
+    public static class Field{
+        
+        protected String name;
+        protected String dataType;
 
-    public static Stage primaryStage;
+        public String getName() {
+            return name;
+        }
 
-    public final static ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();
+        public void setName(String name) {
+            this.name = name;
+        }
 
+        public String getDataType() {
+            return dataType;
+        }
+
+        public void setDataType(String dataType) {
+            this.dataType = dataType;
+        }
+    }
 }

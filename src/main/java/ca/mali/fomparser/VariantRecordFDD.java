@@ -23,57 +23,66 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package ca.mali.hlalistener;
+package ca.mali.fomparser;
 
-import ca.mali.fomparser.FddObjectModel;
-import hla.rti1516e.*;
-import hla.rti1516e.encoding.*;
-import javafx.collections.*;
-import javafx.stage.*;
+import java.util.*;
 
 /**
  *
- * @author Mostafa Ali <engabdomostafa@gmail.com>
+ * @author Mostafa
  */
-public class PublicVariables {
+public class VariantRecordFDD extends AbstractDataType{
 
-    public static RtiFactory rtiFactory;
-
-    /**
-     * RTI ambassador
-     */
-    public static RTIambassador rtiAmb;
-
-    /**
-     * Federate ambassador
-     */
-    public static ListenerFederateAmb fedAmb;
-
-    /**
-     * Logical Time Factory
-     */
-    public static LogicalTimeFactory logicalTimeFactory;
-
-    public static LogicalTime currentLogicalTime;
-
-    public static LogicalTimeInterval LookaheadValue;
-
-    public static AttributeHandle currentFDDHandle;
+    private String discriminant;
+    private String dataType;
+    private List<Field> alternatives;
     
-    public static FddObjectModel fddObjectModel;
+    public VariantRecordFDD(String name) {
+        super(name, DataTypeEnum.VARIANTRECORD);
+    }
 
-    /**
-     * Encoder Factory
-     */
-    public static EncoderFactory encoderFactory;
+    public String getDiscriminant() {
+        return discriminant;
+    }
 
-    /**
-     *
-     */
-//    public static HLAunicodeString stringEncoder;
+    public void setDiscriminant(String discriminant) {
+        this.discriminant = discriminant;
+    }
 
-    public static Stage primaryStage;
+    public String getDataType() {
+        return dataType;
+    }
 
-    public final static ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
+    
+    public List<Field> getAlternatives() {
+        if (alternatives == null) {
+            alternatives = new ArrayList<>();
+        }
+        return this.alternatives;
+    }
+    
+    public static class Field{
+        
+        protected String name;
+        protected String dataType;
 
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getDataType() {
+            return dataType;
+        }
+
+        public void setDataType(String dataType) {
+            this.dataType = dataType;
+        }
+    }
 }

@@ -51,14 +51,14 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="5 Declaration (DM)">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="5.2 Publish Object Class Attributes" />
-                        <MenuItem mnemonicParsing="false" text="5.3 Unpublish Object Class Attributes" />
+                        <MenuItem mnemonicParsing="false" onAction="#PublishObjects_click" text="5.2 Publish Object Class Attributes..." />
+                        <MenuItem mnemonicParsing="false" onAction="#UnpublishObjects_click" text="5.3 Unpublish Object Class Attributes..." />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="5.4 Publish Interaction Class" />
                         <MenuItem mnemonicParsing="false" text="5.5 Unpublish Interaction Class" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="5.6 Subscribe Object Class Attributes" />
-                        <MenuItem mnemonicParsing="false" text="5.7 Unsubscribe Object Class Attributes" />
+                        <MenuItem mnemonicParsing="false" onAction="#SubscribeObjects_click" text="5.6 Subscribe Object Class Attributes..." />
+                        <MenuItem mnemonicParsing="false" onAction="#UnsubscribeObjects_click" text="5.7 Unsubscribe Object Class Attributes..." />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="5.8 Subscribe Interaction Class" />
                         <MenuItem mnemonicParsing="false" text="5.9 Unsubscribe Interaction Class" />
@@ -159,7 +159,7 @@
                             <items>
                                 <MenuItem mnemonicParsing="false" text="10.4 Get Federate Handle" />
                                 <SeparatorMenuItem mnemonicParsing="false" />
-                                <MenuItem mnemonicParsing="false" text="10.6 Get Object Class Handle" />
+                                <MenuItem mnemonicParsing="false" onAction="#GetObjectClassHandle_click" text="10.6 Get Object Class Handle" />
                                 <MenuItem mnemonicParsing="false" text="10.8 Get Known Object Class Handle" />
                                 <MenuItem mnemonicParsing="false" text="10.9 Get Object Instance Handle" />
                                 <MenuItem mnemonicParsing="false" text="10.11 Get Attribute Handle" />

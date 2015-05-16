@@ -55,13 +55,9 @@ public class RtiAmbInitializer implements Initializable {
     @FXML
     private Button OkButton;
 
-    private static final File coreFile = new File("FOMs/RestaurantFOMmodule.xml");
-    private static URL[] FOMModules;
-
     /**
      *
      */
-    public static AttributeHandle currentFDDHandle;
 
     //Logger
     private static final Logger logger = LogManager.getLogger();

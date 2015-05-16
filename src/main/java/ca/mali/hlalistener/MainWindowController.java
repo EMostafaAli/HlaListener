@@ -528,7 +528,55 @@ public class MainWindowController implements Initializable {
         logger.exit();
     }
 // </editor-fold>
-
+    
+    //5.2
+    @FXML
+    private void PublishObjects_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("5.2 Publish Object Class Attributes service", "/fxml/chapter5/PublishObjectClassAttributesService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Publish Object Class Attributes service dialog box", ex);
+        }
+    }
+    
+    //5.3
+    @FXML
+    private void UnpublishObjects_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("5.3 Unpublish Object Class Attributes service", "/fxml/chapter5/UnpublishObjectClassAttributesService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Unpublish Object Class Attributes service dialog box", ex);
+        }
+    }
+    
+    //5.6
+    @FXML
+    private void SubscribeObjects_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("5.6 Subscribe Object Class Attributes service", "/fxml/chapter5/SubscribeObjectClassAttributesService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Subscribe Object Class Attributes service dialog box", ex);
+        }
+    }
+    
+    //5.7
+    @FXML
+    private void UnsubscribeObjects_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("5.7 Unsubscribe Object Class Attributes service", "/fxml/chapter5/UnsubscribeObjectClassAttributesService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Unsubscribe Object Class Attributes service dialog box", ex);
+        }
+    }
+    
 // <editor-fold desc="Chapter 8">
     //8.2
     @FXML
@@ -872,6 +920,18 @@ public class MainWindowController implements Initializable {
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Set Automatic Resign Directive service dialog box", ex);
+        }
+    }
+    
+    //10.6
+    @FXML
+    private void GetObjectClassHandle_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.6 Get Object Class Handle service", "/fxml/chapter10/GetObjectClassHandleService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Object Class Handle service dialog box", ex);
         }
     }
 }

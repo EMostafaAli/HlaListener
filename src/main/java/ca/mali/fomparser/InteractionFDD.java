@@ -23,57 +23,40 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package ca.mali.hlalistener;
+package ca.mali.fomparser;
 
-import ca.mali.fomparser.FddObjectModel;
-import hla.rti1516e.*;
-import hla.rti1516e.encoding.*;
-import javafx.collections.*;
-import javafx.stage.*;
+import java.util.*;
 
 /**
  *
- * @author Mostafa Ali <engabdomostafa@gmail.com>
+ * @author Mostafa
  */
-public class PublicVariables {
+public class InteractionFDD {
+    private final String name;
+    private List<ParameterFDD> parameters;
+    private final InteractionFDD parent;
 
-    public static RtiFactory rtiFactory;
+    public InteractionFDD(String name, InteractionFDD parent) {
+        this.name = name;
+        this.parent = parent;
+        
+        if (this.parent != null) {
+            parameters = new ArrayList<>(this.parent.getParameters());
+        }
+    }
 
-    /**
-     * RTI ambassador
-     */
-    public static RTIambassador rtiAmb;
+    public String getName() {
+        return name;
+    }
 
-    /**
-     * Federate ambassador
-     */
-    public static ListenerFederateAmb fedAmb;
+    public InteractionFDD getParent() {
+        return parent;
+    }
 
-    /**
-     * Logical Time Factory
-     */
-    public static LogicalTimeFactory logicalTimeFactory;
-
-    public static LogicalTime currentLogicalTime;
-
-    public static LogicalTimeInterval LookaheadValue;
-
-    public static AttributeHandle currentFDDHandle;
-    
-    public static FddObjectModel fddObjectModel;
-
-    /**
-     * Encoder Factory
-     */
-    public static EncoderFactory encoderFactory;
-
-    /**
-     *
-     */
-//    public static HLAunicodeString stringEncoder;
-
-    public static Stage primaryStage;
-
-    public final static ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();
-
+    public List<ParameterFDD> getParameters() {
+        if (parameters == null) {
+            parameters = new ArrayList<>();
+        }
+        return parameters;
+    }
 }

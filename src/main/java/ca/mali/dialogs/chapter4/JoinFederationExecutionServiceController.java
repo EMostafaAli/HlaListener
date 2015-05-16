@@ -92,34 +92,35 @@ public class JoinFederationExecutionServiceController implements Initializable {
             log.getSuppliedArguments().add(new ClassValuePair("Federate Type", String.class, FederateType.getText()));
             log.getSuppliedArguments().add(new ClassValuePair("Federation Execution Name", String.class, FederationExecutionName.getText()));
             List<URL> foms = new ArrayList<>();
-            int i=1;
+            int i = 1;
             for (File file : FomModuleDesignators.getFiles()) {
                 foms.add(file.toURI().toURL());
                 log.getSuppliedArguments().add(new ClassValuePair("FOM Module Deisgnator " + i++, URL.class, file.toURI().toURL().toString()));
             }
             if (FederateName.getText().isEmpty() && FomModuleDesignators.getFileNames().isEmpty()) {
-                federateHandle=rtiAmb.joinFederationExecution(FederateType.getText(), FederationExecutionName.getText());
+                federateHandle = rtiAmb.joinFederationExecution(FederateType.getText(), FederationExecutionName.getText());
             } else if (FomModuleDesignators.getFileNames().isEmpty()) {
-                federateHandle=rtiAmb.joinFederationExecution(FederateName.getText(), FederateType.getText(), FederationExecutionName.getText());
+                federateHandle = rtiAmb.joinFederationExecution(FederateName.getText(), FederateType.getText(), FederationExecutionName.getText());
             } else if (FederateName.getText().isEmpty()) {
-                federateHandle=rtiAmb.joinFederationExecution(FederateType.getText(), FederationExecutionName.getText(), foms.toArray(new URL[foms.size()]));
+                federateHandle = rtiAmb.joinFederationExecution(FederateType.getText(), FederationExecutionName.getText(), foms.toArray(new URL[foms.size()]));
             } else {
-                federateHandle=rtiAmb.joinFederationExecution(FederateName.getText(), FederateType.getText(), FederationExecutionName.getText(), foms.toArray(new URL[foms.size()]));
+                federateHandle = rtiAmb.joinFederationExecution(FederateName.getText(), FederateType.getText(), FederationExecutionName.getText(), foms.toArray(new URL[foms.size()]));
             }
             log.getReturnedArguments().add(new ClassValuePair("Federate Handle", FederateHandle.class, federateHandle.toString()));
             log.setDescription("Federate joined federation execution successfully");
             log.setLogType(LogEntryType.REQUEST);
             logicalTimeFactory = rtiAmb.getTimeFactory();
             currentLogicalTime = logicalTimeFactory.makeInitial();
-            
+
+            //subscribe to HLAcurrentFDD to retrieve FDD
             ObjectClassHandle FederationHandle = rtiAmb.getObjectClassHandle("HLAobjectRoot.HLAmanager.HLAfederation");
-            System.out.println(FederationHandle.toString());
-            RtiAmbInitializer.currentFDDHandle = rtiAmb.getAttributeHandle(FederationHandle, "HLAcurrentFDD");
-            System.out.println(RtiAmbInitializer.currentFDDHandle.toString());
+            currentFDDHandle = rtiAmb.getAttributeHandle(FederationHandle, "HLAcurrentFDD");
             AttributeHandleSet set = rtiAmb.getAttributeHandleSetFactory().create();
-            set.add(RtiAmbInitializer.currentFDDHandle);
+            set.add(currentFDDHandle);
             rtiAmb.subscribeObjectClassAttributes(FederationHandle, set);
             rtiAmb.requestAttributeValueUpdate(FederationHandle, set, null);
+            //In case of HLA_EVOKED we require this line to receive the FDD
+            rtiAmb.evokeMultipleCallbacks(.05, 1); //evoke one callback will not be enough because the reflect attribute is the second one
         } catch (CouldNotCreateLogicalTimeFactory | CallNotAllowedFromWithinCallback |
                 CouldNotOpenFDD | ErrorReadingFDD | InconsistentFDD |
                 FederateNameAlreadyInUse | FederateAlreadyExecutionMember |

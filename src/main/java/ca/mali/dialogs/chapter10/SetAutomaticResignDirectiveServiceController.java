@@ -77,8 +77,6 @@ public class SetAutomaticResignDirectiveServiceController implements Initializab
             rtiAmb.setAutomaticResignDirective(ResignActionChoiceBox.getValue());
             log.setDescription("Automatic Resign Directive set successfully");
             log.setLogType(LogEntryType.REQUEST);
-            logicalTimeFactory = null;
-            currentLogicalTime = null;
         } catch (InvalidResignAction | FederateNotExecutionMember |
                 NotConnected | RTIinternalError ex) {
             log.setException(ex);

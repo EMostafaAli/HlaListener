@@ -23,57 +23,34 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package ca.mali.hlalistener;
-
-import ca.mali.fomparser.FddObjectModel;
-import hla.rti1516e.*;
-import hla.rti1516e.encoding.*;
-import javafx.collections.*;
-import javafx.stage.*;
+package ca.mali.fomparser;
 
 /**
  *
- * @author Mostafa Ali <engabdomostafa@gmail.com>
+ * @author Mostafa
  */
-public class PublicVariables {
+public class ArrayFDD extends AbstractDataType{
 
-    public static RtiFactory rtiFactory;
-
-    /**
-     * RTI ambassador
-     */
-    public static RTIambassador rtiAmb;
-
-    /**
-     * Federate ambassador
-     */
-    public static ListenerFederateAmb fedAmb;
-
-    /**
-     * Logical Time Factory
-     */
-    public static LogicalTimeFactory logicalTimeFactory;
-
-    public static LogicalTime currentLogicalTime;
-
-    public static LogicalTimeInterval LookaheadValue;
-
-    public static AttributeHandle currentFDDHandle;
+    private String dataType;
+    private String encoding;
     
-    public static FddObjectModel fddObjectModel;
+    public ArrayFDD(String name) {
+        super(name, DataTypeEnum.ARRAY);
+    }
 
-    /**
-     * Encoder Factory
-     */
-    public static EncoderFactory encoderFactory;
+    public String getDataType() {
+        return dataType;
+    }
 
-    /**
-     *
-     */
-//    public static HLAunicodeString stringEncoder;
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
 
-    public static Stage primaryStage;
+    public String getEncoding() {
+        return encoding;
+    }
 
-    public final static ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();
-
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
+    }
 }
