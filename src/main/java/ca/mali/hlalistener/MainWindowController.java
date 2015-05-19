@@ -553,6 +553,18 @@ public class MainWindowController implements Initializable {
         }
     }
     
+    //5.4
+    @FXML
+    private void PublishInteraction_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("5.4 Publish Interaction Class service", "/fxml/chapter5/PublishInteractionClassService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Publish Interaction Class service dialog box", ex);
+        }
+    }
+    
     //5.6
     @FXML
     private void SubscribeObjects_click(ActionEvent event) {

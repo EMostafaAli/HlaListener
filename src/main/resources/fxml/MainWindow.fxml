@@ -54,7 +54,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#PublishObjects_click" text="5.2 Publish Object Class Attributes..." />
                         <MenuItem mnemonicParsing="false" onAction="#UnpublishObjects_click" text="5.3 Unpublish Object Class Attributes..." />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="5.4 Publish Interaction Class" />
+                        <MenuItem mnemonicParsing="false" onAction="#PublishInteraction_click" text="5.4 Publish Interaction Class..." />
                         <MenuItem mnemonicParsing="false" text="5.5 Unpublish Interaction Class" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#SubscribeObjects_click" text="5.6 Subscribe Object Class Attributes..." />

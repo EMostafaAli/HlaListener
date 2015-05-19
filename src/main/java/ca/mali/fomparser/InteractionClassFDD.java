@@ -25,40 +25,61 @@
  */
 package ca.mali.fomparser;
 
-import hla.rti1516e.ParameterHandle;
+import hla.rti1516e.InteractionClassHandle;
+import java.util.*;
 
 /**
  *
  * @author Mostafa
  */
-public class ParameterFDD {
-    private final String name;
-    private final String dataType;
-    private ParameterHandle handle;
+public class InteractionClassFDD {
 
-    public ParameterFDD(String name, String dataType) {
+    private final String name;
+    private String fullName;
+    private List<ParameterFDD> parameters;
+    private final InteractionClassFDD parent;
+    private InteractionClassHandle handle;
+
+    public InteractionClassFDD(String name, InteractionClassFDD parent) {
         this.name = name;
-        this.dataType = dataType;
+        this.parent = parent;
+        this.fullName = this.name;
+
+        if (this.parent != null) {
+            parameters = new ArrayList<>(this.parent.getParameters());
+            fullName = this.parent.fullName + "." + this.name;
+        }
     }
-    
+
     public String getName() {
         return name;
     }
 
-    public String getDataType() {
-        return dataType;
+    public String getFullName() {
+        return fullName;
     }
 
-    public ParameterHandle getHandle() {
+    public InteractionClassFDD getParent() {
+        return parent;
+    }
+
+    public List<ParameterFDD> getParameters() {
+        if (parameters == null) {
+            parameters = new ArrayList<>();
+        }
+        return parameters;
+    }
+
+    public InteractionClassHandle getHandle() {
         return handle;
     }
 
-    public void setHandle(ParameterHandle handle) {
+    public void setHandle(InteractionClassHandle handle) {
         this.handle = handle;
     }
 
     @Override
     public String toString() {
-        return name;
+        return fullName;
     }
 }

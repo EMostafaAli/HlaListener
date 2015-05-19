@@ -26,6 +26,7 @@
 package ca.mali.fomparser;
 
 import ca.mali.fdd.ObjectClass;
+import ca.mali.fdd.InteractionClass;
 import ca.mali.fdd.ObjectModelType;
 import ca.mali.hlalistener.PublicVariables;
 import java.io.*;
@@ -49,6 +50,8 @@ public class FddObjectModel {
     private String fdd;
 
     private Map<String, ObjectClassFDD> objectClasses = new TreeMap<>();
+    private Map<String, InteractionClassFDD> interactionClasses = new TreeMap<>();
+    private Map<String, UpdateRateFDD> updateRates = new TreeMap<>();
 
     public FddObjectModel(String fddText) {
         logger.entry();
@@ -58,7 +61,9 @@ public class FddObjectModel {
             unmarshaller = jaxbContext.createUnmarshaller();
             javax.xml.bind.JAXBElement unmarshal = (javax.xml.bind.JAXBElement) unmarshaller.unmarshal(new ByteArrayInputStream(fdd.getBytes(StandardCharsets.UTF_8)));
             fddModel = (ca.mali.fdd.ObjectModelType) unmarshal.getValue();
+            readUpdateRate();
             readObjectClasses(fddModel.getObjects().getObjectClass(), null);
+            readInteractionClasses(fddModel.getInteractions().getInteractionClass(), null);
         } catch (Exception ex) {
             logger.log(Level.FATAL, ex.getMessage(), ex);
         }
@@ -73,8 +78,15 @@ public class FddObjectModel {
         return objectClasses;
     }
 
-    private void readObjectClasses(ObjectClass rootClass, ObjectClassFDD parent) {
+    public Map<String, InteractionClassFDD> getInteractionClasses() {
+        return interactionClasses;
+    }
 
+    public Map<String, UpdateRateFDD> getUpdateRates() {
+        return updateRates;
+    }
+
+    private void readObjectClasses(ObjectClass rootClass, ObjectClassFDD parent) {
         try {
             ObjectClassFDD objectClassFDD = new ObjectClassFDD(rootClass.getName().getValue(), parent);
             objectClassFDD.setHandle(PublicVariables.rtiAmb.getObjectClassHandle(objectClassFDD.getFullName()));
@@ -96,5 +108,36 @@ public class FddObjectModel {
         } catch (Exception ex) {
             logger.log(Level.FATAL, ex.getMessage(), ex);
         }
+    }
+
+    private void readInteractionClasses(InteractionClass rootInteraction, InteractionClassFDD parent) {
+        try {
+            InteractionClassFDD interactionClassFDD = new InteractionClassFDD(rootInteraction.getName().getValue(), parent);
+            interactionClassFDD.setHandle(PublicVariables.rtiAmb.getInteractionClassHandle(interactionClassFDD.getFullName()));
+            rootInteraction.getParameter().stream().forEach((parameter) -> {
+                try {
+                    ParameterFDD paramFDD = new ParameterFDD(parameter.getName().getValue(), parameter.getDataType().getValue());
+                    paramFDD.setHandle(PublicVariables.rtiAmb.getParameterHandle(interactionClassFDD.getHandle(), paramFDD.getName()));
+                    interactionClassFDD.getParameters().add(paramFDD);
+                } catch (Exception ex) {
+                    logger.log(Level.FATAL, ex.getMessage(), ex);
+                }
+            });
+            interactionClasses.put(interactionClassFDD.getFullName(), interactionClassFDD);
+            rootInteraction.getInteractionClass().stream().forEach((item) -> {
+                readInteractionClasses(item, interactionClassFDD);
+            });
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, ex.getMessage(), ex);
+        }
+    }
+
+    private void readUpdateRate() {
+        fddModel.getUpdateRates().getUpdateRate().stream().forEach((updateRate) -> {
+            UpdateRateFDD rate = new UpdateRateFDD();
+            rate.setName(updateRate.getName().getValue());
+            rate.setValue(updateRate.getRate().getValue().doubleValue());
+            updateRates.put(rate.getName(), rate);
+        });
     }
 }

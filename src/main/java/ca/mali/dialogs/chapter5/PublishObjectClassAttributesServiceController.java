@@ -33,13 +33,9 @@ import hla.rti1516e.*;
 import hla.rti1516e.exceptions.*;
 import java.net.*;
 import java.util.*;
-import java.util.stream.Collectors;
-import javafx.beans.property.*;
-import javafx.collections.*;
 import javafx.event.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.*;
 import javafx.stage.*;
 import org.apache.logging.log4j.*;
 

@@ -25,40 +25,42 @@
  */
 package ca.mali.fomparser;
 
-import hla.rti1516e.ParameterHandle;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  *
- * @author Mostafa
+ * @author Mostafa Ali <engabdomostafa@gmail.com>
  */
-public class ParameterFDD {
-    private final String name;
-    private final String dataType;
-    private ParameterHandle handle;
+public class UpdateRateFDD {
 
-    public ParameterFDD(String name, String dataType) {
-        this.name = name;
-        this.dataType = dataType;
+    private final StringProperty name = new SimpleStringProperty();
+    private final DoubleProperty value = new SimpleDoubleProperty();
+
+    public String getName() {
+        return name.get();
+    }
+
+    public void setName(String value) {
+        name.set(value);
     }
     
-    public String getName() {
+    public double getValue() {
+        return value.get();
+    }
+
+    public void setValue(double value) {
+        this.value.set(value);
+    }
+
+    public DoubleProperty valueProperty() {
+        return value;
+    }
+
+    public StringProperty nameProperty() {
         return name;
     }
 
-    public String getDataType() {
-        return dataType;
-    }
-
-    public ParameterHandle getHandle() {
-        return handle;
-    }
-
-    public void setHandle(ParameterHandle handle) {
-        this.handle = handle;
-    }
-
-    @Override
-    public String toString() {
-        return name;
-    }
 }

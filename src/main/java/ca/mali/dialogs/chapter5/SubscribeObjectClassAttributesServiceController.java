@@ -56,7 +56,7 @@ public class SubscribeObjectClassAttributesServiceController implements Initiali
     private CheckBox PassiveSubscription;
 
     @FXML
-    private TextField UpdateRateDesignator;
+    private ComboBox<String> UpdateRateDesignator;
 
     @FXML
     private Button OkButton;
@@ -67,7 +67,10 @@ public class SubscribeObjectClassAttributesServiceController implements Initiali
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         logger.entry();
-        attributeListController.setFddObjectModel(fddObjectModel);
+        if (fddObjectModel != null) {
+            attributeListController.setFddObjectModel(fddObjectModel);
+            UpdateRateDesignator.getItems().addAll(fddObjectModel.getUpdateRates().keySet());
+        }
         logger.exit();
     }
 
@@ -97,7 +100,7 @@ public class SubscribeObjectClassAttributesServiceController implements Initiali
                     });
                     log.getSuppliedArguments().add(new ClassValuePair(
                             "Passive subsription", Boolean.class, String.valueOf(PassiveSubscription.isSelected())));
-                    if (UpdateRateDesignator.getText().isEmpty()) {
+                    if (UpdateRateDesignator.getValue().isEmpty()) {
                         if (PassiveSubscription.isSelected()) {
                             rtiAmb.subscribeObjectClassAttributesPassively(fddObjectModel.getObjectClasses().get(key).getHandle(), set);
                         } else {
@@ -105,13 +108,13 @@ public class SubscribeObjectClassAttributesServiceController implements Initiali
                         }
                     } else {
                         log.getSuppliedArguments().add(new ClassValuePair(
-                                "Update rate", String.class, UpdateRateDesignator.getText()));
+                                "Update rate", String.class, UpdateRateDesignator.getValue()));
                         if (PassiveSubscription.isSelected()) {
                             rtiAmb.subscribeObjectClassAttributesPassively(
-                                    fddObjectModel.getObjectClasses().get(key).getHandle(), set, UpdateRateDesignator.getText());
+                                    fddObjectModel.getObjectClasses().get(key).getHandle(), set, UpdateRateDesignator.getValue());
                         } else {
                             rtiAmb.subscribeObjectClassAttributes(
-                                    fddObjectModel.getObjectClasses().get(key).getHandle(), set, UpdateRateDesignator.getText());
+                                    fddObjectModel.getObjectClasses().get(key).getHandle(), set, UpdateRateDesignator.getValue());
                         }
                     }
                     log.setDescription("Attributes subscribed successfully");
