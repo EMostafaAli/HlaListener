@@ -28,13 +28,18 @@ package ca.mali.customcontrol;
 import ca.mali.fomparser.*;
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.stream.*;
 import javafx.beans.property.*;
+import javafx.beans.value.*;
 import javafx.collections.*;
+import javafx.event.*;
 import javafx.fxml.*;
+import javafx.geometry.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.util.*;
 import org.apache.logging.log4j.*;
 
 /**
@@ -48,8 +53,15 @@ public class AttributeListController extends VBox {
 
     @FXML
     private ListView<String> ObjectListView;
+    
     @FXML
-    private ListView<AttributeState> AttributeListView;
+    private TableColumn attributeName;
+    
+    @FXML
+    private TableColumn checked;
+
+    @FXML
+    private TableView<AttributeState> AttributeTableView;
 
     private Map<String, ObservableList<AttributeState>> list = new HashMap<>();
 
@@ -69,6 +81,9 @@ public class AttributeListController extends VBox {
 
     public void setFddObjectModel(FddObjectModel fddObjectModel) {
         logger.entry();
+        Label label = new Label("Select Object class to display its attributes");
+        label.setBackground(new Background(new BackgroundFill(Color.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
+        AttributeTableView.setPlaceholder(label);
         if (fddObjectModel != null) {
             for (ObjectClassFDD value : fddObjectModel.getObjectClasses().values()) {
                 ObservableList<AttributeState> att = FXCollections.observableArrayList();
@@ -79,9 +94,34 @@ public class AttributeListController extends VBox {
             }
             ObjectListView.getItems().addAll(list.keySet());
             ObjectListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-                AttributeListView.setItems(list.get(newValue));
+//                AttributeListView.setItems(list.get(newValue));
+                AttributeTableView.setItems(list.get(newValue));
             });
-            AttributeListView.setCellFactory(CheckBoxListCell.forListView(AttributeState::onProperty));
+//            AttributeListView.setCellFactory(CheckBoxListCell.forListView(AttributeState::onProperty));
+            attributeName.setCellValueFactory(new PropertyValueFactory<AttributeState, String>("attributeName"));
+            checked.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<AttributeState, Boolean>, ObservableValue<Boolean>>() {
+
+                @Override
+                public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<AttributeState, Boolean> param) {
+                    return param.getValue().onProperty();
+                }
+
+            });
+            checked.setCellFactory(CheckBoxTableCell.forTableColumn(checked));
+            CheckBox cb = new CheckBox();
+            cb.setUserData(checked);
+            cb.setOnAction(new EventHandler<ActionEvent>() {
+
+                @Override
+                public void handle(ActionEvent event) {
+                    CheckBox cb = (CheckBox) event.getSource();
+                    TableColumn tc = (TableColumn) cb.getUserData();
+                    for (AttributeState item : AttributeTableView.getItems()) {
+                        item.setOn(cb.isSelected());
+                    }
+                }
+            });
+            checked.setGraphic(cb);
         }
         logger.exit();
     }
@@ -106,13 +146,23 @@ public class AttributeListController extends VBox {
         return finalList;
     }
 
-    static class AttributeState {
+    public static class AttributeState {
 
+        private final ReadOnlyStringWrapper attributeName = new ReadOnlyStringWrapper();
         private final BooleanProperty on = new SimpleBooleanProperty();
         private final AttributeFDD attribute;
 
         public AttributeState(AttributeFDD attribute) {
             this.attribute = attribute;
+            attributeName.set(attribute.getName());
+        }
+
+        public String getAttributeName() {
+            return attributeName.get();
+        }
+
+        public ReadOnlyStringProperty attributeNameProperty() {
+            return attributeName.getReadOnlyProperty();
         }
 
         public boolean isOn() {
