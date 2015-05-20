@@ -25,8 +25,6 @@
  */
 package ca.mali.hlalistener;
 
-import ca.mali.fdd.Attribute;
-import ca.mali.fdd.ObjectClass;
 import ca.mali.fomparser.*;
 import static ca.mali.hlalistener.PublicVariables.*;
 
@@ -34,11 +32,7 @@ import hla.rti1516e.*;
 import hla.rti1516e.encoding.*;
 import hla.rti1516e.exceptions.*;
 import hla.rti1516e.time.*;
-import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
 import org.apache.logging.log4j.*;
 
 /**
@@ -77,7 +71,7 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         }
     }
 
-    // <editor-fold desc="Chapter 4">
+// <editor-fold desc="Chapter 4">
     //4.4
     @Override
     public void connectionLost(String faultDescription) throws FederateInternalError {
@@ -338,6 +332,60 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
             logger.log(Level.INFO, "Pre-restore handle '{}' (post-restore handle '{}') status is '{}'",
                     RestorePair.preRestoreHandle, RestorePair.preRestoreHandle, RestorePair.status);
         }
+        logEntries.add(log);
+        logger.exit();
+    }
+// </editor-fold>
+
+// <editor-fold desc="Chapter 5">
+    //5.10
+    @Override
+    public void startRegistrationForObjectClass(ObjectClassHandle theClass) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("5.10", "Start Registration For Object Class † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Class Handle", ObjectClassHandle.class, theClass.toString()));
+        log.setDescription("Start registeration for object class received");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Start registration for object class: {}", theClass.toString());
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //5.11
+    @Override
+    public void stopRegistrationForObjectClass(ObjectClassHandle theClass) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("5.11", "Stop Registration For Object Class † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Class Handle", ObjectClassHandle.class, theClass.toString()));
+        log.setDescription("Stop registeration for object class received");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Stop registration for object class: {}", theClass.toString());
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //5.12
+    @Override
+    public void turnInteractionsOn(InteractionClassHandle theHandle) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("5.12", "Turn Interactions On † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Interaction Class Handle", InteractionClassHandle.class, theHandle.toString()));
+        log.setDescription("Turn interaction on received");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Turn interaction on for interaction class: {}", theHandle.toString());
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //5.13
+    @Override
+    public void turnInteractionsOff(InteractionClassHandle theHandle) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("5.13", "Turn Interactions Off † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Interaction Class Handle", InteractionClassHandle.class, theHandle.toString()));
+        log.setDescription("Turn interaction off received");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Turn interaction off for interaction class: {}", theHandle.toString());
         logEntries.add(log);
         logger.exit();
     }

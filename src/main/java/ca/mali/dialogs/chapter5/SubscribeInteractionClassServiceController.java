@@ -25,7 +25,7 @@
  */
 package ca.mali.dialogs.chapter5;
 
-import ca.mali.customcontrol.InteractionsListController;
+import ca.mali.customcontrol.*;
 import ca.mali.fomparser.InteractionClassFDD;
 import ca.mali.hlalistener.*;
 import static ca.mali.hlalistener.PublicVariables.*;
@@ -42,15 +42,19 @@ import org.apache.logging.log4j.*;
 /**
  * FXML Controller class
  *
- * @author Mostafa Ali <engabdomostafa@gmail.com>
+ * @author Mostafa
  */
-public class PublishInteractionClassServiceController implements Initializable {
+public class SubscribeInteractionClassServiceController implements Initializable {
 
     //Logger
     private static final Logger logger = LogManager.getLogger();
 
     @FXML
     private InteractionsListController interactionsListController;
+
+    @FXML
+    private CheckBox PassiveSubscription;
+
     @FXML
     private Button OkButton;
 
@@ -60,7 +64,9 @@ public class PublishInteractionClassServiceController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         logger.entry();
-        interactionsListController.setFddObjectModel(fddObjectModel);
+        if (fddObjectModel != null) {
+            interactionsListController.setFddObjectModel(fddObjectModel);
+        }
         logger.exit();
     }
 
@@ -75,16 +81,22 @@ public class PublishInteractionClassServiceController implements Initializable {
     private void OK_click(ActionEvent event) {
         logger.entry();
         for (InteractionClassFDD interaction : interactionsListController.getInteractions()) {
-            LogEntry log = new LogEntry("5.4", "Publish Interaction Class service");
+            LogEntry log = new LogEntry("5.8", "Subscribe Interaction Class service");
             try {
                 log.getSuppliedArguments().add(new ClassValuePair("Interaction Class<handle>",
-                        InteractionClassHandle.class, interaction.getFullName() + "<" + interaction.getHandle() + ">"));
-                rtiAmb.publishInteractionClass(interaction.getHandle());
-                log.setDescription("Interaction class published successfully");
+                        InteractionClassHandle.class, interaction.getFullName() + '<' + interaction.getHandle().toString() + '>'));
+                log.getSuppliedArguments().add(new ClassValuePair(
+                        "Passive subsription", Boolean.class, String.valueOf(PassiveSubscription.isSelected())));
+                if (PassiveSubscription.isSelected()) {
+                    rtiAmb.subscribeInteractionClassPassively(interaction.getHandle());
+                } else {
+                    rtiAmb.subscribeInteractionClass(interaction.getHandle());
+                }
+                log.setDescription("Interaction class subscribed successfully");
                 log.setLogType(LogEntryType.REQUEST);
-            } catch (InteractionClassNotDefined | SaveInProgress |
-                    RestoreInProgress | FederateNotExecutionMember |
-                    NotConnected | RTIinternalError ex) {
+            } catch (FederateServiceInvocationsAreBeingReportedViaMOM |
+                    InteractionClassNotDefined | SaveInProgress | RestoreInProgress |
+                    FederateNotExecutionMember | NotConnected | RTIinternalError ex) {
                 log.setException(ex);
                 log.setLogType(LogEntryType.ERROR);
                 logger.log(Level.ERROR, ex.getMessage(), ex);
@@ -98,5 +110,4 @@ public class PublishInteractionClassServiceController implements Initializable {
         ((Stage) OkButton.getScene().getWindow()).close();
         logger.exit();
     }
-
 }

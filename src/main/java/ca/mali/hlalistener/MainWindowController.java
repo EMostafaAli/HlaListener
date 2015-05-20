@@ -528,7 +528,8 @@ public class MainWindowController implements Initializable {
         logger.exit();
     }
 // </editor-fold>
-    
+ 
+// <editor-fold desc="Chapter 5">
     //5.2
     @FXML
     private void PublishObjects_click(ActionEvent event) {
@@ -565,6 +566,18 @@ public class MainWindowController implements Initializable {
         }
     }
     
+    //5.5
+    @FXML
+    private void UnpublishInteraction_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("5.5 Unpublish Interaction Class service", "/fxml/chapter5/UnpublishInteractionClassService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Unpublish Interaction Class service dialog box", ex);
+        }
+    }
+    
     //5.6
     @FXML
     private void SubscribeObjects_click(ActionEvent event) {
@@ -589,6 +602,31 @@ public class MainWindowController implements Initializable {
         }
     }
     
+    //5.8
+    @FXML
+    private void SubscribeInteractions_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("5.8 Subscribe Interaction Class service", "/fxml/chapter5/SubscribeInteractionClassService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Subscribe Interaction Class service dialog box", ex);
+        }
+    }
+    
+    //5.9
+    @FXML
+    private void UnsubscribeInteractions_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("5.9 Unsubscribe Interaction Class service", "/fxml/chapter5/UnsubscribeInteractionClassService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Unsubscribe Interaction Class service dialog box", ex);
+        }
+    }
+// </editor-fold>
+  
 // <editor-fold desc="Chapter 8">
     //8.2
     @FXML
@@ -945,5 +983,97 @@ public class MainWindowController implements Initializable {
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Get Object Class Handle service dialog box", ex);
         }
+    }
+    
+    //10.33
+    @FXML
+    private void EnableObjectClassRelevanceAdvisorySwitch_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("10.33", "Enable Object Class Relevance Advisory Switch service");
+        try {
+            rtiAmb.enableObjectClassRelevanceAdvisorySwitch();
+            log.setDescription("Object Class Relevance Advisory Switch enabled successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (ObjectClassRelevanceAdvisorySwitchIsOn | SaveInProgress | RestoreInProgress |
+                FederateNotExecutionMember | NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
+        } catch (Exception ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
+        }
+        logEntries.add(log);
+        logger.exit();
+    }
+    
+    //10.34
+    @FXML
+    private void DisableObjectClassRelevanceAdvisorySwitch_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("10.33", "Disable Object Class Relevance Advisory Switch service");
+        try {
+            rtiAmb.disableObjectClassRelevanceAdvisorySwitch();
+            log.setDescription("Object Class Relevance Advisory Switch disabled successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (ObjectClassRelevanceAdvisorySwitchIsOff | SaveInProgress | RestoreInProgress |
+                FederateNotExecutionMember | NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
+        } catch (Exception ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
+        }
+        logEntries.add(log);
+        logger.exit();
+    }
+    
+    //10.39
+    @FXML
+    private void EnableInteractionRelevanceAdvisorySwitch_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("10.39", "Enable Interaction Relevance Advisory Switch service");
+        try {
+            rtiAmb.enableInteractionRelevanceAdvisorySwitch();
+            log.setDescription("Interaction Relevance Advisory Switch enabled successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (InteractionRelevanceAdvisorySwitchIsOn | SaveInProgress | RestoreInProgress |
+                FederateNotExecutionMember | NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
+        } catch (Exception ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
+        }
+        logEntries.add(log);
+        logger.exit();
+    }
+    
+    //10.40
+    @FXML
+    private void DisableInteractionRelevanceAdvisorySwitch_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("10.40", "Disable Interaction Relevance Advisory Switch service");
+        try {
+            rtiAmb.disableInteractionRelevanceAdvisorySwitch();
+            log.setDescription("Interaction Relevance Advisory Switch disabled successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (InteractionRelevanceAdvisorySwitchIsOff | SaveInProgress | RestoreInProgress |
+                FederateNotExecutionMember | NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
+        } catch (Exception ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
+        }
+        logEntries.add(log);
+        logger.exit();
     }
 }

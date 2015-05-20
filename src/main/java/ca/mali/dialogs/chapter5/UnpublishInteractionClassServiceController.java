@@ -44,7 +44,7 @@ import org.apache.logging.log4j.*;
  *
  * @author Mostafa Ali <engabdomostafa@gmail.com>
  */
-public class PublishInteractionClassServiceController implements Initializable {
+public class UnpublishInteractionClassServiceController implements Initializable {
 
     //Logger
     private static final Logger logger = LogManager.getLogger();
@@ -75,16 +75,15 @@ public class PublishInteractionClassServiceController implements Initializable {
     private void OK_click(ActionEvent event) {
         logger.entry();
         for (InteractionClassFDD interaction : interactionsListController.getInteractions()) {
-            LogEntry log = new LogEntry("5.4", "Publish Interaction Class service");
+            LogEntry log = new LogEntry("5.5", "Unpublish Interaction Class service");
             try {
                 log.getSuppliedArguments().add(new ClassValuePair("Interaction Class<handle>",
                         InteractionClassHandle.class, interaction.getFullName() + "<" + interaction.getHandle() + ">"));
-                rtiAmb.publishInteractionClass(interaction.getHandle());
-                log.setDescription("Interaction class published successfully");
+                rtiAmb.unpublishInteractionClass(interaction.getHandle());
+                log.setDescription("Interaction class unpublished successfully");
                 log.setLogType(LogEntryType.REQUEST);
-            } catch (InteractionClassNotDefined | SaveInProgress |
-                    RestoreInProgress | FederateNotExecutionMember |
-                    NotConnected | RTIinternalError ex) {
+            } catch (InteractionClassNotDefined | SaveInProgress | RestoreInProgress |
+                    FederateNotExecutionMember | NotConnected | RTIinternalError ex) {
                 log.setException(ex);
                 log.setLogType(LogEntryType.ERROR);
                 logger.log(Level.ERROR, ex.getMessage(), ex);
@@ -98,5 +97,4 @@ public class PublishInteractionClassServiceController implements Initializable {
         ((Stage) OkButton.getScene().getWindow()).close();
         logger.exit();
     }
-
 }

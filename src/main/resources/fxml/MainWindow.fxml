@@ -55,13 +55,13 @@
                         <MenuItem mnemonicParsing="false" onAction="#UnpublishObjects_click" text="5.3 Unpublish Object Class Attributes..." />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#PublishInteraction_click" text="5.4 Publish Interaction Class..." />
-                        <MenuItem mnemonicParsing="false" text="5.5 Unpublish Interaction Class" />
+                        <MenuItem mnemonicParsing="false" onAction="#UnpublishInteraction_click" text="5.5 Unpublish Interaction Class..." />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#SubscribeObjects_click" text="5.6 Subscribe Object Class Attributes..." />
                         <MenuItem mnemonicParsing="false" onAction="#UnsubscribeObjects_click" text="5.7 Unsubscribe Object Class Attributes..." />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="5.8 Subscribe Interaction Class" />
-                        <MenuItem mnemonicParsing="false" text="5.9 Unsubscribe Interaction Class" />
+                        <MenuItem mnemonicParsing="false" onAction="#SubscribeInteractions_click"  text="5.8 Subscribe Interaction Class..." />
+                        <MenuItem mnemonicParsing="false" onAction="#UnsubscribeInteractions_click" text="5.9 Unsubscribe Interaction Class..." />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="6 Object">
@@ -221,8 +221,8 @@
                         </Menu>
                         <Menu mnemonicParsing="false" text="Switches">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="10.33 Enable Object Class Relevance Advisory Switch" />
-                                <MenuItem mnemonicParsing="false" text="10.34 Disable Object Class Relevance Advisory Switch" />
+                                <MenuItem mnemonicParsing="false" onAction="#EnableObjectClassRelevanceAdvisorySwitch_click" text="10.33 Enable Object Class Relevance Advisory Switch" />
+                                <MenuItem mnemonicParsing="false" onAction="#DisableObjectClassRelevanceAdvisorySwitch_click" text="10.34 Disable Object Class Relevance Advisory Switch" />
                                 <SeparatorMenuItem mnemonicParsing="false" />
                                 <MenuItem mnemonicParsing="false" text="10.35 Enable Attribute Relevance Advisory Switch" />
                                 <MenuItem mnemonicParsing="false" text="10.36 Disable Attribute Relevance Advisory Switch" />
@@ -230,8 +230,8 @@
                                 <MenuItem mnemonicParsing="false" text="10.37 Enable Attribute Scope Advisory Switch" />
                                 <MenuItem mnemonicParsing="false" text="10.38 Disable Attribute Scope Advisory Switch" />
                                 <SeparatorMenuItem mnemonicParsing="false" />
-                                <MenuItem mnemonicParsing="false" text="10.39 Enable Interaction Relevance Advisory Switch" />
-                                <MenuItem mnemonicParsing="false" text="10.40 Disable Interaction Relevance Advisory Switch" />
+                                <MenuItem mnemonicParsing="false" onAction="#EnableInteractionRelevanceAdvisorySwitch_click" text="10.39 Enable Interaction Relevance Advisory Switch" />
+                                <MenuItem mnemonicParsing="false" onAction="#DisableInteractionRelevanceAdvisorySwitch_click" text="10.40 Disable Interaction Relevance Advisory Switch" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Callbacks">

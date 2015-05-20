@@ -100,7 +100,7 @@ public class SubscribeObjectClassAttributesServiceController implements Initiali
                     });
                     log.getSuppliedArguments().add(new ClassValuePair(
                             "Passive subsription", Boolean.class, String.valueOf(PassiveSubscription.isSelected())));
-                    if (UpdateRateDesignator.getValue().isEmpty()) {
+                    if (UpdateRateDesignator.getValue() == null || UpdateRateDesignator.getValue().isEmpty()) {
                         if (PassiveSubscription.isSelected()) {
                             rtiAmb.subscribeObjectClassAttributesPassively(fddObjectModel.getObjectClasses().get(key).getHandle(), set);
                         } else {
