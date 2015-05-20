@@ -4,13 +4,12 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 
-
-<fx:root type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" >
+<fx:root type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TableView fx:id="InteractionTableView" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="438.0">
+      <TableView fx:id="InteractionTableView" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
         <columns>
           <TableColumn fx:id="CheckTableColumn" prefWidth="40.0" />
-          <TableColumn fx:id="InteractionTableColumn" editable="false" prefWidth="384.0" text="Interaction Class" />
+          <TableColumn fx:id="InteractionTableColumn" editable="false" prefWidth="541.0" text="Interaction Class" />
         </columns>
       </TableView>
    </children>
