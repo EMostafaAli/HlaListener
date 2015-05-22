@@ -391,6 +391,58 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
     }
 // </editor-fold>
 
+    //6.3
+    @Override
+    public void objectInstanceNameReservationSucceeded(String objectName) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("6.3", "Object Instance Name Reserved † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Name", String.class, objectName));
+        log.setDescription("Object Instance name reserved successfully");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Object Instance name {} reserved successfully", objectName);
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //6.3
+    @Override
+    public void objectInstanceNameReservationFailed(String objectName) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("6.3", "Object Instance Name Reserved † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Name", String.class, objectName));
+        log.setDescription("Object Instance name reservation failed");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Object Instance name {} reservation failed", objectName);
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //6.6
+    @Override
+    public void multipleObjectInstanceNameReservationSucceeded(Set<String> objectNames) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("6.6", "Multiple Object Instance Names Reserved † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Name Set", Set.class, objectNames.toString()));
+        log.setDescription("Object Instance names reserved successfully");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Name Set {} reserved successfully", objectNames);
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //6.6
+    @Override
+    public void multipleObjectInstanceNameReservationFailed(Set<String> objectNames) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("6.6", "Multiple Object Instance Names Reserved † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Name Set", Set.class, objectNames.toString()));
+        log.setDescription("Object Instance names reservation failed");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Name Set {} reservation failed", objectNames);
+        logEntries.add(log);
+        logger.exit();
+    }
+
 // <editor-fold desc="Chapter 8">
     //8.3
     @Override

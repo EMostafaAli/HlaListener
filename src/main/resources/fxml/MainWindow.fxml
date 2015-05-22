@@ -66,10 +66,10 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="6 Object">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="6.2 Reserve Object Instance Name" />
-                        <MenuItem mnemonicParsing="false" text="6.4 Release Object Instance Name" />
-                        <MenuItem mnemonicParsing="false" text="6.5 Reserve Multiple Object Instance Names" />
-                        <MenuItem mnemonicParsing="false" text="6.7 Release Multiple Object Instance Names" />
+                        <MenuItem mnemonicParsing="false" onAction="#ReserveName_click" text="6.2 Reserve Object Instance Name..." />
+                        <MenuItem mnemonicParsing="false" onAction="#ReleaseName_click"  text="6.4 Release Object Instance Name..." />
+                        <MenuItem mnemonicParsing="false" onAction="#ReserveMultipleNames_click" text="6.5 Reserve Multiple Object Instance Names..." />
+                        <MenuItem mnemonicParsing="false" onAction="#ReleaseMultipleNames_click" text="6.7 Release Multiple Object Instance Names..." />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="6.8 Register Object Instance" />
                         <MenuItem mnemonicParsing="false" text="6.14 Delete Object Instance" />

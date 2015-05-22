@@ -627,6 +627,54 @@ public class MainWindowController implements Initializable {
     }
 // </editor-fold>
   
+    //6.2
+    @FXML
+    private void ReserveName_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("6.2 Reserve Object Instance Name service", "/fxml/chapter6/ReserveObjectInstanceNameService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Reserve Object Instance Name service dialog box", ex);
+        }
+    }
+    
+    //6.4
+    @FXML
+    private void ReleaseName_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("6.4 Release Object Instance Name service", "/fxml/chapter6/ReleaseObjectInstanceNameService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Release Object Instance Name service dialog box", ex);
+        }
+    }
+    
+    //6.5
+    @FXML
+    private void ReserveMultipleNames_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("6.5 Reserve Multiple Object Instance Names service", "/fxml/chapter6/ReserveMultipleObjectInstanceNameService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Reserve Multiple Object Instance Names service dialog box", ex);
+        }
+    }
+    
+    //6.7
+    @FXML
+    private void ReleaseMultipleNames_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("6.7 Release Multiple Object Instance Names service", "/fxml/chapter6/ReleaseMultipleObjectInstanceNameService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Release Multiple Object Instance Names service dialog box", ex);
+        }
+    }
+    
 // <editor-fold desc="Chapter 8">
     //8.2
     @FXML
