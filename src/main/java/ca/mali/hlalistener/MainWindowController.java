@@ -675,6 +675,18 @@ public class MainWindowController implements Initializable {
         }
     }
     
+    //6.8
+    @FXML
+    private void RegisterObject_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("6.8 Register Object Instance service", "/fxml/chapter6/RegisterObjectInstanceService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Register Object Instance s service dialog box", ex);
+        }
+    }
+    
 // <editor-fold desc="Chapter 8">
     //8.2
     @FXML

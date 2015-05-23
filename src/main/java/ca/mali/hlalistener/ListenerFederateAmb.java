@@ -443,6 +443,37 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         logger.exit();
     }
 
+    //6.9
+    @Override
+    public void discoverObjectInstance(ObjectInstanceHandle theObject, ObjectClassHandle theObjectClass, String objectName) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("6.9", "Discover Object Instance † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+        log.getSuppliedArguments().add(new ClassValuePair("Object Class Handle", ObjectClassHandle.class, theObjectClass.toString()));
+        log.getSuppliedArguments().add(new ClassValuePair("Object Name", String.class, objectName));
+        log.setDescription("Discover object instance");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Discover object instance: {}, object class handle: {}, name: {}", theObject, theObjectClass, objectName);
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //6.9
+    @Override
+    public void discoverObjectInstance(ObjectInstanceHandle theObject, ObjectClassHandle theObjectClass, String objectName, FederateHandle producingFederate) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("6.9", "Discover Object Instance † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+        log.getSuppliedArguments().add(new ClassValuePair("Object Class Handle", ObjectClassHandle.class, theObjectClass.toString()));
+        log.getSuppliedArguments().add(new ClassValuePair("Object Name", String.class, objectName));
+        log.getSuppliedArguments().add(new ClassValuePair("Federate Handle", FederateHandle.class, producingFederate.toString()));
+        log.setDescription("Discover object instance");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Discover object instance: {}, object class handle: {}, name: {}, Federate {}", theObject, theObjectClass, objectName, producingFederate);
+        logEntries.add(log);
+        logger.exit();
+    }
+
 // <editor-fold desc="Chapter 8">
     //8.3
     @Override

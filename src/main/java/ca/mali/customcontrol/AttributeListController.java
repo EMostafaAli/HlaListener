@@ -53,16 +53,17 @@ public class AttributeListController extends VBox {
 
     @FXML
     private ListView<String> ObjectListView;
-    
+
     @FXML
     private TableColumn attributeName;
-    
+
     @FXML
     private TableColumn checked;
 
     @FXML
     private TableView<AttributeState> AttributeTableView;
 
+    CheckBox cb = new CheckBox();
     private Map<String, ObservableList<AttributeState>> list = new HashMap<>();
 
     public AttributeListController() {
@@ -95,6 +96,7 @@ public class AttributeListController extends VBox {
             ObjectListView.getItems().addAll(list.keySet());
             ObjectListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 AttributeTableView.setItems(list.get(newValue));
+                cb.setSelected(AttributeTableView.getItems().stream().allMatch(a -> a.isOn()));
             });
             attributeName.setCellValueFactory(new PropertyValueFactory<AttributeState, String>("attributeName"));
             checked.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<AttributeState, Boolean>, ObservableValue<Boolean>>() {
@@ -106,7 +108,6 @@ public class AttributeListController extends VBox {
 
             });
             checked.setCellFactory(CheckBoxTableCell.forTableColumn(checked));
-            CheckBox cb = new CheckBox();
             cb.setUserData(checked);
             cb.setOnAction(new EventHandler<ActionEvent>() {
 

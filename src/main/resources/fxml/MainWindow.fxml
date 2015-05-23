@@ -60,18 +60,18 @@
                         <MenuItem mnemonicParsing="false" onAction="#SubscribeObjects_click" text="5.6 Subscribe Object Class Attributes..." />
                         <MenuItem mnemonicParsing="false" onAction="#UnsubscribeObjects_click" text="5.7 Unsubscribe Object Class Attributes..." />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" onAction="#SubscribeInteractions_click"  text="5.8 Subscribe Interaction Class..." />
+                        <MenuItem mnemonicParsing="false" onAction="#SubscribeInteractions_click" text="5.8 Subscribe Interaction Class..." />
                         <MenuItem mnemonicParsing="false" onAction="#UnsubscribeInteractions_click" text="5.9 Unsubscribe Interaction Class..." />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="6 Object">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#ReserveName_click" text="6.2 Reserve Object Instance Name..." />
-                        <MenuItem mnemonicParsing="false" onAction="#ReleaseName_click"  text="6.4 Release Object Instance Name..." />
+                        <MenuItem mnemonicParsing="false" onAction="#ReleaseName_click" text="6.4 Release Object Instance Name..." />
                         <MenuItem mnemonicParsing="false" onAction="#ReserveMultipleNames_click" text="6.5 Reserve Multiple Object Instance Names..." />
                         <MenuItem mnemonicParsing="false" onAction="#ReleaseMultipleNames_click" text="6.7 Release Multiple Object Instance Names..." />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="6.8 Register Object Instance" />
+                        <MenuItem mnemonicParsing="false" onAction="#RegisterObject_click" text="6.8 Register Object Instance..." />
                         <MenuItem mnemonicParsing="false" text="6.14 Delete Object Instance" />
                         <MenuItem mnemonicParsing="false" text="6.16 Local Delete Object Instance" />
                         <SeparatorMenuItem mnemonicParsing="false" />
@@ -263,7 +263,7 @@
                                 <TableView fx:id="logTable" layoutX="14.0" layoutY="20.0" prefHeight="1281.0" prefWidth="647.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <columns>
                                         <TableColumn fx:id="idCol" prefWidth="50.0" text="#" />
-                                        <TableColumn fx:id="iconCol" prefWidth="52.0" text="i" />
+                                        <TableColumn fx:id="iconCol" prefWidth="52.0" sortable="false" text="i" />
                                         <TableColumn fx:id="sectionCol" prefWidth="55.0" text="Sect" />
                                         <TableColumn fx:id="titleCol" prefWidth="450.0" text="Title" />
                                         <TableColumn fx:id="timeCol" prefWidth="82.0" text="Time" />
