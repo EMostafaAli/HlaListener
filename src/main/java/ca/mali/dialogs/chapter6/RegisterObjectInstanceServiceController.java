@@ -94,7 +94,7 @@ public class RegisterObjectInstanceServiceController implements Initializable {
                 registerObjectInstance = rtiAmb.registerObjectInstance(ObjectClassName.getValue().getHandle(), ReservedName.getText());
             }
             log.getReturnedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, registerObjectInstance.toString()));
-            log.setDescription("Object class registered successfully");
+            log.setDescription("Object instance registered successfully");
             log.setLogType(LogEntryType.REQUEST);
         } catch (ObjectClassNotPublished | ObjectClassNotDefined | SaveInProgress |
                 RestoreInProgress | FederateNotExecutionMember | NotConnected |

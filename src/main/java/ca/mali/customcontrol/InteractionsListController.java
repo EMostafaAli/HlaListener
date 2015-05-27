@@ -30,6 +30,8 @@ import ca.mali.fomparser.InteractionClassFDD;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.*;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.*;
 import javafx.beans.value.*;
 import javafx.collections.*;
@@ -58,6 +60,7 @@ public class InteractionsListController extends VBox {
     @FXML
     private TableColumn CheckTableColumn;
 
+    CheckBox cb = new CheckBox();
     ObservableList<InteractionState> interactions = FXCollections.observableArrayList();
 
     public InteractionsListController() {
@@ -81,6 +84,15 @@ public class InteractionsListController extends VBox {
                 interactions.add(new InteractionState(value));
             });
             InteractionTableView.setItems(interactions);
+            interactions.forEach((interaction) -> {
+                interaction.onProperty().addListener((observable, oldValue, newValue) -> {
+                    if (!newValue) {
+                        cb.setSelected(false);
+                    } else if (interactions.stream().allMatch(a -> a.isOn())) {
+                        cb.setSelected(true);
+                    }
+                });
+            });
             InteractionTableColumn.setCellValueFactory(new PropertyValueFactory<>("interactionName"));
             CheckTableColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<InteractionState, Boolean>, ObservableValue<Boolean>>() {
                 @Override
@@ -90,7 +102,6 @@ public class InteractionsListController extends VBox {
             });
 
             CheckTableColumn.setCellFactory(CheckBoxTableCell.forTableColumn(CheckTableColumn));
-            CheckBox cb = new CheckBox();
             cb.setUserData(CheckTableColumn);
             cb.setOnAction((ActionEvent event) -> {
                 CheckBox cb1 = (CheckBox) event.getSource();

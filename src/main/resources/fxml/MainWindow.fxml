@@ -72,7 +72,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#ReleaseMultipleNames_click" text="6.7 Release Multiple Object Instance Names..." />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#RegisterObject_click" text="6.8 Register Object Instance..." />
-                        <MenuItem mnemonicParsing="false" text="6.14 Delete Object Instance" />
+                        <MenuItem mnemonicParsing="false" onAction="#DeleteObject_click" text="6.14 Delete Object Instance..." />
                         <MenuItem mnemonicParsing="false" text="6.16 Local Delete Object Instance" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="6.10 Update Attribute Value" />

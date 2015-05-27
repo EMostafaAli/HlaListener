@@ -683,7 +683,19 @@ public class MainWindowController implements Initializable {
             DisplayDialog("6.8 Register Object Instance service", "/fxml/chapter6/RegisterObjectInstanceService.fxml");
             logger.exit();
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error Displaying Register Object Instance s service dialog box", ex);
+            logger.log(Level.FATAL, "Error Displaying Register Object Instance service dialog box", ex);
+        }
+    }
+    
+    //6.14
+    @FXML
+    private void DeleteObject_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("6.14 Delete Object Instance service", "/fxml/chapter6/DeleteObjectInstanceService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Delete Object Instance service dialog box", ex);
         }
     }
     

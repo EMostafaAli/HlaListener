@@ -97,6 +97,15 @@ public class AttributeListController extends VBox {
             ObjectListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 AttributeTableView.setItems(list.get(newValue));
                 cb.setSelected(AttributeTableView.getItems().stream().allMatch(a -> a.isOn()));
+                list.get(newValue).forEach((a) -> {
+                    a.onProperty().addListener((observable1, oldValue1, newValue1) -> {
+                        if (!newValue1) {
+                            cb.setSelected(false);
+                        } else if (list.get(newValue).stream().allMatch(b -> b.isOn())) {
+                            cb.setSelected(true);
+                        }
+                    });
+                });
             });
             attributeName.setCellValueFactory(new PropertyValueFactory<AttributeState, String>("attributeName"));
             checked.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<AttributeState, Boolean>, ObservableValue<Boolean>>() {

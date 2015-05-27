@@ -474,6 +474,100 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         logger.exit();
     }
 
+    //6.15
+    @Override
+    public void removeObjectInstance(ObjectInstanceHandle theObject, byte[] userSuppliedTag, OrderType sentOrdering, SupplementalRemoveInfo removeInfo) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("6.15", "Remove Object Instance † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+        if (userSuppliedTag.length > 0) {
+            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte.class, Arrays.toString(userSuppliedTag)));
+            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", String.class, new String(userSuppliedTag)));
+        }
+        log.getSuppliedArguments().add(new ClassValuePair("Send Order", OrderType.class, sentOrdering.toString()));
+        log.getSuppliedArguments().add(new ClassValuePair("Supplemental Remove Info (has federate)", SupplementalRemoveInfo.class, String.valueOf(removeInfo.hasProducingFederate())));
+        if (removeInfo.hasProducingFederate()) {
+            log.getSuppliedArguments().add(new ClassValuePair("Supplemental Remove Info (federate)", SupplementalRemoveInfo.class, removeInfo.getProducingFederate().toString()));
+        }
+        log.setDescription("Remove object instance");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Remove object instance: {}, User Supplied Tag: {}, Send Order: {}, Supplemental Remove Info ({}) <{}>",
+                theObject, userSuppliedTag, sentOrdering, removeInfo.hasProducingFederate(), removeInfo.getProducingFederate());
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //6.15
+    @Override
+    public void removeObjectInstance(ObjectInstanceHandle theObject, byte[] userSuppliedTag, OrderType sentOrdering, LogicalTime theTime, OrderType receivedOrdering, SupplementalRemoveInfo removeInfo) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("6.15", "Remove Object Instance † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+        if (userSuppliedTag.length > 0) {
+            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte.class, Arrays.toString(userSuppliedTag)));
+            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", String.class, new String(userSuppliedTag)));
+        }
+        log.getSuppliedArguments().add(new ClassValuePair("Send Order", OrderType.class, sentOrdering.toString()));
+        log.getSuppliedArguments().add(new ClassValuePair("Logical Time", LogicalTime.class, theTime.toString()));
+        log.getSuppliedArguments().add(new ClassValuePair("Receive Order", OrderType.class, receivedOrdering.toString()));
+        log.getSuppliedArguments().add(new ClassValuePair("Supplemental Remove Info (has federate)", SupplementalRemoveInfo.class, String.valueOf(removeInfo.hasProducingFederate())));
+        if (removeInfo.hasProducingFederate()) {
+            log.getSuppliedArguments().add(new ClassValuePair("Supplemental Remove Info (federate)", SupplementalRemoveInfo.class, removeInfo.getProducingFederate().toString()));
+        }
+        log.setDescription("Remove object instance");
+        switch (logicalTimeFactory.getName()) {
+            case "HLAfloat64Time": {
+                log.setSimulationTime(String.valueOf(((HLAfloat64Time) theTime).getValue()));
+                break;
+            }
+            case "HLAinteger64Time": {
+                log.setSimulationTime(String.valueOf(((HLAinteger64Time) theTime).getValue()));
+                break;
+            }
+        }
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Remove object instance: {}, User Supplied Tag: {}, Send Order: {}, Logical Time: {}, Receive Order: {}, Supplemental Remove Info ({}) <{}>",
+                theObject, userSuppliedTag, sentOrdering, theTime, receivedOrdering, removeInfo.hasProducingFederate(), removeInfo.getProducingFederate());
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //6.15
+    @Override
+    public void removeObjectInstance(ObjectInstanceHandle theObject, byte[] userSuppliedTag, OrderType sentOrdering, LogicalTime theTime, OrderType receivedOrdering, MessageRetractionHandle retractionHandle, SupplementalRemoveInfo removeInfo) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("6.15", "Remove Object Instance † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+        if (userSuppliedTag.length > 0) {
+            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte.class, Arrays.toString(userSuppliedTag)));
+            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", String.class, new String(userSuppliedTag)));
+        }
+        log.getSuppliedArguments().add(new ClassValuePair("Send Order", OrderType.class, sentOrdering.toString()));
+        log.getSuppliedArguments().add(new ClassValuePair("Logical Time", LogicalTime.class, theTime.toString()));
+        log.getSuppliedArguments().add(new ClassValuePair("Receive Order", OrderType.class, receivedOrdering.toString()));
+        log.getSuppliedArguments().add(new ClassValuePair("Message Retraction Handle", MessageRetractionHandle.class, retractionHandle.toString()));
+        log.getSuppliedArguments().add(new ClassValuePair("Supplemental Remove Info (has federate)", SupplementalRemoveInfo.class, String.valueOf(removeInfo.hasProducingFederate())));
+        if (removeInfo.hasProducingFederate()) {
+            log.getSuppliedArguments().add(new ClassValuePair("Supplemental Remove Info (federate)", SupplementalRemoveInfo.class, removeInfo.getProducingFederate().toString()));
+        }
+        log.setDescription("Remove object instance");
+        switch (logicalTimeFactory.getName()) {
+            case "HLAfloat64Time": {
+                log.setSimulationTime(String.valueOf(((HLAfloat64Time) theTime).getValue()));
+                break;
+            }
+            case "HLAinteger64Time": {
+                log.setSimulationTime(String.valueOf(((HLAinteger64Time) theTime).getValue()));
+                break;
+            }
+        }
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Remove object instance: {}, User Supplied Tag: {}, Send Order: {}, Logical Time: {}, Receive Order: {}, Message Retraction Handle: {}, Supplemental Remove Info ({}) <{}>",
+                theObject, userSuppliedTag, sentOrdering, theTime, receivedOrdering, retractionHandle, removeInfo.hasProducingFederate(), removeInfo.getProducingFederate());
+        logEntries.add(log);
+        logger.exit();
+    }
+
 // <editor-fold desc="Chapter 8">
     //8.3
     @Override
@@ -508,7 +602,6 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         LogEntry log = new LogEntry("8.13", "Time Advance Grant † service");
         log.getSuppliedArguments().add(new ClassValuePair("Current logical time", LogicalTime.class, theTime.toString()));
         log.setDescription("Time Advance Granted");
-//        log.setSimulationTime(theTime.);
         switch (logicalTimeFactory.getName()) {
             case "HLAfloat64Time": {
                 log.setSimulationTime(String.valueOf(((HLAfloat64Time) theTime).getValue()));
