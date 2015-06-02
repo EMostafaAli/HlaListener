@@ -73,11 +73,15 @@
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#RegisterObject_click" text="6.8 Register Object Instance..." />
                         <MenuItem mnemonicParsing="false" onAction="#DeleteObject_click" text="6.14 Delete Object Instance..." />
-                        <MenuItem mnemonicParsing="false" text="6.16 Local Delete Object Instance" />
+                        <MenuItem mnemonicParsing="false" onAction="#LocalDeleteObject_click" text="6.16 Local Delete Object Instance" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="6.10 Update Attribute Value" />
                         <MenuItem mnemonicParsing="false" text="6.12 Send Interaction" />
                         <MenuItem mnemonicParsing="false" text="6.19 Request Attribute Value" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="6.25 Query Attribute Transportation Type" />
+                        <MenuItem mnemonicParsing="false" text="6.27 Request Interaction Transportation Type Change" />
+                        <MenuItem mnemonicParsing="false" text="6.29 Query Interaction Transportation Type" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="7 Ownership">

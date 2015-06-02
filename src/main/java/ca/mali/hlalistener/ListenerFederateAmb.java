@@ -568,6 +568,183 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         logger.exit();
     }
 
+    //6.17
+    @Override
+    public void attributesInScope(ObjectInstanceHandle theObject, AttributeHandleSet theAttributes) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("6.17", "Attributes In Scope † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+        int i = 1;
+        for (AttributeHandle theAttribute : theAttributes) {
+            log.getSuppliedArguments().add(new ClassValuePair("Attribute " + i++, AttributeHandle.class, theAttribute.toString()));
+        }
+        log.setDescription("Attributes In Scope");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Attributes In Scope, Object Instance Handle: {}, attributes: {}", theObject, theAttributes);
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //6.18
+    @Override
+    public void attributesOutOfScope(ObjectInstanceHandle theObject, AttributeHandleSet theAttributes) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("6.18", "Attributes Out Of Scope † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+        int i = 1;
+        for (AttributeHandle theAttribute : theAttributes) {
+            log.getSuppliedArguments().add(new ClassValuePair("Attribute " + i++, AttributeHandle.class, theAttribute.toString()));
+        }
+        log.setDescription("Attributes Out Of Scope");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Attributes Out Of Scope, Object Instance Handle: {}, attributes: {}", theObject, theAttributes);
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //6.20
+    @Override
+    public void provideAttributeValueUpdate(ObjectInstanceHandle theObject, AttributeHandleSet theAttributes, byte[] userSuppliedTag) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("6.20", "Provide Attribute Value Update † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+        int i = 1;
+        for (AttributeHandle theAttribute : theAttributes) {
+            log.getSuppliedArguments().add(new ClassValuePair("Attribute " + i++, AttributeHandle.class, theAttribute.toString()));
+        }
+        if (userSuppliedTag.length > 0) {
+            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte.class, Arrays.toString(userSuppliedTag)));
+            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", String.class, new String(userSuppliedTag)));
+        }
+        log.setDescription("Provide Attribute Value Update");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Provide Attribute Value Update, Object Instance Handle: {}, attributes: {}, user supplied tag:{}",
+                theObject, theAttributes, new String(userSuppliedTag));
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //6.21
+    @Override
+    public void turnUpdatesOnForObjectInstance(ObjectInstanceHandle theObject, AttributeHandleSet theAttributes) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("6.21", "Turn Updates On For Object Instance † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+        int i = 1;
+        for (AttributeHandle theAttribute : theAttributes) {
+            log.getSuppliedArguments().add(new ClassValuePair("Attribute " + i++, AttributeHandle.class, theAttribute.toString()));
+        }
+        log.setDescription("Turn Updates On For Object Instance");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Turn Updates On For Object Instance, Object Instance Handle: {}, attributes: {}",
+                theObject, theAttributes);
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //6.21
+    @Override
+    public void turnUpdatesOnForObjectInstance(ObjectInstanceHandle theObject, AttributeHandleSet theAttributes, String updateRateDesignator) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("6.21", "Turn Updates On For Object Instance † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+        int i = 1;
+        for (AttributeHandle theAttribute : theAttributes) {
+            log.getSuppliedArguments().add(new ClassValuePair("Attribute " + i++, AttributeHandle.class, theAttribute.toString()));
+        }
+        log.getSuppliedArguments().add(new ClassValuePair("Maximum update rate designator", String.class, updateRateDesignator));
+        log.setDescription("Turn Updates On For Object Instance");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Turn Updates On For Object Instance, Object Instance Handle: {}, attributes: {}, Update Rate: {}",
+                theObject, theAttributes, updateRateDesignator);
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //6.22
+    @Override
+    public void turnUpdatesOffForObjectInstance(ObjectInstanceHandle theObject, AttributeHandleSet theAttributes) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("6.22", "Turn Updates Off For Object Instance † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+        int i = 1;
+        for (AttributeHandle theAttribute : theAttributes) {
+            log.getSuppliedArguments().add(new ClassValuePair("Attribute " + i++, AttributeHandle.class, theAttribute.toString()));
+        }
+        log.setDescription("Turn Updates Off For Object Instance");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Turn Updates Off For Object Instance, Object Instance Handle: {}, attributes: {}",
+                theObject, theAttributes);
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //6.24
+    @Override
+    public void confirmAttributeTransportationTypeChange(ObjectInstanceHandle theObject, AttributeHandleSet theAttributes, TransportationTypeHandle theTransportation) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("6.24", "Confirm Attribute Transportation Type Change † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+        int i = 1;
+        for (AttributeHandle theAttribute : theAttributes) {
+            log.getSuppliedArguments().add(new ClassValuePair("Attribute " + i++, AttributeHandle.class, theAttribute.toString()));
+        }
+        log.getSuppliedArguments().add(new ClassValuePair("Transportation type", TransportationTypeHandle.class, theTransportation.toString()));
+        log.setDescription("Confirm Attribute Transportation Type Change");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Confirm Attribute Transportation Type Change, Object Instance Handle: {}, attributes: {}, Transportation: {}",
+                theObject, theAttributes, theTransportation.toString());
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //6.26
+    @Override
+    public void reportAttributeTransportationType(ObjectInstanceHandle theObject, AttributeHandle theAttribute, TransportationTypeHandle theTransportation) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("6.26", "Report Attribute Transportation Type † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+        log.getSuppliedArguments().add(new ClassValuePair("Attribute", AttributeHandle.class, theAttribute.toString()));
+        log.getSuppliedArguments().add(new ClassValuePair("Transportation type", TransportationTypeHandle.class, theTransportation.toString()));
+        log.setDescription("Confirm Attribute Transportation Type Change");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Confirm Attribute Transportation Type Change, Object Instance Handle: {}, attribute: {}, Transportation: {}",
+                theObject, theAttribute, theTransportation.toString());
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //6.28
+    @Override
+    public void confirmInteractionTransportationTypeChange(InteractionClassHandle theInteraction, TransportationTypeHandle theTransportation) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("6.28", "Confirm Interaction Transportation Type Change † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Interaction Class Handle", InteractionClassHandle.class, theInteraction.toString()));
+        log.getSuppliedArguments().add(new ClassValuePair("Transportation type", TransportationTypeHandle.class, theTransportation.toString()));
+        log.setDescription("Confirm Interaction Transportation Type Change");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Confirm Interaction Transportation Type Change, Interaction Class Handle: {}, Transportation: {}",
+                theInteraction, theTransportation.toString());
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //6.30
+    @Override
+    public void reportInteractionTransportationType(FederateHandle theFederate, InteractionClassHandle theInteraction, TransportationTypeHandle theTransportation) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("6.30", "Report Interaction Transportation Type † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Federate Handle", FederateHandle.class, theFederate.toString()));
+        log.getSuppliedArguments().add(new ClassValuePair("Interaction Class Handle", InteractionClassHandle.class, theInteraction.toString()));
+        log.getSuppliedArguments().add(new ClassValuePair("Transportation type", TransportationTypeHandle.class, theTransportation.toString()));
+        log.setDescription("Report Interaction Transportation Type");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Report Interaction Transportation Type, Federate Handle: {}, Interaction Class Handle: {}, Transportation: {}",
+                theFederate, theInteraction, theTransportation.toString());
+        logEntries.add(log);
+        logger.exit();
+    }
+
 // <editor-fold desc="Chapter 8">
     //8.3
     @Override
