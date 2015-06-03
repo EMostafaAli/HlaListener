@@ -26,6 +26,8 @@
 package ca.mali.hlalistener;
 
 import ca.mali.fomparser.FddObjectModel;
+import ca.mali.fomparser.ObjectClassFDD;
+import ca.mali.fomparser.ObjectInstanceFDD;
 import hla.rti1516e.*;
 import hla.rti1516e.encoding.*;
 import javafx.collections.*;
@@ -77,5 +79,7 @@ public class PublicVariables {
     public final static ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();
     
     public final static ObservableList<MessageRetractionHandle> messageRetractionHandles = FXCollections.observableArrayList();
+    
+    public final static ObservableMap<ObjectInstanceHandle, ObjectInstanceFDD> objectInstances = FXCollections.observableHashMap();
 
 }

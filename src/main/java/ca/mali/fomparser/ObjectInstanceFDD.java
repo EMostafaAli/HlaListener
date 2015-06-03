@@ -25,60 +25,43 @@
  */
 package ca.mali.fomparser;
 
+import static ca.mali.hlalistener.PublicVariables.*;
 import hla.rti1516e.*;
-import java.util.*;
+import hla.rti1516e.exceptions.FederateNotExecutionMember;
+import hla.rti1516e.exceptions.NotConnected;
+import hla.rti1516e.exceptions.ObjectInstanceNotKnown;
+import hla.rti1516e.exceptions.RTIinternalError;
+import javafx.beans.property.*;
 
 /**
  *
  * @author Mostafa
  */
-public class ObjectClassFDD {
-    private final String name;
-    private String fullName;
-    private List<AttributeFDD> attributes;
-    private final ObjectClassFDD parent;
-    private ObjectClassHandle handle;
+public class ObjectInstanceFDD {
+    private final ObjectClassFDD objectClass;
+    private final ObjectInstanceHandle handle;
 
-    public ObjectClassFDD(String name, ObjectClassFDD parent) {
-        this.name = name;
-        this.parent = parent;
-        this.fullName = this.name;
-        
-        if (this.parent != null) {
-            attributes = new ArrayList<>(this.parent.getAttributes());
-            fullName = this.parent.fullName + "." + this.name;
-        }
+    public ObjectInstanceFDD(ObjectInstanceHandle handle, ObjectClassFDD objectClass) 
+            throws ObjectInstanceNotKnown, FederateNotExecutionMember, NotConnected, RTIinternalError {
+        this.objectClass = objectClass;
+        this.handle = handle;
+        name.setValue(rtiAmb.getObjectInstanceName(handle));
     }
 
-    public String getName() {
-        return name;
+    public ObjectClassFDD getObjectClass() {
+        return objectClass;
     }
 
-    public String getFullName() {
-        return fullName;
-    }
-
-    public ObjectClassFDD getParent() {
-        return parent;
-    }
-
-    public List<AttributeFDD> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<>();
-        }
-        return attributes;
-    }
-
-    public ObjectClassHandle getHandle() {
+    public ObjectInstanceHandle getHandle() {
         return handle;
     }
+    private final ReadOnlyStringWrapper name = new ReadOnlyStringWrapper();
 
-    public void setHandle(ObjectClassHandle handle) {
-        this.handle = handle;
+    public String getName() {
+        return name.get();
     }
 
-    @Override
-    public String toString() {
-        return fullName;
+    public ReadOnlyStringProperty nameProperty() {
+        return name.getReadOnlyProperty();
     }
 }

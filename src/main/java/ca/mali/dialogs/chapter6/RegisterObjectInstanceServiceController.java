@@ -26,6 +26,7 @@
 package ca.mali.dialogs.chapter6;
 
 import ca.mali.fomparser.ObjectClassFDD;
+import ca.mali.fomparser.ObjectInstanceFDD;
 import static ca.mali.hlalistener.PublicVariables.*;
 import ca.mali.hlalistener.*;
 import hla.rti1516e.*;
@@ -93,6 +94,7 @@ public class RegisterObjectInstanceServiceController implements Initializable {
                 log.getSuppliedArguments().add(new ClassValuePair("Reserved name", String.class, ReservedName.getText()));
                 registerObjectInstance = rtiAmb.registerObjectInstance(ObjectClassName.getValue().getHandle(), ReservedName.getText());
             }
+            objectInstances.put(registerObjectInstance, new ObjectInstanceFDD(registerObjectInstance, ObjectClassName.getValue()));
             log.getReturnedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, registerObjectInstance.toString()));
             log.setDescription("Object instance registered successfully");
             log.setLogType(LogEntryType.REQUEST);

@@ -50,6 +50,8 @@ public class GetTransportationTypeHandleServiceController implements Initializab
     @FXML
     private ComboBox<String> TransportationName;
 
+    @FXML
+    private Button OkButton;
     /**
      * Initializes the controller class.
      */
@@ -60,6 +62,8 @@ public class GetTransportationTypeHandleServiceController implements Initializab
             if (fddObjectModel!=null) {
                 TransportationName.getItems().addAll(fddObjectModel.getTransportation().keySet());
             }
+            //This following line works fine, except that the user has to hit enter (or tab) after typing a value
+//            OkButton.disableProperty().bind(Bindings.isNull(TransportationName.valueProperty()));
             TransportationName.setValue("");
         } catch (Exception ex) {
             logger.log(Level.FATAL, ex.getMessage(), ex);
