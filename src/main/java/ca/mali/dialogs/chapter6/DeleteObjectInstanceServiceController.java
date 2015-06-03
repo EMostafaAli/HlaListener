@@ -119,6 +119,7 @@ public class DeleteObjectInstanceServiceController implements Initializable {
                     log.getReturnedArguments().add(new ClassValuePair("Message retraction designator<Is Valid>",
                             MessageRetractionReturn.class, messageRetraction.handle.toString() +
                                     '<' + String.valueOf(messageRetraction.retractionHandleIsValid) + '>'));
+                    messageRetractionHandles.add(messageRetraction.handle);
                 }
             }
             log.setDescription("Object instance deleted successfully");

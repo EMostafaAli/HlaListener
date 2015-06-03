@@ -711,6 +711,18 @@ public class MainWindowController implements Initializable {
         }
     }
     
+    //6.29
+    @FXML
+    private void QueryInteractionTransportation_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("6.29 Query Interaction Transportation Type service", "/fxml/chapter6/QueryInteractionTransportationTypeService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Query Interaction Transportation Type service dialog box", ex);
+        }
+    }
+    
 // <editor-fold desc="Chapter 8">
     //8.2
     @FXML
@@ -1020,6 +1032,18 @@ public class MainWindowController implements Initializable {
         logEntries.add(log);
         logger.exit();
     }
+    
+    //8.21
+    @FXML
+    private void RetractMessage_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("8.21 Retract service", "/fxml/chapter8/RetractService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Retract service dialog box", ex);
+        }
+    }
 // </editor-fold>
     
     //10.2
@@ -1066,6 +1090,18 @@ public class MainWindowController implements Initializable {
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Get Object Class Handle service dialog box", ex);
+        }
+    }
+    
+    //10.21
+    @FXML
+    private void GetTransportationTypeHandle_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.21 Get Transportation Type Handle service", "/fxml/chapter10/GetTransportationTypeHandleService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Transportation Type Handle service dialog box", ex);
         }
     }
     

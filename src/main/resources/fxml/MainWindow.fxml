@@ -81,7 +81,7 @@
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="6.25 Query Attribute Transportation Type" />
                         <MenuItem mnemonicParsing="false" text="6.27 Request Interaction Transportation Type Change" />
-                        <MenuItem mnemonicParsing="false" text="6.29 Query Interaction Transportation Type" />
+                        <MenuItem mnemonicParsing="false" onAction="#QueryInteractionTransportation_click" text="6.29 Query Interaction Transportation Type..." />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="7 Ownership">
@@ -126,7 +126,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#ModifyLookahead_click" text="8.19 Modify Lookahead..." />
                         <MenuItem mnemonicParsing="false" onAction="#QueryLookahead_click" text="8.20 Query Lookahead" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="8.21 Retract" />
+                        <MenuItem mnemonicParsing="false" onAction="#RetractMessage_click" text="8.21 Retract..." />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="8.23 Change Attribute Order Type" />
                         <MenuItem mnemonicParsing="false" text="8.24 Change Interaction Order Type" />
@@ -170,6 +170,8 @@
                                 <SeparatorMenuItem mnemonicParsing="false" />
                                 <MenuItem mnemonicParsing="false" text="10.15 Get Interaction Class Handle" />
                                 <MenuItem mnemonicParsing="false" text="10.17 Get Parameter Handle" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
+                                <MenuItem mnemonicParsing="false" onAction="#GetTransportationTypeHandle_click" text="10.21 Get Transportation Type Handle" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Get Name">
@@ -182,6 +184,8 @@
                                 <SeparatorMenuItem mnemonicParsing="false" />
                                 <MenuItem mnemonicParsing="false" text="10.16 Get Interaction Class Name" />
                                 <MenuItem mnemonicParsing="false" text="10.18 Get Parameter Name" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
+                                <MenuItem mnemonicParsing="false" text="10.22 Get Transportation Type Name" />
                             </items>
                         </Menu>
                         <SeparatorMenuItem mnemonicParsing="false" />
@@ -195,12 +199,6 @@
                             <items>
                                 <MenuItem mnemonicParsing="false" text="10.19 Get Order Type" />
                                 <MenuItem mnemonicParsing="false" text="10.20 Get Order Name" />
-                            </items>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="Transportation Type">
-                            <items>
-                                <MenuItem mnemonicParsing="false" text="10.21 Get Transportation Type Handle" />
-                                <MenuItem mnemonicParsing="false" text="10.22 Get Transportation Type Name" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Dimensions">

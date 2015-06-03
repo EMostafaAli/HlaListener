@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="203.0" prefWidth="532.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.chapter6.LocalDeleteObjectInstanceServiceController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="91.0" prefWidth="457.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.chapter6.LocalDeleteObjectInstanceServiceController">
    <children>
       <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="570.0">
          <VBox.margin>
@@ -16,10 +16,10 @@
          </VBox.margin>
          <children>
             <Label text="Object instance designator:* " />
-            <TextField fx:id="ObjectInstanceDesignator" prefHeight="39.0" prefWidth="268.0" />
+            <TextField fx:id="ObjectInstanceDesignator" prefHeight="0.0" prefWidth="268.0" />
          </children>
       </HBox>
-      <HBox alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="510.0">
+      <HBox alignment="CENTER_RIGHT" prefHeight="0.0" prefWidth="502.0">
          <children>
             <Button cancelButton="true" mnemonicParsing="false" onAction="#Cancel_click" text="Cancel">
                <HBox.margin>

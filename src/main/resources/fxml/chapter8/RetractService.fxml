@@ -10,12 +10,12 @@
 <?import javafx.scene.layout.*?>
 <?import ca.mali.customcontrol.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="73.0" prefWidth="392.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.chapter4.ResignFederationExecutionServiceController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="73.0" prefWidth="392.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.chapter8.RetractServiceController">
     <children>
         <HBox layoutX="25.0" layoutY="25.0" prefHeight="36.0" prefWidth="421.0">
             <children>
-                <Label prefHeight="17.0" prefWidth="89.0" text="Resign Action*: " />
-                <ChoiceBox fx:id="ResignActionChoiceBox" prefHeight="25.0" prefWidth="286.0" HBox.hgrow="ALWAYS" />
+                <Label prefHeight="17.0" prefWidth="267.0" text="Message retraction designator*: " />
+                <ChoiceBox fx:id="MessageHandle" prefHeight="25.0" prefWidth="286.0" HBox.hgrow="ALWAYS" />
             </children>
             <VBox.margin>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

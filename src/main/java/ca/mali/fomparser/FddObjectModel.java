@@ -28,6 +28,7 @@ package ca.mali.fomparser;
 import ca.mali.fdd.ObjectClass;
 import ca.mali.fdd.InteractionClass;
 import ca.mali.fdd.ObjectModelType;
+import ca.mali.fdd.ReliableEnumerations;
 import ca.mali.hlalistener.PublicVariables;
 import java.io.*;
 import java.nio.charset.*;
@@ -52,6 +53,7 @@ public class FddObjectModel {
     private Map<String, ObjectClassFDD> objectClasses = new TreeMap<>();
     private Map<String, InteractionClassFDD> interactionClasses = new TreeMap<>();
     private Map<String, UpdateRateFDD> updateRates = new TreeMap<>();
+    private Map<String, TransportationFDD> Transportation = new TreeMap<>();
 
     public FddObjectModel(String fddText) {
         logger.entry();
@@ -62,6 +64,7 @@ public class FddObjectModel {
             javax.xml.bind.JAXBElement unmarshal = (javax.xml.bind.JAXBElement) unmarshaller.unmarshal(new ByteArrayInputStream(fdd.getBytes(StandardCharsets.UTF_8)));
             fddModel = (ca.mali.fdd.ObjectModelType) unmarshal.getValue();
             readUpdateRate();
+            readTransportationType();
             readObjectClasses(fddModel.getObjects().getObjectClass(), null);
             readInteractionClasses(fddModel.getInteractions().getInteractionClass(), null);
         } catch (Exception ex) {
@@ -84,6 +87,14 @@ public class FddObjectModel {
 
     public Map<String, UpdateRateFDD> getUpdateRates() {
         return updateRates;
+    }
+
+    public Map<String, TransportationFDD> getTransportation() {
+        return Transportation;
+    }
+
+    public void setTransportation(Map<String, TransportationFDD> Transportation) {
+        this.Transportation = Transportation;
     }
 
     private void readObjectClasses(ObjectClass rootClass, ObjectClassFDD parent) {
@@ -124,7 +135,7 @@ public class FddObjectModel {
                 }
             });
             interactionClasses.put(interactionClassFDD.getFullName(), interactionClassFDD);
-            rootInteraction.getInteractionClass().stream().forEach((item) -> {
+            rootInteraction.getInteractionClass().stream().forEach(item -> {
                 readInteractionClasses(item, interactionClassFDD);
             });
         } catch (Exception ex) {
@@ -133,11 +144,22 @@ public class FddObjectModel {
     }
 
     private void readUpdateRate() {
-        fddModel.getUpdateRates().getUpdateRate().stream().forEach((updateRate) -> {
+        fddModel.getUpdateRates().getUpdateRate().stream().forEach(updateRate -> {
             UpdateRateFDD rate = new UpdateRateFDD();
             rate.setName(updateRate.getName().getValue());
             rate.setValue(updateRate.getRate().getValue().doubleValue());
             updateRates.put(rate.getName(), rate);
+        });
+    }
+
+    private void readTransportationType() {
+        fddModel.getTransportations().getTransportation().forEach(trans -> {
+            TransportationFDD transportation = new TransportationFDD();
+            transportation.setName(trans.getName().getValue());
+            if (trans.getReliable().getValue() == ReliableEnumerations.YES) {
+                transportation.setIsReliable(true);
+            }
+            Transportation.put(transportation.getName(), transportation);
         });
     }
 }

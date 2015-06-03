@@ -23,59 +23,41 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package ca.mali.hlalistener;
+package ca.mali.fomparser;
 
-import ca.mali.fomparser.FddObjectModel;
-import hla.rti1516e.*;
-import hla.rti1516e.encoding.*;
-import javafx.collections.*;
-import javafx.stage.*;
+import javafx.beans.property.*;
 
 /**
  *
  * @author Mostafa Ali <engabdomostafa@gmail.com>
  */
-public class PublicVariables {
+public class TransportationFDD {
 
-    public static RtiFactory rtiFactory;
+    private final StringProperty name = new SimpleStringProperty();
+    private final BooleanProperty isReliable = new SimpleBooleanProperty(false);
 
-    /**
-     * RTI ambassador
-     */
-    public static RTIambassador rtiAmb;
+    public String getName() {
+        return name.get();
+    }
 
-    /**
-     * Federate ambassador
-     */
-    public static ListenerFederateAmb fedAmb;
+    public void setName(String value) {
+        name.set(value);
+    }
 
-    /**
-     * Logical Time Factory
-     */
-    public static LogicalTimeFactory logicalTimeFactory;
+    public StringProperty nameProperty() {
+        return name;
+    }
 
-    public static LogicalTime currentLogicalTime;
+    public boolean isIsReliable() {
+        return isReliable.get();
+    }
 
-    public static LogicalTimeInterval LookaheadValue;
+    public void setIsReliable(boolean value) {
+        isReliable.set(value);
+    }
 
-    public static AttributeHandle currentFDDHandle;
-    
-    public static FddObjectModel fddObjectModel;
-
-    /**
-     * Encoder Factory
-     */
-    public static EncoderFactory encoderFactory;
-
-    /**
-     *
-     */
-//    public static HLAunicodeString stringEncoder;
-
-    public static Stage primaryStage;
-
-    public final static ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();
-    
-    public final static ObservableList<MessageRetractionHandle> messageRetractionHandles = FXCollections.observableArrayList();
+    public BooleanProperty isReliableProperty() {
+        return isReliable;
+    }
 
 }
