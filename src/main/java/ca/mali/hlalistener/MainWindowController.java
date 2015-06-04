@@ -711,6 +711,18 @@ public class MainWindowController implements Initializable {
         }
     }
     
+    //6.27
+    @FXML
+    private void RequestTransportationType_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("6.27  Request Interaction Transportation Type Change service", "/fxml/chapter6/RequestInteractionTransportationTypeChangeService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying  Request Interaction Transportation Type Change service dialog box", ex);
+        }
+    }
+    
     //6.29
     @FXML
     private void QueryInteractionTransportation_click(ActionEvent event) {

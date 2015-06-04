@@ -30,6 +30,11 @@ import ca.mali.fdd.InteractionClass;
 import ca.mali.fdd.ObjectModelType;
 import ca.mali.fdd.ReliableEnumerations;
 import ca.mali.hlalistener.PublicVariables;
+import hla.rti1516e.TransportationTypeHandle;
+import hla.rti1516e.exceptions.FederateNotExecutionMember;
+import hla.rti1516e.exceptions.InvalidTransportationName;
+import hla.rti1516e.exceptions.NotConnected;
+import hla.rti1516e.exceptions.RTIinternalError;
 import java.io.*;
 import java.nio.charset.*;
 import java.util.*;
@@ -154,12 +159,16 @@ public class FddObjectModel {
 
     private void readTransportationType() {
         fddModel.getTransportations().getTransportation().forEach(trans -> {
-            TransportationFDD transportation = new TransportationFDD();
-            transportation.setName(trans.getName().getValue());
-            if (trans.getReliable().getValue() == ReliableEnumerations.YES) {
-                transportation.setIsReliable(true);
+            try {
+                TransportationTypeHandle transportationTypeHandle = PublicVariables.rtiAmb.getTransportationTypeHandle(trans.getName().getValue());
+                TransportationFDD transportation = new TransportationFDD(trans.getName().getValue(), transportationTypeHandle);
+                if (trans.getReliable().getValue() == ReliableEnumerations.YES) {
+                    transportation.setIsReliable(true);
+                }
+                Transportation.put(transportation.getName(), transportation);
+            } catch (Exception ex) {
+                logger.log(Level.FATAL, ex.getMessage(), ex);
             }
-            Transportation.put(transportation.getName(), transportation);
         });
     }
 }

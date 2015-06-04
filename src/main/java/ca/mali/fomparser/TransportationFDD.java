@@ -26,6 +26,7 @@
 package ca.mali.fomparser;
 
 import javafx.beans.property.*;
+import hla.rti1516e.*;
 
 /**
  *
@@ -33,19 +34,21 @@ import javafx.beans.property.*;
  */
 public class TransportationFDD {
 
-    private final StringProperty name = new SimpleStringProperty();
+    private final ReadOnlyStringWrapper name;
     private final BooleanProperty isReliable = new SimpleBooleanProperty(false);
+    private final TransportationTypeHandle handle;
+
+    public TransportationFDD(String name, TransportationTypeHandle handle) {
+        this.name = new ReadOnlyStringWrapper(name);
+        this.handle = handle;
+    }
 
     public String getName() {
         return name.get();
     }
 
-    public void setName(String value) {
-        name.set(value);
-    }
-
-    public StringProperty nameProperty() {
-        return name;
+    public ReadOnlyStringProperty nameProperty() {
+        return name.getReadOnlyProperty();
     }
 
     public boolean isIsReliable() {
@@ -60,4 +63,12 @@ public class TransportationFDD {
         return isReliable;
     }
 
+    public TransportationTypeHandle getHandle() {
+        return handle;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }

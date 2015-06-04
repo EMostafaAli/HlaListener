@@ -80,7 +80,7 @@
                         <MenuItem mnemonicParsing="false" text="6.19 Request Attribute Value" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="6.25 Query Attribute Transportation Type" />
-                        <MenuItem mnemonicParsing="false" text="6.27 Request Interaction Transportation Type Change" />
+                        <MenuItem mnemonicParsing="false" onAction="#RequestTransportationType_click" text="6.27 Request Interaction Transportation Type Change..." />
                         <MenuItem mnemonicParsing="false" onAction="#QueryInteractionTransportation_click" text="6.29 Query Interaction Transportation Type..." />
                     </items>
                 </Menu>
