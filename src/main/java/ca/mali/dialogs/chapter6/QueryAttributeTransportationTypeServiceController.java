@@ -25,7 +25,9 @@
  */
 package ca.mali.dialogs.chapter6;
 
-import ca.mali.fomparser.InteractionClassFDD;
+import ca.mali.customcontrol.ObjectInstanceAttributesController;
+import ca.mali.fomparser.AttributeFDD;
+import ca.mali.fomparser.ObjectInstanceFDD;
 import ca.mali.fomparser.TransportationFDD;
 import static ca.mali.hlalistener.PublicVariables.*;
 import ca.mali.hlalistener.*;
@@ -44,16 +46,16 @@ import org.apache.logging.log4j.*;
  *
  * @author Mostafa
  */
-public class RequestInteractionTransportationTypeChangeServiceController implements Initializable {
+public class QueryAttributeTransportationTypeServiceController implements Initializable {
 
     //Logger
     private static final Logger logger = LogManager.getLogger();
 
     @FXML
-    private ComboBox<InteractionClassFDD> InteractionClassName;
+    private ComboBox<ObjectInstanceFDD> ObjectInstanceName;
 
     @FXML
-    private ComboBox<TransportationFDD> TransportationType;
+    private ObjectInstanceAttributesController ObjectInstancesAttributes;
 
     @FXML
     private Button OkButton;
@@ -65,11 +67,15 @@ public class RequestInteractionTransportationTypeChangeServiceController impleme
     public void initialize(URL url, ResourceBundle rb) {
         logger.entry();
         if (fddObjectModel != null) {
-            InteractionClassName.getItems().addAll(fddObjectModel.getInteractionClasses().values());
-            InteractionClassName.setValue(InteractionClassName.getItems().get(0));
-            TransportationType.getItems().addAll(fddObjectModel.getTransportation().values());
-            TransportationType.setValue(TransportationType.getItems().get(0));
-            OkButton.setDisable(false);
+            if (!objectInstances.isEmpty()) {
+                ObjectInstanceName.getItems().addAll(objectInstances.values());
+                ObjectInstanceName.setValue(ObjectInstanceName.getItems().get(0));
+                ObjectInstancesAttributes.setObjectInstance(ObjectInstanceName.getValue());
+                OkButton.setDisable(false);
+                ObjectInstanceName.valueProperty().addListener((observable, oldValue, newValue) -> {
+                    ObjectInstancesAttributes.setObjectInstance(newValue);
+                });
+            }
         }
         logger.exit();
     }
@@ -77,27 +83,28 @@ public class RequestInteractionTransportationTypeChangeServiceController impleme
     @FXML
     private void Cancel_click(ActionEvent event) {
         logger.entry();
-        ((Stage) InteractionClassName.getScene().getWindow()).close();
+        ((Stage) ObjectInstanceName.getScene().getWindow()).close();
         logger.exit();
     }
 
     @FXML
     private void OK_click(ActionEvent event) {
         logger.entry();
-        LogEntry log = new LogEntry("6.27", "Request Interaction Transportation Type Change service");
+        LogEntry log = new LogEntry("6.25", "Query Attribute Transportation Type service");
         try {
-            log.getSuppliedArguments().add(new ClassValuePair("Interaction<Handle>",
-                    InteractionClassHandle.class, InteractionClassName.getValue().toString()
-                    + '<' + InteractionClassName.getValue().getHandle().toString() + '>'));
-            log.getSuppliedArguments().add(new ClassValuePair("Transportation<Handle>",
-                    TransportationTypeHandle.class, TransportationType.getValue().toString()
-                    + '<' + TransportationType.getValue().getHandle().toString() + '>'));
-            rtiAmb.requestInteractionTransportationTypeChange(InteractionClassName.getValue().getHandle(), TransportationType.getValue().getHandle());
-            log.setDescription("Interaction Transportation change requested successfully");
+            log.getSuppliedArguments().add(new ClassValuePair("Object Instance<Handle>",
+                    ObjectInstanceHandle.class, ObjectInstanceName.getValue().toString()
+                    + '<' + ObjectInstanceName.getValue().getHandle().toString() + '>'));
+            for (AttributeFDD attribute : ObjectInstancesAttributes.getAttributes()) {
+                log.getSuppliedArguments().add(new ClassValuePair("Attribute<handle>",
+                        AttributeHandle.class, attribute.getName() + '<' + attribute.getHandle().toString() + '>'));
+                rtiAmb.queryAttributeTransportationType(ObjectInstanceName.getValue().getHandle(), attribute.getHandle());
+            }
+            log.setDescription("Attribute Transportation queried successfully");
             log.setLogType(LogEntryType.REQUEST);
-        } catch (InteractionClassAlreadyBeingChanged | InteractionClassNotPublished |
-                InteractionClassNotDefined | InvalidTransportationType | SaveInProgress |
-                RestoreInProgress | FederateNotExecutionMember | NotConnected | RTIinternalError ex) {
+        } catch (AttributeNotDefined | ObjectInstanceNotKnown | SaveInProgress |
+                RestoreInProgress | FederateNotExecutionMember | NotConnected |
+                RTIinternalError ex) {
             log.setException(ex);
             log.setLogType(LogEntryType.ERROR);
             logger.log(Level.ERROR, ex.getMessage(), ex);
@@ -107,7 +114,7 @@ public class RequestInteractionTransportationTypeChangeServiceController impleme
             logger.log(Level.FATAL, ex.getMessage(), ex);
         }
         logEntries.add(log);
-        ((Stage) InteractionClassName.getScene().getWindow()).close();
+        ((Stage) ObjectInstanceName.getScene().getWindow()).close();
         logger.exit();
     }
 }

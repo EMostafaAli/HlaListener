@@ -27,10 +27,7 @@ package ca.mali.fomparser;
 
 import static ca.mali.hlalistener.PublicVariables.*;
 import hla.rti1516e.*;
-import hla.rti1516e.exceptions.FederateNotExecutionMember;
-import hla.rti1516e.exceptions.NotConnected;
-import hla.rti1516e.exceptions.ObjectInstanceNotKnown;
-import hla.rti1516e.exceptions.RTIinternalError;
+import hla.rti1516e.exceptions.*;
 import javafx.beans.property.*;
 
 /**
@@ -38,10 +35,12 @@ import javafx.beans.property.*;
  * @author Mostafa
  */
 public class ObjectInstanceFDD {
+
     private final ObjectClassFDD objectClass;
     private final ObjectInstanceHandle handle;
+    private final ReadOnlyStringWrapper name = new ReadOnlyStringWrapper();
 
-    public ObjectInstanceFDD(ObjectInstanceHandle handle, ObjectClassFDD objectClass) 
+    public ObjectInstanceFDD(ObjectInstanceHandle handle, ObjectClassFDD objectClass)
             throws ObjectInstanceNotKnown, FederateNotExecutionMember, NotConnected, RTIinternalError {
         this.objectClass = objectClass;
         this.handle = handle;
@@ -55,7 +54,6 @@ public class ObjectInstanceFDD {
     public ObjectInstanceHandle getHandle() {
         return handle;
     }
-    private final ReadOnlyStringWrapper name = new ReadOnlyStringWrapper();
 
     public String getName() {
         return name.get();
@@ -63,5 +61,10 @@ public class ObjectInstanceFDD {
 
     public ReadOnlyStringProperty nameProperty() {
         return name.getReadOnlyProperty();
+    }
+
+    @Override
+    public String toString() {
+        return name.get();
     }
 }

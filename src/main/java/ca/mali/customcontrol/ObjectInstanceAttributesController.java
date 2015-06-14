@@ -32,13 +32,12 @@ import java.util.stream.*;
 import javafx.beans.property.*;
 import javafx.beans.value.*;
 import javafx.collections.*;
-import javafx.event.*;
 import javafx.fxml.*;
 import javafx.geometry.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.paint.*;
 import javafx.util.*;
 import org.apache.logging.log4j.*;
 
@@ -46,13 +45,10 @@ import org.apache.logging.log4j.*;
  *
  * @author Mostafa
  */
-public class AttributeListController extends VBox {
+public class ObjectInstanceAttributesController extends VBox {
 
     //Logger
     private static final Logger logger = LogManager.getLogger();
-
-    @FXML
-    private ListView<String> ObjectListView;
 
     @FXML
     private TableColumn attributeName;
@@ -64,49 +60,17 @@ public class AttributeListController extends VBox {
     private TableView<AttributeState> AttributeTableView;
 
     CheckBox cb = new CheckBox();
-    private Map<String, ObservableList<AttributeState>> list = new HashMap<>();
 
-    public AttributeListController() {
+    public ObjectInstanceAttributesController() {
         logger.entry();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/customcontrol/AttributesList.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/customcontrol/ObjectInstanceAttributes.fxml"));
         fxmlLoader.setController(this);
         fxmlLoader.setRoot(this);
         try {
             fxmlLoader.load();
-
-        } catch (IOException ex) {
-            logger.log(Level.FATAL, ex.getMessage(), ex);
-        }
-        logger.exit();
-    }
-
-    public void setFddObjectModel(FddObjectModel fddObjectModel) {
-        logger.entry();
-        Label label = new Label("Select Object class to display its attributes");
-        label.setBackground(new Background(new BackgroundFill(Color.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
-        AttributeTableView.setPlaceholder(label);
-        if (fddObjectModel != null) {
-            for (ObjectClassFDD value : fddObjectModel.getObjectClasses().values()) {
-                ObservableList<AttributeState> att = FXCollections.observableArrayList();
-                for (AttributeFDD attribute : value.getAttributes()) {
-                    att.add(new AttributeState(attribute));
-                }
-                list.put(value.getFullName(), att);
-            }
-            ObjectListView.getItems().addAll(list.keySet());
-            ObjectListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-                AttributeTableView.setItems(list.get(newValue));
-                cb.setSelected(AttributeTableView.getItems().stream().allMatch(a -> a.isOn()));
-                list.get(newValue).forEach((a) -> {
-                    a.onProperty().addListener((observable1, oldValue1, newValue1) -> {
-                        if (!newValue1) {
-                            cb.setSelected(false);
-                        } else if (list.get(newValue).stream().allMatch(b -> b.isOn())) {
-                            cb.setSelected(true);
-                        }
-                    });
-                });
-            });
+            Label label = new Label("Select Object class instance to display its attributes");
+            label.setBackground(new Background(new BackgroundFill(Color.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
+            AttributeTableView.setPlaceholder(label);
             attributeName.setCellValueFactory(new PropertyValueFactory<AttributeState, String>("attributeName"));
             checked.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<AttributeState, Boolean>, ObservableValue<Boolean>>() {
 
@@ -117,41 +81,43 @@ public class AttributeListController extends VBox {
 
             });
             checked.setCellFactory(CheckBoxTableCell.forTableColumn(checked));
-            cb.setUserData(checked);
-            cb.setOnAction(new EventHandler<ActionEvent>() {
-
-                @Override
-                public void handle(ActionEvent event) {
-                    CheckBox cb = (CheckBox) event.getSource();
-                    TableColumn tc = (TableColumn) cb.getUserData();
-                    AttributeTableView.getItems().stream().forEach((item) -> {
-                        item.setOn(cb.isSelected());
-                    });
-                }
+            cb.setOnAction(event -> {
+                CheckBox cb1 = (CheckBox) event.getSource();
+                AttributeTableView.getItems().stream().forEach((item) -> {
+                    item.setOn(cb1.isSelected());
+                });
             });
             checked.setGraphic(cb);
+
+        } catch (IOException ex) {
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
         logger.exit();
     }
 
-    public ListView<String> getObjectListView() {
-        return ObjectListView;
-    }
-
-    public void setObjectListView(ListView<String> ObjectListView) {
-        this.ObjectListView = ObjectListView;
-    }
-
-    public Map<String, List<AttributeFDD>> getList() {
+    public void setObjectInstance(ObjectInstanceFDD instance) {
         logger.entry();
-        Map<String, List<AttributeFDD>> finalList = new HashMap<>();
-        for (String key : list.keySet()) {
-            List<AttributeFDD> collect = list.get(key).stream().filter(
-                    a -> a.isOn()).map(a -> a.attribute).collect(Collectors.toList());
-            finalList.put(key, collect);
+        if (instance != null) {
+            ObservableList<AttributeState> att = FXCollections.observableArrayList();
+            for (AttributeFDD attribute : instance.getObjectClass().getAttributes()) {
+                att.add(new AttributeState(attribute));
+            }
+            AttributeTableView.setItems(att);
+            AttributeTableView.getItems().forEach((a) -> {
+                    a.onProperty().addListener((observable1, oldValue1, newValue1) -> {
+                        if (!newValue1) {
+                            cb.setSelected(false);
+                        } else if (AttributeTableView.getItems().stream().allMatch(b -> b.isOn())) {
+                            cb.setSelected(true);
+                        }
+                    });
+                });
         }
         logger.exit();
-        return finalList;
+    }
+
+    public List<AttributeFDD> getAttributes() {
+        return AttributeTableView.getItems().stream().filter(a -> a.isOn()).map(a -> a.attribute).collect(Collectors.toList());
     }
 
     public static class AttributeState {

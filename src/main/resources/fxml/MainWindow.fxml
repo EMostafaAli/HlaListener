@@ -79,7 +79,9 @@
                         <MenuItem mnemonicParsing="false" text="6.12 Send Interaction" />
                         <MenuItem mnemonicParsing="false" text="6.19 Request Attribute Value" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="6.25 Query Attribute Transportation Type" />
+                        <MenuItem mnemonicParsing="false" onAction="#RequestAttributeTransporationChange_click" text="6.23 Request Attribute Transportation Type Change..." />
+                        <MenuItem mnemonicParsing="false" onAction="#QueryAttributeTransporation_click" text="6.25 Query Attribute Transportation Type..." />
+                        <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#RequestTransportationType_click" text="6.27 Request Interaction Transportation Type Change..." />
                         <MenuItem mnemonicParsing="false" onAction="#QueryInteractionTransportation_click" text="6.29 Query Interaction Transportation Type..." />
                     </items>
@@ -310,40 +312,40 @@
                                         </HBox>
                                         <TitledPane fx:id="SuppliedPane" animated="false" prefHeight="276.0" prefWidth="554.0" text="Supplied arguments">
                                             <content>
-                                    <VBox prefHeight="200.0" prefWidth="552.0">
-                                       <children>
-                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="184.0" prefWidth="524.0">
-                                                          <children>
-                                                              <TableView fx:id="SupplyTable" layoutX="60.0" layoutY="-34.0" prefHeight="184.0" prefWidth="524.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                                  <columns>
-                                                                      <TableColumn fx:id="SupplyNameCol" prefWidth="325.0" text="Name" />
-                                                                      <TableColumn fx:id="SupplyValueCol" prefWidth="500.0" text="Value" />
-                                                                  </columns>
-                                                              </TableView>
-                                                          </children>
-                                                      </AnchorPane>
-                                          <Label fx:id="SuppliedArgsLbl" prefHeight="0.0" prefWidth="524.0" />
-                                       </children>
-                                    </VBox>
+                                                <VBox prefHeight="200.0" prefWidth="552.0">
+                                                    <children>
+                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="184.0" prefWidth="524.0">
+                                                            <children>
+                                                                <TableView fx:id="SupplyTable" layoutX="60.0" layoutY="-34.0" prefHeight="184.0" prefWidth="524.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                    <columns>
+                                                                        <TableColumn fx:id="SupplyNameCol" prefWidth="325.0" text="Name" />
+                                                                        <TableColumn fx:id="SupplyValueCol" prefWidth="500.0" text="Value" />
+                                                                    </columns>
+                                                                </TableView>
+                                                            </children>
+                                                        </AnchorPane>
+                                                        <Label fx:id="SuppliedArgsLbl" prefHeight="0.0" prefWidth="524.0" />
+                                                    </children>
+                                                </VBox>
                                             </content>
                                         </TitledPane>
                                         <TitledPane fx:id="ReturnedPane" animated="false" text="Returned arguments">
                                             <content>
-                                    <VBox>
-                                       <children>
-                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                                          <children>
-                                                              <TableView fx:id="returnTable" prefHeight="180.0" prefWidth="445.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                                  <columns>
-                                                                      <TableColumn fx:id="ReturnNameCol" prefWidth="325.0" text="Name" />
-                                                                      <TableColumn fx:id="ReturnValueCol" prefWidth="500.0" text="Value" />
-                                                                  </columns>
-                                                              </TableView>
-                                                          </children>
-                                                      </AnchorPane>
-                                          <Label fx:id="ReturnedArgsLbl" prefHeight="27.0" prefWidth="528.0" />
-                                       </children>
-                                    </VBox>
+                                                <VBox>
+                                                    <children>
+                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                            <children>
+                                                                <TableView fx:id="returnTable" prefHeight="180.0" prefWidth="445.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                    <columns>
+                                                                        <TableColumn fx:id="ReturnNameCol" prefWidth="325.0" text="Name" />
+                                                                        <TableColumn fx:id="ReturnValueCol" prefWidth="500.0" text="Value" />
+                                                                    </columns>
+                                                                </TableView>
+                                                            </children>
+                                                        </AnchorPane>
+                                                        <Label fx:id="ReturnedArgsLbl" prefHeight="27.0" prefWidth="528.0" />
+                                                    </children>
+                                                </VBox>
                                             </content>
                                         </TitledPane>
                                         <TitledPane fx:id="StackTracePane" animated="false" text="Stack Trace">

@@ -26,7 +26,6 @@
 package ca.mali.hlalistener;
 
 import ca.mali.fomparser.FddObjectModel;
-import ca.mali.fomparser.ObjectClassFDD;
 import ca.mali.fomparser.ObjectInstanceFDD;
 import hla.rti1516e.*;
 import hla.rti1516e.encoding.*;

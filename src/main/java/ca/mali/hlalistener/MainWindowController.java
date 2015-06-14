@@ -711,6 +711,30 @@ public class MainWindowController implements Initializable {
         }
     }
     
+    //6.23
+    @FXML
+    private void RequestAttributeTransporationChange_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("6.23 Request Attribute Transportation Type Change service", "/fxml/chapter6/RequestAttributeTransportationTypeChangeService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Request Attribute Transportation Type Change service dialog box", ex);
+        }
+    }
+    
+    //6.25
+    @FXML
+    private void QueryAttributeTransporation_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("6.25 Query Attribute Transportation Type service", "/fxml/chapter6/QueryAttributeTransportationTypeService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Query Attribute Transportation Type service dialog box", ex);
+        }
+    }
+    
     //6.27
     @FXML
     private void RequestTransportationType_click(ActionEvent event) {
@@ -719,7 +743,7 @@ public class MainWindowController implements Initializable {
             DisplayDialog("6.27  Request Interaction Transportation Type Change service", "/fxml/chapter6/RequestInteractionTransportationTypeChangeService.fxml");
             logger.exit();
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error Displaying  Request Interaction Transportation Type Change service dialog box", ex);
+            logger.log(Level.FATAL, "Error Displaying Request Interaction Transportation Type Change service dialog box", ex);
         }
     }
     
