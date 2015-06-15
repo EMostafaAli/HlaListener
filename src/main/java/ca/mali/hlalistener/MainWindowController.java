@@ -1080,6 +1080,30 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Retract service dialog box", ex);
         }
     }
+    
+    //8.23
+    @FXML
+    private void ChangeAttributeOrderType_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("8.23 Change Attribute Order Type service", "/fxml/chapter8/ChangeAttributeOrderType.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Change Attribute Order Type service dialog box", ex);
+        }
+    }
+    
+    //8.24
+    @FXML
+    private void ChangeInteractionOrderType_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("8.24 Change Interaction Order Type service", "/fxml/chapter8/ChangeInteractionOrderType.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Change Interaction Order Type service dialog box", ex);
+        }
+    }
 // </editor-fold>
     
     //10.2

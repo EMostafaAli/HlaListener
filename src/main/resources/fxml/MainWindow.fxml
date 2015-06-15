@@ -130,8 +130,8 @@
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#RetractMessage_click" text="8.21 Retract..." />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="8.23 Change Attribute Order Type" />
-                        <MenuItem mnemonicParsing="false" text="8.24 Change Interaction Order Type" />
+                        <MenuItem mnemonicParsing="false" onAction="#ChangeAttributeOrderType_click" text="8.23 Change Attribute Order Type..." />
+                        <MenuItem mnemonicParsing="false" onAction="#ChangeInteractionOrderType_click" text="8.24 Change Interaction Order Type..." />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="9 DDM">
