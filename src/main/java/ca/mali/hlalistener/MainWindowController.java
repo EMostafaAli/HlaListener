@@ -626,7 +626,8 @@ public class MainWindowController implements Initializable {
         }
     }
 // </editor-fold>
-  
+
+// <editor-fold desc="Chapter 6">
     //6.2
     @FXML
     private void ReserveName_click(ActionEvent event) {
@@ -758,7 +759,143 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Query Interaction Transportation Type service dialog box", ex);
         }
     }
+// </editor-fold>
+
+// <editor-fold desc="Chapter 7">
+    //7.2
+    @FXML
+    private void UnconditionalDivistiture_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("7.2 Unconditional Attribute Ownership Divestiture service", "/fxml/chapter7/UnconditionalAttributeOwnershipDivestitureService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Unconditional Attribute Ownership Divestiture service dialog box", ex);
+        }
+    }
     
+    //7.3
+    @FXML
+    private void NegotiateDivistiture_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("7.3 Negotiated Attribute Ownership Divestiture service", "/fxml/chapter7/NegotiatedAttributeOwnershipDivestitureService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Negotiated Attribute Ownership Divestiture service dialog box", ex);
+        }
+    }
+    
+    //7.6
+    @FXML
+    private void ConfirmDivistiture_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("7.6 Confirm Divestiture service", "/fxml/chapter7/ConfirmDivestitureService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Confirm Divestiture service dialog box", ex);
+        }
+    }
+    
+    //7.8
+    @FXML
+    private void AttributeAcquisition_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("7.8 Attribute Ownership Acquisition service", "/fxml/chapter7/AttributeOwnershipAcquisitionService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Attribute Ownership Acquisition service dialog box", ex);
+        }
+    }
+    
+    //7.9
+    @FXML
+    private void AttributeAcquisitionIfAvailable_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("7.9 Attribute Ownership Acquisition If Available service", "/fxml/chapter7/AttributeOwnershipAcquisitionIfAvailableService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Attribute Ownership Acquisition If Available service dialog box", ex);
+        }
+    }
+    
+    //7.12
+    @FXML
+    private void AttributeReleaseDenied_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("7.12 Attribute Ownership Release Denied service", "/fxml/chapter7/AttributeOwnershipReleaseDeniedService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Attribute Ownership Release Denied service dialog box", ex);
+        }
+    }
+    
+    //7.13
+    @FXML
+    private void AttributeDivestitureIfWanted_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("7.13 Attribute Ownership Divestiture If Wanted service", "/fxml/chapter7/AttributeOwnershipDivestitureIfWantedService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Attribute Ownership Divestiture If Wanted service dialog box", ex);
+        }
+    }
+    
+    //7.14
+    @FXML
+    private void CancelOwnershipDivestiture_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("7.14 Cancel Negotiated Attribute Ownership Divestiture service", "/fxml/chapter7/CancelNegotiatedAttributeOwnershipDivestitureService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Cancel Negotiated Attribute Ownership Divestiture service dialog box", ex);
+        }
+    }
+    
+    //7.15
+    @FXML
+    private void CancelOwnershipAcquistion_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("7.15 Cancel Attribute Ownership Acquisition service", "/fxml/chapter7/CancelAttributeOwnershipAcquisitionService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Cancel Attribute Ownership Acquisition service dialog box", ex);
+        }
+    }
+    
+    //7.17
+    @FXML
+    private void QueryAttributeOwnership_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("7.17 Query Attribute Ownership service", "/fxml/chapter7/QueryAttributeOwnershipService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Query Attribute Ownership service dialog box", ex);
+        }
+    }
+    
+    //7.19
+    @FXML
+    private void IsAttributeOwned_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("7.19 Is Attribute Owned by Federate service", "/fxml/chapter7/IsAttributeOwnedByFederateService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Is Attribute Owned by Federate service dialog box", ex);
+        }
+    }
+ 
+// </editor-fold>
+
 // <editor-fold desc="Chapter 8">
     //8.2
     @FXML

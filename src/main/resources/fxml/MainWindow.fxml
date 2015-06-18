@@ -88,20 +88,19 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="7 Ownership">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="7.2 Unconditional Attribute Ownership Divestiture" />
-                        <MenuItem mnemonicParsing="false" text="7.3 Negotiated Attribute Ownership Divestiture" />
-                        <MenuItem mnemonicParsing="false" text="7.6 Confirm Divestiture Service" />
-                        <MenuItem mnemonicParsing="false" text="7.13 Attribute Ownership Divestiture If Wanted" />
-                        <MenuItem mnemonicParsing="false" text="7.14 Cancel Negotiated Attribute Ownership Divestiture" />
+                        <MenuItem mnemonicParsing="false" onAction="#UnconditionalDivistiture_click" text="7.2 Unconditional Attribute Ownership Divestiture..." />
+                        <MenuItem mnemonicParsing="false" onAction="#NegotiateDivistiture_click" text="7.3 Negotiated Attribute Ownership Divestiture..." />
+                        <MenuItem mnemonicParsing="false" onAction="#ConfirmDivistiture_click" text="7.6 Confirm Divestiture Service..." />
+                        <MenuItem mnemonicParsing="false" onAction="#AttributeDivestitureIfWanted_click" text="7.13 Attribute Ownership Divestiture If Wanted..." />
+                        <MenuItem mnemonicParsing="false" onAction="#CancelOwnershipDivestiture_click" text="7.14 Cancel Negotiated Attribute Ownership Divestiture..." />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="7.8 Attribute Ownership Acquisition" />
-                        <MenuItem mnemonicParsing="false" text="7.9 Attribute Ownership Acquisition If Available" />
-                        <MenuItem mnemonicParsing="false" text="7.15 Cancel Attribute Ownership Acquisition" />
+                        <MenuItem mnemonicParsing="false" onAction="#AttributeAcquisition_click" text="7.8 Attribute Ownership Acquisition..." />
+                        <MenuItem mnemonicParsing="false" onAction="#AttributeAcquisitionIfAvailable_click" text="7.9 Attribute Ownership Acquisition If Available..." />
+                        <MenuItem mnemonicParsing="false" onAction="#CancelOwnershipAcquistion_click" text="7.15 Cancel Attribute Ownership Acquisition..." />
+                        <MenuItem mnemonicParsing="false" onAction="#AttributeReleaseDenied_click" text="7.12 Attribute Ownership Release Denied..." />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="7.12 Attribute Ownership Release Denied" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="7.17 Query Attribute Ownership" />
-                        <MenuItem mnemonicParsing="false" text="7.19 Is Attribute Owned by Federate" />
+                        <MenuItem mnemonicParsing="false" onAction="#QueryAttributeOwnership_click" text="7.17 Query Attribute Ownership..." />
+                        <MenuItem mnemonicParsing="false" onAction="#IsAttributeOwned_click" text="7.19 Is Attribute Owned by Federate..." />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="8 Time">

@@ -391,6 +391,7 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
     }
 // </editor-fold>
 
+// <editor-fold desc="Chapter 6">
     //6.3
     @Override
     public void objectInstanceNameReservationSucceeded(String objectName) throws FederateInternalError {
@@ -454,6 +455,16 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         log.setDescription("Discover object instance");
         log.setLogType(LogEntryType.CALLBACK);
         logger.log(Level.INFO, "Discover object instance: {}, object class handle: {}, name: {}", theObject, theObjectClass, objectName);
+        Optional<ObjectClassFDD> findObjectClass = fddObjectModel.getObjectClasses().values().stream().filter(a -> a.getHandle() == theObjectClass).findFirst();
+        if (findObjectClass.isPresent()) {
+            try {
+                objectInstances.put(theObject, new ObjectInstanceFDD(theObject, findObjectClass.get()));
+            } catch (Exception ex) {
+                log.setException(ex);
+                log.setLogType(LogEntryType.ERROR);
+                logger.log(Level.ERROR, ex.getMessage(), ex);
+            }
+        }
         logEntries.add(log);
         logger.exit();
     }
@@ -470,6 +481,16 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         log.setDescription("Discover object instance");
         log.setLogType(LogEntryType.CALLBACK);
         logger.log(Level.INFO, "Discover object instance: {}, object class handle: {}, name: {}, Federate {}", theObject, theObjectClass, objectName, producingFederate);
+        Optional<ObjectClassFDD> findObjectClass = fddObjectModel.getObjectClasses().values().stream().filter(a -> a.getHandle() == theObjectClass).findFirst();
+        if (findObjectClass.isPresent()) {
+            try {
+                objectInstances.put(theObject, new ObjectInstanceFDD(theObject, findObjectClass.get()));
+            } catch (Exception ex) {
+                log.setException(ex);
+                log.setLogType(LogEntryType.ERROR);
+                logger.log(Level.ERROR, ex.getMessage(), ex);
+            }
+        }
         logEntries.add(log);
         logger.exit();
     }
@@ -744,6 +765,175 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         logEntries.add(log);
         logger.exit();
     }
+// </editor-fold>
+
+// <editor-fold desc="Chapter 7">
+    //7.4
+    @Override
+    public void requestAttributeOwnershipAssumption(ObjectInstanceHandle theObject, AttributeHandleSet offeredAttributes, byte[] userSuppliedTag) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("7.4", "Request Attribute Ownership Assumption † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+        int i = 1;
+        for (AttributeHandle theAttribute : offeredAttributes) {
+            log.getSuppliedArguments().add(new ClassValuePair("Attribute " + i++, AttributeHandle.class, theAttribute.toString()));
+        }
+        if (userSuppliedTag.length > 0) {
+            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte.class, Arrays.toString(userSuppliedTag)));
+            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", String.class, new String(userSuppliedTag)));
+        }
+        log.setDescription("Request Attribute Ownership Assumption");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Request Attribute Ownership Assumption, Object Instance Handle: {}, attributes: {}, user supplied tag:{}",
+                theObject, offeredAttributes, new String(userSuppliedTag));
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //7.5
+    @Override
+    public void requestDivestitureConfirmation(ObjectInstanceHandle theObject, AttributeHandleSet offeredAttributes) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("7.5", "Request Divestiture Confirmation † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+        int i = 1;
+        for (AttributeHandle theAttribute : offeredAttributes) {
+            log.getSuppliedArguments().add(new ClassValuePair("Attribute " + i++, AttributeHandle.class, theAttribute.toString()));
+        }
+        log.setDescription("Request Divestiture Confirmation");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Request Divestiture Confirmation, Object Instance Handle: {}, attributes: {}",
+                theObject, offeredAttributes);
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //7.7
+    @Override
+    public void attributeOwnershipAcquisitionNotification(ObjectInstanceHandle theObject, AttributeHandleSet securedAttributes, byte[] userSuppliedTag) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("7.7", "Attribute Ownership Acquisition Notification † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+        int i = 1;
+        for (AttributeHandle theAttribute : securedAttributes) {
+            log.getSuppliedArguments().add(new ClassValuePair("Attribute " + i++, AttributeHandle.class, theAttribute.toString()));
+        }
+        if (userSuppliedTag.length > 0) {
+            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte.class, Arrays.toString(userSuppliedTag)));
+            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", String.class, new String(userSuppliedTag)));
+        }
+        log.setDescription("Request Attribute Ownership Assumption");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Attribute Ownership Acquisition Notification, Object Instance Handle: {}, attributes: {}, user supplied tag:{}",
+                theObject, securedAttributes, new String(userSuppliedTag));
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //7.10
+    @Override
+    public void attributeOwnershipUnavailable(ObjectInstanceHandle theObject, AttributeHandleSet theAttributes) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("7.10", "Attribute Ownership Unavailable † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+        int i = 1;
+        for (AttributeHandle theAttribute : theAttributes) {
+            log.getSuppliedArguments().add(new ClassValuePair("Attribute " + i++, AttributeHandle.class, theAttribute.toString()));
+        }
+        log.setDescription("Attribute Ownership Unavailable");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Attribute Ownership Unavailable, Object Instance Handle: {}, attributes: {}",
+                theObject, theAttributes);
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //7.11
+    @Override
+    public void requestAttributeOwnershipRelease(ObjectInstanceHandle theObject, AttributeHandleSet candidateAttributes, byte[] userSuppliedTag) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("7.11", "Request Attribute Ownership Release † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+        int i = 1;
+        for (AttributeHandle theAttribute : candidateAttributes) {
+            log.getSuppliedArguments().add(new ClassValuePair("Attribute " + i++, AttributeHandle.class, theAttribute.toString()));
+        }
+        if (userSuppliedTag.length > 0) {
+            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte.class, Arrays.toString(userSuppliedTag)));
+            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", String.class, new String(userSuppliedTag)));
+        }
+        log.setDescription("Request Attribute Ownership Release");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Request Attribute Ownership Release, Object Instance Handle: {}, attributes: {}, user supplied tag:{}",
+                theObject, candidateAttributes, new String(userSuppliedTag));
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //7.16
+    @Override
+    public void confirmAttributeOwnershipAcquisitionCancellation(ObjectInstanceHandle theObject, AttributeHandleSet theAttributes) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("7.16", "Confirm Attribute Ownership Acquisition Cancellation † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+        int i = 1;
+        for (AttributeHandle theAttribute : theAttributes) {
+            log.getSuppliedArguments().add(new ClassValuePair("Attribute " + i++, AttributeHandle.class, theAttribute.toString()));
+        }
+        log.setDescription("Confirm Attribute Ownership Acquisition Cancellation");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Confirm Attribute Ownership Acquisition Cancellation, Object Instance Handle: {}, attributes: {}",
+                theObject, theAttributes);
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //7.18
+    @Override
+    public void informAttributeOwnership(ObjectInstanceHandle theObject, AttributeHandle theAttribute, FederateHandle theOwner) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("7.18", "Inform Attribute Ownership † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+        log.getSuppliedArguments().add(new ClassValuePair("Attribute", AttributeHandle.class, theAttribute.toString()));
+        log.getSuppliedArguments().add(new ClassValuePair("Owner", FederateHandle.class, theOwner.toString()));
+        log.setDescription("Attribute is owned by federate");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Attribute is owned by federate, Object Instance Handle: {}, attribute: {}, Owner: {}",
+                theObject, theAttribute, theOwner);
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //7.18
+    @Override
+    public void attributeIsNotOwned(ObjectInstanceHandle theObject, AttributeHandle theAttribute) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("7.18", "Inform Attribute Ownership † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+        log.getSuppliedArguments().add(new ClassValuePair("Attribute", AttributeHandle.class, theAttribute.toString()));
+        log.setDescription("Attribute is not owned");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Attribute is not owned, Object Instance Handle: {}, attribute: {}",
+                theObject, theAttribute);
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //7.18
+    @Override
+    public void attributeIsOwnedByRTI(ObjectInstanceHandle theObject, AttributeHandle theAttribute) throws FederateInternalError {
+        logger.entry();
+        LogEntry log = new LogEntry("7.18", "Inform Attribute Ownership † service");
+        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+        log.getSuppliedArguments().add(new ClassValuePair("Attribute", AttributeHandle.class, theAttribute.toString()));
+        log.setDescription("Attribute is owned by RTI");
+        log.setLogType(LogEntryType.CALLBACK);
+        logger.log(Level.INFO, "Attribute is owned by RTI, Object Instance Handle: {}, attribute: {}",
+                theObject, theAttribute);
+        logEntries.add(log);
+        logger.exit();
+    }
+// </editor-fold>
 
 // <editor-fold desc="Chapter 8">
     //8.3
