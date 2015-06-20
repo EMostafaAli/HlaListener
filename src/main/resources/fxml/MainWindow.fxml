@@ -162,11 +162,11 @@
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <Menu mnemonicParsing="false" text="Get Handle">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="10.4 Get Federate Handle" />
+                                <MenuItem mnemonicParsing="false" onAction="#GetFederateHandle_click" text="10.4 Get Federate Handle" />
                                 <SeparatorMenuItem mnemonicParsing="false" />
                                 <MenuItem mnemonicParsing="false" onAction="#GetObjectClassHandle_click" text="10.6 Get Object Class Handle" />
-                                <MenuItem mnemonicParsing="false" text="10.8 Get Known Object Class Handle" />
-                                <MenuItem mnemonicParsing="false" text="10.9 Get Object Instance Handle" />
+                                <MenuItem mnemonicParsing="false" onAction="#GetKnownObjectClassHandle_click" text="10.8 Get Known Object Class Handle" />
+                                <MenuItem mnemonicParsing="false" onAction="#GetObjectInstanceHandle_click" text="10.9 Get Object Instance Handle" />
                                 <MenuItem mnemonicParsing="false" text="10.11 Get Attribute Handle" />
                                 <SeparatorMenuItem mnemonicParsing="false" />
                                 <MenuItem mnemonicParsing="false" text="10.15 Get Interaction Class Handle" />
@@ -177,10 +177,10 @@
                         </Menu>
                         <Menu mnemonicParsing="false" text="Get Name">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="10.5 Get Federate Name" />
+                                <MenuItem mnemonicParsing="false" onAction="#GetFederateName_click" text="10.5 Get Federate Name" />
                                 <SeparatorMenuItem mnemonicParsing="false" />
-                                <MenuItem mnemonicParsing="false" text="10.7 Get Object Class Name" />
-                                <MenuItem mnemonicParsing="false" text="10.10 Get Object Instance Name" />
+                                <MenuItem mnemonicParsing="false" onAction="#GetObjectClassName_click" text="10.7 Get Object Class Name" />
+                                <MenuItem mnemonicParsing="false" onAction="#GetObjectInstanceName_click" text="10.10 Get Object Instance Name" />
                                 <MenuItem mnemonicParsing="false" text="10.12 Get Attribute Name" />
                                 <SeparatorMenuItem mnemonicParsing="false" />
                                 <MenuItem mnemonicParsing="false" text="10.16 Get Interaction Class Name" />

@@ -1278,6 +1278,30 @@ public class MainWindowController implements Initializable {
         }
     }
     
+    //10.4
+    @FXML
+    private void GetFederateHandle_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.4 Get Federate Handle service", "/fxml/chapter10/GetFederateHandleService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Federate Handle service dialog box", ex);
+        }
+    }
+    
+    //10.5
+    @FXML
+    private void GetFederateName_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.5 Get Federate Name service", "/fxml/chapter10/GetFederateNameService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Federate Name service dialog box", ex);
+        }
+    }
+    
     //10.6
     @FXML
     private void GetObjectClassHandle_click(ActionEvent event) {
@@ -1287,6 +1311,54 @@ public class MainWindowController implements Initializable {
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Get Object Class Handle service dialog box", ex);
+        }
+    }
+    
+    //10.7
+    @FXML
+    private void GetObjectClassName_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.7 Get Object Class Name service", "/fxml/chapter10/GetObjectClassNameService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Object Class Name service dialog box", ex);
+        }
+    }
+    
+    //10.8
+    @FXML
+    private void GetKnownObjectClassHandle_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.8 Get Known Object Class Handle service", "/fxml/chapter10/GetKnownObjectClassHandleService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Known Object Class Handle service dialog box", ex);
+        }
+    }
+    
+    //10.9
+    @FXML
+    private void GetObjectInstanceHandle_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.9 Get Object Instance Handle service", "/fxml/chapter10/GetObjectInstanceHandleService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Object Instance Handle service dialog box", ex);
+        }
+    }
+    
+    //10.10
+    @FXML
+    private void GetObjectInstanceName_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.10 Get Object Instance Name service", "/fxml/chapter10/GetObjectInstanceNameService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Object Instance Name service dialog box", ex);
         }
     }
     
