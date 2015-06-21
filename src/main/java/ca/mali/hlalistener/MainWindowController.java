@@ -1362,6 +1362,54 @@ public class MainWindowController implements Initializable {
         }
     }
     
+    //10.11
+    @FXML
+    private void GetAttributeHandle_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.11 Get Attribute Handle service", "/fxml/chapter10/GetAttributeHandleService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Attribute Handle service dialog box", ex);
+        }
+    }
+    
+    //10.12
+    @FXML
+    private void GetAttributeName_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.11 Get Attribute Name service", "/fxml/chapter10/GetAttributeNameService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Attribute Name service dialog box", ex);
+        }
+    }
+    
+    //10.13
+    @FXML
+    private void GetUpdateRateValue_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.13 Get Update Rate Value service", "/fxml/chapter10/GetUpdateRateValueService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Update Rate Value service dialog box", ex);
+        }
+    }
+    
+    //10.14
+    @FXML
+    private void GetUpdateRateValueForAttribute_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.14 Get Update Rate Value For Attribute service", "/fxml/chapter10/GetUpdateRateValueForAttributeService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Update Rate Value For Attribute service dialog box", ex);
+        }
+    }
+    
     //10.21
     @FXML
     private void GetTransportationTypeHandle_click(ActionEvent event) {

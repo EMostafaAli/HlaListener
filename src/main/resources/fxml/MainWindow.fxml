@@ -167,7 +167,7 @@
                                 <MenuItem mnemonicParsing="false" onAction="#GetObjectClassHandle_click" text="10.6 Get Object Class Handle" />
                                 <MenuItem mnemonicParsing="false" onAction="#GetKnownObjectClassHandle_click" text="10.8 Get Known Object Class Handle" />
                                 <MenuItem mnemonicParsing="false" onAction="#GetObjectInstanceHandle_click" text="10.9 Get Object Instance Handle" />
-                                <MenuItem mnemonicParsing="false" text="10.11 Get Attribute Handle" />
+                                <MenuItem mnemonicParsing="false" onAction="#GetAttributeHandle_click" text="10.11 Get Attribute Handle" />
                                 <SeparatorMenuItem mnemonicParsing="false" />
                                 <MenuItem mnemonicParsing="false" text="10.15 Get Interaction Class Handle" />
                                 <MenuItem mnemonicParsing="false" text="10.17 Get Parameter Handle" />
@@ -181,7 +181,7 @@
                                 <SeparatorMenuItem mnemonicParsing="false" />
                                 <MenuItem mnemonicParsing="false" onAction="#GetObjectClassName_click" text="10.7 Get Object Class Name" />
                                 <MenuItem mnemonicParsing="false" onAction="#GetObjectInstanceName_click" text="10.10 Get Object Instance Name" />
-                                <MenuItem mnemonicParsing="false" text="10.12 Get Attribute Name" />
+                                <MenuItem mnemonicParsing="false" onAction="#GetAttributeName_click" text="10.12 Get Attribute Name" />
                                 <SeparatorMenuItem mnemonicParsing="false" />
                                 <MenuItem mnemonicParsing="false" text="10.16 Get Interaction Class Name" />
                                 <MenuItem mnemonicParsing="false" text="10.18 Get Parameter Name" />
@@ -192,8 +192,8 @@
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <Menu mnemonicParsing="false" text="Update Rate">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="10.13 Get Update Rate Value" />
-                                <MenuItem mnemonicParsing="false" text="10.14 Get Update Rate Value For Attribute" />
+                                <MenuItem mnemonicParsing="false" onAction="#GetUpdateRateValue_click" text="10.13 Get Update Rate Value" />
+                                <MenuItem mnemonicParsing="false" onAction="#GetUpdateRateValueForAttribute_click" text="10.14 Get Update Rate Value For Attribute" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Order Type">
