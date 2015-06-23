@@ -44,16 +44,16 @@ import org.apache.logging.log4j.*;
  *
  * @author Mostafa
  */
-public class GetAttributeNameServiceController implements Initializable {
+public class GetParameterNameServiceController implements Initializable {
 
     //Logger
     private static final Logger logger = LogManager.getLogger();
 
     @FXML
-    private TextField ObjectClassHandleTextBox;
+    private TextField InteractionClassHandleTextBox;
 
     @FXML
-    private TextField AttributeHandleTextBox;
+    private TextField ParameterHandleTextBox;
 
     @FXML
     private Button OkButton;
@@ -64,8 +64,8 @@ public class GetAttributeNameServiceController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         logger.entry();
-        OkButton.disableProperty().bind(Bindings.isEmpty(ObjectClassHandleTextBox.textProperty())
-                .or(Bindings.isEmpty(AttributeHandleTextBox.textProperty())));
+        OkButton.disableProperty().bind(Bindings.isEmpty(InteractionClassHandleTextBox.textProperty())
+                .or(Bindings.isEmpty(ParameterHandleTextBox.textProperty())));
         logger.exit();
     }
 
@@ -79,21 +79,22 @@ public class GetAttributeNameServiceController implements Initializable {
     @FXML
     private void OK_click(ActionEvent event) {
         logger.entry();
-        LogEntry log = new LogEntry("10.12", "Get Attribute Name service");
+        LogEntry log = new LogEntry("10.18", "Get Parameter Name service");
         try {
-            log.getSuppliedArguments().add(new ClassValuePair("Class handle",
-                    ObjectClassHandle.class,ObjectClassHandleTextBox.getText()));
-            ObjectClassHandle objectHandle = rtiAmb.getObjectClassHandleFactory()
-                    .decode(ByteBuffer.allocate(4).putInt(Integer.parseInt(ObjectClassHandleTextBox.getText())).array(), 0);
-            log.getSuppliedArguments().add(new ClassValuePair("Attribute handle", AttributeHandle.class, AttributeHandleTextBox.getText()));
-            AttributeHandle attributeHandle = rtiAmb.getAttributeHandleFactory()
-                    .decode(ByteBuffer.allocate(4).putInt(Integer.parseInt(AttributeHandleTextBox.getText())).array(), 0);
-            String attributeName = rtiAmb.getAttributeName(objectHandle, attributeHandle);
-            log.getReturnedArguments().add(new ClassValuePair("Attribute name", String.class, attributeName));
-            log.setDescription("Attribute name retrieved successfully");
+            log.getSuppliedArguments().add(new ClassValuePair("Interaction class handle",
+                    InteractionClassHandle.class,InteractionClassHandleTextBox.getText()));
+            InteractionClassHandle interactionHandle = rtiAmb.getInteractionClassHandleFactory()
+                    .decode(ByteBuffer.allocate(4).putInt(Integer.parseInt(InteractionClassHandleTextBox.getText())).array(), 0);
+            log.getSuppliedArguments().add(new ClassValuePair("Parameter handle", ParameterHandle.class, ParameterHandleTextBox.getText()));
+            ParameterHandle parameterHandle = rtiAmb.getParameterHandleFactory()
+                    .decode(ByteBuffer.allocate(4).putInt(Integer.parseInt(ParameterHandleTextBox.getText())).array(), 0);
+            String ParameterName = rtiAmb.getParameterName(interactionHandle, parameterHandle);
+            log.getReturnedArguments().add(new ClassValuePair("Paramter name", String.class, ParameterName));
+            log.setDescription("Parameter name retrieved successfully");
             log.setLogType(LogEntryType.REQUEST);
-        } catch (AttributeNotDefined | InvalidAttributeHandle | InvalidObjectClassHandle |
-                FederateNotExecutionMember | NotConnected | RTIinternalError ex) {
+        } catch (FederateNotExecutionMember | NotConnected | CouldNotDecode |
+                RTIinternalError | InteractionParameterNotDefined |
+                InvalidParameterHandle | InvalidInteractionClassHandle ex) {
             log.setException(ex);
             log.setLogType(LogEntryType.ERROR);
             logger.log(Level.ERROR, ex.getMessage(), ex);

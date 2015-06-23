@@ -1410,6 +1410,42 @@ public class MainWindowController implements Initializable {
         }
     }
     
+    //10.15
+    @FXML
+    private void GetInteractionHandle_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.15 Get Interaction Class Handle service", "/fxml/chapter10/GetInteractionClassHandleService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Interaction Class Handle service dialog box", ex);
+        }
+    }
+    
+    //10.16
+    @FXML
+    private void GetInteractionName_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.16 Get Interaction Class Name service", "/fxml/chapter10/GetInteractionClassNameService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Interaction Class Name service dialog box", ex);
+        }
+    }
+    
+    //10.18
+    @FXML
+    private void GetParameterName_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.18 Get Parameter Name service", "/fxml/chapter10/GetParameterNameService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Parameter Name service dialog box", ex);
+        }
+    }
+    
     //10.21
     @FXML
     private void GetTransportationTypeHandle_click(ActionEvent event) {

@@ -25,14 +25,14 @@
  */
 package ca.mali.dialogs.chapter10;
 
-import static ca.mali.hlalistener.PublicVariables.*;
 import ca.mali.hlalistener.*;
+import static ca.mali.hlalistener.PublicVariables.*;
 import hla.rti1516e.*;
 import hla.rti1516e.exceptions.*;
 import java.net.*;
 import java.nio.ByteBuffer;
 import java.util.*;
-import javafx.beans.binding.Bindings;
+import javafx.beans.binding.*;
 import javafx.event.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
@@ -44,16 +44,13 @@ import org.apache.logging.log4j.*;
  *
  * @author Mostafa
  */
-public class GetAttributeNameServiceController implements Initializable {
+public class GetInteractionClassNameServiceController implements Initializable {
 
     //Logger
     private static final Logger logger = LogManager.getLogger();
 
     @FXML
-    private TextField ObjectClassHandleTextBox;
-
-    @FXML
-    private TextField AttributeHandleTextBox;
+    private TextField InteractionHandle;
 
     @FXML
     private Button OkButton;
@@ -64,36 +61,32 @@ public class GetAttributeNameServiceController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         logger.entry();
-        OkButton.disableProperty().bind(Bindings.isEmpty(ObjectClassHandleTextBox.textProperty())
-                .or(Bindings.isEmpty(AttributeHandleTextBox.textProperty())));
+        OkButton.disableProperty().bind(
+                Bindings.isEmpty(InteractionHandle.textProperty()));
         logger.exit();
     }
 
     @FXML
     private void Cancel_click(ActionEvent event) {
         logger.entry();
-        ((Stage) OkButton.getScene().getWindow()).close();
+        ((Stage) InteractionHandle.getScene().getWindow()).close();
         logger.exit();
     }
 
     @FXML
-    private void OK_click(ActionEvent event) {
+    private void Ok_click(ActionEvent event) {
         logger.entry();
-        LogEntry log = new LogEntry("10.12", "Get Attribute Name service");
+        LogEntry log = new LogEntry("10.16", "Get Interaction Class Name service");
         try {
-            log.getSuppliedArguments().add(new ClassValuePair("Class handle",
-                    ObjectClassHandle.class,ObjectClassHandleTextBox.getText()));
-            ObjectClassHandle objectHandle = rtiAmb.getObjectClassHandleFactory()
-                    .decode(ByteBuffer.allocate(4).putInt(Integer.parseInt(ObjectClassHandleTextBox.getText())).array(), 0);
-            log.getSuppliedArguments().add(new ClassValuePair("Attribute handle", AttributeHandle.class, AttributeHandleTextBox.getText()));
-            AttributeHandle attributeHandle = rtiAmb.getAttributeHandleFactory()
-                    .decode(ByteBuffer.allocate(4).putInt(Integer.parseInt(AttributeHandleTextBox.getText())).array(), 0);
-            String attributeName = rtiAmb.getAttributeName(objectHandle, attributeHandle);
-            log.getReturnedArguments().add(new ClassValuePair("Attribute name", String.class, attributeName));
-            log.setDescription("Attribute name retrieved successfully");
+            log.getSuppliedArguments().add(new ClassValuePair("Interaction Class Handle", InteractionClassHandle.class, InteractionHandle.getText()));
+            InteractionClassHandle handle = rtiAmb.getInteractionClassHandleFactory()
+                    .decode(ByteBuffer.allocate(4).putInt(Integer.parseInt(InteractionHandle.getText())).array(), 0);
+            String interactionName = rtiAmb.getInteractionClassName(handle);
+            log.getReturnedArguments().add(new ClassValuePair("Interaction Class Name", String.class, interactionName));
+            log.setDescription("Interaction class name retrieved successfully");
             log.setLogType(LogEntryType.REQUEST);
-        } catch (AttributeNotDefined | InvalidAttributeHandle | InvalidObjectClassHandle |
-                FederateNotExecutionMember | NotConnected | RTIinternalError ex) {
+        } catch (FederateNotExecutionMember | NotConnected | NumberFormatException |
+                CouldNotDecode | RTIinternalError | InvalidInteractionClassHandle ex) {
             log.setException(ex);
             log.setLogType(LogEntryType.ERROR);
             logger.log(Level.ERROR, ex.getMessage(), ex);
@@ -103,7 +96,7 @@ public class GetAttributeNameServiceController implements Initializable {
             logger.log(Level.FATAL, ex.getMessage(), ex);
         }
         logEntries.add(log);
-        ((Stage) OkButton.getScene().getWindow()).close();
+        ((Stage) InteractionHandle.getScene().getWindow()).close();
         logger.exit();
     }
 }

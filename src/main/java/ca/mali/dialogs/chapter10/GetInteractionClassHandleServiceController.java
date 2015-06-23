@@ -25,14 +25,14 @@
  */
 package ca.mali.dialogs.chapter10;
 
-import static ca.mali.hlalistener.PublicVariables.*;
+import ca.mali.customcontrol.InteractionsListController;
+import ca.mali.fomparser.InteractionClassFDD;
 import ca.mali.hlalistener.*;
-import hla.rti1516e.*;
+import static ca.mali.hlalistener.PublicVariables.*;
+import hla.rti1516e.InteractionClassHandle;
 import hla.rti1516e.exceptions.*;
 import java.net.*;
-import java.nio.ByteBuffer;
 import java.util.*;
-import javafx.beans.binding.Bindings;
 import javafx.event.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
@@ -42,19 +42,15 @@ import org.apache.logging.log4j.*;
 /**
  * FXML Controller class
  *
- * @author Mostafa
+ * @author Mostafa Ali <engabdomostafa@gmail.com>
  */
-public class GetAttributeNameServiceController implements Initializable {
+public class GetInteractionClassHandleServiceController implements Initializable {
 
     //Logger
     private static final Logger logger = LogManager.getLogger();
 
     @FXML
-    private TextField ObjectClassHandleTextBox;
-
-    @FXML
-    private TextField AttributeHandleTextBox;
-
+    private InteractionsListController interactionsListController;
     @FXML
     private Button OkButton;
 
@@ -64,8 +60,7 @@ public class GetAttributeNameServiceController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         logger.entry();
-        OkButton.disableProperty().bind(Bindings.isEmpty(ObjectClassHandleTextBox.textProperty())
-                .or(Bindings.isEmpty(AttributeHandleTextBox.textProperty())));
+        interactionsListController.setFddObjectModel(fddObjectModel);
         logger.exit();
     }
 
@@ -79,30 +74,28 @@ public class GetAttributeNameServiceController implements Initializable {
     @FXML
     private void OK_click(ActionEvent event) {
         logger.entry();
-        LogEntry log = new LogEntry("10.12", "Get Attribute Name service");
-        try {
-            log.getSuppliedArguments().add(new ClassValuePair("Class handle",
-                    ObjectClassHandle.class,ObjectClassHandleTextBox.getText()));
-            ObjectClassHandle objectHandle = rtiAmb.getObjectClassHandleFactory()
-                    .decode(ByteBuffer.allocate(4).putInt(Integer.parseInt(ObjectClassHandleTextBox.getText())).array(), 0);
-            log.getSuppliedArguments().add(new ClassValuePair("Attribute handle", AttributeHandle.class, AttributeHandleTextBox.getText()));
-            AttributeHandle attributeHandle = rtiAmb.getAttributeHandleFactory()
-                    .decode(ByteBuffer.allocate(4).putInt(Integer.parseInt(AttributeHandleTextBox.getText())).array(), 0);
-            String attributeName = rtiAmb.getAttributeName(objectHandle, attributeHandle);
-            log.getReturnedArguments().add(new ClassValuePair("Attribute name", String.class, attributeName));
-            log.setDescription("Attribute name retrieved successfully");
-            log.setLogType(LogEntryType.REQUEST);
-        } catch (AttributeNotDefined | InvalidAttributeHandle | InvalidObjectClassHandle |
-                FederateNotExecutionMember | NotConnected | RTIinternalError ex) {
-            log.setException(ex);
-            log.setLogType(LogEntryType.ERROR);
-            logger.log(Level.ERROR, ex.getMessage(), ex);
-        } catch (Exception ex) {
-            log.setException(ex);
-            log.setLogType(LogEntryType.FATAL);
-            logger.log(Level.FATAL, ex.getMessage(), ex);
+        for (InteractionClassFDD interaction : interactionsListController.getInteractions()) {
+            LogEntry log = new LogEntry("10.15", "Get Interaction Class Handle service");
+            try {
+                log.getSuppliedArguments().add(new ClassValuePair("Interaction Class Name",
+                        String.class, interaction.getFullName()));
+                InteractionClassHandle interactionClassHandle = rtiAmb.getInteractionClassHandle(interaction.getFullName());
+                log.getReturnedArguments().add(new ClassValuePair("Interaction Class Handle",
+                        InteractionClassHandle.class, interactionClassHandle.toString()));
+                log.setDescription("Interaction class handle retrieved successfully");
+                log.setLogType(LogEntryType.REQUEST);
+            } catch (NameNotFound | FederateNotExecutionMember | NotConnected |
+                    RTIinternalError ex) {
+                log.setException(ex);
+                log.setLogType(LogEntryType.ERROR);
+                logger.log(Level.ERROR, ex.getMessage(), ex);
+            } catch (Exception ex) {
+                log.setException(ex);
+                log.setLogType(LogEntryType.FATAL);
+                logger.log(Level.FATAL, ex.getMessage(), ex);
+            }
+            logEntries.add(log);
         }
-        logEntries.add(log);
         ((Stage) OkButton.getScene().getWindow()).close();
         logger.exit();
     }
