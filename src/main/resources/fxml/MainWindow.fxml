@@ -186,7 +186,7 @@
                                 <MenuItem mnemonicParsing="false" onAction="#GetInteractionName_click" text="10.16 Get Interaction Class Name..." />
                                 <MenuItem mnemonicParsing="false" onAction="#GetParameterName_click" text="10.18 Get Parameter Name..." />
                                 <SeparatorMenuItem mnemonicParsing="false" />
-                                <MenuItem mnemonicParsing="false" text="10.22 Get Transportation Type Name" />
+                                <MenuItem mnemonicParsing="false" onAction="#GetTransportationTypeName_click" text="10.22 Get Transportation Type Name..." />
                             </items>
                         </Menu>
                         <SeparatorMenuItem mnemonicParsing="false" />
@@ -198,14 +198,14 @@
                         </Menu>
                         <Menu mnemonicParsing="false" text="Order Type">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="10.19 Get Order Type" />
-                                <MenuItem mnemonicParsing="false" text="10.20 Get Order Name" />
+                                <MenuItem mnemonicParsing="false" onAction="#GetOrderType_click" text="10.19 Get Order Type..." />
+                                <MenuItem mnemonicParsing="false" onAction="#GetOrderName_click" text="10.20 Get Order Name..." />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Dimensions">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="10.23 Get Available Dimensions For Class Attribute" />
-                                <MenuItem mnemonicParsing="false" text="10.24 Get Available Dimensions For Interaction Class" />
+                                <MenuItem mnemonicParsing="false" onAction="#GetAvailDimAttribute_click" text="10.23 Get Available Dimensions For Class Attribute..." />
+                                <MenuItem mnemonicParsing="false" onAction="#GetAvailDimInteraction_click" text="10.24 Get Available Dimensions For Interaction Class..." />
                                 <SeparatorMenuItem mnemonicParsing="false" />
                                 <MenuItem mnemonicParsing="false" text="10.25 Get Dimension Handle" />
                                 <MenuItem mnemonicParsing="false" text="10.26 Get Dimension name" />

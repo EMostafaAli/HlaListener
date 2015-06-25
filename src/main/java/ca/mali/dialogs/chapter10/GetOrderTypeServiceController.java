@@ -30,7 +30,6 @@ import static ca.mali.hlalistener.PublicVariables.*;
 import hla.rti1516e.*;
 import hla.rti1516e.exceptions.*;
 import java.net.*;
-import java.nio.ByteBuffer;
 import java.util.*;
 import javafx.beans.binding.*;
 import javafx.event.*;
@@ -44,13 +43,13 @@ import org.apache.logging.log4j.*;
  *
  * @author Mostafa
  */
-public class GetInteractionClassNameServiceController implements Initializable {
+public class GetOrderTypeServiceController implements Initializable {
 
     //Logger
     private static final Logger logger = LogManager.getLogger();
 
     @FXML
-    private TextField InteractionHandle;
+    private TextField OrderNameTextBox;
 
     @FXML
     private Button OkButton;
@@ -62,31 +61,28 @@ public class GetInteractionClassNameServiceController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         logger.entry();
         OkButton.disableProperty().bind(
-                Bindings.isEmpty(InteractionHandle.textProperty()));
+                Bindings.isEmpty(OrderNameTextBox.textProperty()));
         logger.exit();
     }
 
     @FXML
     private void Cancel_click(ActionEvent event) {
         logger.entry();
-        ((Stage) InteractionHandle.getScene().getWindow()).close();
+        ((Stage) OrderNameTextBox.getScene().getWindow()).close();
         logger.exit();
     }
 
     @FXML
     private void Ok_click(ActionEvent event) {
         logger.entry();
-        LogEntry log = new LogEntry("10.16", "Get Interaction Class Name service");
+        LogEntry log = new LogEntry("10.19", "Get Order Type service");
         try {
-            log.getSuppliedArguments().add(new ClassValuePair("Interaction Class Handle", InteractionClassHandle.class, InteractionHandle.getText()));
-            InteractionClassHandle handle = rtiAmb.getInteractionClassHandleFactory()
-                    .decode(ByteBuffer.allocate(4).putInt(Integer.parseInt(InteractionHandle.getText())).array(), 0);
-            String interactionName = rtiAmb.getInteractionClassName(handle);
-            log.getReturnedArguments().add(new ClassValuePair("Interaction Class Name", String.class, interactionName));
-            log.setDescription("Interaction class name retrieved successfully");
+            log.getSuppliedArguments().add(new ClassValuePair("Order Name", String.class, OrderNameTextBox.getText()));
+            OrderType orderType = rtiAmb.getOrderType(OrderNameTextBox.getText());
+            log.getReturnedArguments().add(new ClassValuePair("Order Type", OrderType.class, orderType.toString()));
+            log.setDescription("Order type retrieved successfully");
             log.setLogType(LogEntryType.REQUEST);
-        } catch (FederateNotExecutionMember | NotConnected | CouldNotDecode |
-                RTIinternalError | InvalidInteractionClassHandle ex) {
+        } catch (InvalidOrderName | FederateNotExecutionMember | NotConnected | RTIinternalError ex) {
             log.setException(ex);
             log.setLogType(LogEntryType.ERROR);
             logger.log(Level.ERROR, ex.getMessage(), ex);
@@ -96,7 +92,7 @@ public class GetInteractionClassNameServiceController implements Initializable {
             logger.log(Level.FATAL, ex.getMessage(), ex);
         }
         logEntries.add(log);
-        ((Stage) InteractionHandle.getScene().getWindow()).close();
+        ((Stage) OrderNameTextBox.getScene().getWindow()).close();
         logger.exit();
     }
 }

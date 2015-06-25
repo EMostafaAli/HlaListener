@@ -6,24 +6,24 @@
 <?import javafx.scene.layout.*?>
 <?import ca.mali.customcontrol.*?>
 
-<VBox prefHeight="191.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.chapter10.GetParameterNameServiceController">
+<VBox prefHeight="135.0" prefWidth="347.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.chapter10.GetParameterNameServiceController">
     <children>
-        <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="570.0">
+        <HBox alignment="CENTER_LEFT" prefHeight="1.0" prefWidth="450.0">
             <VBox.margin>
                 <Insets left="15.0" right="15.0" top="15.0" />
             </VBox.margin>
             <children>
-                <Label prefHeight="27.0" prefWidth="175.0" text="Interaction Class Handle:" />
-                <TextField fx:id="InteractionClassHandleTextBox" prefHeight="30.0" prefWidth="275.0" />
+                <Label prefHeight="25.0" prefWidth="151.0" text="Interaction Class Handle:" />
+                <TextField fx:id="InteractionClassHandleTextBox" prefHeight="25.0" prefWidth="166.0" />
             </children>
         </HBox>
-        <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="570.0">
+        <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="450.0">
             <VBox.margin>
                 <Insets left="15.0" right="15.0" top="15.0" />
             </VBox.margin>
             <children>
-                <Label prefHeight="27.0" prefWidth="176.0" text="Parameter Handle:" />
-                <TextField fx:id="ParameterHandleTextBox" prefHeight="39.0" prefWidth="272.0" />
+                <Label prefHeight="25.0" prefWidth="151.0" text="Parameter Handle:" />
+                <TextField fx:id="ParameterHandleTextBox" prefHeight="25.0" prefWidth="166.0" />
             </children>
         </HBox>
         <HBox alignment="CENTER_RIGHT" prefHeight="23.0" prefWidth="600.0" spacing="15.0">

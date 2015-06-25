@@ -1446,6 +1446,30 @@ public class MainWindowController implements Initializable {
         }
     }
     
+    //10.19
+    @FXML
+    private void GetOrderType_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.19 Get Order Type service", "/fxml/chapter10/GetOrderTypeService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Order Type service dialog box", ex);
+        }
+    }
+    
+    //10.20
+    @FXML
+    private void GetOrderName_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.20 Get Order Name service", "/fxml/chapter10/GetOrderNameService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Order Name service dialog box", ex);
+        }
+    }
+    
     //10.21
     @FXML
     private void GetTransportationTypeHandle_click(ActionEvent event) {
@@ -1455,6 +1479,42 @@ public class MainWindowController implements Initializable {
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Get Transportation Type Handle service dialog box", ex);
+        }
+    }
+    
+    //10.22
+    @FXML
+    private void GetTransportationTypeName_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.21 Get Transportation Type Name service", "/fxml/chapter10/GetTransportationTypeNameService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Transportation Type Name service dialog box", ex);
+        }
+    }
+    
+    //10.23
+    @FXML
+    private void GetAvailDimAttribute_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.23 Get Available Dimensions For Class Attribute service", "/fxml/chapter10/GetAvailableDimensionsForClassAttributeService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Available Dimensions For Class Attribute service dialog box", ex);
+        }
+    }
+    
+    //10.24
+    @FXML
+    private void GetAvailDimInteraction_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.24 Get Available Dimensions For Interaction Class service", "/fxml/chapter10/GetAvailableDimensionsForInteractionClassService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Available Dimensions For Interaction Class service dialog box", ex);
         }
     }
     

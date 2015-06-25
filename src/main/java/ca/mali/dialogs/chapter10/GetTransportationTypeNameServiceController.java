@@ -44,13 +44,13 @@ import org.apache.logging.log4j.*;
  *
  * @author Mostafa
  */
-public class GetInteractionClassNameServiceController implements Initializable {
+public class GetTransportationTypeNameServiceController implements Initializable {
 
     //Logger
     private static final Logger logger = LogManager.getLogger();
 
     @FXML
-    private TextField InteractionHandle;
+    private TextField TransportationTypeHandleTextField;
 
     @FXML
     private Button OkButton;
@@ -62,31 +62,31 @@ public class GetInteractionClassNameServiceController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         logger.entry();
         OkButton.disableProperty().bind(
-                Bindings.isEmpty(InteractionHandle.textProperty()));
+                Bindings.isEmpty(TransportationTypeHandleTextField.textProperty()));
         logger.exit();
     }
 
     @FXML
     private void Cancel_click(ActionEvent event) {
         logger.entry();
-        ((Stage) InteractionHandle.getScene().getWindow()).close();
+        ((Stage) TransportationTypeHandleTextField.getScene().getWindow()).close();
         logger.exit();
     }
 
     @FXML
     private void Ok_click(ActionEvent event) {
         logger.entry();
-        LogEntry log = new LogEntry("10.16", "Get Interaction Class Name service");
+        LogEntry log = new LogEntry("10.22", "Get Transportation Type Name service");
         try {
-            log.getSuppliedArguments().add(new ClassValuePair("Interaction Class Handle", InteractionClassHandle.class, InteractionHandle.getText()));
-            InteractionClassHandle handle = rtiAmb.getInteractionClassHandleFactory()
-                    .decode(ByteBuffer.allocate(4).putInt(Integer.parseInt(InteractionHandle.getText())).array(), 0);
-            String interactionName = rtiAmb.getInteractionClassName(handle);
-            log.getReturnedArguments().add(new ClassValuePair("Interaction Class Name", String.class, interactionName));
-            log.setDescription("Interaction class name retrieved successfully");
+            log.getSuppliedArguments().add(new ClassValuePair("Transportation Type Handle", TransportationTypeHandle.class, TransportationTypeHandleTextField.getText()));
+            TransportationTypeHandle handle = rtiAmb.getTransportationTypeHandleFactory()
+                    .decode(ByteBuffer.allocate(4).putInt(Integer.parseInt(TransportationTypeHandleTextField.getText())).array(), 0);
+            String name = rtiAmb.getTransportationTypeName(handle);
+            log.getReturnedArguments().add(new ClassValuePair("Transportation Type Name", String.class, name));
+            log.setDescription("Transportation type name retrieved successfully");
             log.setLogType(LogEntryType.REQUEST);
         } catch (FederateNotExecutionMember | NotConnected | CouldNotDecode |
-                RTIinternalError | InvalidInteractionClassHandle ex) {
+                RTIinternalError | InvalidTransportationType ex) {
             log.setException(ex);
             log.setLogType(LogEntryType.ERROR);
             logger.log(Level.ERROR, ex.getMessage(), ex);
@@ -96,7 +96,7 @@ public class GetInteractionClassNameServiceController implements Initializable {
             logger.log(Level.FATAL, ex.getMessage(), ex);
         }
         logEntries.add(log);
-        ((Stage) InteractionHandle.getScene().getWindow()).close();
+        ((Stage) TransportationTypeHandleTextField.getScene().getWindow()).close();
         logger.exit();
     }
 }

@@ -8,15 +8,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="90.0" prefWidth="341.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.chapter10.GetInteractionClassNameServiceController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="90.0" prefWidth="277.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.chapter10.GetOrderNameServiceController">
    <children>
       <HBox alignment="CENTER_LEFT" prefHeight="14.0" prefWidth="311.0">
          <VBox.margin>
             <Insets left="15.0" right="15.0" top="15.0" />
          </VBox.margin>
          <children>
-            <Label prefHeight="17.0" prefWidth="151.0" text="Interaction Class Handle:" />
-            <TextField fx:id="InteractionHandle" prefHeight="26.0" prefWidth="156.0" />
+            <Label prefHeight="17.0" prefWidth="93.0" text="Order Type:" />
+            <ChoiceBox fx:id="OrderTypeChoiceBox" prefHeight="25.0" prefWidth="156.0" />
          </children>
       </HBox>
       <HBox alignment="CENTER_RIGHT" prefHeight="8.0" prefWidth="311.0">
