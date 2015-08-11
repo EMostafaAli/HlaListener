@@ -25,28 +25,41 @@ package ca.mali.hlalistener;
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-import static ca.mali.hlalistener.PublicVariables.*;
-import hla.rti1516e.*;
+import hla.rti1516e.LogicalTime;
+import hla.rti1516e.LogicalTimeInterval;
+import hla.rti1516e.ResignAction;
+import hla.rti1516e.TimeQueryReturn;
 import hla.rti1516e.exceptions.*;
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import javafx.application.*;
-import javafx.beans.binding.*;
-import javafx.collections.*;
-import javafx.event.*;
-import javafx.fxml.*;
-import javafx.geometry.*;
-import javafx.scene.*;
+import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.collections.ListChangeListener;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.*;
-import javafx.scene.image.*;
-import javafx.scene.layout.*;
-import javafx.scene.paint.*;
-import javafx.stage.*;
-import javafx.util.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import org.apache.logging.log4j.*;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import static ca.mali.hlalistener.PublicVariables.*;
 
 /**
  * FXML Controller class
@@ -119,29 +132,24 @@ public class MainWindowController implements Initializable {
         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
         timeCol.setCellValueFactory(new PropertyValueFactory<>("simulationTime"));
         iconCol.setCellValueFactory(new PropertyValueFactory<>("icon"));
-        iconCol.setCellFactory(new Callback<TableColumn<LogEntry, Image>, TableCell<LogEntry, Image>>() {
+        iconCol.setCellFactory(param -> new TableCell<LogEntry, Image>() {
+            ImageView imgView;
+
+            {
+                alignmentProperty().set(Pos.CENTER);
+                imgView = new ImageView();
+                imgView.setFitHeight(10);
+                imgView.setFitWidth(10);
+            }
+
             @Override
-            public TableCell<LogEntry, Image> call(TableColumn<LogEntry, Image> param) {
-                return new TableCell<LogEntry, Image>() {
-                    ImageView imgView;
-
-                    {
-                        alignmentProperty().set(Pos.CENTER);
-                        imgView = new ImageView();
-                        imgView.setFitHeight(10);
-                        imgView.setFitWidth(10);
-                    }
-
-                    @Override
-                    protected void updateItem(Image item, boolean empty) {
-                        if (item != null) {
-                            imgView.setImage(item);
-                            setGraphic(imgView);
-                        } else {
-                            setGraphic(null);
-                        }
-                    }
-                };
+            protected void updateItem(Image item, boolean empty) {
+                if (item != null) {
+                    imgView.setImage(item);
+                    setGraphic(imgView);
+                } else {
+                    setGraphic(null);
+                }
             }
         });
         logTable.setItems(logEntries);
@@ -1552,6 +1560,98 @@ public class MainWindowController implements Initializable {
             log.setLogType(LogEntryType.REQUEST);
         } catch (ObjectClassRelevanceAdvisorySwitchIsOff | SaveInProgress | RestoreInProgress |
                 FederateNotExecutionMember | NotConnected | RTIinternalError ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
+        } catch (Exception ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
+        }
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //10.35
+    @FXML
+    private void EnableAttributeRelevanceSwitch_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("10.35", "Enable Attribute Relevance Advisory Switch service");
+        try {
+            rtiAmb.enableAttributeRelevanceAdvisorySwitch();
+            log.setDescription("Attribute Relevance Advisory Switch enabled successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (AttributeRelevanceAdvisorySwitchIsOn | FederateNotExecutionMember | NotConnected | RTIinternalError |
+                RestoreInProgress | SaveInProgress ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
+        } catch (Exception ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
+        }
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //10.36
+    @FXML
+    private void DisableAttributeRelevanceSwitch_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("10.36", "Disable Attribute Relevance Advisory Switch service");
+        try {
+            rtiAmb.disableAttributeRelevanceAdvisorySwitch();
+            log.setDescription("Attribute Relevance Advisory Switch disabled successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (AttributeRelevanceAdvisorySwitchIsOff | FederateNotExecutionMember | NotConnected | RTIinternalError |
+                RestoreInProgress | SaveInProgress ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
+        } catch (Exception ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
+        }
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //10.37
+    @FXML
+    private void EnableAttributeScopeAdvisorySwitch_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("10.37", "Enable Attribute Scope Advisory Switch service");
+        try {
+            rtiAmb.enableAttributeScopeAdvisorySwitch();
+            log.setDescription("Attribute Relevance Advisory Switch enabled successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (AttributeScopeAdvisorySwitchIsOn | FederateNotExecutionMember | RTIinternalError | NotConnected |
+                SaveInProgress | RestoreInProgress ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
+        } catch (Exception ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
+        }
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //10.38
+    @FXML
+    private void DisableAttributeScopeAdvisorySwitch_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("10.38", "Disable Attribute Scope Advisory Switch service");
+        try {
+            rtiAmb.disableAttributeScopeAdvisorySwitch();
+            log.setDescription("Attribute Relevance Advisory Switch enabled successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (AttributeScopeAdvisorySwitchIsOff | FederateNotExecutionMember | RTIinternalError | NotConnected |
+                SaveInProgress | RestoreInProgress ex) {
             log.setException(ex);
             log.setLogType(LogEntryType.ERROR);
             logger.log(Level.ERROR, ex.getMessage(), ex);
