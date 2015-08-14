@@ -1709,4 +1709,82 @@ public class MainWindowController implements Initializable {
         logEntries.add(log);
         logger.exit();
     }
+
+    //10.41
+    @FXML
+    private void EvokeCallback_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.41 Evoke Callback service", "/fxml/chapter10/EvokeCallbackService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Evoke Callback service dialog box", ex);
+        }
+    }
+
+    //10.42
+    @FXML
+    private void EvokeMultipleCallbacks_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.42 Evoke Multiple Callbacks service", "/fxml/chapter10/EvokeMultipleCallbacksService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Evoke Multiple Callbacks service dialog box", ex);
+        }
+    }
+
+    //10.43
+    @FXML
+    private void EnableCallbacksservice_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("10.43", "Enable Callbacks service");
+        try {
+            rtiAmb.enableCallbacks();
+            log.setDescription("Callbacks enabled successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (RTIinternalError | RestoreInProgress | SaveInProgress ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
+        } catch (Exception ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
+        }
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //10.44
+    @FXML
+    private void DisableCallbacksservice_click(ActionEvent event) {
+        logger.entry();
+        LogEntry log = new LogEntry("10.44", "Disable Callbacks service");
+        try {
+            rtiAmb.disableCallbacks();
+            log.setDescription("Callbacks disabled successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (RTIinternalError | RestoreInProgress | SaveInProgress ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
+        } catch (Exception ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
+        }
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    @FXML
+    private void AboutWindow_click(ActionEvent event) {
+        Alert aboutWindow = new Alert(Alert.AlertType.INFORMATION);
+        aboutWindow.setTitle("HLA Listener");
+        aboutWindow.setHeaderText("HLA Listener v1.0.0");
+        aboutWindow.setContentText("Developed by Mostafa Ali (engabdomostafa@gmail.com)\nAll rights reserved");
+        aboutWindow.initOwner(SuppliedArgsLbl.getScene().getWindow());
+        aboutWindow.showAndWait();
+    }
 }

@@ -27,10 +27,10 @@
 package ca.mali.hlalistener;
 
 import javafx.application.Application;
-import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 
@@ -40,7 +40,7 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
         PublicVariables.primaryStage = stage;
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/LibraryChooser.fxml"));
-        
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/Icon.png")));
         Scene scene = new Scene(root, 386, 87);
         scene.getStylesheets().add("/styles/Styles.css");
         

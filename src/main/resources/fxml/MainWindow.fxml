@@ -5,7 +5,8 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<BorderPane prefHeight="1308.0" prefWidth="1282.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.hlalistener.MainWindowController">
+<BorderPane prefHeight="1308.0" prefWidth="1282.0" xmlns="http://javafx.com/javafx/8.0.40"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.hlalistener.MainWindowController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <Menu mnemonicParsing="false" text="File">
@@ -296,15 +297,18 @@
                               text="10.40 Disable Interaction Relevance Advisory Switch"/>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Callbacks">
-                    <MenuItem mnemonicParsing="false" text="10.41 Evoke Callback"/>
-                    <MenuItem mnemonicParsing="false" text="10.42 Evoke Multiple Callbacks"/>
+                    <MenuItem mnemonicParsing="false" onAction="#EvokeCallback_click" text="10.41 Evoke Callback..."/>
+                    <MenuItem mnemonicParsing="false" onAction="#EvokeMultipleCallbacks_click"
+                              text="10.42 Evoke Multiple Callbacks..."/>
                     <SeparatorMenuItem mnemonicParsing="false"/>
-                    <MenuItem mnemonicParsing="false" text="10.43 Enable Callbacks"/>
-                    <MenuItem mnemonicParsing="false" text="10.44 Disable Callbacks"/>
+                    <MenuItem mnemonicParsing="false" onAction="#EnableCallbacksservice_click"
+                              text="10.43 Enable Callbacks"/>
+                    <MenuItem mnemonicParsing="false" onAction="#DisableCallbacksservice_click"
+                              text="10.44 Disable Callbacks"/>
                 </Menu>
             </Menu>
             <Menu mnemonicParsing="false" text="Help">
-                <MenuItem mnemonicParsing="false" text="About"/>
+                <MenuItem mnemonicParsing="false" onAction="#AboutWindow_click" text="About..."/>
             </Menu>
         </MenuBar>
     </top>
