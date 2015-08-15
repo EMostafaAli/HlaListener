@@ -3,24 +3,6 @@
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
   </component>
-  <component name="MavenCompilerTasksManager">
-    <option name="beforeCompileTasks">
-      <set>
-        <MavenCompilerTask>
-          <option name="goal" value="clean" />
-          <option name="projectPath" value="$PROJECT_DIR$/pom.xml" />
-        </MavenCompilerTask>
-        <MavenCompilerTask>
-          <option name="goal" value="compile" />
-          <option name="projectPath" value="$PROJECT_DIR$/pom.xml" />
-        </MavenCompilerTask>
-        <MavenCompilerTask>
-          <option name="goal" value="validate" />
-          <option name="projectPath" value="$PROJECT_DIR$/pom.xml" />
-        </MavenCompilerTask>
-      </set>
-    </option>
-  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>

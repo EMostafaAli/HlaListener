@@ -49,35 +49,42 @@
                         <id>unpack-dependencies</id>                       
                         <phase>package</phase>
                         <goals>
-                            <goal>exec</goal>
+                            <goal>java</goal>
                         </goals>
-                        <configuration>
-                            <executable>${java.home}/../bin/javafxpackager</executable>
-                            <arguments>
-                                <argument>-createjar</argument>
-                                <argument>-nocss2bin</argument>
-                                <argument>-appclass</argument>
-                                <argument>${mainClass}</argument>
-                                <argument>-srcdir</argument>
-                                <argument>${project.build.directory}/classes</argument>
-                                <argument>-outdir</argument>
-                                <argument>${project.build.directory}</argument>
-                                <argument>-outfile</argument>
-                                <argument>${project.build.finalName}.jar</argument>
-                            </arguments>
-                        </configuration>
                     </execution>
-                    <execution>
-                        <id>default-cli</id>
-                        <goals>
-                            <goal>exec</goal>                            
-                        </goals>
-                        <configuration>
-                            <executable>${java.home}/bin/java</executable>
-                            <commandlineArgs>${runfx.args}</commandlineArgs>
-                        </configuration>
-                    </execution>
-                </executions>  
+                </executions>
+                <configuration>
+                    <executable>java</executable>
+                    <!--<arguments>-classpath</arguments>-->
+                    <!--<classpath />-->
+                    <mainClass>ca.mali.hlalistener.MainApp</mainClass>
+                </configuration>
+                <!--<configuration>-->
+                            <!--<executable>${java.home}/../bin/javafxpackager</executable>-->
+                            <!--<arguments>-->
+                                <!--<argument>-createjar</argument>-->
+                                <!--<argument>-nocss2bin</argument>-->
+                                <!--<argument>-appclass</argument>-->
+                                <!--<argument>${mainClass}</argument>-->
+                                <!--<argument>-srcdir</argument>-->
+                                <!--<argument>${project.build.directory}/classes</argument>-->
+                                <!--<argument>-outdir</argument>-->
+                                <!--<argument>${project.build.directory}</argument>-->
+                                <!--<argument>-outfile</argument>-->
+                                <!--<argument>${project.build.finalName}.jar</argument>-->
+                            <!--</arguments>-->
+                        <!--</configuration>-->
+
+                    <!--<execution>-->
+                        <!--<id>default-cli</id>-->
+                        <!--<goals>-->
+                            <!--<goal>exec</goal>                            -->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<executable>${java.home}/bin/java</executable>-->
+                            <!--<commandlineArgs>${runfx.args}</commandlineArgs>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

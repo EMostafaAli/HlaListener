@@ -30,8 +30,15 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
+import java.util.Optional;
+
+import static ca.mali.hlalistener.PublicVariables.isConnected;
 
 
 public class MainApp extends Application {
@@ -43,7 +50,27 @@ public class MainApp extends Application {
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/Icon.png")));
         Scene scene = new Scene(root, 386, 87);
         scene.getStylesheets().add("/styles/Styles.css");
-        
+
+        stage.setOnCloseRequest(event ->
+        {
+            if (isConnected) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Exit HLA listener");
+                alert.setHeaderText("Are you sure you want to exit?");
+                alert.setContentText("Currently, you are connected to the RTI,\nIt is better to:\n\t" +
+                        "1. Resign the federation (if any),\n\t2. Disconnect, and\n\t3. Close HLA listener.");
+                alert.initOwner(stage);
+                alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+                Button yesButton = (Button) alert.getDialogPane().lookupButton(ButtonType.YES);
+                yesButton.setDefaultButton(false);
+                Button noButton = (Button) alert.getDialogPane().lookupButton(ButtonType.NO);
+                noButton.setDefaultButton(true);
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() != ButtonType.YES) {
+                    event.consume();
+                }
+            }
+        });
         stage.setTitle("HLA Listener");
         stage.setScene(scene);
         stage.setMinHeight(126);

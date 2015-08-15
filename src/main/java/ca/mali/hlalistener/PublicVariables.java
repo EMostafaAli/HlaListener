@@ -28,9 +28,11 @@ package ca.mali.hlalistener;
 import ca.mali.fomparser.FddObjectModel;
 import ca.mali.fomparser.ObjectInstanceFDD;
 import hla.rti1516e.*;
-import hla.rti1516e.encoding.*;
-import javafx.collections.*;
-import javafx.stage.*;
+import hla.rti1516e.encoding.EncoderFactory;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
+import javafx.stage.Stage;
 
 /**
  *
@@ -62,6 +64,8 @@ public class PublicVariables {
     public static AttributeHandle currentFDDHandle;
     
     public static FddObjectModel fddObjectModel;
+
+    public static boolean isConnected = false;
 
     /**
      * Encoder Factory

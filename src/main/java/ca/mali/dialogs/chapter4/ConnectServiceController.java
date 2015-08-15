@@ -25,19 +25,26 @@
  */
 package ca.mali.dialogs.chapter4;
 
-import static ca.mali.hlalistener.PublicVariables.*;
-import ca.mali.hlalistener.*;
-
-import hla.rti1516e.*;
+import ca.mali.hlalistener.ClassValuePair;
+import ca.mali.hlalistener.LogEntry;
+import ca.mali.hlalistener.LogEntryType;
+import hla.rti1516e.CallbackModel;
+import hla.rti1516e.FederateAmbassador;
 import hla.rti1516e.exceptions.*;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.net.*;
-import java.util.*;
-import javafx.event.*;
-import javafx.fxml.*;
-import javafx.scene.control.*;
-import javafx.stage.*;
-import org.apache.logging.log4j.*;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import static ca.mali.hlalistener.PublicVariables.*;
 
 /**
  * FXML Controller class
@@ -86,6 +93,7 @@ public class ConnectServiceController implements Initializable {
                 log.getSuppliedArguments().add(new ClassValuePair("Local settings designator", String.class, LocalSettingsDesignator.getText()));
                 rtiAmb.connect(fedAmb, CallbackModel_choiceBox.getValue(), LocalSettingsDesignator.getText());
             }
+            isConnected = true;
             log.setDescription("Connected successfully to RTI");
             log.setLogType(LogEntryType.REQUEST);
         } catch (ConnectionFailed | UnsupportedCallbackModel | InvalidLocalSettingsDesignator |

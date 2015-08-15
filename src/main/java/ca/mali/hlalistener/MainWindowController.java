@@ -51,6 +51,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -244,6 +245,18 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    @FXML
+    private void CloseHlaListener_click(ActionEvent event) {
+        try {
+            logger.entry();
+//            primaryStage.close(); //Using this line will not fire the close on request
+            primaryStage.fireEvent(new WindowEvent(primaryStage, WindowEvent.WINDOW_CLOSE_REQUEST));
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error clearing the log", ex);
+        }
+    }
+
 // <editor-fold desc="Chapter 4">
     //4.2
     @FXML
@@ -264,6 +277,7 @@ public class MainWindowController implements Initializable {
         try {
             logger.entry();
             rtiAmb.disconnect();
+            isConnected = false;
             log.setDescription("Disconnected successfully, you can terminate the program");
             log.setLogType(LogEntryType.REQUEST);
         } catch (FederateIsExecutionMember | CallNotAllowedFromWithinCallback | RTIinternalError ex) {
@@ -1784,7 +1798,7 @@ public class MainWindowController implements Initializable {
         aboutWindow.setTitle("HLA Listener");
         aboutWindow.setHeaderText("HLA Listener v1.0.0");
         aboutWindow.setContentText("Developed by Mostafa Ali (engabdomostafa@gmail.com)\nAll rights reserved");
-        aboutWindow.initOwner(SuppliedArgsLbl.getScene().getWindow());
+        aboutWindow.initOwner(primaryStage);
         aboutWindow.showAndWait();
     }
 }

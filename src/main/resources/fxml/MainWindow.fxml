@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
@@ -12,7 +11,7 @@
             <Menu mnemonicParsing="false" text="File">
                 <MenuItem mnemonicParsing="false" onAction="#RtiInfo_click" text="RTI info"/>
                 <MenuItem mnemonicParsing="false" onAction="#ClearLog_click" text="Clear Log"/>
-                <MenuItem mnemonicParsing="false" text="Close"/>
+                <MenuItem mnemonicParsing="false" onAction="#CloseHlaListener_click" text="Close..."/>
             </Menu>
             <Menu mnemonicParsing="false" text="4 Federation">
                 <MenuItem mnemonicParsing="false" onAction="#Connect_click" text="4.2 Connect..."/>
