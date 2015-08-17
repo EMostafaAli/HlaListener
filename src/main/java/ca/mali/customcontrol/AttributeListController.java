@@ -25,22 +25,37 @@
  */
 package ca.mali.customcontrol;
 
-import ca.mali.fomparser.*;
-import java.io.*;
-import java.util.*;
-import java.util.stream.*;
-import javafx.beans.property.*;
-import javafx.beans.value.*;
-import javafx.collections.*;
-import javafx.event.*;
-import javafx.fxml.*;
-import javafx.geometry.*;
+import ca.mali.fomparser.AttributeFDD;
+import ca.mali.fomparser.FddObjectModel;
+import ca.mali.fomparser.ObjectClassFDD;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ReadOnlyStringProperty;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.util.*;
-import org.apache.logging.log4j.*;
+import javafx.util.Callback;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -88,24 +103,20 @@ public class AttributeListController extends VBox {
         if (fddObjectModel != null) {
             for (ObjectClassFDD value : fddObjectModel.getObjectClasses().values()) {
                 ObservableList<AttributeState> att = FXCollections.observableArrayList();
-                for (AttributeFDD attribute : value.getAttributes()) {
-                    att.add(new AttributeState(attribute));
-                }
+                att.addAll(value.getAttributes().stream().map(AttributeState::new).collect(Collectors.toList()));
                 list.put(value.getFullName(), att);
             }
             ObjectListView.getItems().addAll(list.keySet());
             ObjectListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 AttributeTableView.setItems(list.get(newValue));
-                cb.setSelected(AttributeTableView.getItems().stream().allMatch(a -> a.isOn()));
-                list.get(newValue).forEach((a) -> {
-                    a.onProperty().addListener((observable1, oldValue1, newValue1) -> {
-                        if (!newValue1) {
-                            cb.setSelected(false);
-                        } else if (list.get(newValue).stream().allMatch(b -> b.isOn())) {
-                            cb.setSelected(true);
-                        }
-                    });
-                });
+                cb.setSelected(AttributeTableView.getItems().stream().allMatch(AttributeState::isOn));
+                list.get(newValue).forEach((a) -> a.onProperty().addListener((observable1, oldValue1, newValue1) -> {
+                    if (!newValue1) {
+                        cb.setSelected(false);
+                    } else if (list.get(newValue).stream().allMatch(b -> b.isOn())) {
+                        cb.setSelected(true);
+                    }
+                }));
             });
             attributeName.setCellValueFactory(new PropertyValueFactory<AttributeState, String>("attributeName"));
             checked.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<AttributeState, Boolean>, ObservableValue<Boolean>>() {
@@ -118,16 +129,10 @@ public class AttributeListController extends VBox {
             });
             checked.setCellFactory(CheckBoxTableCell.forTableColumn(checked));
             cb.setUserData(checked);
-            cb.setOnAction(new EventHandler<ActionEvent>() {
-
-                @Override
-                public void handle(ActionEvent event) {
-                    CheckBox cb = (CheckBox) event.getSource();
-                    TableColumn tc = (TableColumn) cb.getUserData();
-                    AttributeTableView.getItems().stream().forEach((item) -> {
-                        item.setOn(cb.isSelected());
-                    });
-                }
+            cb.setOnAction(event -> {
+                CheckBox cb1 = (CheckBox) event.getSource();
+                TableColumn tc = (TableColumn) cb1.getUserData();
+                AttributeTableView.getItems().stream().forEach((item) -> item.setOn(cb1.isSelected()));
             });
             checked.setGraphic(cb);
         }
@@ -147,7 +152,7 @@ public class AttributeListController extends VBox {
         Map<String, List<AttributeFDD>> finalList = new HashMap<>();
         for (String key : list.keySet()) {
             List<AttributeFDD> collect = list.get(key).stream().filter(
-                    a -> a.isOn()).map(a -> a.attribute).collect(Collectors.toList());
+                    AttributeState::isOn).map(a -> a.attribute).collect(Collectors.toList());
             finalList.put(key, collect);
         }
         logger.exit();

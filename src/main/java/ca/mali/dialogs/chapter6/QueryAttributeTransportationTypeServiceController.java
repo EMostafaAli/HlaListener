@@ -28,18 +28,26 @@ package ca.mali.dialogs.chapter6;
 import ca.mali.customcontrol.ObjectInstanceAttributesController;
 import ca.mali.fomparser.AttributeFDD;
 import ca.mali.fomparser.ObjectInstanceFDD;
-import ca.mali.fomparser.TransportationFDD;
-import static ca.mali.hlalistener.PublicVariables.*;
-import ca.mali.hlalistener.*;
-import hla.rti1516e.*;
+import ca.mali.hlalistener.ClassValuePair;
+import ca.mali.hlalistener.LogEntry;
+import ca.mali.hlalistener.LogEntryType;
+import hla.rti1516e.AttributeHandle;
+import hla.rti1516e.ObjectInstanceHandle;
 import hla.rti1516e.exceptions.*;
-import java.net.*;
-import java.util.*;
-import javafx.event.*;
-import javafx.fxml.*;
-import javafx.scene.control.*;
-import javafx.stage.*;
-import org.apache.logging.log4j.*;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.stage.Stage;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import static ca.mali.hlalistener.PublicVariables.*;
 
 /**
  * FXML Controller class

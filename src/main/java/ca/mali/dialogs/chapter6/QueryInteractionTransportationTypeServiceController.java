@@ -25,21 +25,29 @@
  */
 package ca.mali.dialogs.chapter6;
 
-import ca.mali.hlalistener.*;
-import static ca.mali.hlalistener.PublicVariables.*;
-import hla.rti1516e.*;
+import ca.mali.hlalistener.ClassValuePair;
+import ca.mali.hlalistener.LogEntry;
+import ca.mali.hlalistener.LogEntryType;
+import hla.rti1516e.FederateHandle;
+import hla.rti1516e.InteractionClassHandle;
 import hla.rti1516e.exceptions.*;
-import hla.rti1516e.time.*;
-import java.net.*;
-import java.nio.*;
-import java.nio.charset.*;
-import java.util.*;
-import javafx.beans.binding.*;
-import javafx.event.*;
-import javafx.fxml.*;
-import javafx.scene.control.*;
-import javafx.stage.*;
-import org.apache.logging.log4j.*;
+import javafx.beans.binding.Bindings;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.net.URL;
+import java.nio.ByteBuffer;
+import java.util.ResourceBundle;
+
+import static ca.mali.hlalistener.PublicVariables.logEntries;
+import static ca.mali.hlalistener.PublicVariables.rtiAmb;
 
 /**
  * FXML Controller class

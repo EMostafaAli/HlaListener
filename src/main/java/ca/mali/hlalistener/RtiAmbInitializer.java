@@ -25,24 +25,34 @@
  */
 package ca.mali.hlalistener;
 
+import hla.rti1516e.RtiFactory;
+import javafx.beans.binding.Bindings;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
+import javafx.stage.FileChooser;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.ResourceBundle;
+
 import static ca.mali.hlalistener.PublicVariables.*;
-
-import hla.rti1516e.*;
-
-import java.io.*;
-import java.lang.reflect.*;
-import java.net.*;
-import java.util.*;
-
-import javafx.beans.binding.*;
-import javafx.event.*;
-import javafx.fxml.*;
-import javafx.scene.*;
-import javafx.scene.control.*;
-import javafx.scene.control.Alert.*;
-import javafx.stage.*;
-
-import org.apache.logging.log4j.*;
 
 /**
  * @author Mostafa Ali <engabdomostafa@gmail.com>
@@ -123,11 +133,6 @@ public class RtiAmbInitializer implements Initializable {
         }
     }
 
-    /**
-     *
-     * @param f Jar file that will be loaded in the build path
-     * @throws Exception
-     */
     private static int AddtoBuildPath(File f) {
         logger.entry();
         try {

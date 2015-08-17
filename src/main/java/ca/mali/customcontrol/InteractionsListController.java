@@ -27,21 +27,30 @@ package ca.mali.customcontrol;
 
 import ca.mali.fomparser.FddObjectModel;
 import ca.mali.fomparser.InteractionClassFDD;
-import java.io.IOException;
-import java.util.*;
-import java.util.stream.*;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
-import javafx.beans.property.*;
-import javafx.beans.value.*;
-import javafx.collections.*;
-import javafx.event.*;
-import javafx.fxml.*;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ReadOnlyStringProperty;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
-import javafx.util.*;
-import org.apache.logging.log4j.*;
+import javafx.util.Callback;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * FXML Controller class
@@ -80,19 +89,15 @@ public class InteractionsListController extends VBox {
     public void setFddObjectModel(FddObjectModel fddObjectModel) {
         logger.entry();
         if (fddObjectModel != null) {
-            fddObjectModel.getInteractionClasses().values().stream().forEach((value) -> {
-                interactions.add(new InteractionState(value));
-            });
+            fddObjectModel.getInteractionClasses().values().stream().forEach((value) -> interactions.add(new InteractionState(value)));
             InteractionTableView.setItems(interactions);
-            interactions.forEach((interaction) -> {
-                interaction.onProperty().addListener((observable, oldValue, newValue) -> {
-                    if (!newValue) {
-                        cb.setSelected(false);
-                    } else if (interactions.stream().allMatch(a -> a.isOn())) {
-                        cb.setSelected(true);
-                    }
-                });
-            });
+            interactions.forEach((interaction) -> interaction.onProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue) {
+                    cb.setSelected(false);
+                } else if (interactions.stream().allMatch(a -> a.isOn())) {
+                    cb.setSelected(true);
+                }
+            }));
             InteractionTableColumn.setCellValueFactory(new PropertyValueFactory<>("interactionName"));
             CheckTableColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<InteractionState, Boolean>, ObservableValue<Boolean>>() {
                 @Override
@@ -106,9 +111,7 @@ public class InteractionsListController extends VBox {
             cb.setOnAction((ActionEvent event) -> {
                 CheckBox cb1 = (CheckBox) event.getSource();
                 TableColumn tc = (TableColumn) cb1.getUserData();
-                InteractionTableView.getItems().stream().forEach((item) -> {
-                    item.setOn(cb1.isSelected());
-                });
+                InteractionTableView.getItems().stream().forEach((item) -> item.setOn(cb1.isSelected()));
             });
             CheckTableColumn.setGraphic(cb);
         }
@@ -116,7 +119,7 @@ public class InteractionsListController extends VBox {
     }
 
     public List<InteractionClassFDD> getInteractions() {
-        return interactions.stream().filter(a -> a.isOn()).map(a -> a.interaction).collect(Collectors.toList());
+        return interactions.stream().filter(InteractionState::isOn).map(a -> a.interaction).collect(Collectors.toList());
     }
 
     public static class InteractionState {

@@ -25,21 +25,37 @@
  */
 package ca.mali.customcontrol;
 
-import ca.mali.fomparser.*;
-import java.io.*;
-import java.util.*;
-import java.util.stream.*;
-import javafx.beans.property.*;
-import javafx.beans.value.*;
-import javafx.collections.*;
-import javafx.fxml.*;
-import javafx.geometry.*;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.*;
-import javafx.scene.layout.*;
-import javafx.scene.paint.*;
-import javafx.util.*;
-import org.apache.logging.log4j.*;
+import ca.mali.fomparser.AttributeFDD;
+import ca.mali.fomparser.ObjectInstanceFDD;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ReadOnlyStringProperty;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.util.Callback;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -83,9 +99,7 @@ public class ObjectInstanceAttributesController extends VBox {
             checked.setCellFactory(CheckBoxTableCell.forTableColumn(checked));
             cb.setOnAction(event -> {
                 CheckBox cb1 = (CheckBox) event.getSource();
-                AttributeTableView.getItems().stream().forEach((item) -> {
-                    item.setOn(cb1.isSelected());
-                });
+                AttributeTableView.getItems().stream().forEach((item) -> item.setOn(cb1.isSelected()));
             });
             checked.setGraphic(cb);
 
@@ -99,25 +113,21 @@ public class ObjectInstanceAttributesController extends VBox {
         logger.entry();
         if (instance != null) {
             ObservableList<AttributeState> att = FXCollections.observableArrayList();
-            for (AttributeFDD attribute : instance.getObjectClass().getAttributes()) {
-                att.add(new AttributeState(attribute));
-            }
+            att.addAll(instance.getObjectClass().getAttributes().stream().map(AttributeState::new).collect(Collectors.toList()));
             AttributeTableView.setItems(att);
-            AttributeTableView.getItems().forEach((a) -> {
-                    a.onProperty().addListener((observable1, oldValue1, newValue1) -> {
-                        if (!newValue1) {
-                            cb.setSelected(false);
-                        } else if (AttributeTableView.getItems().stream().allMatch(b -> b.isOn())) {
-                            cb.setSelected(true);
-                        }
-                    });
-                });
+            AttributeTableView.getItems().forEach((a) -> a.onProperty().addListener((observable1, oldValue1, newValue1) -> {
+                if (!newValue1) {
+                    cb.setSelected(false);
+                } else if (AttributeTableView.getItems().stream().allMatch(b -> b.isOn())) {
+                    cb.setSelected(true);
+                }
+            }));
         }
         logger.exit();
     }
 
     public List<AttributeFDD> getAttributes() {
-        return AttributeTableView.getItems().stream().filter(a -> a.isOn()).map(a -> a.attribute).collect(Collectors.toList());
+        return AttributeTableView.getItems().stream().filter(AttributeState::isOn).map(a -> a.attribute).collect(Collectors.toList());
     }
 
     public static class AttributeState {

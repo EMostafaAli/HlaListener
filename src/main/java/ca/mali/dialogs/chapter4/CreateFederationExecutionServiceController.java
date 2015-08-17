@@ -25,19 +25,32 @@
  */
 package ca.mali.dialogs.chapter4;
 
-import ca.mali.customcontrol.*;
-import ca.mali.hlalistener.*;
-import static ca.mali.hlalistener.PublicVariables.*;
+import ca.mali.customcontrol.FilesList;
+import ca.mali.hlalistener.ClassValuePair;
+import ca.mali.hlalistener.LogEntry;
+import ca.mali.hlalistener.LogEntryType;
 import hla.rti1516e.exceptions.*;
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import javafx.beans.binding.*;
-import javafx.event.*;
-import javafx.fxml.*;
-import javafx.scene.control.*;
-import javafx.stage.*;
-import org.apache.logging.log4j.*;
+import javafx.beans.binding.Bindings;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
+import static ca.mali.hlalistener.PublicVariables.logEntries;
+import static ca.mali.hlalistener.PublicVariables.rtiAmb;
 
 /**
  * FXML Controller class
@@ -80,7 +93,7 @@ public class CreateFederationExecutionServiceController implements Initializable
                 fileChooser.setTitle("Select MIM file");
                 fileChooser.getExtensionFilters().addAll(
                         new FileChooser.ExtensionFilter("XML file", "*.xml"));
-                File file = fileChooser.showOpenDialog((Stage) FederationExecutionName.getScene().getWindow());
+                File file = fileChooser.showOpenDialog(FederationExecutionName.getScene().getWindow());
                 if (file != null) {
                     MimDesignator.setText(file.getAbsolutePath());
                 }

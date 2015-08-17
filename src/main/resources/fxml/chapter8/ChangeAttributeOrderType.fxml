@@ -1,53 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import java.util.*?>
-<?import javafx.collections.*?>
+<?import ca.mali.customcontrol.ObjectInstanceAttributesController?>
 <?import javafx.geometry.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import ca.mali.customcontrol.*?>
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="314.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.chapter8.ChangeAttributeOrderTypeController">
-    <children>
-      <HBox layoutX="25.0" layoutY="25.0" prefHeight="25.0" prefWidth="333.0">
-         <children>
-            <Label prefHeight="27.0" prefWidth="138.0" text="Object Instance: " />
-            <ComboBox fx:id="ObjectInstanceName" prefHeight="39.0" prefWidth="245.0" />
-         </children>
-         <VBox.margin>
-            <Insets left="15.0" right="15.0" top="15.0" />
-         </VBox.margin>
-      </HBox>
-      <HBox>
-         <ObjectInstanceAttributesController fx:id="ObjectInstancesAttributes" />
-         <VBox.margin>
-            <Insets left="15.0" right="15.0" top="15.0" />
-         </VBox.margin> 
-      </HBox>
-      <HBox layoutX="25.0" layoutY="25.0" prefHeight="25.0" prefWidth="333.0">
-         <children>
-            <Label prefHeight="27.0" prefWidth="139.0" text="Order type:" />
-            <ComboBox fx:id="OrderTypeCombo" prefHeight="39.0" prefWidth="247.0" />
-         </children>
-         <VBox.margin>
-            <Insets left="15.0" right="15.0" top="15.0" />
-         </VBox.margin>
-      </HBox>
-        <HBox alignment="CENTER_RIGHT" prefHeight="6.0" prefWidth="401.0">
-            <children>
-                <Button cancelButton="true" mnemonicParsing="false" onAction="#Cancel_click" text="Cancel">
-                    <HBox.margin>
-                        <Insets right="20.0" />
-                    </HBox.margin>
-                </Button>
-                <Button fx:id="OkButton" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#OK_click" text="OK" />
-            </children>
-         <VBox.margin>
-            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-         </VBox.margin>
-        </HBox>
-    </children>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="314.0"
+      prefWidth="412.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ca.mali.dialogs.chapter8.ChangeAttributeOrderTypeController">
+    <HBox layoutX="25.0" layoutY="25.0" prefHeight="25.0" prefWidth="333.0">
+        <children>
+          <Label prefHeight="27.0" prefWidth="138.0" text="Object Instance: "/>
+          <ComboBox fx:id="ObjectInstanceName" prefHeight="39.0" prefWidth="245.0"/>
+        </children>
+        <VBox.margin>
+          <Insets left="15.0" right="15.0" top="15.0"/>
+        </VBox.margin>
+    </HBox>
+    <HBox>
+        <ObjectInstanceAttributesController fx:id="ObjectInstancesAttributes"/>
+        <VBox.margin>
+          <Insets left="15.0" right="15.0" top="15.0"/>
+        </VBox.margin>
+    </HBox>
+    <HBox layoutX="25.0" layoutY="25.0" prefHeight="25.0" prefWidth="333.0">
+        <children>
+          <Label prefHeight="27.0" prefWidth="139.0" text="Order type:"/>
+          <ComboBox fx:id="OrderTypeCombo" prefHeight="39.0" prefWidth="247.0"/>
+        </children>
+        <VBox.margin>
+          <Insets left="15.0" right="15.0" top="15.0"/>
+        </VBox.margin>
+    </HBox>
+    <HBox alignment="CENTER_RIGHT" prefHeight="6.0" prefWidth="401.0">
+        <children>
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#Cancel_click" text="Cancel">
+                <HBox.margin>
+                    <Insets right="20.0"/>
+                </HBox.margin>
+            </Button>
+            <Button fx:id="OkButton" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#OK_click"
+                    text="OK"/>
+        </children>
+        <VBox.margin>
+        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+        </VBox.margin>
+    </HBox>
 </VBox>

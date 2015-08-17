@@ -1,39 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import ca.mali.customcontrol.*?>
-
-<VBox prefHeight="135.0" prefWidth="347.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.chapter10.GetParameterNameServiceController">
-    <children>
-        <HBox alignment="CENTER_LEFT" prefHeight="1.0" prefWidth="450.0">
-            <VBox.margin>
-                <Insets left="15.0" right="15.0" top="15.0" />
-            </VBox.margin>
-            <children>
-                <Label prefHeight="25.0" prefWidth="151.0" text="Interaction Class Handle:" />
-                <TextField fx:id="InteractionClassHandleTextBox" prefHeight="25.0" prefWidth="166.0" />
-            </children>
-        </HBox>
-        <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="450.0">
-            <VBox.margin>
-                <Insets left="15.0" right="15.0" top="15.0" />
-            </VBox.margin>
-            <children>
-                <Label prefHeight="25.0" prefWidth="151.0" text="Parameter Handle:" />
-                <TextField fx:id="ParameterHandleTextBox" prefHeight="25.0" prefWidth="166.0" />
-            </children>
-        </HBox>
-        <HBox alignment="CENTER_RIGHT" prefHeight="23.0" prefWidth="600.0" spacing="15.0">
-            <padding>
-                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-            </padding>
-            <children>
-                <Button cancelButton="true" mnemonicParsing="false" onAction="#Cancel_click" text="Cancel" />
-                <Button fx:id="OkButton" defaultButton="true" mnemonicParsing="false" onAction="#OK_click" text="OK" />
-            </children>
-        </HBox>
-    </children>
+<VBox prefHeight="135.0" prefWidth="347.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ca.mali.dialogs.chapter10.GetParameterNameServiceController">
+    <HBox alignment="CENTER_LEFT" prefHeight="1.0" prefWidth="450.0">
+        <VBox.margin>
+            <Insets left="15.0" right="15.0" top="15.0"/>
+        </VBox.margin>
+        <children>
+            <Label prefHeight="25.0" prefWidth="151.0" text="Interaction Class Handle:"/>
+            <TextField fx:id="InteractionClassHandleTextBox" prefHeight="25.0" prefWidth="166.0"/>
+        </children>
+    </HBox>
+    <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="450.0">
+        <VBox.margin>
+            <Insets left="15.0" right="15.0" top="15.0"/>
+        </VBox.margin>
+        <children>
+            <Label prefHeight="25.0" prefWidth="151.0" text="Parameter Handle:"/>
+            <TextField fx:id="ParameterHandleTextBox" prefHeight="25.0" prefWidth="166.0"/>
+        </children>
+    </HBox>
+    <HBox alignment="CENTER_RIGHT" prefHeight="23.0" prefWidth="600.0" spacing="15.0">
+        <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+        </padding>
+        <children>
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#Cancel_click" text="Cancel"/>
+            <Button fx:id="OkButton" defaultButton="true" mnemonicParsing="false" onAction="#OK_click" text="OK"/>
+        </children>
+    </HBox>
 </VBox>

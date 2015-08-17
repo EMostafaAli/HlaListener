@@ -25,21 +25,22 @@
  */
 package ca.mali.fomparser;
 
-import ca.mali.fdd.ObjectClass;
 import ca.mali.fdd.InteractionClass;
+import ca.mali.fdd.ObjectClass;
 import ca.mali.fdd.ObjectModelType;
 import ca.mali.fdd.ReliableEnumerations;
 import ca.mali.hlalistener.PublicVariables;
 import hla.rti1516e.TransportationTypeHandle;
-import hla.rti1516e.exceptions.FederateNotExecutionMember;
-import hla.rti1516e.exceptions.InvalidTransportationName;
-import hla.rti1516e.exceptions.NotConnected;
-import hla.rti1516e.exceptions.RTIinternalError;
-import java.io.*;
-import java.nio.charset.*;
-import java.util.*;
-import javax.xml.bind.*;
-import org.apache.logging.log4j.*;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  *
@@ -118,9 +119,7 @@ public class FddObjectModel {
                     });
             objectClasses.put(objectClassFDD.getFullName(), objectClassFDD);
 
-            rootClass.getObjectClass().stream().forEach((_item) -> {
-                readObjectClasses(_item, objectClassFDD);
-            });
+            rootClass.getObjectClass().stream().forEach((_item) -> readObjectClasses(_item, objectClassFDD));
         } catch (Exception ex) {
             logger.log(Level.FATAL, ex.getMessage(), ex);
         }
@@ -140,9 +139,7 @@ public class FddObjectModel {
                 }
             });
             interactionClasses.put(interactionClassFDD.getFullName(), interactionClassFDD);
-            rootInteraction.getInteractionClass().stream().forEach(item -> {
-                readInteractionClasses(item, interactionClassFDD);
-            });
+            rootInteraction.getInteractionClass().stream().forEach(item -> readInteractionClasses(item, interactionClassFDD));
         } catch (Exception ex) {
             logger.log(Level.FATAL, ex.getMessage(), ex);
         }

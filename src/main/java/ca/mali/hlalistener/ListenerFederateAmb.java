@@ -25,15 +25,22 @@
  */
 package ca.mali.hlalistener;
 
-import ca.mali.fomparser.*;
-import static ca.mali.hlalistener.PublicVariables.*;
-
+import ca.mali.fomparser.FddObjectModel;
+import ca.mali.fomparser.ObjectClassFDD;
+import ca.mali.fomparser.ObjectInstanceFDD;
 import hla.rti1516e.*;
-import hla.rti1516e.encoding.*;
-import hla.rti1516e.exceptions.*;
-import hla.rti1516e.time.*;
-import java.util.*;
-import org.apache.logging.log4j.*;
+import hla.rti1516e.encoding.HLAunicodeString;
+import hla.rti1516e.exceptions.FederateInternalError;
+import hla.rti1516e.time.HLAfloat64Time;
+import hla.rti1516e.time.HLAinteger64Time;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.Set;
+
+import static ca.mali.hlalistener.PublicVariables.*;
 
 /**
  *
@@ -44,16 +51,6 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
     //Logger
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger();
 
-    /**
-     *
-     * @param theObject
-     * @param theAttributes
-     * @param userSuppliedTag
-     * @param sentOrdering
-     * @param theTransport
-     * @param reflectInfo
-     * @throws FederateInternalError
-     */
     @Override
     public void reflectAttributeValues(ObjectInstanceHandle theObject, AttributeHandleValueMap theAttributes, byte[] userSuppliedTag, OrderType sentOrdering, TransportationTypeHandle theTransport, SupplementalReflectInfo reflectInfo) throws FederateInternalError {
         try {

@@ -1,65 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import java.util.*?>
-<?import javafx.collections.*?>
+<?import ca.mali.customcontrol.FilesList?>
 <?import javafx.geometry.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import ca.mali.customcontrol.*?>
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="279.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.chapter4.JoinFederationExecutionServiceController">
-    <children>
-        <HBox layoutX="25.0" layoutY="25.0" prefHeight="38.0" prefWidth="421.0">
-            <children>
-                <Label text="Federate Name: " />
-                <TextField fx:id="FederateName" HBox.hgrow="ALWAYS" />
-            </children>
-            <VBox.margin>
-                <Insets left="15.0" right="15.0" top="15.0" />
-            </VBox.margin>
-        </HBox>
-        <HBox prefHeight="38.0" prefWidth="421.0" VBox.vgrow="NEVER">
-            <children>
-                <Label text="Federate Type*: " />
-                <TextField fx:id="FederateType" HBox.hgrow="ALWAYS" />
-            </children>
-            <VBox.margin>
-                <Insets left="15.0" right="15.0" top="15.0" />
-            </VBox.margin>
-        </HBox>
-        <HBox prefHeight="36.0" prefWidth="421.0" VBox.vgrow="NEVER">
-            <children>
-                <Label text="Federation Execution Name*: " />
-                <TextField fx:id="FederationExecutionName" prefHeight="25.0" prefWidth="139.0" HBox.hgrow="ALWAYS" />
-            </children>
-            <VBox.margin>
-                <Insets left="15.0" right="15.0" top="15.0" />
-            </VBox.margin>
-        </HBox>
-        <HBox prefHeight="136.0" prefWidth="421.0" VBox.vgrow="ALWAYS">
-            <children>
-                <Label text="FOM module Designators:    " />
-                <FilesList fx:id="FomModuleDesignators" HBox.hgrow="ALWAYS" />
-            </children>
-            <VBox.margin>
-                <Insets left="15.0" right="15.0" top="15.0" />
-            </VBox.margin>
-        </HBox>
-        <HBox alignment="CENTER_RIGHT" prefHeight="32.0" prefWidth="361.0">
-            <children>
-                <Button cancelButton="true" mnemonicParsing="false" onAction="#Cancel_click" text="Cancel">
-                    <HBox.margin>
-                        <Insets right="20.0" />
-                    </HBox.margin>
-                </Button>
-                <Button fx:id="OkButton" defaultButton="true" mnemonicParsing="false" onAction="#OK_click" text="OK" />
-            </children>
-            <padding>
-                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-            </padding>
-        </HBox>
-    </children>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="279.0"
+      prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ca.mali.dialogs.chapter4.JoinFederationExecutionServiceController">
+    <HBox layoutX="25.0" layoutY="25.0" prefHeight="38.0" prefWidth="421.0">
+        <children>
+            <Label text="Federate Name: "/>
+            <TextField fx:id="FederateName" HBox.hgrow="ALWAYS"/>
+        </children>
+        <VBox.margin>
+            <Insets left="15.0" right="15.0" top="15.0"/>
+        </VBox.margin>
+    </HBox>
+    <HBox prefHeight="38.0" prefWidth="421.0" VBox.vgrow="NEVER">
+        <children>
+            <Label text="Federate Type*: "/>
+            <TextField fx:id="FederateType" HBox.hgrow="ALWAYS"/>
+        </children>
+        <VBox.margin>
+            <Insets left="15.0" right="15.0" top="15.0"/>
+        </VBox.margin>
+    </HBox>
+    <HBox prefHeight="36.0" prefWidth="421.0" VBox.vgrow="NEVER">
+        <children>
+            <Label text="Federation Execution Name*: "/>
+            <TextField fx:id="FederationExecutionName" prefHeight="25.0" prefWidth="139.0" HBox.hgrow="ALWAYS"/>
+        </children>
+        <VBox.margin>
+            <Insets left="15.0" right="15.0" top="15.0"/>
+        </VBox.margin>
+    </HBox>
+    <HBox prefHeight="136.0" prefWidth="421.0" VBox.vgrow="ALWAYS">
+        <children>
+            <Label text="FOM module Designators:    "/>
+            <FilesList fx:id="FomModuleDesignators" HBox.hgrow="ALWAYS"/>
+        </children>
+        <VBox.margin>
+            <Insets left="15.0" right="15.0" top="15.0"/>
+        </VBox.margin>
+    </HBox>
+    <HBox alignment="CENTER_RIGHT" prefHeight="32.0" prefWidth="361.0">
+        <children>
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#Cancel_click" text="Cancel">
+                <HBox.margin>
+                    <Insets right="20.0"/>
+                </HBox.margin>
+            </Button>
+            <Button fx:id="OkButton" defaultButton="true" mnemonicParsing="false" onAction="#OK_click" text="OK"/>
+        </children>
+        <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+        </padding>
+    </HBox>
 </VBox>

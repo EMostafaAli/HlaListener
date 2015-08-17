@@ -1,36 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.*?>
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="96.0" prefWidth="459.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.chapter10.GetFederateHandleServiceController">
-   <children>
-      <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="570.0">
-         <VBox.margin>
-            <Insets left="15.0" right="15.0" top="15.0" />
-         </VBox.margin>
-         <children>
-            <Label text="Federate Name:" />
-            <TextField fx:id="FederateName" prefHeight="30.0" prefWidth="275.0" />
-         </children>
-      </HBox>
-      <HBox alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="510.0">
-         <children>
-            <Button fx:id="CancelButton" cancelButton="true" mnemonicParsing="false" onAction="#Cancel_click" text="Cancel">
-               <HBox.margin>
-                  <Insets right="15.0" />
-               </HBox.margin>
-            </Button>
-            <Button fx:id="OkButton" defaultButton="true" mnemonicParsing="false" onAction="#Ok_click" text="OK" />
-         </children>
-         <VBox.margin>
-            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-         </VBox.margin>
-      </HBox>
-   </children>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="96.0"
+      prefWidth="459.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ca.mali.dialogs.chapter10.GetFederateHandleServiceController">
+   <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="570.0">
+      <VBox.margin>
+         <Insets left="15.0" right="15.0" top="15.0"/>
+      </VBox.margin>
+      <Label text="Federate Name:"/>
+      <TextField fx:id="FederateName" prefHeight="30.0" prefWidth="275.0"/>
+   </HBox>
+   <HBox alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="510.0">
+      <VBox.margin>
+         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+      </VBox.margin>
+      <Button cancelButton="true" mnemonicParsing="false" onAction="#Cancel_click"
+              text="Cancel">
+         <HBox.margin>
+            <Insets right="15.0"/>
+         </HBox.margin>
+      </Button>
+      <Button fx:id="OkButton" defaultButton="true" mnemonicParsing="false" onAction="#Ok_click" text="OK"/>
+   </HBox>
 </VBox>

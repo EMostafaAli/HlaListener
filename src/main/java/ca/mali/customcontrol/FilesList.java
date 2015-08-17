@@ -25,18 +25,21 @@
  */
 package ca.mali.customcontrol;
 
-import java.io.*;
-import java.util.*;
-import javafx.collections.*;
-import javafx.event.*;
-import javafx.geometry.*;
+import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.image.*;
-import javafx.scene.input.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
-import javafx.scene.paint.*;
-import javafx.stage.*;
-import javafx.util.*;
+import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+
+import java.io.File;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author Mostafa Ali <engabdomostafa@gmail.com>
@@ -53,29 +56,23 @@ public class FilesList extends VBox {
         filesList.setPlaceholder(label);
 
         //Drag & drop handle
-        filesList.setOnDragOver(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                Dragboard db = event.getDragboard();
-                if (db.hasFiles()) {
-                    event.acceptTransferModes(TransferMode.COPY);
-                } else {
-                    event.consume();
-                }
-            }
-        });
-        filesList.setOnDragDropped(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                Dragboard db = event.getDragboard();
-                boolean success = false;
-                if (db.hasFiles()) {
-                    success = true;
-                    ProcessFiles(db.getFiles());
-                }
-                event.setDropCompleted(success);
+        filesList.setOnDragOver(event -> {
+            Dragboard db = event.getDragboard();
+            if (db.hasFiles()) {
+                event.acceptTransferModes(TransferMode.COPY);
+            } else {
                 event.consume();
             }
+        });
+        filesList.setOnDragDropped(event -> {
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+            if (db.hasFiles()) {
+                success = true;
+                ProcessFiles(db.getFiles());
+            }
+            event.setDropCompleted(success);
+            event.consume();
         });
 
         //Double click handle
@@ -85,19 +82,14 @@ public class FilesList extends VBox {
                 fileChooser.setTitle("Select FOM files file");
                 fileChooser.getExtensionFilters().addAll(
                         new FileChooser.ExtensionFilter("FOM file", "*.xml"));
-                List<File> files = fileChooser.showOpenMultipleDialog((Stage) this.getScene().getWindow());
+                List<File> files = fileChooser.showOpenMultipleDialog(this.getScene().getWindow());
                 if (files != null) {
                     ProcessFiles(files);
                 }
             }
         });
 
-        filesList.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
-            @Override
-            public ListCell<String> call(ListView<String> list) {
-                return new StringandButtonCell();
-            }
-        });
+        filesList.setCellFactory(list -> new StringandButtonCell());
 
         this.getChildren().add(filesList);
     }
@@ -114,15 +106,9 @@ public class FilesList extends VBox {
     private void ProcessFiles(List<File> files) {
         for (File file : files) {
             if (file.isDirectory()) {
-                File[] subFiles = file.listFiles(new FilenameFilter() {
-                    @Override
-                    public boolean accept(File dir, String name) {
-                        String extension = name.substring(name.lastIndexOf(".") + 1, name.length());
-                        if ("xml".equalsIgnoreCase(extension)) {
-                            return true;
-                        }
-                        return false;
-                    }
+                File[] subFiles = file.listFiles((dir, name) -> {
+                    String extension = name.substring(name.lastIndexOf(".") + 1, name.length());
+                    return "xml".equalsIgnoreCase(extension);
                 });
                 for (File subFile : subFiles) {
                     addFile(subFile);

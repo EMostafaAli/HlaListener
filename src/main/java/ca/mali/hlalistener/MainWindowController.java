@@ -1539,6 +1539,42 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Get Available Dimensions For Interaction Class service dialog box", ex);
         }
     }
+
+    //10.25
+    @FXML
+    private void GetDimensionHandle_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.25 Get Dimension Handle service", "/fxml/chapter10/GetDimensionHandleService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Dimension Handle service dialog box", ex);
+        }
+    }
+
+    //10.26
+    @FXML
+    private void GetDimensionName_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.26 Get Dimension Name service", "/fxml/chapter10/GetDimensionNameService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Dimension Name service dialog box", ex);
+        }
+    }
+
+    //10.27
+    @FXML
+    private void GetDimensionUpperBound_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.27 Get Dimension Upper Bound service", "/fxml/chapter10/GetDimensionUpperBoundService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Dimension Upper Bound service dialog box", ex);
+        }
+    }
     
     //10.33
     @FXML

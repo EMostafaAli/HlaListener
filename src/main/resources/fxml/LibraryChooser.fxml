@@ -1,41 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-
-<AnchorPane id="AnchorPane" minHeight="-Infinity" prefHeight="88.0" prefWidth="386.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.hlalistener.RtiAmbInitializer">
-    <children>
-      <HBox layoutX="14.0" layoutY="3.0" prefHeight="25.0" prefWidth="359.0" AnchorPane.bottomAnchor="59.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="3.0">
-         <children>
-            <Label prefHeight="17.0" prefWidth="123.0" text="Select HLA jar file:" />
-            <TextField fx:id="JarFileLocation" prefHeight="25.0" prefWidth="207.0" promptText="Double click to Select HLA jar file" HBox.hgrow="ALWAYS" />
-         </children>
-      </HBox>
-      <HBox alignment="CENTER_RIGHT" layoutY="32.0" prefHeight="25.0" prefWidth="386.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
-               <children>
+<AnchorPane id="AnchorPane" minHeight="-Infinity" prefHeight="88.0" prefWidth="386.0"
+            xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ca.mali.hlalistener.RtiAmbInitializer">
+    <HBox layoutX="14.0" layoutY="3.0" prefHeight="25.0" prefWidth="359.0" AnchorPane.bottomAnchor="59.0"
+          AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="3.0">
+        <children>
+          <Label prefHeight="17.0" prefWidth="123.0" text="Select HLA jar file:"/>
+          <TextField fx:id="JarFileLocation" prefHeight="25.0" prefWidth="207.0"
+                     promptText="Double click to Select HLA jar file" HBox.hgrow="ALWAYS"/>
+        </children>
+    </HBox>
+    <HBox alignment="CENTER_RIGHT" layoutY="32.0" prefHeight="25.0" prefWidth="386.0" AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0">
+        <children>
+          <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+              <children>
                   <ImageView fitHeight="22.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../icons/TipIcon.jpg" />
-                     </image>
-                     <HBox.margin>
-                        <Insets right="7.0" />
-                     </HBox.margin>
+                      <image>
+                          <Image url="@../icons/TipIcon.jpg"/>
+                      </image>
+                      <HBox.margin>
+                          <Insets right="7.0"/>
+                      </HBox.margin>
                   </ImageView>
-                  <Label text="Double click to select HLA-1516e jar library" />
-               </children>
-            </HBox>
-              <Button fx:id="OkButton" defaultButton="true" onAction="#handleButtonAction" text="OK" />
-         </children>
-         <padding>
-            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-         </padding>
-      </HBox>
-    </children>
+                  <Label text="Double click to select HLA-1516e jar library"/>
+              </children>
+          </HBox>
+            <Button fx:id="OkButton" defaultButton="true" onAction="#handleButtonAction" text="OK"/>
+        </children>
+        <padding>
+          <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+        </padding>
+    </HBox>
 </AnchorPane>

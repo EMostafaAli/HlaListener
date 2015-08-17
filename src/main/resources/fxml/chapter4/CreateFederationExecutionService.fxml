@@ -1,73 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import java.util.*?>
-<?import javafx.collections.*?>
+
+<?import ca.mali.customcontrol.FilesList?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import ca.mali.customcontrol.*?>
-
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="279.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.chapter4.CreateFederationExecutionServiceController">
-    <children>
-        <HBox prefHeight="36.0" prefWidth="421.0" VBox.vgrow="NEVER">
-            <children>
-                <Label text="Federation Execution Name*: " />
-                <TextField fx:id="FederationExecutionName" prefHeight="25.0" prefWidth="139.0" HBox.hgrow="ALWAYS" />
-            </children>
-            <VBox.margin>
-                <Insets left="15.0" right="15.0" top="15.0" />
-            </VBox.margin>
-        </HBox>
-        <HBox prefHeight="136.0" prefWidth="421.0" VBox.vgrow="ALWAYS">
-            <children>
-                <Label text="FOM module Designators*:    " />
-                <FilesList fx:id="FomModuleDesignators" HBox.hgrow="ALWAYS" />
-            </children>
-            <VBox.margin>
-                <Insets left="15.0" right="15.0" top="15.0" />
-            </VBox.margin>
-        </HBox>
-        <HBox prefHeight="38.0" prefWidth="421.0" VBox.vgrow="NEVER">
-            <children>
-                <Label text="MIM designator: " />
-                <TextField fx:id="MimDesignator" HBox.hgrow="ALWAYS" promptText="Double click to Select MIM file"/>
-            </children>
-            <VBox.margin>
-                <Insets left="15.0" right="15.0" top="15.0" />
-            </VBox.margin>
-        </HBox>
-        <HBox prefHeight="46.0" prefWidth="361.0" VBox.vgrow="NEVER">
-            <children>
-                <Label text="Logical Time:       " />
-                <ChoiceBox fx:id="LogicalTimeImplementation" prefHeight="25.0" prefWidth="177.0" value="HLAfloat64Time" >
-                    <items>
-                        <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="HLAfloat64Time" />
-                            <String fx:value="HLAinteger64Time" />
-                        </FXCollections>
-                    </items>
-                </ChoiceBox>
-            </children>
-            <padding>
-                <Insets left="15.0" right="15.0" top="15.0" />
-            </padding>
-        </HBox>
-        <HBox alignment="CENTER_RIGHT" prefHeight="32.0" prefWidth="361.0">
-            <children>
-                <Button cancelButton="true" mnemonicParsing="false" text="Cancel" onAction="#Cancel_click" >
-                    <HBox.margin>
-                        <Insets right="20.0" />
-                    </HBox.margin>
-                </Button>
-                <Button fx:id="OkButton" defaultButton="true" mnemonicParsing="false" text="OK" onAction="#OK_click" />
-            </children>
-            <padding>
-                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-            </padding>
-        </HBox>
-    </children>
+<?import java.lang.String?>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="279.0"
+      prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ca.mali.dialogs.chapter4.CreateFederationExecutionServiceController">
+    <HBox prefHeight="36.0" prefWidth="421.0" VBox.vgrow="NEVER">
+        <children>
+            <Label text="Federation Execution Name*: "/>
+            <TextField fx:id="FederationExecutionName" prefHeight="25.0" prefWidth="139.0" HBox.hgrow="ALWAYS"/>
+        </children>
+        <VBox.margin>
+            <Insets left="15.0" right="15.0" top="15.0"/>
+        </VBox.margin>
+    </HBox>
+    <HBox prefHeight="136.0" prefWidth="421.0" VBox.vgrow="ALWAYS">
+        <children>
+            <Label text="FOM module Designators*:    "/>
+            <FilesList fx:id="FomModuleDesignators" HBox.hgrow="ALWAYS"/>
+        </children>
+        <VBox.margin>
+            <Insets left="15.0" right="15.0" top="15.0"/>
+        </VBox.margin>
+    </HBox>
+    <HBox prefHeight="38.0" prefWidth="421.0" VBox.vgrow="NEVER">
+        <children>
+            <Label text="MIM designator: "/>
+            <TextField fx:id="MimDesignator" HBox.hgrow="ALWAYS" promptText="Double click to Select MIM file"/>
+        </children>
+        <VBox.margin>
+            <Insets left="15.0" right="15.0" top="15.0"/>
+        </VBox.margin>
+    </HBox>
+    <HBox prefHeight="46.0" prefWidth="361.0" VBox.vgrow="NEVER">
+        <children>
+            <Label text="Logical Time:       "/>
+            <ChoiceBox fx:id="LogicalTimeImplementation" prefHeight="25.0" prefWidth="177.0" value="HLAfloat64Time">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="HLAfloat64Time"/>
+                        <String fx:value="HLAinteger64Time"/>
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
+        </children>
+        <padding>
+            <Insets left="15.0" right="15.0" top="15.0"/>
+        </padding>
+    </HBox>
+    <HBox alignment="CENTER_RIGHT" prefHeight="32.0" prefWidth="361.0">
+        <children>
+            <Button cancelButton="true" mnemonicParsing="false" text="Cancel" onAction="#Cancel_click">
+                <HBox.margin>
+                    <Insets right="20.0"/>
+                </HBox.margin>
+            </Button>
+            <Button fx:id="OkButton" defaultButton="true" mnemonicParsing="false" text="OK" onAction="#OK_click"/>
+        </children>
+        <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+        </padding>
+    </HBox>
 </VBox>

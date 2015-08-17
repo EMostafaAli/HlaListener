@@ -260,9 +260,12 @@
                     <MenuItem mnemonicParsing="false" onAction="#GetAvailDimInteraction_click"
                               text="10.24 Get Available Dimensions For Interaction Class..."/>
                     <SeparatorMenuItem mnemonicParsing="false"/>
-                    <MenuItem mnemonicParsing="false" text="10.25 Get Dimension Handle"/>
-                    <MenuItem mnemonicParsing="false" text="10.26 Get Dimension name"/>
-                    <MenuItem mnemonicParsing="false" text="10.27 Get Dimension Upper Bound"/>
+                    <MenuItem mnemonicParsing="false" onAction="#GetDimensionHandle_click"
+                              text="10.25 Get Dimension Handle..."/>
+                    <MenuItem mnemonicParsing="false" onAction="#GetDimensionName_click"
+                              text="10.26 Get Dimension name..."/>
+                    <MenuItem mnemonicParsing="false" onAction="#GetDimensionUpperBound_click"
+                              text="10.27 Get Dimension Upper Bound"/>
                     <MenuItem mnemonicParsing="false" text="10.28 Get Dimension Handle Set"/>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Region">
