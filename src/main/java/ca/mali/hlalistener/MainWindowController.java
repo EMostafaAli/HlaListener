@@ -204,6 +204,7 @@ public class MainWindowController implements Initializable {
         dialog.initOwner(primaryStage);
         dialog.setResizable(false);
         dialog.setTitle(title);
+        dialog.getIcons().add(primaryStage.getIcons().get(0));
         Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
         Scene dialogScene = new Scene(root);
         dialog.setScene(dialogScene);
@@ -1573,6 +1574,18 @@ public class MainWindowController implements Initializable {
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Get Dimension Upper Bound service dialog box", ex);
+        }
+    }
+
+    //10.28
+    @FXML
+    private void GetDimensionHandleSet_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.28 Get Dimension Handle Set service", "/fxml/chapter10/GetDimensionHandleSetService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Dimension Handle Set service dialog box", ex);
         }
     }
     
