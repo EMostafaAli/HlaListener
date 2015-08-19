@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2015, Mostafa Ali
+  ~ All rights reserved.
+  ~ Redistribution and use in source and binary forms, with or without
+  ~ modification, are permitted provided that the following conditions are
+  ~ met: Redistributions of source code must retain the above copyright
+  ~ notice, this list of conditions and the following disclaimer. Redistributions
+  ~ in binary form must reproduce the above copyright notice, this list of
+  ~ conditions and the following disclaimer in the documentation and/or
+  ~ other materials provided with the distribution.
+  ~
+  ~  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+  ~  CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+  ~  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+  ~  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  ~  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+  ~  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  ~  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+  ~  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  ~  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  ~  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+  ~   WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+  ~   NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  ~   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+  ~   DAMAGE.
+  -->
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="213.0"
+      prefWidth="459.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ca.mali.dialogs.chapter10.SetRangeBoundsServiceController">
+    <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="570.0">
+        <VBox.margin>
+            <Insets left="15.0" right="15.0" top="15.0"/>
+        </VBox.margin>
+        <Label prefHeight="27.0" prefWidth="151.0" text="Region Handle:"/>
+        <ChoiceBox fx:id="RegionHandleChoiceBox" prefHeight="39.0" prefWidth="273.0"/>
+    </HBox>
+    <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="570.0">
+        <VBox.margin>
+            <Insets left="15.0" right="15.0" top="15.0"/>
+        </VBox.margin>
+        <Label text="Dimension Handle:"/>
+        <TextField fx:id="DimensionHandleTextField" prefHeight="30.0" prefWidth="275.0"/>
+    </HBox>
+    <HBox alignment="CENTER_LEFT" layoutX="25.0" layoutY="79.0" prefHeight="46.0" prefWidth="570.0">
+        <VBox.margin>
+            <Insets left="15.0" right="15.0" top="15.0"/>
+        </VBox.margin>
+        <Label text="Lower Bound:"/>
+        <Spinner fx:id="LowerSpinner" prefHeight="39.0" prefWidth="127.0" editable="true"/>
+        <Label layoutX="10.0" layoutY="16.0" text="Upper Bound:"/>
+        <Spinner fx:id="UpperSpinner" layoutX="119.0" layoutY="10.0" prefHeight="39.0" prefWidth="127.0" editable="true"/>
+    </HBox>
+    <HBox alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="510.0">
+        <VBox.margin>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+        </VBox.margin>
+        <Button cancelButton="true" mnemonicParsing="false" onAction="#Cancel_click" text="Cancel">
+            <HBox.margin>
+                <Insets right="15.0"/>
+            </HBox.margin>
+        </Button>
+        <Button fx:id="OkButton" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#Ok_click"
+                text="OK"/>
+    </HBox>
+</VBox>

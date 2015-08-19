@@ -1588,6 +1588,30 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Get Dimension Handle Set service dialog box", ex);
         }
     }
+
+    //10.29
+    @FXML
+    private void GetRangeBound_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.29 Get Range Bounds service", "/fxml/chapter10/GetRangeBoundsService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Range Bounds service dialog box", ex);
+        }
+    }
+
+    //10.30
+    @FXML
+    private void SetRangeBound_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.30 Set Range Bounds service", "/fxml/chapter10/SetRangeBoundsService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Set Range Bounds service dialog box", ex);
+        }
+    }
     
     //10.33
     @FXML
