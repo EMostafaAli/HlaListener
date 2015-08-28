@@ -88,7 +88,6 @@ public class AttributeListController extends VBox {
         fxmlLoader.setRoot(this);
         try {
             fxmlLoader.load();
-
         } catch (IOException ex) {
             logger.log(Level.FATAL, ex.getMessage(), ex);
         }

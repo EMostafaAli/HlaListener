@@ -1265,7 +1265,19 @@ public class MainWindowController implements Initializable {
         }
     }
 // </editor-fold>
-    
+
+    //9.2
+    @FXML
+    private void CreateRegion_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("9.2 Create Region service", "/fxml/chapter9/CreateRegionService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Create Region service dialog box", ex);
+        }
+    }
+
     //10.2
     @FXML
     private void GetAutomaticResignDirective_click(ActionEvent event) {

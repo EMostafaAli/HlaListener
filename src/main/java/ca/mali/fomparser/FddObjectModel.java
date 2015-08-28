@@ -30,6 +30,7 @@ import ca.mali.fdd.ObjectClass;
 import ca.mali.fdd.ObjectModelType;
 import ca.mali.fdd.ReliableEnumerations;
 import ca.mali.hlalistener.PublicVariables;
+import hla.rti1516e.DimensionHandle;
 import hla.rti1516e.TransportationTypeHandle;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -60,6 +61,7 @@ public class FddObjectModel {
     private Map<String, InteractionClassFDD> interactionClasses = new TreeMap<>();
     private Map<String, UpdateRateFDD> updateRates = new TreeMap<>();
     private Map<String, TransportationFDD> Transportation = new TreeMap<>();
+    private Map<String, DimensionFDD> Dimensions = new TreeMap<>();
 
     public FddObjectModel(String fddText) {
         logger.entry();
@@ -71,6 +73,7 @@ public class FddObjectModel {
             fddModel = (ca.mali.fdd.ObjectModelType) unmarshal.getValue();
             readUpdateRate();
             readTransportationType();
+            readDimension();
             readObjectClasses(fddModel.getObjects().getObjectClass(), null);
             readInteractionClasses(fddModel.getInteractions().getInteractionClass(), null);
         } catch (Exception ex) {
@@ -99,6 +102,10 @@ public class FddObjectModel {
         return Transportation;
     }
 
+    public Map<String, DimensionFDD> getDimensions() {
+        return Dimensions;
+    }
+
     public void setTransportation(Map<String, TransportationFDD> Transportation) {
         this.Transportation = Transportation;
     }
@@ -111,7 +118,7 @@ public class FddObjectModel {
                     attribute.getName().getValue(), attribute.getDataType().getValue())).forEach((attributeFDD) -> {
                         try {
                             attributeFDD.setHandle(PublicVariables.rtiAmb.getAttributeHandle(
-                                            objectClassFDD.getHandle(), attributeFDD.getName()));
+                                    objectClassFDD.getHandle(), attributeFDD.getName()));
                         } catch (Exception ex) {
                             logger.log(Level.FATAL, ex.getMessage(), ex);
                         }
@@ -163,6 +170,18 @@ public class FddObjectModel {
                     transportation.setIsReliable(true);
                 }
                 Transportation.put(transportation.getName(), transportation);
+            } catch (Exception ex) {
+                logger.log(Level.FATAL, ex.getMessage(), ex);
+            }
+        });
+    }
+
+    private void readDimension(){
+        fddModel.getDimensions().getDimension().forEach(dim -> {
+            try {
+                DimensionHandle dimensionHandle = PublicVariables.rtiAmb.getDimensionHandle(dim.getName().getValue());
+                DimensionFDD dimensionFDD = new DimensionFDD(dim.getName().getValue(), dimensionHandle);
+                Dimensions.put(dimensionFDD.getName(), dimensionFDD);
             } catch (Exception ex) {
                 logger.log(Level.FATAL, ex.getMessage(), ex);
             }
