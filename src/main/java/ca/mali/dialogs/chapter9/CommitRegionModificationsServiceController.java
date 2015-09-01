@@ -26,14 +26,12 @@
  */
 package ca.mali.dialogs.chapter9;
 
-import ca.mali.customcontrol.DimensionsListController;
-import ca.mali.fomparser.DimensionFDD;
+import ca.mali.customcontrol.RegionListController;
 import ca.mali.hlalistener.ClassValuePair;
 import ca.mali.hlalistener.LogEntry;
 import ca.mali.hlalistener.LogEntryType;
-import hla.rti1516e.DimensionHandle;
-import hla.rti1516e.DimensionHandleSet;
 import hla.rti1516e.RegionHandle;
+import hla.rti1516e.RegionHandleSet;
 import hla.rti1516e.exceptions.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -54,13 +52,13 @@ import static ca.mali.hlalistener.PublicVariables.*;
  *
  * @author Mostafa Ali <engabdomostafa@gmail.com>
  */
-public class CreateRegionServiceController implements Initializable {
+public class CommitRegionModificationsServiceController implements Initializable {
 
     //Logger
     private static final Logger logger = LogManager.getLogger();
 
     @FXML
-    private DimensionsListController dimensionListController;
+    private RegionListController regionListController;
     @FXML
     private Button OkButton;
 
@@ -70,7 +68,7 @@ public class CreateRegionServiceController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         logger.entry();
-        dimensionListController.setFddObjectModel(fddObjectModel);
+        regionListController.setFddObjectModel(fddObjectModel);
         logger.exit();
     }
 
@@ -84,21 +82,18 @@ public class CreateRegionServiceController implements Initializable {
     @FXML
     private void OK_click(ActionEvent event) {
         logger.entry();
-        LogEntry log = new LogEntry("9.2", "Create Region service");
+        LogEntry log = new LogEntry("9.3", "Commit Region Modifications service");
         try {
-            DimensionHandleSet dimensionHandleSet = rtiAmb.getDimensionHandleSetFactory().create();
-            for (DimensionFDD dimension : dimensionListController.getDimensions()) {
-                log.getSuppliedArguments().add(new ClassValuePair("Dimension<handle>",
-                        DimensionHandle.class, dimension.getName() + "<" + dimension.getHandle() + ">"));
-                dimensionHandleSet.add(dimension.getHandle());
+            RegionHandleSet regionHandleSet = rtiAmb.getRegionHandleSetFactory().create();
+            for (RegionHandle handle : regionListController.getRegions()) {
+                log.getSuppliedArguments().add(new ClassValuePair("Region handle", RegionHandle.class, handle.toString()));
+                regionHandleSet.add(handle);
             }
-            RegionHandle region = rtiAmb.createRegion(dimensionHandleSet);
-            regionHandles.add(region);
-            log.getReturnedArguments().add(new ClassValuePair("Region Handle", RegionHandle.class, region.toString()));
-            log.setDescription("Region created successfully");
+            rtiAmb.commitRegionModifications(regionHandleSet);
+            log.setDescription("Region modifications committed successfully");
             log.setLogType(LogEntryType.REQUEST);
-        } catch (RestoreInProgress | SaveInProgress | FederateNotExecutionMember | RTIinternalError |
-                InvalidDimensionHandle | NotConnected ex) {
+        } catch (RestoreInProgress | SaveInProgress | FederateNotExecutionMember | RTIinternalError | InvalidRegion |
+                RegionNotCreatedByThisFederate | NotConnected ex) {
             log.setException(ex);
             log.setLogType(LogEntryType.ERROR);
             logger.log(Level.ERROR, ex.getMessage(), ex);

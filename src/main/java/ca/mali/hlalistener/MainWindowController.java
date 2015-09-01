@@ -1278,6 +1278,18 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    //9.3
+    @FXML
+    private void CommitRegionModifications_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("9.3 Commit Region Modifications service", "/fxml/chapter9/CommitRegionModificationsService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Commit Region Modifications service dialog box", ex);
+        }
+    }
+
     //10.2
     @FXML
     private void GetAutomaticResignDirective_click(ActionEvent event) {

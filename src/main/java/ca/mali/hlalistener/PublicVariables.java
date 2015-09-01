@@ -83,7 +83,7 @@ public class PublicVariables {
     
     public final static ObservableList<MessageRetractionHandle> messageRetractionHandles = FXCollections.observableArrayList();
 
-    //TODO: add to list from create region and chapter 6 (sent regions)
+    //TODO: add to list from create region (this part has been done) and chapter 6 (sent regions)
     public final static ObservableList<RegionHandle> regionHandles = FXCollections.observableArrayList();
     
     public final static ObservableMap<ObjectInstanceHandle, ObjectInstanceFDD> objectInstances = FXCollections.observableHashMap();
