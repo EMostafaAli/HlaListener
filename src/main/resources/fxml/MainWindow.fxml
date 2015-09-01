@@ -180,7 +180,7 @@
                 <MenuItem mnemonicParsing="false" onAction="#CreateRegion_click" text="9.2 Create Region..."/>
                 <MenuItem mnemonicParsing="false" onAction="#CommitRegionModifications_click"
                           text="9.3 Commit Region Modifications..."/>
-                <MenuItem mnemonicParsing="false" text="9.4 Delete Region"/>
+                <MenuItem mnemonicParsing="false" onAction="#DeleteRegion_click" text="9.4 Delete Region..."/>
                 <SeparatorMenuItem mnemonicParsing="false"/>
                 <MenuItem mnemonicParsing="false" text="9.5 Register Object Instance With Region"/>
                 <SeparatorMenuItem mnemonicParsing="false"/>

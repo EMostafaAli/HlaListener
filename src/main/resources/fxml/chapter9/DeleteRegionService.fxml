@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2015, Mostafa Ali
+  ~ All rights reserved.
+  ~ Redistribution and use in source and binary forms, with or without
+  ~ modification, are permitted provided that the following conditions are
+  ~ met: Redistributions of source code must retain the above copyright
+  ~ notice, this list of conditions and the following disclaimer. Redistributions
+  ~ in binary form must reproduce the above copyright notice, this list of
+  ~ conditions and the following disclaimer in the documentation and/or
+  ~ other materials provided with the distribution.
+  ~
+  ~  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+  ~  CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+  ~  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+  ~  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  ~  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+  ~  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  ~  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+  ~  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  ~  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  ~  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+  ~   WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+  ~   NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  ~   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+  ~   DAMAGE.
+  -->
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="102.0"
+      prefWidth="392.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ca.mali.dialogs.chapter9.DeleteRegionServiceController">
+    <HBox layoutX="25.0" layoutY="25.0" prefHeight="36.0" prefWidth="421.0">
+        <children>
+            <Label prefHeight="27.0" prefWidth="182.0" text="Region Handle*: "/>
+            <ChoiceBox fx:id="RegionHandleChoiceBox" prefHeight="25.0" prefWidth="286.0" HBox.hgrow="ALWAYS"/>
+        </children>
+        <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+        </VBox.margin>
+    </HBox>
+    <HBox alignment="CENTER_RIGHT" prefHeight="32.0" prefWidth="361.0">
+        <children>
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#Cancel_click" text="Cancel">
+                <HBox.margin>
+                    <Insets right="20.0"/>
+                </HBox.margin>
+            </Button>
+            <Button fx:id="OkButton" defaultButton="true" mnemonicParsing="false" onAction="#OK_click" text="OK" disable="true">
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </padding>
+            </Button>
+        </children>
+        <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+        </VBox.margin>
+        <padding>
+            <Insets right="5.0"/>
+        </padding>
+    </HBox>
+</VBox>

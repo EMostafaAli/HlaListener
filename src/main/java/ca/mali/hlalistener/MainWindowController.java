@@ -1290,6 +1290,18 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    //9.3
+    @FXML
+    private void DeleteRegion_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("9.4 Delete Region service", "/fxml/chapter9/DeleteRegionService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Delete Region service dialog box", ex);
+        }
+    }
+
     //10.2
     @FXML
     private void GetAutomaticResignDirective_click(ActionEvent event) {
