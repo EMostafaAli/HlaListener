@@ -102,8 +102,9 @@ public class RtiAmbInitializer implements Initializable {
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainWindow.fxml"));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
-            primaryStage.setMinHeight(0);
-            primaryStage.setMaxHeight(Double.MAX_VALUE);
+//            primaryStage.setMinHeight(0);
+//            primaryStage.setMaxHeight(Double.MAX_VALUE);
+            primaryStage.setResizable(true);
             primaryStage.setMaximized(true);
             primaryStage.show();
 

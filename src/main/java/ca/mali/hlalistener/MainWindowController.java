@@ -1290,7 +1290,7 @@ public class MainWindowController implements Initializable {
         }
     }
 
-    //9.3
+    //9.4
     @FXML
     private void DeleteRegion_click(ActionEvent event) {
         try {
@@ -1299,6 +1299,30 @@ public class MainWindowController implements Initializable {
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Delete Region service dialog box", ex);
+        }
+    }
+
+    //9.10
+    @FXML
+    private void SubscribeInteractionRegion_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("9.10 Subscribe Interaction Class With Regions service", "/fxml/chapter9/SubscribeInteractionClassWithRegionsService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Subscribe Interaction Class With Regions service dialog box", ex);
+        }
+    }
+
+    //9.11
+    @FXML
+    private void UnsubscribeInteractionRegion_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("9.11 Unsubscribe Interaction Class With Regions service", "/fxml/chapter9/UnsubscribeInteractionClassWithRegionsService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Unsubscribe Interaction Class With Regions service dialog box", ex);
         }
     }
 

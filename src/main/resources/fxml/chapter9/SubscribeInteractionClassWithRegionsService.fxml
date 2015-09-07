@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import ca.mali.customcontrol.RegionListController?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0"
+      prefWidth="630.0" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ca.mali.dialogs.chapter9.SubscribeInteractionClassWithRegionsServiceController">
+    <padding>
+        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+    </padding>
+    <HBox>
+        <children>
+            <Label text="Interaction Class: "/>
+            <ChoiceBox fx:id="InteractionClassChoiceBox" prefHeight="39.0" prefWidth="330.0"/>
+        </children>
+    </HBox>
+    <RegionListController fx:id="regionListController"/>
+    <CheckBox fx:id="PassiveSubscription" mnemonicParsing="false" text="Passive subscription"/>
+    <ButtonBar prefHeight="40.0" prefWidth="200.0">
+        <buttons>
+            <Button cancelButton="true" mnemonicParsing="false" text="Cancel" onAction="#Cancel_click"/>
+            <Button fx:id="OkButton" defaultButton="true" mnemonicParsing="false" text="OK" onAction="#Ok_click"
+                    disable="true"/>
+        </buttons>
+    </ButtonBar>
+</VBox>

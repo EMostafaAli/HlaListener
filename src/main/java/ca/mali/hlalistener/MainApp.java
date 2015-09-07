@@ -48,7 +48,8 @@ public class MainApp extends Application {
         PublicVariables.primaryStage = stage;
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/LibraryChooser.fxml"));
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/Icon.png")));
-        Scene scene = new Scene(root, 386, 87);
+        Scene scene = new Scene(root, 550, 75);
+
         scene.getStylesheets().add("/styles/Styles.css");
 
         stage.setOnCloseRequest(event ->
@@ -73,8 +74,9 @@ public class MainApp extends Application {
         });
         stage.setTitle("HLA Listener");
         stage.setScene(scene);
-        stage.setMinHeight(126);
-        stage.setMaxHeight(126);
+        stage.setResizable(false);
+//        stage.setMinHeight(120);
+//        stage.setMaxHeight(250);
         stage.show();
     }
 

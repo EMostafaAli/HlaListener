@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
@@ -37,8 +38,7 @@
                 <SeparatorMenuItem mnemonicParsing="false"/>
                 <MenuItem mnemonicParsing="false" onAction="#RequestFederationSave_click"
                           text="4.16 Request Federation Save..."/>
-                <MenuItem mnemonicParsing="false" onAction="#FederateSaveBegun_click"
-                          text="4.18 Federate Save Begun"/>
+                <MenuItem mnemonicParsing="false" onAction="#FederateSaveBegun_click" text="4.18 Federate Save Begun"/>
                 <MenuItem mnemonicParsing="false" onAction="#FederateSaveComplete_click"
                           text="4.19 Federate Save Complete..."/>
                 <MenuItem mnemonicParsing="false" onAction="#AbortFederationSave_click"
@@ -88,10 +88,9 @@
                 <SeparatorMenuItem mnemonicParsing="false"/>
                 <MenuItem mnemonicParsing="false" onAction="#RegisterObject_click"
                           text="6.8 Register Object Instance..."/>
-                <MenuItem mnemonicParsing="false" onAction="#DeleteObject_click"
-                          text="6.14 Delete Object Instance..."/>
+                <MenuItem mnemonicParsing="false" onAction="#DeleteObject_click" text="6.14 Delete Object Instance..."/>
                 <MenuItem mnemonicParsing="false" onAction="#LocalDeleteObject_click"
-                          text="6.16 Local Delete Object Instance"/>
+                          text="6.16 Local Delete Object Instance..."/>
                 <SeparatorMenuItem mnemonicParsing="false"/>
                 <MenuItem mnemonicParsing="false" text="6.10 Update Attribute Value"/>
                 <MenuItem mnemonicParsing="false" text="6.12 Send Interaction"/>
@@ -161,12 +160,10 @@
                           text="8.15 Disable Asynchronous Delivery"/>
                 <SeparatorMenuItem mnemonicParsing="false"/>
                 <MenuItem mnemonicParsing="false" onAction="#QueryGALT_click" text="8.16 Query GALT"/>
-                <MenuItem mnemonicParsing="false" onAction="#QueryLogicalTime_click"
-                          text="8.17 Query Logical Time"/>
+                <MenuItem mnemonicParsing="false" onAction="#QueryLogicalTime_click" text="8.17 Query Logical Time"/>
                 <MenuItem mnemonicParsing="false" onAction="#QueryLITS_click" text="8.17 Query LITS"/>
                 <SeparatorMenuItem mnemonicParsing="false"/>
-                <MenuItem mnemonicParsing="false" onAction="#ModifyLookahead_click"
-                          text="8.19 Modify Lookahead..."/>
+                <MenuItem mnemonicParsing="false" onAction="#ModifyLookahead_click" text="8.19 Modify Lookahead..."/>
                 <MenuItem mnemonicParsing="false" onAction="#QueryLookahead_click" text="8.20 Query Lookahead"/>
                 <SeparatorMenuItem mnemonicParsing="false"/>
                 <MenuItem mnemonicParsing="false" onAction="#RetractMessage_click" text="8.21 Retract..."/>
@@ -190,8 +187,10 @@
                 <MenuItem mnemonicParsing="false" text="9.8 Subscribe Object Class Attribute With Region"/>
                 <MenuItem mnemonicParsing="false" text="9.9 Unsubscribe Object Class Attribute With Region"/>
                 <SeparatorMenuItem mnemonicParsing="false"/>
-                <MenuItem mnemonicParsing="false" text="9.10 Subscribe Interaction Class With Region"/>
-                <MenuItem mnemonicParsing="false" text="9.11 Unsubscribe Interaction Class With Region"/>
+                <MenuItem mnemonicParsing="false" onAction="#SubscribeInteractionRegion_click"
+                          text="9.10 Subscribe Interaction Class With Region..."/>
+                <MenuItem mnemonicParsing="false" onAction="#UnsubscribeInteractionRegion_click"
+                          text="9.11 Unsubscribe Interaction Class With Region..."/>
                 <SeparatorMenuItem mnemonicParsing="false"/>
                 <MenuItem mnemonicParsing="false" text="9.12 Send Interaction With Region"/>
                 <SeparatorMenuItem mnemonicParsing="false"/>
@@ -250,10 +249,8 @@
                               text="10.14 Get Update Rate Value For Attribute..."/>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Order Type">
-                    <MenuItem mnemonicParsing="false" onAction="#GetOrderType_click"
-                              text="10.19 Get Order Type..."/>
-                    <MenuItem mnemonicParsing="false" onAction="#GetOrderName_click"
-                              text="10.20 Get Order Name..."/>
+                    <MenuItem mnemonicParsing="false" onAction="#GetOrderType_click" text="10.19 Get Order Type..."/>
+                    <MenuItem mnemonicParsing="false" onAction="#GetOrderName_click" text="10.20 Get Order Name..."/>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Dimensions">
                     <MenuItem mnemonicParsing="false" onAction="#GetAvailDimAttribute_click"
@@ -280,8 +277,7 @@
                 <Menu mnemonicParsing="false" text="Switches">
                     <MenuItem mnemonicParsing="false" onAction="#EnableObjectClassRelevanceAdvisorySwitch_click"
                               text="10.33 Enable Object Class Relevance Advisory Switch"/>
-                    <MenuItem mnemonicParsing="false"
-                              onAction="#DisableObjectClassRelevanceAdvisorySwitch_click"
+                    <MenuItem mnemonicParsing="false" onAction="#DisableObjectClassRelevanceAdvisorySwitch_click"
                               text="10.34 Disable Object Class Relevance Advisory Switch"/>
                     <SeparatorMenuItem mnemonicParsing="false"/>
                     <MenuItem mnemonicParsing="false" onAction="#EnableAttributeRelevanceSwitch_click"
@@ -296,8 +292,7 @@
                     <SeparatorMenuItem mnemonicParsing="false"/>
                     <MenuItem mnemonicParsing="false" onAction="#EnableInteractionRelevanceAdvisorySwitch_click"
                               text="10.39 Enable Interaction Relevance Advisory Switch"/>
-                    <MenuItem mnemonicParsing="false"
-                              onAction="#DisableInteractionRelevanceAdvisorySwitch_click"
+                    <MenuItem mnemonicParsing="false" onAction="#DisableInteractionRelevanceAdvisorySwitch_click"
                               text="10.40 Disable Interaction Relevance Advisory Switch"/>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Callbacks">
@@ -319,31 +314,31 @@
     <center>
         <BorderPane prefHeight="1886.0" prefWidth="1076.0" BorderPane.alignment="CENTER">
             <center>
-                <SplitPane dividerPositions="0.5167597765363129" prefHeight="1108.0" prefWidth="1076.0"
-                           BorderPane.alignment="CENTER">
+                <SplitPane dividerPositions="0.45" prefHeight="1108.0" prefWidth="1076.0" BorderPane.alignment="CENTER">
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1281.0" prefWidth="594.0">
-                        <TableView fx:id="logTable" layoutX="14.0" layoutY="20.0" prefHeight="1281.0"
-                                   prefWidth="647.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                        <TableView fx:id="logTable" layoutX="14.0" layoutY="20.0" prefHeight="1281.0" prefWidth="647.0"
+                                   AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
                                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <columns>
-                                <TableColumn fx:id="idCol" prefWidth="50.0" text="#"/>
-                                <TableColumn fx:id="iconCol" prefWidth="52.0" sortable="false" text="i"/>
-                                <TableColumn fx:id="sectionCol" prefWidth="55.0" text="Sect"/>
-                                <TableColumn fx:id="titleCol" prefWidth="450.0" text="Title"/>
-                                <TableColumn fx:id="timeCol" prefWidth="82.0" text="Time"/>
+                                <TableColumn fx:id="idCol" maxWidth="100.0" prefWidth="30.0" text="#"/>
+                                <TableColumn fx:id="iconCol" maxWidth="100.0" prefWidth="30.0" sortable="false"
+                                             text="i"/>
+                                <TableColumn fx:id="sectionCol" maxWidth="200.0" prefWidth="60.0" text="Sect"/>
+                                <TableColumn fx:id="titleCol" prefWidth="300.0" text="Title"/>
+                                <TableColumn fx:id="timeCol" maxWidth="500.0" prefWidth="100.0" text="Time"/>
                             </columns>
                         </TableView>
                     </AnchorPane>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                         <VBox layoutX="51.0" layoutY="289.0" prefHeight="1192.0" prefWidth="507.0" spacing="15.0"
-                              AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0"
-                              AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+                              AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0"
+                              AnchorPane.topAnchor="15.0">
                             <padding>
                                 <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
                             </padding>
                             <HBox alignment="CENTER_LEFT" prefHeight="36.0" prefWidth="1076.0" spacing="10.0">
-                                <ImageView fx:id="iconViewer" fitHeight="60.0" fitWidth="60.0"
-                                           pickOnBounds="true" preserveRatio="true"/>
+                                <ImageView fx:id="iconViewer" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true"
+                                           preserveRatio="true"/>
                                 <VBox>
                                     <HBox spacing="7.0">
                                         <Label fx:id="sectionLbl">
@@ -364,23 +359,21 @@
                                     </Label>
                                 </VBox>
                             </HBox>
-                            <TitledPane fx:id="SuppliedPane" animated="false" prefHeight="276.0"
-                                        prefWidth="554.0" text="Supplied arguments">
+                            <TitledPane fx:id="SuppliedPane" animated="false" prefHeight="276.0" prefWidth="554.0"
+                                        text="Supplied arguments">
                                 <VBox prefHeight="200.0" prefWidth="552.0">
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="184.0"
-                                                prefWidth="524.0">
-                                        <TableView fx:id="SupplyTable" layoutX="60.0"
-                                                   layoutY="-34.0" prefHeight="184.0"
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="184.0" prefWidth="524.0">
+                                        <TableView fx:id="SupplyTable" layoutX="60.0" layoutY="-34.0" prefHeight="184.0"
                                                    prefWidth="524.0" AnchorPane.bottomAnchor="0.0"
-                                                   AnchorPane.leftAnchor="0.0"
-                                                   AnchorPane.rightAnchor="0.0"
+                                                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                                                    AnchorPane.topAnchor="0.0">
                                             <columns>
-                                                <TableColumn fx:id="SupplyNameCol" prefWidth="325.0"
-                                                             text="Name"/>
-                                                <TableColumn fx:id="SupplyValueCol"
-                                                             prefWidth="500.0" text="Value"/>
+                                                <TableColumn fx:id="SupplyNameCol" prefWidth="325.0" text="Name"/>
+                                                <TableColumn fx:id="SupplyValueCol" prefWidth="500.0" text="Value"/>
                                             </columns>
+                                            <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                                            </columnResizePolicy>
                                         </TableView>
                                     </AnchorPane>
                                     <Label fx:id="SuppliedArgsLbl" prefHeight="0.0" prefWidth="524.0"/>
@@ -388,31 +381,28 @@
                             </TitledPane>
                             <TitledPane fx:id="ReturnedPane" animated="false" text="Returned arguments">
                                 <VBox>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-                                                prefWidth="200.0">
-                                        <TableView fx:id="returnTable" prefHeight="180.0"
-                                                   prefWidth="445.0" AnchorPane.bottomAnchor="0.0"
-                                                   AnchorPane.leftAnchor="0.0"
-                                                   AnchorPane.rightAnchor="0.0"
-                                                   AnchorPane.topAnchor="0.0">
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                        <TableView fx:id="returnTable" prefHeight="180.0" prefWidth="445.0"
+                                                   AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                                   AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <columns>
-                                                <TableColumn fx:id="ReturnNameCol" prefWidth="325.0"
-                                                             text="Name"/>
-                                                <TableColumn fx:id="ReturnValueCol"
-                                                             prefWidth="500.0" text="Value"/>
+                                                <TableColumn fx:id="ReturnNameCol" prefWidth="325.0" text="Name"/>
+                                                <TableColumn fx:id="ReturnValueCol" prefWidth="500.0" text="Value"/>
                                             </columns>
+                                            <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                                            </columnResizePolicy>
                                         </TableView>
                                     </AnchorPane>
                                     <Label fx:id="ReturnedArgsLbl" prefHeight="27.0" prefWidth="528.0"/>
                                 </VBox>
                             </TitledPane>
                             <TitledPane fx:id="StackTracePane" animated="false" text="Stack Trace">
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-                                            prefWidth="200.0">
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                     <TextArea fx:id="StackTraceTextArea" editable="false" layoutX="60.0"
-                                              prefHeight="180.0" prefWidth="445.0"
-                                              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                                              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+                                              prefHeight="180.0" prefWidth="445.0" AnchorPane.bottomAnchor="0.0"
+                                              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                              AnchorPane.topAnchor="0.0"/>
                                 </AnchorPane>
                             </TitledPane>
                         </VBox>

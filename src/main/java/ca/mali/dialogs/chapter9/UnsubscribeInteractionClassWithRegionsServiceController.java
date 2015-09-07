@@ -24,12 +24,17 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
  *   DAMAGE.
  */
+
 package ca.mali.dialogs.chapter9;
 
+import ca.mali.customcontrol.RegionListController;
+import ca.mali.fomparser.InteractionClassFDD;
 import ca.mali.hlalistener.ClassValuePair;
 import ca.mali.hlalistener.LogEntry;
 import ca.mali.hlalistener.LogEntryType;
+import hla.rti1516e.InteractionClassHandle;
 import hla.rti1516e.RegionHandle;
+import hla.rti1516e.RegionHandleSet;
 import hla.rti1516e.exceptions.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,31 +52,32 @@ import java.util.ResourceBundle;
 import static ca.mali.hlalistener.PublicVariables.*;
 
 /**
- * FXML Controller class
- *
- * @author Mostafa Ali <engabdomostafa@gmail.com>
+ * Created by Mostafa Ali on 9/6/2015.
  */
-public class DeleteRegionServiceController implements Initializable {
+public class UnsubscribeInteractionClassWithRegionsServiceController implements Initializable {
 
     //Logger
     private static final Logger logger = LogManager.getLogger();
 
     @FXML
-    private ChoiceBox<RegionHandle> RegionHandleChoiceBox;
+    private ChoiceBox<InteractionClassFDD> InteractionClassChoiceBox;
+
+    @FXML
+    private RegionListController regionListController;
 
     @FXML
     private Button OkButton;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL location, ResourceBundle resources) {
         logger.entry();
-        RegionHandleChoiceBox.getItems().addAll(regionHandles);
-        if (regionHandles.size() > 0){
-            RegionHandleChoiceBox.setValue(regionHandles.get(0));
-            OkButton.setDisable(false);
+        if (fddObjectModel != null) {
+            regionListController.setFddObjectModel(fddObjectModel);
+            InteractionClassChoiceBox.getItems().addAll(fddObjectModel.getInteractionClasses().values());
+            if (InteractionClassChoiceBox.getItems().size() > 0) {
+                InteractionClassChoiceBox.setValue(InteractionClassChoiceBox.getItems().get(0));
+                OkButton.setDisable(false);
+            }
         }
         logger.exit();
     }
@@ -79,31 +85,38 @@ public class DeleteRegionServiceController implements Initializable {
     @FXML
     private void Cancel_click(ActionEvent event) {
         logger.entry();
-        ((Stage) RegionHandleChoiceBox.getScene().getWindow()).close();
+        ((Stage) InteractionClassChoiceBox.getScene().getWindow()).close();
         logger.exit();
     }
 
     @FXML
-    private void OK_click(ActionEvent event) {
+    private void Ok_click(ActionEvent event) {
         logger.entry();
-        LogEntry log = new LogEntry("9.4", "Delete Region service");
+        LogEntry log = new LogEntry("9.11", "Unsubscribe Interaction Class With Regions service");
         try {
-            log.getSuppliedArguments().add(new ClassValuePair("Region Handle", RegionHandle.class, RegionHandleChoiceBox.getValue().toString()));
-            rtiAmb.deleteRegion(RegionHandleChoiceBox.getValue());
-            log.setDescription("Region deleted successfully");
+            RegionHandleSet regionHandleSet = rtiAmb.getRegionHandleSetFactory().create();
+            for (RegionHandle handle : regionListController.getRegions()) {
+                log.getSuppliedArguments().add(new ClassValuePair("Region handle", RegionHandle.class, handle.toString()));
+                regionHandleSet.add(handle);
+            }
+            log.getSuppliedArguments().add(new ClassValuePair("Interaction Class<handle>",
+                    InteractionClassHandle.class, InteractionClassChoiceBox.getValue().getFullName() +
+                    '<' + InteractionClassChoiceBox.getValue().getHandle().toString() + '>'));
+            rtiAmb.unsubscribeInteractionClassWithRegions(InteractionClassChoiceBox.getValue().getHandle(), regionHandleSet);
+            log.setDescription("Interaction class with regions unsubscribed successfully");
             log.setLogType(LogEntryType.REQUEST);
-        } catch (RestoreInProgress | FederateNotExecutionMember | RTIinternalError | RegionNotCreatedByThisFederate |
-                SaveInProgress | RegionInUseForUpdateOrSubscription | InvalidRegion | NotConnected ex) {
+        } catch (NotConnected | RegionNotCreatedByThisFederate | SaveInProgress | RestoreInProgress | RTIinternalError |
+                FederateNotExecutionMember | InteractionClassNotDefined | InvalidRegion ex) {
             log.setException(ex);
             log.setLogType(LogEntryType.ERROR);
             logger.log(Level.ERROR, ex.getMessage(), ex);
-        }  catch (Exception ex) {
+        } catch (Exception ex) {
             log.setException(ex);
             log.setLogType(LogEntryType.FATAL);
             logger.log(Level.FATAL, ex.getMessage(), ex);
         }
-        ((Stage) RegionHandleChoiceBox.getScene().getWindow()).close();
         logEntries.add(log);
+        ((Stage) InteractionClassChoiceBox.getScene().getWindow()).close();
         logger.exit();
     }
 }

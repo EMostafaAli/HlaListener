@@ -25,19 +25,27 @@
  */
 package ca.mali.dialogs.chapter5;
 
-import ca.mali.customcontrol.*;
+import ca.mali.customcontrol.InteractionsListController;
 import ca.mali.fomparser.InteractionClassFDD;
-import ca.mali.hlalistener.*;
-import static ca.mali.hlalistener.PublicVariables.*;
-import hla.rti1516e.*;
+import ca.mali.hlalistener.ClassValuePair;
+import ca.mali.hlalistener.LogEntry;
+import ca.mali.hlalistener.LogEntryType;
+import hla.rti1516e.InteractionClassHandle;
 import hla.rti1516e.exceptions.*;
-import java.net.*;
-import java.util.*;
-import javafx.event.*;
-import javafx.fxml.*;
-import javafx.scene.control.*;
-import javafx.stage.*;
-import org.apache.logging.log4j.*;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.stage.Stage;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import static ca.mali.hlalistener.PublicVariables.*;
 
 /**
  * FXML Controller class
@@ -86,7 +94,7 @@ public class SubscribeInteractionClassServiceController implements Initializable
                 log.getSuppliedArguments().add(new ClassValuePair("Interaction Class<handle>",
                         InteractionClassHandle.class, interaction.getFullName() + '<' + interaction.getHandle().toString() + '>'));
                 log.getSuppliedArguments().add(new ClassValuePair(
-                        "Passive subsription", Boolean.class, String.valueOf(PassiveSubscription.isSelected())));
+                        "Passive subscription", Boolean.class, String.valueOf(PassiveSubscription.isSelected())));
                 if (PassiveSubscription.isSelected()) {
                     rtiAmb.subscribeInteractionClassPassively(interaction.getHandle());
                 } else {
