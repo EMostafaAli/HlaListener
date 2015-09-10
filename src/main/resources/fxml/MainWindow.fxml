@@ -179,7 +179,8 @@
                           text="9.3 Commit Region Modifications..."/>
                 <MenuItem mnemonicParsing="false" onAction="#DeleteRegion_click" text="9.4 Delete Region..."/>
                 <SeparatorMenuItem mnemonicParsing="false"/>
-                <MenuItem mnemonicParsing="false" text="9.5 Register Object Instance With Region"/>
+                <MenuItem mnemonicParsing="false" onAction="#RegisterObjectInstanceRegion_click"
+                          text="9.5 Register Object Instance With Region"/>
                 <SeparatorMenuItem mnemonicParsing="false"/>
                 <MenuItem mnemonicParsing="false" text="9.6 Associate Regions For Update"/>
                 <MenuItem mnemonicParsing="false" text="9.7 Unassociate Regions for update"/>

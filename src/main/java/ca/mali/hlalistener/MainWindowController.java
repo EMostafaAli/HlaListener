@@ -25,10 +25,7 @@ package ca.mali.hlalistener;
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-import hla.rti1516e.LogicalTime;
-import hla.rti1516e.LogicalTimeInterval;
-import hla.rti1516e.ResignAction;
-import hla.rti1516e.TimeQueryReturn;
+import hla.rti1516e.*;
 import hla.rti1516e.exceptions.*;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -178,7 +175,7 @@ public class MainWindowController implements Initializable {
         logTable.itemsProperty().get().addListener((ListChangeListener.Change<? extends LogEntry> c) -> {
             c.next();
             if (c.wasAdded()) {
-                //Use platform becasue trying to update UI from another thread (ListenerFederateAmb) raises an error
+                //Use platform because trying to update UI from another thread (ListenerFederateAmb) raises an error
                 Platform.runLater(() -> {
                     logTable.getSelectionModel().selectLast();
                     //work around to refresh the log table view
@@ -1302,6 +1299,18 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    //9.5
+    @FXML
+    private void RegisterObjectInstanceRegion_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("9.5 Register Object Instance With Regions service", "/fxml/chapter9/RegisterObjectInstanceWithRegionsService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Register Object Instance With Regions service dialog box", ex);
+        }
+    }
+
     //9.10
     @FXML
     private void SubscribeInteractionRegion_click(ActionEvent event) {
@@ -1323,6 +1332,22 @@ public class MainWindowController implements Initializable {
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Unsubscribe Interaction Class With Regions service dialog box", ex);
+        }
+    }
+
+    //TODO just a test should be removed later
+    @FXML
+    private void test(ActionEvent event){
+        try {
+            ObjectClassHandle employee = rtiAmb.getObjectClassHandle("Employee");
+            AttributeSetRegionSetPairList attributeRegionAssociations = rtiAmb.getAttributeSetRegionSetPairListFactory().create(1);
+            AttributeHandleSet attributeHandles = rtiAmb.getAttributeHandleSetFactory().create();
+            RegionHandleSet regionHandleSet = rtiAmb.getRegionHandleSetFactory().create();
+            AttributeRegionAssociation x = new AttributeRegionAssociation(attributeHandles, regionHandleSet);
+            attributeRegionAssociations.add(x);
+            rtiAmb.registerObjectInstanceWithRegions(employee, attributeRegionAssociations);
+        } catch (Exception ex){
+            logger.log(Level.FATAL, "error", ex);
         }
     }
 
