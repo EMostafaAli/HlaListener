@@ -80,7 +80,6 @@ public class RegionListController extends VBox {
         fxmlLoader.setRoot(this);
         try {
             fxmlLoader.load();
-
         } catch (IOException ex) {
             logger.log(Level.FATAL, ex.getMessage(), ex);
         }

@@ -50,6 +50,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static ca.mali.hlalistener.PublicVariables.regionHandles;
@@ -78,7 +82,7 @@ public class AttributeRegionCollectionController extends VBox {
     private TableColumn AttributeCheckColumn;
 
     @FXML
-    private TableColumn  AttributeNameColumn;
+    private TableColumn AttributeNameColumn;
 
     @FXML
     private TableView<RegionState> RegionTableView;
@@ -87,33 +91,56 @@ public class AttributeRegionCollectionController extends VBox {
     private TableColumn RegionCheckColumn;
 
     @FXML
-    private TableColumn  RegionColumn;
+    private TableColumn RegionColumn;
 
     private CheckBox AttributeCB = new CheckBox();
 
     private CheckBox RegionCB = new CheckBox();
 
-    public AttributeRegionCollectionController(){
+    private Map<String, ObservableList<AttributeState>> attributeStateSetMap = new HashMap<>();
+    private Map<String, ObservableList<RegionState>> regionStateSetMap = new HashMap<>();
+
+    public AttributeRegionCollectionController() {
         logger.entry();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/customcontrol/AttributeRegionCollection.fxml"));
         fxmlLoader.setController(this);
         fxmlLoader.setRoot(this);
         try {
             fxmlLoader.load();
+            SetChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null) {
+                    if (newValue.contains("Add new set")) {
+                        SetChoiceBox.getItems().add(0, "Set " + String.valueOf(SetChoiceBox.getItems().size()));
+                        SetChoiceBox.setValue(SetChoiceBox.getItems().get(0));
+                        return;
+                    }
+                    if (!attributeStateSetMap.containsKey(SetChoiceBox.getValue())) {
+                        ObservableList<AttributeState> aList = FXCollections.observableArrayList();
+                        aList.addAll(ClassChoiceBox.getValue().getAttributes().stream().map(AttributeState::new).collect(Collectors.toList()));
+                        attributeStateSetMap.put(SetChoiceBox.getValue(), aList);
+
+                        ObservableList<RegionState> rList = FXCollections.observableArrayList();
+                        rList.addAll(regionHandles.stream().map(RegionState::new).collect(Collectors.toList()));
+                        regionStateSetMap.put(SetChoiceBox.getValue(), rList);
+                    }
+
+                    setAttributeSet(attributeStateSetMap.get(SetChoiceBox.getValue()));
+                    setRegionSet(regionStateSetMap.get(SetChoiceBox.getValue()));
+                }
+            });
         } catch (IOException ex) {
             logger.log(Level.FATAL, ex.getMessage(), ex);
         }
         logger.exit();
     }
 
-    public void setFddObjectModel(FddObjectModel fddObjectModel){
+    public void setFddObjectModel(FddObjectModel fddObjectModel) {
         logger.entry();
-        if (fddObjectModel != null){
+        if (fddObjectModel != null) {
+            SetChoiceBox.setDisable(false);
             ClassChoiceBox.getItems().addAll(fddObjectModel.getObjectClasses().values());
             ClassChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-                ObservableList<AttributeState> attributeStateList = FXCollections.observableArrayList();
-                attributeStateList.addAll(newValue.getAttributes().stream().map(AttributeState::new).collect(Collectors.toList()));
-                AttributeTableView.setItems(attributeStateList);
+                resetSet();
             });
             AttributeNameColumn.setCellValueFactory(new PropertyValueFactory<AttributeState, String>("attributeName"));
             AttributeCheckColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<AttributeState, Boolean>, ObservableValue<Boolean>>() {
@@ -123,12 +150,8 @@ public class AttributeRegionCollectionController extends VBox {
                 }
             });
             AttributeCheckColumn.setCellFactory(CheckBoxTableCell.forTableColumn(AttributeCheckColumn));
-//            AttributeCB.setUserData(AttributeCheckColumn);
             AttributeCB.setOnAction(event -> AttributeTableView.getItems().stream().forEach(item -> item.setOn(AttributeCB.isSelected())));
             AttributeCheckColumn.setGraphic(AttributeCB);
-
-            ObservableList<RegionState> regionStateList =FXCollections.observableArrayList();
-            regionStateList.addAll(regionHandles.stream().map(RegionState::new).collect(Collectors.toList()));
             RegionColumn.setCellValueFactory(new PropertyValueFactory<RegionState, String>("regionName"));
             RegionCheckColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<RegionState, Boolean>, ObservableValue<Boolean>>() {
                 @Override
@@ -139,6 +162,80 @@ public class AttributeRegionCollectionController extends VBox {
             RegionCheckColumn.setCellFactory(CheckBoxTableCell.forTableColumn(RegionCheckColumn));
             RegionCB.setOnAction(event -> RegionTableView.getItems().stream().forEach(item -> item.setOn(RegionCB.isSelected())));
             RegionCheckColumn.setGraphic(RegionCB);
+            if (ClassChoiceBox.getItems().size() > 0) {
+                ClassChoiceBox.setValue(ClassChoiceBox.getItems().get(0));
+            }
+        }
+    }
+
+    private void resetSet(){
+        SetChoiceBox.getItems().clear();
+        SetChoiceBox.getItems().addAll("Set 1", "<Add new set>");
+        attributeStateSetMap.clear();
+        regionStateSetMap.clear();
+        SetChoiceBox.setValue(SetChoiceBox.getItems().get(0));
+    }
+
+    private void setAttributeSet(ObservableList<AttributeState> attributeStateList){
+        AttributeTableView.setItems(attributeStateList);
+        AttributeCB.setSelected(AttributeTableView.getItems().stream().allMatch(AttributeState::isOn));
+        attributeStateList.forEach(attributeState -> attributeState.onProperty().addListener((observable1, oldValue1, newValue1) -> {
+            if (!newValue1) {
+                AttributeCB.setSelected(false);
+            } else if (attributeStateList.stream().allMatch(AttributeState::isOn)) {
+                AttributeCB.setSelected(true);
+            }
+        }));
+    }
+
+    private void setRegionSet(ObservableList<RegionState> regionStateList){
+        regionStateList.forEach(regionState -> regionState.onProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                RegionCB.setSelected(false);
+            } else if (regionStateList.stream().allMatch(RegionState::isOn)) {
+                RegionCB.setSelected(true);
+            }
+        }));
+        RegionTableView.setItems(regionStateList);
+    }
+
+    public AttributeRegionResult getAttributeRegionResult(){
+        return new AttributeRegionResult(ClassChoiceBox.getValue(), attributeStateSetMap, regionStateSetMap);
+    }
+
+    public static class AttributeRegionResult{
+        private final ObjectClassFDD objectClassFDD;
+        private final Map<String, ObservableList<AttributeState>> attributeStatesMap;
+        private final Map<String, ObservableList<RegionState>> regionStateMap;
+
+        public AttributeRegionResult(ObjectClassFDD objectClassFDD,
+                                     Map<String, ObservableList<AttributeState>> attributeStatesMap,
+                                     Map<String, ObservableList<RegionState>> regionStateMap) {
+            this.objectClassFDD = objectClassFDD;
+            this.attributeStatesMap = attributeStatesMap;
+            this.regionStateMap = regionStateMap;
+        }
+
+        public ObjectClassFDD getObjectClassFDD() {
+            return objectClassFDD;
+        }
+
+        public List<List<AttributeFDD>> getAttributeFddList(){
+            List<List<AttributeFDD>> attributeList = new ArrayList<>();
+            for (ObservableList<AttributeState> list :attributeStatesMap.values()){
+                attributeList.add(list.stream().filter(AttributeState::isOn)
+                        .map(attributeState -> attributeState.attribute).collect(Collectors.toList()));
+            }
+            return attributeList;
+        }
+
+        public List<List<RegionHandle>> getRegionList() {
+            List<List<RegionHandle>> regionList = new ArrayList<>();
+            for (ObservableList<RegionState> list : regionStateMap.values()) {
+                regionList.add(list.stream().filter(RegionState::isOn)
+                        .map(regionState -> regionState.regionHandle).collect(Collectors.toList()));
+            }
+            return regionList;
         }
     }
 
@@ -183,7 +280,7 @@ public class AttributeRegionCollectionController extends VBox {
         }
     }
 
-    public static class RegionState{
+    public static class RegionState {
 
         private final ReadOnlyStringWrapper regionName = new ReadOnlyStringWrapper();
         private final RegionHandle regionHandle;

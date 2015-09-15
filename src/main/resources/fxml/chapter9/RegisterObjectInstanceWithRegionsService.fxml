@@ -34,9 +34,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<VBox prefHeight="84.0" prefWidth="630.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
+<VBox prefHeight="450" prefWidth="630.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="ca.mali.dialogs.chapter9.RegisterObjectInstanceWithRegionsServiceController">
-    <AttributeRegionCollectionController fx:id="attributeRegionCollection"/>
+    <AttributeRegionCollectionController fx:id="attributeRegionCollection" prefWidth="660" prefHeight="395"/>
     <HBox prefHeight="0.0" prefWidth="600.0">
         <VBox.margin>
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>

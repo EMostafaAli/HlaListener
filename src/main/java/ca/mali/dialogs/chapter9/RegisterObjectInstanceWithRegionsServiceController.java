@@ -27,21 +27,27 @@
 package ca.mali.dialogs.chapter9;
 
 import ca.mali.customcontrol.AttributeRegionCollectionController;
+import ca.mali.fomparser.AttributeFDD;
+import ca.mali.hlalistener.ClassValuePair;
 import ca.mali.hlalistener.LogEntry;
+import ca.mali.hlalistener.LogEntryType;
+import hla.rti1516e.*;
+import hla.rti1516e.exceptions.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
-import static ca.mali.hlalistener.PublicVariables.fddObjectModel;
-import static ca.mali.hlalistener.PublicVariables.logEntries;
+import static ca.mali.hlalistener.PublicVariables.*;
 
 /**
  * FXML Controller class
@@ -82,26 +88,38 @@ public class RegisterObjectInstanceWithRegionsServiceController implements Initi
     @FXML
     private void OK_click(ActionEvent event) {
         logger.entry();
-        LogEntry log = new LogEntry("9.3", "Commit Region Modifications service");
-//        try {
-//            RegionHandleSet regionHandleSet = rtiAmb.getRegionHandleSetFactory().create();
-//            for (RegionHandle handle : regionListController.getRegions()) {
-//                log.getSuppliedArguments().add(new ClassValuePair("Region handle", RegionHandle.class, handle.toString()));
-//                regionHandleSet.add(handle);
-//            }
-//            rtiAmb.commitRegionModifications(regionHandleSet);
-//            log.setDescription("Region modifications committed successfully");
-//            log.setLogType(LogEntryType.REQUEST);
-//        } catch (RestoreInProgress | SaveInProgress | FederateNotExecutionMember | RTIinternalError | InvalidRegion |
-//                RegionNotCreatedByThisFederate | NotConnected ex) {
-//            log.setException(ex);
-//            log.setLogType(LogEntryType.ERROR);
-//            logger.log(Level.ERROR, ex.getMessage(), ex);
-//        } catch (Exception ex) {
-//            log.setException(ex);
-//            log.setLogType(LogEntryType.FATAL);
-//            logger.log(Level.FATAL, ex.getMessage(), ex);
-//        }
+        LogEntry log = new LogEntry("9.5", "Register Object Instance With Regions service");
+        try {
+            AttributeRegionCollectionController.AttributeRegionResult attributeRegionResult = attributeRegionCollection.getAttributeRegionResult();
+            int count = attributeRegionResult.getAttributeFddList().size();
+            AttributeSetRegionSetPairList attributeRegionAssociations = rtiAmb.getAttributeSetRegionSetPairListFactory().create(count);
+            for (int i = 0; i < count; i++) {
+                AttributeHandleSet attributeHandles = rtiAmb.getAttributeHandleSetFactory().create();
+                attributeHandles.addAll(attributeRegionResult.getAttributeFddList().get(i).stream().map(AttributeFDD::getHandle).collect(Collectors.toList()));
+                RegionHandleSet regionHandleSet = rtiAmb.getRegionHandleSetFactory().create();
+                regionHandleSet.addAll(attributeRegionResult.getRegionList().get(i).stream().collect(Collectors.toList()));
+                AttributeRegionAssociation regionAssociation = new AttributeRegionAssociation(attributeHandles, regionHandleSet);
+                attributeRegionAssociations.add(regionAssociation);
+                log.getSuppliedArguments().add(new ClassValuePair(
+                        "Attribute region association " + i, AttributeRegionAssociation.class, attributeRegionAssociations.toString()));
+            }
+            ObjectInstanceHandle objectInstanceHandle = rtiAmb.registerObjectInstanceWithRegions(
+                    attributeRegionResult.getObjectClassFDD().getHandle(), attributeRegionAssociations);
+            log.getReturnedArguments().add(new ClassValuePair(
+                    "Object instance handle", ObjectInstanceHandle.class, objectInstanceHandle.toString()));
+            log.setDescription("Object Instance with Regions registered successfully");
+            log.setLogType(LogEntryType.REQUEST);
+        } catch (AttributeNotDefined | AttributeNotPublished | InvalidRegion | FederateNotExecutionMember |
+                InvalidRegionContext | NotConnected | ObjectClassNotDefined | RTIinternalError |
+                ObjectClassNotPublished | RestoreInProgress | RegionNotCreatedByThisFederate | SaveInProgress ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
+        } catch (Exception ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.FATAL);
+            logger.log(Level.FATAL, ex.getMessage(), ex);
+        }
         logEntries.add(log);
         ((Stage) OkButton.getScene().getWindow()).close();
         logger.exit();
