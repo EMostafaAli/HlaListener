@@ -1,55 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+  ~ Copyright (c) 2015, Mostafa Ali
+  ~ All rights reserved.
+  ~ Redistribution and use in source and binary forms, with or without
+  ~ modification, are permitted provided that the following conditions are
+  ~ met: Redistributions of source code must retain the above copyright
+  ~ notice, this list of conditions and the following disclaimer. Redistributions
+  ~ in binary form must reproduce the above copyright notice, this list of
+  ~ conditions and the following disclaimer in the documentation and/or
+  ~ other materials provided with the distribution.
+  ~
+  ~  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+  ~  CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+  ~  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+  ~  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  ~  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+  ~  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  ~  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+  ~  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  ~  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  ~  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+  ~   WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+  ~   NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  ~   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+  ~   DAMAGE.
+  -->
+
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="203.0"
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="509.0"
       prefWidth="532.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="ca.mali.dialogs.chapter6.RequestAttributeValueUpdateServiceController">
-   <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="570.0">
-      <VBox.margin>
-         <Insets left="15.0" right="15.0" top="15.0"/>
-      </VBox.margin>
-      <children>
-         <RadioButton fx:id="ObjectInstanceRadioButton" mnemonicParsing="false" selected="true"
-                      text="Object instance designator:* ">
+    <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="93.0"
+              prefWidth="497.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="NEVER" maxWidth="284.0" minWidth="10.0" prefWidth="270.0"/>
+            <ColumnConstraints hgrow="NEVER" maxWidth="245.0" minWidth="10.0" prefWidth="232.0"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="40.0" minHeight="2.5" percentHeight="50.0" prefHeight="40.0" vgrow="NEVER"/>
+            <RowConstraints maxHeight="40.0" minHeight="2.0" prefHeight="40.0" vgrow="NEVER"/>
+        </rowConstraints>
+        <VBox.margin>
+            <Insets left="15.0" right="15.0" top="15.0"/>
+        </VBox.margin>
+        <RadioButton fx:id="ObjectInstanceRadioButton" mnemonicParsing="false" selected="true"
+                     text="Object instance designator:* ">
             <toggleGroup>
-               <ToggleGroup fx:id="object"/>
+                <ToggleGroup fx:id="object"/>
             </toggleGroup>
-         </RadioButton>
-         <TextField fx:id="ObjectInstanceDesignator" prefHeight="39.0" prefWidth="237.0"/>
-      </children>
-   </HBox>
-   <HBox alignment="CENTER_LEFT" layoutX="25.0" layoutY="25.0" prefHeight="46.0" prefWidth="570.0">
-      <children>
-         <RadioButton fx:id="ObjectClassRadioButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="259.0"
-                      text="Object class designator:* " toggleGroup="$object"/>
-         <TextField fx:id="ObjectClassDesignator" prefHeight="39.0" prefWidth="239.0"/>
-      </children>
-      <VBox.margin>
-         <Insets left="15.0" right="15.0" top="15.0"/>
-      </VBox.margin>
-   </HBox>
-   <HBox alignment="CENTER_LEFT" layoutX="25.0" layoutY="25.0" prefHeight="46.0" prefWidth="570.0">
-      <children>
-         <Label prefHeight="27.0" prefWidth="280.0" text="User-supplied tag*:"/>
-         <TextField fx:id="UserSuppliedTag" prefHeight="39.0" prefWidth="265.0"/>
-      </children>
-      <VBox.margin>
-         <Insets left="15.0" right="15.0" top="15.0"/>
-      </VBox.margin>
-   </HBox>
-   <HBox alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="510.0">
-      <children>
-         <Button cancelButton="true" mnemonicParsing="false" onAction="#Cancel_click" text="Cancel">
+        </RadioButton>
+        <ChoiceBox fx:id="ObjectInstanceChoiceBox" maxHeight="39.0" maxWidth="-Infinity" minHeight="-Infinity"
+                   minWidth="-Infinity" prefHeight="39.0" prefWidth="229.0" GridPane.columnIndex="1"/>
+        <RadioButton fx:id="ObjectClassRadioButton" mnemonicParsing="false" text="Object class designator:*"
+                     toggleGroup="$object" GridPane.rowIndex="1"/>
+        <ChoiceBox fx:id="ObjectClassChoiceBox" prefHeight="39.0" prefWidth="238.0" GridPane.columnIndex="1"
+                   GridPane.rowIndex="1"/>
+    </GridPane>
+    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="263.0"
+          prefWidth="502.0">
+        <VBox.margin>
+            <Insets left="15.0" right="15.0" top="15.0"/>
+        </VBox.margin>
+        <TableView fx:id="AttributeTableView" editable="true" prefHeight="263.0" prefWidth="532.0">
+            <columns>
+                <TableColumn fx:id="AtttributeCheckColumn" prefWidth="60.0" resizable="false"/>
+                <TableColumn fx:id="AttributeNameColumn" editable="false" minWidth="440.0" prefWidth="440.0"
+                             text="Attribute Name"/>
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+        </TableView>
+    </HBox>
+    <HBox alignment="CENTER_LEFT" layoutX="25.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity"
+          minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="502.0">
+        <VBox.margin>
+            <Insets left="15.0" right="15.0" top="15.0"/>
+        </VBox.margin>
+        <Label prefHeight="27.0" prefWidth="173.0" text="User-supplied tag*:"/>
+        <TextField fx:id="UserSuppliedTag" prefHeight="39.0" prefWidth="349.0"/>
+    </HBox>
+    <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+          prefHeight="39.0" prefWidth="502.0">
+        <VBox.margin>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+        </VBox.margin>
+        <Button cancelButton="true" mnemonicParsing="false" onAction="#Cancel_click" text="Cancel">
             <HBox.margin>
-               <Insets right="15.0"/>
+                <Insets right="15.0"/>
             </HBox.margin>
-         </Button>
-         <Button fx:id="OkButton" defaultButton="true" mnemonicParsing="false" onAction="#Ok_click" text="OK"/>
-      </children>
-      <VBox.margin>
-         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
-      </VBox.margin>
-   </HBox>
+        </Button>
+        <Button fx:id="OkButton" defaultButton="true" mnemonicParsing="false" onAction="#Ok_click" text="OK"/>
+    </HBox>
 </VBox>
