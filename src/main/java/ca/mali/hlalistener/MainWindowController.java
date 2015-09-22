@@ -1328,6 +1328,30 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    //9.6
+    @FXML
+    private void AssociateRegionUpdates(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("9.6 Associate Regions For Updates service", "/fxml/chapter9/AssociateRegionsForUpdatesService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Associate Regions For Updates service dialog box", ex);
+        }
+    }
+
+    //9.7
+    @FXML
+    private void UnassociateRegionUpdates(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("9.7 Unassociate Regions For Updates service", "/fxml/chapter9/UnassociateRegionsForUpdatesService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Unassociate Regions For Updates service dialog box", ex);
+        }
+    }
+
     //9.10
     @FXML
     private void SubscribeInteractionRegion_click(ActionEvent event) {

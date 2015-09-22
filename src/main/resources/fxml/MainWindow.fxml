@@ -210,8 +210,10 @@
                 <MenuItem mnemonicParsing="false" onAction="#RegisterObjectInstanceRegion_click"
                           text="9.5 Register Object Instance With Region..."/>
                 <SeparatorMenuItem mnemonicParsing="false"/>
-                <MenuItem mnemonicParsing="false" text="9.6 Associate Regions For Update"/>
-                <MenuItem mnemonicParsing="false" text="9.7 Unassociate Regions for update"/>
+                <MenuItem mnemonicParsing="false" onAction="#AssociateRegionUpdates"
+                          text="9.6 Associate Regions For Update..."/>
+                <MenuItem mnemonicParsing="false" onAction="#UnassociateRegionUpdates"
+                          text="9.7 Unassociate Regions for update..."/>
                 <SeparatorMenuItem mnemonicParsing="false"/>
                 <MenuItem mnemonicParsing="false" text="9.8 Subscribe Object Class Attribute With Region"/>
                 <MenuItem mnemonicParsing="false" text="9.9 Unsubscribe Object Class Attribute With Region"/>
