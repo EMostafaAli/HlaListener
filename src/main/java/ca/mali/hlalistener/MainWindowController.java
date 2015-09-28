@@ -1352,6 +1352,30 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    //9.8
+    @FXML
+    private void SubscribeRegion(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("9.8 Subscribe Object Class Attributes With Regions service", "/fxml/chapter9/SubscribeObjectClassAttributesWithRegionsService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Subscribe Object Class Attributes With Regions service dialog box", ex);
+        }
+    }
+
+    //9.9
+    @FXML
+    private void UnsubscribeRegion(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("9.9 Unsubscribe Object Class Attributes With Regions service", "/fxml/chapter9/UnsubscribeObjectClassAttributesWithRegionsService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Unsubscribe Object Class Attributes With Regions service dialog box", ex);
+        }
+    }
+
     //9.10
     @FXML
     private void SubscribeInteractionRegion_click(ActionEvent event) {
@@ -1373,6 +1397,18 @@ public class MainWindowController implements Initializable {
             logger.exit();
         } catch (Exception ex) {
             logger.log(Level.FATAL, "Error Displaying Unsubscribe Interaction Class With Regions service dialog box", ex);
+        }
+    }
+
+    //9.13
+    @FXML
+    private void RequestUpdateRegion_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("9.13 Request Attribute Value Update With Regions service", "/fxml/chapter9/RequestAttributeValueUpdateWithRegionsService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Request Attribute Value Update With Regions service dialog box", ex);
         }
     }
 

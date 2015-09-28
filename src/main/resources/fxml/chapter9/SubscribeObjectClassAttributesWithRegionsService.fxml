@@ -27,31 +27,28 @@
   ~   DAMAGE.
   -->
 
-<?import ca.mali.customcontrol.AttributeListController?>
+<?import ca.mali.customcontrol.AttributeRegionCollectionController?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="ca.mali.dialogs.chapter5.SubscribeObjectClassAttributesServiceController">
-    <AttributeListController fx:id="attributeListController"/>
-    <VBox prefHeight="0.0" prefWidth="600.0" spacing="15.0">
-        <padding>
-            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
-        </padding>
-        <CheckBox fx:id="PassiveSubscription" mnemonicParsing="false" text="Passive subscription"/>
-        <HBox alignment="CENTER_LEFT" prefHeight="28.0" prefWidth="600.0" spacing="7.0">
-            <Label text="Update rate designator:"/>
-            <ComboBox fx:id="UpdateRateDesignator" editable="true" prefHeight="25.0" prefWidth="187.0"/>
-        </HBox>
-    </VBox>
-    <HBox alignment="CENTER_RIGHT" prefHeight="23.0" prefWidth="600.0" spacing="15.0">
-        <padding>
-            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
-        </padding>
-        <children>
-            <Button cancelButton="true" mnemonicParsing="false" onAction="#Cancel_click" text="Cancel"/>
-            <Button fx:id="OkButton" defaultButton="true" mnemonicParsing="false" onAction="#OK_click" text="OK"/>
-        </children>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0"
+      prefWidth="630.0" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ca.mali.dialogs.chapter9.SubscribeObjectClassAttributesWithRegionsServiceController">
+    <padding>
+        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+    </padding>
+    <AttributeRegionCollectionController fx:id="regionListController"/>
+    <CheckBox fx:id="PassiveSubscription" mnemonicParsing="false" text="Passive subscription"/>
+    <HBox alignment="CENTER_LEFT" prefHeight="28.0" prefWidth="600.0" spacing="7.0">
+        <Label text="Update rate designator:"/>
+        <ComboBox fx:id="UpdateRateDesignator" editable="true" prefHeight="25.0" prefWidth="187.0"/>
     </HBox>
+    <ButtonBar prefHeight="40.0" prefWidth="200.0">
+        <buttons>
+            <Button cancelButton="true" mnemonicParsing="false" text="Cancel" onAction="#Cancel_click"/>
+            <Button fx:id="OkButton" defaultButton="true" mnemonicParsing="false" text="OK" onAction="#Ok_click"
+                    disable="true"/>
+        </buttons>
+    </ButtonBar>
 </VBox>

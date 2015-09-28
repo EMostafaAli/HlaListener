@@ -215,8 +215,10 @@
                 <MenuItem mnemonicParsing="false" onAction="#UnassociateRegionUpdates"
                           text="9.7 Unassociate Regions for update..."/>
                 <SeparatorMenuItem mnemonicParsing="false"/>
-                <MenuItem mnemonicParsing="false" text="9.8 Subscribe Object Class Attribute With Region"/>
-                <MenuItem mnemonicParsing="false" text="9.9 Unsubscribe Object Class Attribute With Region"/>
+                <MenuItem mnemonicParsing="false" onAction="#SubscribeRegion"
+                          text="9.8 Subscribe Object Class Attribute With Region..."/>
+                <MenuItem mnemonicParsing="false" onAction="#UnsubscribeRegion"
+                          text="9.9 Unsubscribe Object Class Attribute With Region..."/>
                 <SeparatorMenuItem mnemonicParsing="false"/>
                 <MenuItem mnemonicParsing="false" onAction="#SubscribeInteractionRegion_click"
                           text="9.10 Subscribe Interaction Class With Region..."/>
@@ -225,7 +227,8 @@
                 <SeparatorMenuItem mnemonicParsing="false"/>
                 <MenuItem mnemonicParsing="false" text="9.12 Send Interaction With Region"/>
                 <SeparatorMenuItem mnemonicParsing="false"/>
-                <MenuItem mnemonicParsing="false" text="9.13 Request Attribute Value Update With Region"/>
+                <MenuItem mnemonicParsing="false" onAction="#RequestUpdateRegion_click"
+                          text="9.13 Request Attribute Value Update With Region..."/>
             </Menu>
             <Menu mnemonicParsing="false" text="10 Support">
                 <MenuItem mnemonicParsing="false" onAction="#GetAutomaticResignDirective_click"
@@ -374,12 +377,12 @@
                                     <HBox spacing="7.0">
                                         <Label fx:id="sectionLbl">
                                             <font>
-                                                <Font size="30.0"/>
+                                                <Font size="22.0"/>
                                             </font>
                                         </Label>
                                         <Label fx:id="titleLbl">
                                             <font>
-                                                <Font size="30.0"/>
+                                                <Font size="22.0"/>
                                             </font>
                                         </Label>
                                     </HBox>
