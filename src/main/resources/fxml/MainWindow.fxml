@@ -304,9 +304,12 @@
                 <Menu mnemonicParsing="false" text="Region">
                     <MenuItem mnemonicParsing="false" onAction="#GetRangeBound_click" text="10.29 Get Range Bounds..."/>
                     <MenuItem mnemonicParsing="false" onAction="#SetRangeBound_click" text="10.30 Set Range Bounds..."/>
-                    <SeparatorMenuItem mnemonicParsing="false"/>
-                    <MenuItem mnemonicParsing="false" text="10.31 Normalize Federate Handle"/>
-                    <MenuItem mnemonicParsing="false" text="10.32 Normalize Service Group"/>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Normalization">
+                    <MenuItem mnemonicParsing="false" onAction="#NormalizeFederateHandle_click"
+                              text="10.31 Normalize Federate Handle..."/>
+                    <MenuItem mnemonicParsing="false" onAction="#NormalizeServiceGroup_click"
+                              text="10.32 Normalize Service Group..."/>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Switches">
                     <MenuItem mnemonicParsing="false" onAction="#EnableObjectClassRelevanceAdvisorySwitch_click"

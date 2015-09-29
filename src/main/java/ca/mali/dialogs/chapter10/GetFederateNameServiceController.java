@@ -95,8 +95,8 @@ public class GetFederateNameServiceController implements Initializable {
             log.getReturnedArguments().add(new ClassValuePair("Federate Name", String.class, federateName));
             log.setDescription("Federate name retrieved successfully");
             log.setLogType(LogEntryType.REQUEST);
-        } catch (FederateNotExecutionMember | NotConnected | CouldNotDecode |
-                RTIinternalError | InvalidFederateHandle | FederateHandleNotKnown ex) {
+        } catch (FederateNotExecutionMember | NotConnected | RTIinternalError | InvalidFederateHandle |
+                FederateHandleNotKnown ex) {
             log.setException(ex);
             log.setLogType(LogEntryType.ERROR);
             logger.log(Level.ERROR, ex.getMessage(), ex);

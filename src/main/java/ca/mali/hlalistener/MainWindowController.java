@@ -1758,6 +1758,30 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Set Range Bounds service dialog box", ex);
         }
     }
+
+    //10.31
+    @FXML
+    private void NormalizeFederateHandle_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.31 Normalize Federate Handle service", "/fxml/chapter10/NormalizeFederateHandleService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Normalize Federate Handle service dialog box", ex);
+        }
+    }
+
+    //10.32
+    @FXML
+    private void NormalizeServiceGroup_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.32 Normalize Service Group service", "/fxml/chapter10/NormalizeServiceGroupService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Normalize Service Group service dialog box", ex);
+        }
+    }
     
     //10.33
     @FXML

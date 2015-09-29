@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ca.mali.dialogs.chapter10.NormalizeFederateHandleServiceController">
+    <HBox alignment="CENTER_LEFT">
+        <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+        </VBox.margin>
+        <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+        </padding>
+        <Label text="Federate Handle: "/>
+        <TextField fx:id="FederateHandleTextField" prefHeight="39.0" prefWidth="263.0"/>
+    </HBox>
+    <ButtonBar>
+        <buttons>
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#Cancel_click" text="Cancel"/>
+            <Button fx:id="OkButton" defaultButton="true" mnemonicParsing="false" onAction="#Ok_click" text="OK"/>
+        </buttons>
+        <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+        </VBox.margin>
+        <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+        </padding>
+    </ButtonBar>
+</VBox>
