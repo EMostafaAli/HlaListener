@@ -26,10 +26,7 @@
  */
 package ca.mali.fomparser;
 
-import ca.mali.fdd.InteractionClass;
-import ca.mali.fdd.ObjectClass;
-import ca.mali.fdd.ObjectModelType;
-import ca.mali.fdd.ReliableEnumerations;
+import ca.mali.fdd.*;
 import ca.mali.hlalistener.PublicVariables;
 import hla.rti1516e.DimensionHandle;
 import hla.rti1516e.TransportationTypeHandle;
@@ -43,6 +40,7 @@ import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.TreeMap;
+import java.lang.String;
 
 /**
  *
@@ -63,6 +61,8 @@ public class FddObjectModel {
     private Map<String, UpdateRateFDD> updateRates = new TreeMap<>();
     private Map<String, TransportationFDD> Transportation = new TreeMap<>();
     private Map<String, DimensionFDD> Dimensions = new TreeMap<>();
+    private Map<String, BasicDataType> basicDataTypeMap = new TreeMap<>();
+    private Map<String, SimpleFDDDataType> simpleDataTypeMap = new TreeMap<>();
 
     public FddObjectModel(String fddText) {
         logger.entry();
@@ -72,6 +72,8 @@ public class FddObjectModel {
             unmarshaller = jaxbContext.createUnmarshaller();
             javax.xml.bind.JAXBElement unmarshal = (javax.xml.bind.JAXBElement) unmarshaller.unmarshal(new ByteArrayInputStream(fdd.getBytes(StandardCharsets.UTF_8)));
             fddModel = (ca.mali.fdd.ObjectModelType) unmarshal.getValue();
+            readBasicDataType();
+            readSimpleDataType();
             readUpdateRate();
             readTransportationType();
             readDimension();
@@ -183,6 +185,36 @@ public class FddObjectModel {
                 DimensionHandle dimensionHandle = PublicVariables.rtiAmb.getDimensionHandle(dim.getName().getValue());
                 DimensionFDD dimensionFDD = new DimensionFDD(dim.getName().getValue(), dimensionHandle);
                 Dimensions.put(dimensionFDD.getName(), dimensionFDD);
+            } catch (Exception ex) {
+                logger.log(Level.FATAL, ex.getMessage(), ex);
+            }
+        });
+    }
+
+    private void readBasicDataType(){
+        fddModel.getDataTypes().getBasicDataRepresentations().getBasicData().forEach(basicData -> {
+            try {
+                BasicDataType basicDataType = new BasicDataType(basicData.getName().getValue());
+                basicDataType.setInterpretation(basicData.getInterpretation().getValue());
+                basicDataType.setSize(basicData.getSize().getValue().intValue());
+                basicDataType.setEncoding(basicData.getEncoding().getValue());
+                basicDataType.setLittleEndian(basicData.getEndian().getValue() == EndianEnumerations.LITTLE ? true:false);
+                basicDataTypeMap.put(basicDataType.getName(), basicDataType);
+            } catch (Exception ex){
+                logger.log(Level.FATAL, ex.getMessage(), ex);
+            }
+        });
+    }
+
+    private void readSimpleDataType(){
+        fddModel.getDataTypes().getSimpleDataTypes().getSimpleData().forEach(simpleData -> {
+            try {
+                SimpleFDDDataType simpleDataType = new SimpleFDDDataType(simpleData.getName().getValue());
+                simpleDataType.setRepresentation(simpleData.getRepresentation().getValue());
+                simpleDataType.setUnits(simpleData.getUnits().getValue());
+                simpleDataType.setResolution(simpleData.getResolution().getValue());
+                simpleDataType.setAccuracy(simpleData.getAccuracy().getValue());
+                simpleDataTypeMap.put(simpleDataType.getName(), simpleDataType);
             } catch (Exception ex) {
                 logger.log(Level.FATAL, ex.getMessage(), ex);
             }

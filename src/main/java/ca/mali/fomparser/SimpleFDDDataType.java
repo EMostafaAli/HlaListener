@@ -33,6 +33,10 @@ package ca.mali.fomparser;
 public class SimpleFDDDataType extends AbstractDataType{
 
     private String representation;
+    private String units;
+    private String resolution;
+    private String accuracy;
+
     public SimpleFDDDataType(String name) {
         super(name, DataTypeEnum.SIMPLE);
     }
@@ -43,5 +47,29 @@ public class SimpleFDDDataType extends AbstractDataType{
 
     public void setRepresentation(String representation) {
         this.representation = representation;
+    }
+
+    public String getUnits() {
+        return units;
+    }
+
+    public void setUnits(String units) {
+        this.units = units;
+    }
+
+    public String getResolution() {
+        return resolution;
+    }
+
+    public void setResolution(String resolution) {
+        this.resolution = resolution;
+    }
+
+    public String getAccuracy() {
+        return accuracy;
+    }
+
+    public void setAccuracy(String accuracy) {
+        this.accuracy = accuracy;
     }
 }
