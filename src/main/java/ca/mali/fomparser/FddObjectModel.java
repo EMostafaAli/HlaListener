@@ -37,13 +37,13 @@ import org.apache.logging.log4j.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import java.io.ByteArrayInputStream;
+import java.lang.String;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.TreeMap;
-import java.lang.String;
+import java.util.stream.Collectors;
 
 /**
- *
  * @author Mostafa
  */
 public class FddObjectModel {
@@ -63,6 +63,7 @@ public class FddObjectModel {
     private Map<String, DimensionFDD> Dimensions = new TreeMap<>();
     private Map<String, BasicDataType> basicDataTypeMap = new TreeMap<>();
     private Map<String, SimpleFDDDataType> simpleDataTypeMap = new TreeMap<>();
+    private Map<String, EnumeratedFDDDataType> enumeratedDataTypeMap = new TreeMap<>();
 
     public FddObjectModel(String fddText) {
         logger.entry();
@@ -70,10 +71,11 @@ public class FddObjectModel {
             this.fdd = fddText;
             jaxbContext = JAXBContext.newInstance(ca.mali.fdd.ObjectFactory.class);
             unmarshaller = jaxbContext.createUnmarshaller();
-            javax.xml.bind.JAXBElement unmarshal = (javax.xml.bind.JAXBElement) unmarshaller.unmarshal(new ByteArrayInputStream(fdd.getBytes(StandardCharsets.UTF_8)));
-            fddModel = (ca.mali.fdd.ObjectModelType) unmarshal.getValue();
+            javax.xml.bind.JAXBElement unmarshaller = (javax.xml.bind.JAXBElement) this.unmarshaller.unmarshal(new ByteArrayInputStream(fdd.getBytes(StandardCharsets.UTF_8)));
+            fddModel = (ca.mali.fdd.ObjectModelType) unmarshaller.getValue();
             readBasicDataType();
             readSimpleDataType();
+            readEnumeratedDataType();
             readUpdateRate();
             readTransportationType();
             readDimension();
@@ -95,6 +97,18 @@ public class FddObjectModel {
 
     public Map<String, InteractionClassFDD> getInteractionClasses() {
         return interactionClasses;
+    }
+
+    public Map<String, BasicDataType> getBasicDataTypeMap() {
+        return basicDataTypeMap;
+    }
+
+    public Map<String, SimpleFDDDataType> getSimpleDataTypeMap() {
+        return simpleDataTypeMap;
+    }
+
+    public Map<String, EnumeratedFDDDataType> getEnumeratedDataTypeMap() {
+        return enumeratedDataTypeMap;
     }
 
     public Map<String, UpdateRateFDD> getUpdateRates() {
@@ -119,14 +133,14 @@ public class FddObjectModel {
             objectClassFDD.setHandle(PublicVariables.rtiAmb.getObjectClassHandle(objectClassFDD.getFullName()));
             rootClass.getAttribute().stream().map((attribute) -> new AttributeFDD(
                     attribute.getName().getValue(), attribute.getDataType().getValue())).forEach((attributeFDD) -> {
-                        try {
-                            attributeFDD.setHandle(PublicVariables.rtiAmb.getAttributeHandle(
-                                    objectClassFDD.getHandle(), attributeFDD.getName()));
-                        } catch (Exception ex) {
-                            logger.log(Level.FATAL, ex.getMessage(), ex);
-                        }
-                        objectClassFDD.getAttributes().add(attributeFDD);
-                    });
+                try {
+                    attributeFDD.setHandle(PublicVariables.rtiAmb.getAttributeHandle(
+                            objectClassFDD.getHandle(), attributeFDD.getName()));
+                } catch (Exception ex) {
+                    logger.log(Level.FATAL, ex.getMessage(), ex);
+                }
+                objectClassFDD.getAttributes().add(attributeFDD);
+            });
             objectClasses.put(objectClassFDD.getFullName(), objectClassFDD);
 
             rootClass.getObjectClass().stream().forEach((_item) -> readObjectClasses(_item, objectClassFDD));
@@ -179,7 +193,7 @@ public class FddObjectModel {
         });
     }
 
-    private void readDimension(){
+    private void readDimension() {
         fddModel.getDimensions().getDimension().forEach(dim -> {
             try {
                 DimensionHandle dimensionHandle = PublicVariables.rtiAmb.getDimensionHandle(dim.getName().getValue());
@@ -191,22 +205,22 @@ public class FddObjectModel {
         });
     }
 
-    private void readBasicDataType(){
+    private void readBasicDataType() {
         fddModel.getDataTypes().getBasicDataRepresentations().getBasicData().forEach(basicData -> {
             try {
                 BasicDataType basicDataType = new BasicDataType(basicData.getName().getValue());
                 basicDataType.setInterpretation(basicData.getInterpretation().getValue());
                 basicDataType.setSize(basicData.getSize().getValue().intValue());
                 basicDataType.setEncoding(basicData.getEncoding().getValue());
-                basicDataType.setLittleEndian(basicData.getEndian().getValue() == EndianEnumerations.LITTLE ? true:false);
-                basicDataTypeMap.put(basicDataType.getName(), basicDataType);
-            } catch (Exception ex){
+                basicDataType.setLittleEndian(basicData.getEndian().getValue() == EndianEnumerations.LITTLE ? true : false);
+                getBasicDataTypeMap().put(basicDataType.getName(), basicDataType);
+            } catch (Exception ex) {
                 logger.log(Level.FATAL, ex.getMessage(), ex);
             }
         });
     }
 
-    private void readSimpleDataType(){
+    private void readSimpleDataType() {
         fddModel.getDataTypes().getSimpleDataTypes().getSimpleData().forEach(simpleData -> {
             try {
                 SimpleFDDDataType simpleDataType = new SimpleFDDDataType(simpleData.getName().getValue());
@@ -214,7 +228,26 @@ public class FddObjectModel {
                 simpleDataType.setUnits(simpleData.getUnits().getValue());
                 simpleDataType.setResolution(simpleData.getResolution().getValue());
                 simpleDataType.setAccuracy(simpleData.getAccuracy().getValue());
-                simpleDataTypeMap.put(simpleDataType.getName(), simpleDataType);
+                getSimpleDataTypeMap().put(simpleDataType.getName(), simpleDataType);
+            } catch (Exception ex) {
+                logger.log(Level.FATAL, ex.getMessage(), ex);
+            }
+        });
+    }
+
+    private void readEnumeratedDataType() {
+        fddModel.getDataTypes().getEnumeratedDataTypes().getEnumeratedData().forEach(enumeratedData -> {
+            try {
+                EnumeratedFDDDataType enumerated = new EnumeratedFDDDataType(enumeratedData.getName().getValue());
+                enumerated.setRepresentation(enumeratedData.getRepresentation().getValue());
+                enumeratedData.getEnumerator().forEach(enumerator -> {
+                    EnumeratedFDDDataType.Enumerator en = new EnumeratedFDDDataType.Enumerator();
+                    en.setName(enumerator.getName().getValue());
+                    en.getValues().addAll(enumerator.getValue().stream()
+                            .map(ca.mali.fdd.String::getValue).collect(Collectors.toList()));
+                    enumerated.getEnumerator().add(en);
+                });
+                getEnumeratedDataTypeMap().put(enumerated.getName(), enumerated);
             } catch (Exception ex) {
                 logger.log(Level.FATAL, ex.getMessage(), ex);
             }

@@ -712,7 +712,19 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Register Object Instance service dialog box", ex);
         }
     }
-    
+
+    //6.12
+    @FXML
+    private void SendInteraction_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("6.12 Send Interaction service", "/fxml/chapter6/SendInteractionService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Send Interaction service dialog box", ex);
+        }
+    }
+
     //6.14
     @FXML
     private void DeleteObject_click(ActionEvent event) {

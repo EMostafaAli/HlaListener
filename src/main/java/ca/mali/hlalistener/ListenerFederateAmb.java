@@ -26,9 +26,7 @@
  */
 package ca.mali.hlalistener;
 
-import ca.mali.fomparser.FddObjectModel;
-import ca.mali.fomparser.ObjectClassFDD;
-import ca.mali.fomparser.ObjectInstanceFDD;
+import ca.mali.fomparser.*;
 import hla.rti1516e.*;
 import hla.rti1516e.encoding.HLAunicodeString;
 import hla.rti1516e.exceptions.FederateInternalError;
@@ -487,6 +485,74 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         }
         logEntries.add(log);
         logger.exit();
+    }
+
+    //6.13
+    @Override
+    public void receiveInteraction(InteractionClassHandle interactionClass, ParameterHandleValueMap theParameters, byte[] userSuppliedTag, OrderType sentOrdering, TransportationTypeHandle theTransport, SupplementalReceiveInfo receiveInfo) throws FederateInternalError {
+        logger.entry();
+        logger.log(Level.INFO, "Interaction class: {}, User Supplied Tag: {}, Send Order: {}, Transportation: {}," +
+                        " Producing Federate ({}) <{}>, Sent region ({}) <{}>",
+                interactionClass, userSuppliedTag, sentOrdering, theTransport, receiveInfo.hasProducingFederate(),
+                receiveInfo.getProducingFederate(), receiveInfo.hasSentRegions(), receiveInfo.getSentRegions());
+        LogEntry log = new LogEntry("6.13", "Receive Interaction † service");
+        Optional<InteractionClassFDD> interactionClassFDD = fddObjectModel.getInteractionClasses().values().stream().filter(a -> a.getHandle().equals(interactionClass)).findFirst();
+        if (!interactionClassFDD.isPresent()){
+            logger.log(Level.ERROR,"The received interaction cannot be found in the FddObjectModel");
+            return;
+        }
+        log.getSuppliedArguments().add(new ClassValuePair("Interaction Class Name <Handle>", InteractionClassHandle.class,
+                String.format("%1$s <%2$s>", interactionClassFDD.get().getName(), interactionClass.toString())));
+        interactionClassFDD.get().getParameters().forEach(parameterFDD -> {
+            if (theParameters.containsKey(parameterFDD.getHandle())){
+                logger.log(Level.INFO, "Parameter handle: {}, value: {}", parameterFDD.getHandle(), Arrays.toString(theParameters.get(parameterFDD.getHandle())));
+                log.getSuppliedArguments().add(new ClassValuePair("Parameter <Handle>", ParameterHandle.class,
+                        String.format("%1$s <%2$s>",parameterFDD.getName(), parameterFDD.getHandle().toString())));
+                log.getSuppliedArguments().add(new ClassValuePair("Parameter Value (encoded)", byte[].class,
+                        Arrays.toString(theParameters.get(parameterFDD.getHandle()))));
+                if (fddObjectModel.getSimpleDataTypeMap().keySet().contains(parameterFDD.getDataType())){
+                    SimpleFDDDataType simpleFDDDataType = fddObjectModel.getSimpleDataTypeMap().get(parameterFDD.getDataType());
+                    String value = fddObjectModel.getBasicDataTypeMap().get(simpleFDDDataType.getRepresentation()).DecodeValue(theParameters.get(parameterFDD.getHandle()));
+                    log.getSuppliedArguments().add(new ClassValuePair("Parameter Value", Object.class, value));
+                } else if (fddObjectModel.getEnumeratedDataTypeMap().keySet().contains(parameterFDD.getDataType())){ //Enumerated data type
+                    EnumeratedFDDDataType enumerated = fddObjectModel.getEnumeratedDataTypeMap().get(parameterFDD.getDataType());
+                    String value = fddObjectModel.getBasicDataTypeMap().get(enumerated.getRepresentation()).DecodeValue(theParameters.get(parameterFDD.getHandle()));
+                    Optional<EnumeratedFDDDataType.Enumerator> first = enumerated.getEnumerator().stream().filter(e -> e.getValues().contains(value)).findFirst();
+                    if (first.isPresent()){
+                        log.getSuppliedArguments().add(new ClassValuePair("Parameter Value", Object.class,
+                                String.format("%1$s <%2$s>", first.get().getName(), value)));
+                    }
+                }
+            }
+        });
+        if (userSuppliedTag.length > 0) {
+            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte.class, Arrays.toString(userSuppliedTag)));
+            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", String.class, new String(userSuppliedTag)));
+        }
+        log.getSuppliedArguments().add(new ClassValuePair("Send Order", OrderType.class, sentOrdering.toString()));
+        log.getSuppliedArguments().add(new ClassValuePair("Transportation type", TransportationTypeHandle.class, theTransport.toString()));
+        if (receiveInfo.hasProducingFederate()) {
+            log.getSuppliedArguments().add(new ClassValuePair("Producing Federate", SupplementalReceiveInfo.class, String.valueOf(receiveInfo.getProducingFederate())));
+        }
+        if (receiveInfo.hasSentRegions()) {
+            log.getSuppliedArguments().add(new ClassValuePair("Sent Region", SupplementalReceiveInfo.class, String.valueOf(receiveInfo.getSentRegions())));
+        }
+        log.setDescription("Receive Interaction");
+        log.setLogType(LogEntryType.CALLBACK);
+        logEntries.add(log);
+        logger.exit();
+    }
+
+    //6.13
+    @Override
+    public void receiveInteraction(InteractionClassHandle interactionClass, ParameterHandleValueMap theParameters, byte[] userSuppliedTag, OrderType sentOrdering, TransportationTypeHandle theTransport, LogicalTime theTime, OrderType receivedOrdering, SupplementalReceiveInfo receiveInfo) throws FederateInternalError {
+
+    }
+
+    //6.13
+    @Override
+    public void receiveInteraction(InteractionClassHandle interactionClass, ParameterHandleValueMap theParameters, byte[] userSuppliedTag, OrderType sentOrdering, TransportationTypeHandle theTransport, LogicalTime theTime, OrderType receivedOrdering, MessageRetractionHandle retractionHandle, SupplementalReceiveInfo receiveInfo) throws FederateInternalError {
+
     }
 
     //6.15

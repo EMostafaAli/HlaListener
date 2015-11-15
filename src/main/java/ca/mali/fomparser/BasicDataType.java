@@ -27,6 +27,12 @@
 
 package ca.mali.fomparser;
 
+import hla.rti1516e.encoding.DecoderException;
+import hla.rti1516e.encoding.HLAinteger16BE;
+import hla.rti1516e.encoding.HLAinteger32BE;
+
+import static ca.mali.hlalistener.PublicVariables.encoderFactory;
+
 /**
  * Created by Mostafa Ali on 10/22/2015.
  */
@@ -76,5 +82,47 @@ public class BasicDataType {
 
     public void setEncoding(String encoding) {
         this.encoding = encoding;
+    }
+
+    public byte[] EncodeValue(String value) {
+        byte[] encodedValue = null;
+        switch (name) {
+            case "HLAinteger16BE": {
+                HLAinteger16BE encoder = encoderFactory.createHLAinteger16BE();
+                encoder.setValue(Short.parseShort(value));
+                encodedValue = encoder.toByteArray();
+                break;
+            }
+            case "HLAinteger32BE": {
+                HLAinteger32BE encoder = encoderFactory.createHLAinteger32BE();
+                encoder.setValue(Short.parseShort(value));
+                encodedValue = encoder.toByteArray();
+                break;
+            }
+        }
+        return encodedValue;
+    }
+
+    public String DecodeValue(byte[] encodedValue) {
+        String value = "";
+        try {
+            switch (name) {
+                case "HLAinteger16BE": {
+                    HLAinteger16BE encoder = encoderFactory.createHLAinteger16BE();
+                    encoder.decode(encodedValue);
+                    value = String.valueOf(encoder.getValue());
+                }
+                break;
+                case "HLAinteger32BE": {
+                    HLAinteger32BE encoder = encoderFactory.createHLAinteger32BE();
+                    encoder.decode(encodedValue);
+                    value = String.valueOf(encoder.getValue());
+                    break;
+                }
+            }
+        } catch (DecoderException e) {
+            e.printStackTrace(); //// TODO: 11/14/2015 Add to logger
+        }
+        return value;
     }
 }

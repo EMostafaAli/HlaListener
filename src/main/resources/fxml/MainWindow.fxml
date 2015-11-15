@@ -120,7 +120,7 @@
                           text="6.16 Local Delete Object Instance..."/>
                 <SeparatorMenuItem mnemonicParsing="false"/>
                 <MenuItem mnemonicParsing="false" text="6.10 Update Attribute Value"/>
-                <MenuItem mnemonicParsing="false" text="6.12 Send Interaction"/>
+                <MenuItem mnemonicParsing="false" onAction="#SendInteraction_click" text="6.12 Send Interaction..."/>
                 <MenuItem mnemonicParsing="false" onAction="#RequestUpdateValue_click"
                           text="6.19 Request Attribute Value..."/>
                 <SeparatorMenuItem mnemonicParsing="false"/>

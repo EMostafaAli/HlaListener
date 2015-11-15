@@ -86,7 +86,7 @@ public class RequestAttributeValueUpdateServiceController implements Initializab
     @FXML
     private TableView<AttributeState> AttributeTableView;
     @FXML
-    private TableColumn AtttributeCheckColumn;
+    private TableColumn AttributeCheckColumn;
     @FXML
     private TableColumn AttributeNameColumn;
     @FXML
@@ -181,19 +181,19 @@ public class RequestAttributeValueUpdateServiceController implements Initializab
             });
 
             AttributeNameColumn.setCellValueFactory(new PropertyValueFactory<AttributeState, String>("attributeName"));
-            AtttributeCheckColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<AttributeState, Boolean>, ObservableValue<Boolean>>() {
+            AttributeCheckColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<AttributeState, Boolean>, ObservableValue<Boolean>>() {
                 @Override
                 public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<AttributeState, Boolean> param) {
                     return param.getValue().onProperty();
                 }
             });
-            AtttributeCheckColumn.setCellFactory(CheckBoxTableCell.forTableColumn(AtttributeCheckColumn));
-            cb.setUserData(AtttributeCheckColumn);
+            AttributeCheckColumn.setCellFactory(CheckBoxTableCell.forTableColumn(AttributeCheckColumn));
+            cb.setUserData(AttributeCheckColumn);
             cb.setOnAction(event -> {
                 CheckBox cb1 = (CheckBox) event.getSource();
                 AttributeTableView.getItems().stream().forEach((item) -> item.setOn(cb1.isSelected()));
             });
-            AtttributeCheckColumn.setGraphic(cb);
+            AttributeCheckColumn.setGraphic(cb);
         }
         logger.exit();
     }
