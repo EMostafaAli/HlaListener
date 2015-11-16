@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, Mostafa Ali
+ * Copyright (c) 2015, Mostafa
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -27,14 +27,14 @@
 package ca.mali.dialogs.chapter6;
 
 import ca.mali.fomparser.AttribParamValuePair;
-import ca.mali.fomparser.InteractionClassFDD;
+import ca.mali.fomparser.ObjectInstanceFDD;
 import ca.mali.fomparser.ValueCell;
 import ca.mali.hlalistener.ClassValuePair;
 import ca.mali.hlalistener.LogEntry;
 import ca.mali.hlalistener.LogEntryType;
-import hla.rti1516e.InteractionClassHandle;
-import hla.rti1516e.ParameterHandle;
-import hla.rti1516e.ParameterHandleValueMap;
+import hla.rti1516e.AttributeHandle;
+import hla.rti1516e.AttributeHandleValueMap;
+import hla.rti1516e.ObjectInstanceHandle;
 import hla.rti1516e.exceptions.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -62,19 +62,19 @@ import static ca.mali.hlalistener.PublicVariables.*;
  *
  * @author Mostafa
  */
-public class SendInteractionServiceController implements Initializable {
+public class UpdateAttributeValuesServiceController implements Initializable {
 
     //Logger
     private static final Logger logger = LogManager.getLogger();
 
     @FXML
-    private ComboBox<InteractionClassFDD> InteractionClassName;
+    private ComboBox<ObjectInstanceFDD> InstanceName;
 
     @FXML
-    private TableView<AttribParamValuePair> ParameterValueTableView;
+    private TableView<AttribParamValuePair> AttributeValueTableView;
 
     @FXML
-    private TableColumn<AttribParamValuePair, String> ParameterTableColumn;
+    private TableColumn<AttribParamValuePair, String> AttributeTableColumn;
 
     @FXML
     private TableColumn<AttribParamValuePair, Object> ValueTableColumn;
@@ -97,21 +97,20 @@ public class SendInteractionServiceController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         logger.entry();
         if (fddObjectModel != null) {
-            ParameterValueTableView.setItems(valuePairs);
-            ParameterValueTableView.setEditable(true);
-            ParameterTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+            AttributeValueTableView.setItems(valuePairs);
+            AttributeValueTableView.setEditable(true);
+            AttributeTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
             ValueTableColumn.setCellValueFactory(new PropertyValueFactory<>("dataType"));
             ValueTableColumn.setCellFactory(param -> new ValueCell());
             ValueTableColumn.setEditable(true);
-            InteractionClassName.getItems().addAll(fddObjectModel.getInteractionClasses().values());
-            InteractionClassName.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            InstanceName.getItems().addAll(objectInstances.values());
+            InstanceName.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 valuePairs.clear();
-                newValue.getParameters().forEach(parameterFDD -> {
-                    valuePairs.add(new AttribParamValuePair(parameterFDD.getName(), parameterFDD.getDataType(), parameterFDD.getHandle()));
-                });
+                newValue.getObjectClass().getAttributes().forEach(attributeFDD ->
+                        valuePairs.add(new AttribParamValuePair(attributeFDD.getName(), attributeFDD.getDataType(), attributeFDD.getHandle())));
             });
-            if (InteractionClassName.getItems().size() > 0) {
-                InteractionClassName.setValue(InteractionClassName.getItems().get(0));
+            if (InstanceName.getItems().size() > 0) {
+                InstanceName.setValue(InstanceName.getItems().get(0));
             }
             OkButton.disableProperty().bind(UserSuppliedTag.textProperty().isEmpty());
         }
@@ -121,34 +120,34 @@ public class SendInteractionServiceController implements Initializable {
     @FXML
     private void Cancel_click(ActionEvent event) {
         logger.entry();
-        ((Stage) InteractionClassName.getScene().getWindow()).close();
+        ((Stage) InstanceName.getScene().getWindow()).close();
         logger.exit();
     }
 
     @FXML
     private void OK_click(ActionEvent event) {
         logger.entry();
-        LogEntry log = new LogEntry("6.12", "Send Interaction service");
+        LogEntry log = new LogEntry("6.10", "Update Attribute Values service");
         try {
-            log.getSuppliedArguments().add(new ClassValuePair("Interaction<Handle>",
-                    InteractionClassHandle.class, InteractionClassName.getValue().toString()
-                    + '<' + InteractionClassName.getValue().getHandle().toString() + '>'));
+            log.getSuppliedArguments().add(new ClassValuePair("Object Instance<Handle>",
+                    ObjectInstanceHandle.class, InstanceName.getValue().toString()
+                    + '<' + InstanceName.getValue().getHandle().toString() + '>'));
             List<AttribParamValuePair> valuePairList = valuePairs.stream().filter(parameterValuePair -> parameterValuePair.EncodeValue() != null).collect(Collectors.toList());
-            ParameterHandleValueMap parameterHandleValueMap = rtiAmb.getParameterHandleValueMapFactory().create(valuePairList.size());
+            AttributeHandleValueMap attributes = rtiAmb.getAttributeHandleValueMapFactory().create(valuePairList.size());
             valuePairList.forEach(parameterValuePair -> {
-                parameterHandleValueMap.put(parameterValuePair.getParameterHandle(), parameterValuePair.EncodeValue());
-                log.getSuppliedArguments().add(new ClassValuePair("Parameter <Handle>", ParameterHandle.class,
-                        parameterValuePair.getName() +"<" + parameterValuePair.getParameterHandle()+">"));
+                attributes.put(parameterValuePair.getAttributeHandle(), parameterValuePair.EncodeValue());
+                log.getSuppliedArguments().add(new ClassValuePair("Attribute <Handle>", AttributeHandle.class,
+                        parameterValuePair.getName() +"<" + parameterValuePair.getAttributeHandle()+">"));
                 log.getSuppliedArguments().add(new ClassValuePair("Value <Encoded>", Object.class,
                         parameterValuePair.getValue().toString() + "<" + Arrays.toString(parameterValuePair.EncodeValue()) +">"));
             });
             log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte[].class, UserSuppliedTag.getText()));
-            rtiAmb.sendInteraction(InteractionClassName.getValue().getHandle(), parameterHandleValueMap, UserSuppliedTag.getText().getBytes(Charset.forName("UTF-8")));
+            rtiAmb.updateAttributeValues(InstanceName.getValue().getHandle(), attributes, UserSuppliedTag.getText().getBytes(Charset.forName("UTF-8")));
             //TODO: 11/15/2015 Using time stamp
-            log.setDescription("Interaction sent successfully");
+            log.setDescription("Attribute Values updated successfully");
             log.setLogType(LogEntryType.REQUEST);
-        } catch (InteractionParameterNotDefined | InteractionClassNotPublished | InteractionClassNotDefined |
-                SaveInProgress | RestoreInProgress | FederateNotExecutionMember | NotConnected | RTIinternalError ex) {
+        } catch (ObjectInstanceNotKnown | AttributeNotDefined | AttributeNotOwned | SaveInProgress | RestoreInProgress |
+                FederateNotExecutionMember | NotConnected | RTIinternalError ex) {
             log.setException(ex);
             log.setLogType(LogEntryType.ERROR);
             logger.log(Level.ERROR, ex.getMessage(), ex);
@@ -158,7 +157,7 @@ public class SendInteractionServiceController implements Initializable {
             logger.log(Level.FATAL, ex.getMessage(), ex);
         }
         logEntries.add(log);
-        ((Stage) InteractionClassName.getScene().getWindow()).close();
+        ((Stage) InstanceName.getScene().getWindow()).close();
         logger.exit();
     }
 }

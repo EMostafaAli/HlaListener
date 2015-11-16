@@ -39,20 +39,20 @@ import static ca.mali.hlalistener.PublicVariables.fddObjectModel;
 /**
  * Created by Mostafa on 11/11/2015.
  */
-public class ParameterValuePair {
+public class AttribParamValuePair {
     private String name;
     private ObjectProperty value = new SimpleObjectProperty<>();
     private String dataType;
     private ParameterHandle parameterHandle;
     private AttributeHandle attributeHandle;
 
-    public ParameterValuePair(String name, String dataType, ParameterHandle parameterHandle) {
+    public AttribParamValuePair(String name, String dataType, ParameterHandle parameterHandle) {
         this.name = name;
         this.dataType = dataType;
         this.parameterHandle = parameterHandle;
     }
 
-    public ParameterValuePair(String name, String dataType, AttributeHandle attributeHandle) {
+    public AttribParamValuePair(String name, String dataType, AttributeHandle attributeHandle) {
         this.name = name;
         this.dataType = dataType;
         this.attributeHandle = attributeHandle;

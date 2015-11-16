@@ -27,9 +27,9 @@
 
 package ca.mali.fomparser;
 
-import hla.rti1516e.encoding.DecoderException;
-import hla.rti1516e.encoding.HLAinteger16BE;
-import hla.rti1516e.encoding.HLAinteger32BE;
+import hla.rti1516e.encoding.*;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
 
 import static ca.mali.hlalistener.PublicVariables.encoderFactory;
 
@@ -37,6 +37,9 @@ import static ca.mali.hlalistener.PublicVariables.encoderFactory;
  * Created by Mostafa Ali on 10/22/2015.
  */
 public class BasicDataType {
+
+    //Logger
+    private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger();
 
     private final String name;
     private int size;
@@ -99,6 +102,76 @@ public class BasicDataType {
                 encodedValue = encoder.toByteArray();
                 break;
             }
+            case "HLAinteger64BE": {
+                HLAinteger64BE encoder = encoderFactory.createHLAinteger64BE();
+                encoder.setValue(Long.parseLong(value));
+                encodedValue = encoder.toByteArray();
+                break;
+            }
+            case "HLAfloat32BE": {
+                HLAfloat32BE encoder = encoderFactory.createHLAfloat32BE();
+                encoder.setValue(Float.parseFloat(value));
+                encodedValue = encoder.toByteArray();
+                break;
+            }
+            case "HLAfloat64BE": {
+                HLAfloat64BE encoder = encoderFactory.createHLAfloat64BE();
+                encoder.setValue(Double.parseDouble(value));
+                encodedValue = encoder.toByteArray();
+                break;
+            }
+            case "HLAoctetPairBE": {
+                HLAoctetPairBE encoder = encoderFactory.createHLAoctetPairBE();
+                encoder.setValue(Short.parseShort(value));
+                encodedValue = encoder.toByteArray();
+                break;
+            }
+            case "HLAinteger16LE": {
+                HLAinteger16LE encoder = encoderFactory.createHLAinteger16LE();
+                encoder.setValue(Short.parseShort(value));
+                encodedValue = encoder.toByteArray();
+                break;
+            }
+            case "HLAinteger32LE": {
+                HLAinteger32LE encoder = encoderFactory.createHLAinteger32LE();
+                encoder.setValue(Integer.parseInt(value));
+                encodedValue = encoder.toByteArray();
+                break;
+            }
+            case "HLAinteger64LE": {
+                HLAinteger64LE encoder = encoderFactory.createHLAinteger64LE();
+                encoder.setValue(Long.parseLong(value));
+                encodedValue = encoder.toByteArray();
+                break;
+            }
+            case "HLAfloat32LE": {
+                HLAfloat32LE encoder = encoderFactory.createHLAfloat32LE();
+                encoder.setValue(Float.parseFloat(value));
+                encodedValue = encoder.toByteArray();
+                break;
+            }
+            case "HLAfloat64LE": {
+                HLAfloat64LE encoder = encoderFactory.createHLAfloat64LE();
+                encoder.setValue(Double.parseDouble(value));
+                encodedValue = encoder.toByteArray();
+                break;
+            }
+            case "HLAoctetPairLE": {
+                HLAoctetPairLE encoder = encoderFactory.createHLAoctetPairLE();
+                encoder.setValue(Short.parseShort(value));
+                encodedValue = encoder.toByteArray();
+                break;
+            }
+            case "HLAoctet": {
+                HLAoctet encoder = encoderFactory.createHLAoctet();
+                encoder.setValue(Byte.parseByte(value));
+                encodedValue = encoder.toByteArray();
+                break;
+            }
+            default: {
+                //TODO: 11/15/2015 encoder for custom types
+                break;
+            }
         }
         return encodedValue;
     }
@@ -111,17 +184,87 @@ public class BasicDataType {
                     HLAinteger16BE encoder = encoderFactory.createHLAinteger16BE();
                     encoder.decode(encodedValue);
                     value = String.valueOf(encoder.getValue());
+                    break;
                 }
-                break;
                 case "HLAinteger32BE": {
                     HLAinteger32BE encoder = encoderFactory.createHLAinteger32BE();
                     encoder.decode(encodedValue);
                     value = String.valueOf(encoder.getValue());
                     break;
                 }
+                case "HLAinteger64BE": {
+                    HLAinteger64BE encoder = encoderFactory.createHLAinteger64BE();
+                    encoder.decode(encodedValue);
+                    value = String.valueOf(encoder.getValue());
+                    break;
+                }
+                case "HLAfloat32BE": {
+                    HLAfloat32BE encoder = encoderFactory.createHLAfloat32BE();
+                    encoder.decode(encodedValue);
+                    value = String.valueOf(encoder.getValue());
+                    break;
+                }
+                case "HLAfloat64BE": {
+                    HLAfloat64BE encoder = encoderFactory.createHLAfloat64BE();
+                    encoder.decode(encodedValue);
+                    value = String.valueOf(encoder.getValue());
+                    break;
+                }
+                case "HLAoctetPairBE": {
+                    HLAoctetPairBE encoder = encoderFactory.createHLAoctetPairBE();
+                    encoder.decode(encodedValue);
+                    value = String.valueOf(encoder.getValue());
+                    break;
+                }
+                case "HLAinteger16LE": {
+                    HLAinteger16LE encoder = encoderFactory.createHLAinteger16LE();
+                    encoder.decode(encodedValue);
+                    value = String.valueOf(encoder.getValue());
+                    break;
+                }
+                case "HLAinteger32LE": {
+                    HLAinteger32LE encoder = encoderFactory.createHLAinteger32LE();
+                    encoder.decode(encodedValue);
+                    value = String.valueOf(encoder.getValue());
+                    break;
+                }
+                case "HLAinteger64LE": {
+                    HLAinteger64LE encoder = encoderFactory.createHLAinteger64LE();
+                    encoder.decode(encodedValue);
+                    value = String.valueOf(encoder.getValue());
+                    break;
+                }
+                case "HLAfloat32LE": {
+                    HLAfloat32LE encoder = encoderFactory.createHLAfloat32LE();
+                    encoder.decode(encodedValue);
+                    value = String.valueOf(encoder.getValue());
+                    break;
+                }
+                case "HLAfloat64LE": {
+                    HLAfloat64LE encoder = encoderFactory.createHLAfloat64LE();
+                    encoder.decode(encodedValue);
+                    value = String.valueOf(encoder.getValue());
+                    break;
+                }
+                case "HLAoctetPairLE": {
+                    HLAoctetPairLE encoder = encoderFactory.createHLAoctetPairLE();
+                    encoder.decode(encodedValue);
+                    value = String.valueOf(encoder.getValue());
+                    break;
+                }
+                case "HLAoctet": {
+                    HLAoctet encoder = encoderFactory.createHLAoctet();
+                    encoder.decode(encodedValue);
+                    value = String.valueOf(encoder.getValue());
+                    break;
+                }
+                default: {
+                    //TODO: 11/15/2015 encoder for custom types
+                    break;
+                }
             }
-        } catch (DecoderException e) {
-            e.printStackTrace(); //// TODO: 11/14/2015 Add to logger
+        } catch (DecoderException ex) {
+            logger.log(Level.ERROR, "Error in decoding value", ex);
         }
         return value;
     }

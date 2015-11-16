@@ -73,11 +73,6 @@ public class PublicVariables {
      */
     public static EncoderFactory encoderFactory;
 
-    /**
-     *
-     */
-//    public static HLAunicodeString stringEncoder;
-
     public static Stage primaryStage;
 
     public final static ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();

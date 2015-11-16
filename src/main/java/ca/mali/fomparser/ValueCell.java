@@ -35,12 +35,12 @@ import java.util.stream.Collectors;
 
 import static ca.mali.hlalistener.PublicVariables.fddObjectModel;
 
-public class ValueCell extends TableCell<ParameterValuePair, Object> {
+public class ValueCell extends TableCell<AttribParamValuePair, Object> {
 
     @Override
     protected void updateItem(Object item, boolean empty) {
         super.updateItem(item, empty);
-        ParameterValuePair valuePair = (ParameterValuePair) this.getTableRow().getItem();
+        AttribParamValuePair valuePair = (AttribParamValuePair) this.getTableRow().getItem();
         if (empty || valuePair == null) return;
 
         //Enumerated data type
@@ -56,13 +56,14 @@ public class ValueCell extends TableCell<ParameterValuePair, Object> {
             TextField textField = new TextField();
             this.widthProperty().addListener((observable, oldValue, newValue) -> textField.setMinWidth(this.getWidth() - this.getGraphicTextGap()* 2));
             textField.textProperty().addListener((observable, oldValue, newValue) -> commitEdit(newValue));
+            setGraphic(textField);
         }
     }
 
     @Override
     public void commitEdit(Object newValue) {
         super.commitEdit(newValue);
-        ((ParameterValuePair) this.getTableRow().getItem()).setValue(newValue);
+        ((AttribParamValuePair) this.getTableRow().getItem()).setValue(newValue);
     }
 
 }

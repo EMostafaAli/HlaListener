@@ -700,6 +700,18 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Release Multiple Object Instance Names service dialog box", ex);
         }
     }
+
+    //6.10
+    @FXML
+    private void UpdateValues_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("6.10 Update Attribute values service", "/fxml/chapter6/UpdateAttributeValuesService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Update Attribute values service dialog box", ex);
+        }
+    }
     
     //6.8
     @FXML
