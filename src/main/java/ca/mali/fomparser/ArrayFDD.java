@@ -34,6 +34,7 @@ public class ArrayFDD extends AbstractDataType{
 
     private String dataType;
     private String encoding;
+    private String cardinality;
     
     public ArrayFDD(String name) {
         super(name, DataTypeEnum.ARRAY);
@@ -53,5 +54,13 @@ public class ArrayFDD extends AbstractDataType{
 
     public void setEncoding(String encoding) {
         this.encoding = encoding;
+    }
+
+    public String getCardinality() {
+        return cardinality;
+    }
+
+    public void setCardinality(String cardinality) {
+        this.cardinality = cardinality;
     }
 }

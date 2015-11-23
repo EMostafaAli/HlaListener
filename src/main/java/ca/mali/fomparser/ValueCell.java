@@ -47,11 +47,16 @@ public class ValueCell extends TableCell<AttribParamValuePair, Object> {
         if (fddObjectModel.getEnumeratedDataTypeMap().keySet().contains(valuePair.getDataType())) {
             ComboBox<String> values = new ComboBox<>();
             this.widthProperty().addListener((observable, oldValue, newValue) -> values.setMinWidth(this.getWidth() - this.getGraphicTextGap()* 2));
-//            values.setPrefWidth(this.getWidth());
             values.getItems().addAll(fddObjectModel.getEnumeratedDataTypeMap().get(valuePair.getDataType())
                     .getEnumerator().stream().map(a -> a.getName()).collect(Collectors.toList()));
             values.setOnAction(event -> commitEdit(values.getSelectionModel().getSelectedItem()));
             setGraphic(values);
+        } else if(fddObjectModel.getArrayDataTypeMap().keySet().contains(valuePair.getDataType())){ //Array data type
+            TextField textField = new TextField();
+            textField.setPromptText("Separate values with semicolon (;)");
+            this.widthProperty().addListener((observable, oldValue, newValue) -> textField.setMinWidth(this.getWidth() - this.getGraphicTextGap()* 2));
+            textField.textProperty().addListener((observable, oldValue, newValue) -> commitEdit(newValue));
+            setGraphic(textField);
         } else { //Simple data type
             TextField textField = new TextField();
             this.widthProperty().addListener((observable, oldValue, newValue) -> textField.setMinWidth(this.getWidth() - this.getGraphicTextGap()* 2));

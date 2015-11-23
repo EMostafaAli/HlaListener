@@ -31,6 +31,8 @@ import hla.rti1516e.encoding.*;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
+import java.io.UnsupportedEncodingException;
+
 import static ca.mali.hlalistener.PublicVariables.encoderFactory;
 
 /**
@@ -87,9 +89,13 @@ public class BasicDataType {
         this.encoding = encoding;
     }
 
-    public byte[] EncodeValue(String value) {
+    public byte[] EncodeValue(String value){
+        return EncodeValue(value, name);
+    }
+
+    public byte[] EncodeValue(String value, String dataTypeName) {
         byte[] encodedValue = null;
-        switch (name) {
+        switch (dataTypeName) {
             case "HLAinteger16BE": {
                 HLAinteger16BE encoder = encoderFactory.createHLAinteger16BE();
                 encoder.setValue(Short.parseShort(value));
@@ -168,6 +174,30 @@ public class BasicDataType {
                 encodedValue = encoder.toByteArray();
                 break;
             }
+            case "HLAASCIIstring": {
+                HLAASCIIstring encoder = encoderFactory.createHLAASCIIstring();
+                encoder.setValue(value);
+                encodedValue = encoder.toByteArray();
+                break;
+            }
+            case "HLAunicodeString": {
+                HLAunicodeString encoder = encoderFactory.createHLAunicodeString();
+                encoder.setValue(value);
+                encodedValue = encoder.toByteArray();
+                break;
+            }
+            case "HLAASCIIchar": {
+                HLAASCIIchar encoder = encoderFactory.createHLAASCIIchar();
+                encoder.setValue((byte) value.charAt(0));
+                encodedValue = encoder.toByteArray();
+                break;
+            }
+            case "HLAunicodeChar": {
+                HLAunicodeChar encoder = encoderFactory.createHLAunicodeChar();
+                encoder.setValue((short) value.charAt(0));
+                encodedValue = encoder.toByteArray();
+                break;
+            }
             default: {
                 //TODO: 11/15/2015 encoder for custom types
                 break;
@@ -176,10 +206,14 @@ public class BasicDataType {
         return encodedValue;
     }
 
-    public String DecodeValue(byte[] encodedValue) {
+    public String DecodeValue(byte[] encodedValue){
+        return DecodeValue(encodedValue, name);
+    }
+
+    public String DecodeValue(byte[] encodedValue, String dataTypeName) {
         String value = "";
         try {
-            switch (name) {
+            switch (dataTypeName) { // TODO: 11/18/2015  investigate adding boolean and HLAopaqueData to list
                 case "HLAinteger16BE": {
                     HLAinteger16BE encoder = encoderFactory.createHLAinteger16BE();
                     encoder.decode(encodedValue);
@@ -258,12 +292,36 @@ public class BasicDataType {
                     value = String.valueOf(encoder.getValue());
                     break;
                 }
+                case "HLAASCIIstring": {
+                    HLAASCIIstring encoder = encoderFactory.createHLAASCIIstring();
+                    encoder.decode(encodedValue);
+                    value = encoder.getValue();
+                    break;
+                }
+                case "HLAunicodeString": {
+                    HLAunicodeString encoder = encoderFactory.createHLAunicodeString();
+                    encoder.decode(encodedValue);
+                    value = encoder.getValue();
+                    break;
+                }
+                case "HLAASCIIchar": {
+                    HLAASCIIchar encoder = encoderFactory.createHLAASCIIchar();
+                    encoder.decode(encodedValue);
+                    value = new String(new byte[] {encoder.getValue()}, "US-ASCII");
+                    break;
+                }
+                case "HLAunicodeChar": {
+                    HLAunicodeChar encoder = encoderFactory.createHLAunicodeChar();
+                    encoder.decode(encodedValue);
+                    value = String.valueOf((char)encoder.getValue());
+                    break;
+                }
                 default: {
                     //TODO: 11/15/2015 encoder for custom types
                     break;
                 }
             }
-        } catch (DecoderException ex) {
+        } catch (DecoderException | UnsupportedEncodingException ex) {
             logger.log(Level.ERROR, "Error in decoding value", ex);
         }
         return value;

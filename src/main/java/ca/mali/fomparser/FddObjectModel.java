@@ -64,6 +64,7 @@ public class FddObjectModel {
     private Map<String, BasicDataType> basicDataTypeMap = new TreeMap<>();
     private Map<String, SimpleFDDDataType> simpleDataTypeMap = new TreeMap<>();
     private Map<String, EnumeratedFDDDataType> enumeratedDataTypeMap = new TreeMap<>();
+    private Map<String, ArrayFDD> arrayDataTypeMapDataTypeMap = new TreeMap<>();
 
     public FddObjectModel(String fddText) {
         logger.entry();
@@ -76,6 +77,7 @@ public class FddObjectModel {
             readBasicDataType();
             readSimpleDataType();
             readEnumeratedDataType();
+            readArrayDataType();
             readUpdateRate();
             readTransportationType();
             readDimension();
@@ -121,6 +123,10 @@ public class FddObjectModel {
 
     public Map<String, DimensionFDD> getDimensions() {
         return Dimensions;
+    }
+
+    public Map<String, ArrayFDD> getArrayDataTypeMap() {
+        return arrayDataTypeMapDataTypeMap;
     }
 
     public void setTransportation(Map<String, TransportationFDD> Transportation) {
@@ -251,6 +257,16 @@ public class FddObjectModel {
             } catch (Exception ex) {
                 logger.log(Level.FATAL, ex.getMessage(), ex);
             }
+        });
+    }
+
+    private void readArrayDataType(){
+        fddModel.getDataTypes().getArrayDataTypes().getArrayData().forEach(arrayData -> {
+            ArrayFDD arrayFDD = new ArrayFDD(arrayData.getName().getValue());
+            arrayFDD.setDataType(arrayData.getDataType().getValue());
+            arrayFDD.setCardinality(arrayData.getCardinality().getValue());
+            arrayFDD.setEncoding(arrayData.getEncoding().getValue());
+            getArrayDataTypeMap().put(arrayFDD.getName(), arrayFDD);
         });
     }
 }

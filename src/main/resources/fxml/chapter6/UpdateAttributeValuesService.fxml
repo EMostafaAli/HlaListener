@@ -37,7 +37,7 @@
         <VBox.margin>
             <Insets left="15.0" right="15.0" top="15.0"/>
         </VBox.margin>
-        <Label prefHeight="27.0" prefWidth="199.0" text="Interaction Class: "/>
+        <Label prefHeight="27.0" prefWidth="199.0" text="Instance Name: "/>
         <ComboBox fx:id="InstanceName" prefHeight="39.0" prefWidth="350.0"/>
     </HBox>
     <HBox prefHeight="367.0" prefWidth="470.0">
