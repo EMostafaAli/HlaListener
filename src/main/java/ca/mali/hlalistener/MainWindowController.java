@@ -132,8 +132,11 @@ public class MainWindowController implements Initializable {
         returnTable.setPlaceholder(emptyLabel);
         idCol.setCellValueFactory(new PropertyValueFactory<>("logID"));
         sectionCol.setCellValueFactory(new PropertyValueFactory<>("sectionNo"));
+        sectionCol.setCellFactory(param -> new LogTooltipCell());
         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        titleCol.setCellFactory(param -> new LogTooltipCell());
         timeCol.setCellValueFactory(new PropertyValueFactory<>("simulationTime"));
+        timeCol.setCellFactory(param -> new LogTooltipCell());
         iconCol.setCellValueFactory(new PropertyValueFactory<>("icon"));
         iconCol.setCellFactory(param -> new TableCell<LogEntry, Image>() {
             ImageView imgView;
@@ -157,20 +160,30 @@ public class MainWindowController implements Initializable {
         });
         logTable.setItems(logEntries);
         titleLbl.textProperty().bind(Bindings.selectString(logTable.getSelectionModel().selectedItemProperty(), "title"));
+        Tooltip t = new Tooltip();
+        t.textProperty().bind(titleLbl.textProperty());
+        titleLbl.setTooltip(t);
         sectionLbl.textProperty().bind(Bindings.selectString(logTable.getSelectionModel().selectedItemProperty(), "sectionNo"));
+        Tooltip t1 = new Tooltip();
+        t1.textProperty().bind(DescLbl.textProperty());
+        DescLbl.setTooltip(t1);
         DescLbl.textProperty().bind(Bindings.selectString(logTable.getSelectionModel().selectedItemProperty(), "description"));
         iconViewer.imageProperty().bind(Bindings.select(logTable.getSelectionModel().selectedItemProperty(), "icon"));
 
         SuppliedPane.managedProperty().bind(SuppliedPane.visibleProperty());
         SuppliedPane.visibleProperty().bind(Bindings.selectBoolean(logTable.getSelectionModel().selectedItemProperty(), "SuppliedArgumentsIsNotEmpty"));
         SupplyNameCol.setCellValueFactory(new PropertyValueFactory<>("className"));
+        SupplyNameCol.setCellFactory(param -> new ClassValueTooltipCell());
         SupplyValueCol.setCellValueFactory(new PropertyValueFactory<>("classValue"));
+        SupplyValueCol.setCellFactory(param -> new ClassValueTooltipCell());
         SuppliedArgsLbl.textProperty().bind(Bindings.selectString(SupplyTable.getSelectionModel().selectedItemProperty(), "classType"));
 
         ReturnedPane.managedProperty().bind(ReturnedPane.visibleProperty());
         ReturnedPane.visibleProperty().bind(Bindings.selectBoolean(logTable.getSelectionModel().selectedItemProperty(), "ReturnedArguementsIsNotEmpty"));
         ReturnNameCol.setCellValueFactory(new PropertyValueFactory<>("className"));
+        ReturnNameCol.setCellFactory(param -> new ClassValueTooltipCell());
         ReturnValueCol.setCellValueFactory(new PropertyValueFactory<>("classValue"));
+        ReturnValueCol.setCellFactory(param -> new ClassValueTooltipCell());
         ReturnedArgsLbl.textProperty().bind(Bindings.selectString(returnTable.getSelectionModel().selectedItemProperty(), "classType"));
 
         StackTracePane.managedProperty().bind(StackTracePane.visibleProperty());

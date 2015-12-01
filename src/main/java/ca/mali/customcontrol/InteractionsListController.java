@@ -38,9 +38,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
@@ -100,6 +98,17 @@ public class InteractionsListController extends VBox {
                 }
             }));
             InteractionTableColumn.setCellValueFactory(new PropertyValueFactory<>("interactionName"));
+            InteractionTableColumn.setCellFactory(param -> {
+                final TableCell<InteractionState, String> cell = new TableCell<InteractionState, String>(){
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        this.setText(item);
+                        this.setTooltip((empty || item == null) ? null : new Tooltip(item));
+                    }
+                };
+                return cell;
+            });
             CheckTableColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<InteractionState, Boolean>, ObservableValue<Boolean>>() {
                 @Override
                 public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<InteractionState, Boolean> param) {

@@ -118,6 +118,17 @@ public class AttributeListController extends VBox {
                     }
                 }));
             });
+            ObjectListView.setCellFactory(param -> {
+                final ListCell<String> cell = new ListCell<String>(){
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        this.setText(item);
+                        this.setTooltip((empty || item == null) ? null : new Tooltip(item));
+                    }
+                };
+                return cell;
+            });
             attributeName.setCellValueFactory(new PropertyValueFactory<AttributeState, String>("attributeName"));
             checked.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<AttributeState, Boolean>, ObservableValue<Boolean>>() {
 
@@ -197,6 +208,15 @@ public class AttributeListController extends VBox {
         @Override
         public String toString() {
             return attribute.getName();
+        }
+    }
+
+    private static class AttributeStateTooltip extends TableCell<AttributeState, String>{
+        @Override
+        protected void updateItem(String item, boolean empty) {
+            super.updateItem(item, empty);
+            this.setText(item);
+            this.setTooltip((empty || item == null) ? null : new Tooltip(item));
         }
     }
 }
