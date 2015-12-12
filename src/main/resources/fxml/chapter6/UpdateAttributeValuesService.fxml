@@ -27,58 +27,45 @@
   ~   DAMAGE.
   -->
 
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="571.0"
-      prefWidth="470.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="ca.mali.dialogs.chapter6.UpdateAttributeValuesServiceController">
-    <HBox layoutX="25.0" layoutY="25.0" prefHeight="25.0" prefWidth="333.0">
-        <VBox.margin>
-            <Insets left="15.0" right="15.0" top="15.0"/>
-        </VBox.margin>
-        <Label prefHeight="27.0" prefWidth="199.0" text="Instance Name: "/>
-        <ComboBox fx:id="InstanceName" prefHeight="39.0" prefWidth="350.0"/>
-    </HBox>
-    <HBox prefHeight="367.0" prefWidth="470.0">
-        <padding>
-            <Insets left="15.0" right="15.0" top="15.0"/>
-        </padding>
-        <TableView fx:id="AttributeValueTableView" prefHeight="325.0" prefWidth="460.0">
-            <columns>
-                <TableColumn fx:id="AttributeTableColumn" editable="false" prefWidth="75.0" text="Attribute"/>
-                <TableColumn fx:id="ValueTableColumn" prefWidth="216.0" text="Value"/>
-            </columns>
-            <columnResizePolicy>
-                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-            </columnResizePolicy>
-        </TableView>
-    </HBox>
-    <HBox alignment="CENTER_LEFT" layoutX="25.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity"
-          minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="440.0">
-        <VBox.margin>
-            <Insets left="15.0" right="15.0" top="15.0"/>
-        </VBox.margin>
-        <Label prefHeight="27.0" prefWidth="173.0" text="User-supplied tag*:"/>
-        <TextField fx:id="UserSuppliedTag" prefHeight="39.0" prefWidth="265.0"/>
-    </HBox>
-    <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="570.0">
-        <VBox.margin>
-            <Insets left="15.0" right="15.0" top="15.0"/>
-        </VBox.margin>
-        <Label prefHeight="27.0" prefWidth="144.0" text="Logical Time:"/>
-        <Spinner fx:id="LogicalTimeSpin" editable="true" prefHeight="25.0" prefWidth="139.0"/>
-    </HBox>
-    <HBox alignment="CENTER_RIGHT" prefHeight="6.0" prefWidth="401.0">
-        <VBox.margin>
-            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
-        </VBox.margin>
+<GridPane hgap="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="616.0" prefWidth="625.0" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.chapter6.UpdateAttributeValuesServiceController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="NEVER" maxWidth="300.0" minWidth="200.0" prefWidth="200.0" />
+        <ColumnConstraints hgrow="NEVER" prefWidth="400.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
+        <RowConstraints vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
+    <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="4">
         <Button cancelButton="true" mnemonicParsing="false" onAction="#Cancel_click" text="Cancel">
             <HBox.margin>
-                <Insets right="20.0"/>
+                <Insets right="20.0" />
             </HBox.margin>
         </Button>
-        <Button fx:id="OkButton" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#OK_click"
-                text="OK"/>
+        <Button fx:id="OkButton" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#OK_click" text="OK" />
     </HBox>
-</VBox>
+    <Label text="Instance Name: " GridPane.halignment="RIGHT" />
+    <ComboBox fx:id="InstanceName" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+    <TableView fx:id="AttributeValueTableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" GridPane.columnSpan="2" GridPane.rowIndex="1">
+        <columns>
+            <TableColumn fx:id="AttributeTableColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="50.0" prefWidth="200.0" text="Attribute" />
+            <TableColumn fx:id="ValueTableColumn" maxWidth="1.7976931348623157E308" minWidth="50.0" prefWidth="400.0" text="Value" />
+        </columns>
+      <columnResizePolicy>
+         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+      </columnResizePolicy>
+    </TableView>
+    <Label text="User-supplied tag*:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+    <TextField fx:id="UserSuppliedTag" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+    <Label text="Logical Time:" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+    <Spinner fx:id="LogicalTimeSpin" editable="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+</GridPane>
