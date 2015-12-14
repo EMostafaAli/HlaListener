@@ -26,26 +26,42 @@
  */
 package ca.mali.fomparser;
 
+import hla.rti1516e.encoding.*;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+
+import java.io.UnsupportedEncodingException;
+
+import static ca.mali.hlalistener.PublicVariables.encoderFactory;
+
 /**
  *
  * @author Mostafa
  */
 public class SimpleFDDDataType extends AbstractDataType{
 
-    private String representation;
+    //Logger
+    private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger();
+
+    private BasicDataType representation;
     private String units;
     private String resolution;
     private String accuracy;
+    private String semantics;
 
     public SimpleFDDDataType(String name) {
         super(name, DataTypeEnum.SIMPLE);
     }
 
-    public String getRepresentation() {
+    public String getName() {
+        return super.getName();
+    }
+
+    public BasicDataType getRepresentation() {
         return representation;
     }
 
-    public void setRepresentation(String representation) {
+    public void setRepresentation(BasicDataType representation) {
         this.representation = representation;
     }
 
@@ -71,5 +87,101 @@ public class SimpleFDDDataType extends AbstractDataType{
 
     public void setAccuracy(String accuracy) {
         this.accuracy = accuracy;
+    }
+
+    public String getSemantics() {
+        return semantics;
+    }
+
+    public void setSemantics(String semantics) {
+        this.semantics = semantics;
+    }
+
+    @Override
+    byte[] EncodeValue(Object value) {
+        byte[] encodedValue;
+        switch (getName()) {
+            case "HLAASCIIchar": {
+                HLAASCIIchar encoder = encoderFactory.createHLAASCIIchar();
+                encoder.setValue((byte) value.toString().charAt(0));
+                encodedValue = encoder.toByteArray();
+                break;
+            }
+            case "HLAunicodeChar": {
+                HLAunicodeChar encoder = encoderFactory.createHLAunicodeChar();
+                encoder.setValue((short) value.toString().charAt(0));
+                encodedValue = encoder.toByteArray();
+                break;
+            }
+            case "HLAbyte": {
+                HLAbyte encoder = encoderFactory.createHLAbyte();
+                encoder.setValue((byte) value.toString().charAt(0));
+                encodedValue = encoder.toByteArray();
+                break;
+            }
+            default: {
+                encodedValue = getRepresentation().EncodeValue(value);
+                break;
+            }
+        }
+        return encodedValue;
+    }
+
+    @Override
+    String DecodeValue(byte[] encodedValue) {
+        String value = "";
+        try {
+            switch (getName()) {
+                case "HLAASCIIchar": {
+                    HLAASCIIchar encoder = encoderFactory.createHLAASCIIchar();
+                    encoder.decode(encodedValue);
+                    value = new String(new byte[] {encoder.getValue()}, "US-ASCII");
+                    break;
+                }
+                case "HLAunicodeChar": {
+                    HLAunicodeChar encoder = encoderFactory.createHLAunicodeChar();
+                    encoder.decode(encodedValue);
+                    value = String.valueOf((char)encoder.getValue());
+                    break;
+                }
+                case "HLAbyte": {
+                    HLAbyte encoder = encoderFactory.createHLAbyte();
+                    encoder.decode(encodedValue);
+                    value = String.valueOf(encoder.getValue());
+                    break;
+                }
+                default: {
+                    value = getRepresentation().DecodeValue(encodedValue);
+                    break;
+                }
+            }
+        } catch (DecoderException | UnsupportedEncodingException ex) {
+            logger.log(Level.ERROR, "Error in decoding value", ex);
+        }
+        return value;
+    }
+
+    @Override
+    DataElement getDataElement(Object value) {
+        switch (getName()) {
+            case "HLAASCIIchar": {
+                HLAASCIIchar encoder = encoderFactory.createHLAASCIIchar();
+                encoder.setValue((byte) value.toString().charAt(0));
+                return encoder;
+            }
+            case "HLAunicodeChar": {
+                HLAunicodeChar encoder = encoderFactory.createHLAunicodeChar();
+                encoder.setValue((short) value.toString().charAt(0));
+                return encoder;
+            }
+            case "HLAbyte": {
+                HLAbyte encoder = encoderFactory.createHLAbyte();
+                encoder.setValue((byte) value.toString().charAt(0));
+                return encoder;
+            }
+            default: {
+                return getRepresentation().getDataElement(value);
+            }
+        }
     }
 }

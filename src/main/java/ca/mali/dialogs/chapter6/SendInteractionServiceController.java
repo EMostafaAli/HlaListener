@@ -26,9 +26,9 @@
  */
 package ca.mali.dialogs.chapter6;
 
-import ca.mali.fomparser.AttribParamValuePair;
 import ca.mali.fomparser.InteractionClassFDD;
-import ca.mali.fomparser.ValueCell;
+import ca.mali.fomparser.ParameterValueCell;
+import ca.mali.fomparser.ParameterValuePair;
 import ca.mali.hlalistener.ClassValuePair;
 import ca.mali.hlalistener.LogEntry;
 import ca.mali.hlalistener.LogEntryType;
@@ -71,13 +71,13 @@ public class SendInteractionServiceController implements Initializable {
     private ComboBox<InteractionClassFDD> InteractionClassName;
 
     @FXML
-    private TableView<AttribParamValuePair> ParameterValueTableView;
+    private TableView<ParameterValuePair> ParameterValueTableView;
 
     @FXML
-    private TableColumn<AttribParamValuePair, String> ParameterTableColumn;
+    private TableColumn<ParameterValuePair, String> ParameterTableColumn;
 
     @FXML
-    private TableColumn<AttribParamValuePair, Object> ValueTableColumn;
+    private TableColumn<ParameterValuePair, Object> ValueTableColumn;
 
     @FXML
     private TextField UserSuppliedTag;
@@ -88,7 +88,7 @@ public class SendInteractionServiceController implements Initializable {
     @FXML
     private Button OkButton;
 
-    private ObservableList<AttribParamValuePair> valuePairs = FXCollections.observableArrayList();
+    private ObservableList<ParameterValuePair> valuePairs = FXCollections.observableArrayList();
 
     /**
      * Initializes the controller class.
@@ -100,15 +100,13 @@ public class SendInteractionServiceController implements Initializable {
             ParameterValueTableView.setItems(valuePairs);
             ParameterValueTableView.setEditable(true);
             ParameterTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-            ValueTableColumn.setCellValueFactory(new PropertyValueFactory<>("dataType"));
-            ValueTableColumn.setCellFactory(param -> new ValueCell());
+//            ValueTableColumn.setCellValueFactory(new PropertyValueFactory<>("dataType"));
+            ValueTableColumn.setCellFactory(param -> new ParameterValueCell());
             ValueTableColumn.setEditable(true);
             InteractionClassName.getItems().addAll(fddObjectModel.getInteractionClasses().values());
             InteractionClassName.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 valuePairs.clear();
-                newValue.getParameters().forEach(parameterFDD -> {
-                    valuePairs.add(new AttribParamValuePair(parameterFDD.getName(), parameterFDD.getDataType(), parameterFDD.getHandle()));
-                });
+                newValue.getParameters().forEach(parameterFDD -> valuePairs.add(ParameterValuePair.getInstance(parameterFDD)));
             });
             if (InteractionClassName.getItems().size() > 0) {
                 InteractionClassName.setValue(InteractionClassName.getItems().get(0));
@@ -133,12 +131,12 @@ public class SendInteractionServiceController implements Initializable {
             log.getSuppliedArguments().add(new ClassValuePair("Interaction<Handle>",
                     InteractionClassHandle.class, InteractionClassName.getValue().toString()
                     + '<' + InteractionClassName.getValue().getHandle().toString() + '>'));
-            List<AttribParamValuePair> valuePairList = valuePairs.stream().filter(parameterValuePair -> parameterValuePair.EncodeValue() != null).collect(Collectors.toList());
+            List<ParameterValuePair> valuePairList = valuePairs.stream().filter(parameterValuePair -> parameterValuePair.EncodeValue() != null).collect(Collectors.toList());
             ParameterHandleValueMap parameterHandleValueMap = rtiAmb.getParameterHandleValueMapFactory().create(valuePairList.size());
             valuePairList.forEach(parameterValuePair -> {
-                parameterHandleValueMap.put(parameterValuePair.getParameterHandle(), parameterValuePair.EncodeValue());
+                parameterHandleValueMap.put(parameterValuePair.getHandle(), parameterValuePair.EncodeValue());
                 log.getSuppliedArguments().add(new ClassValuePair("Parameter <Handle>", ParameterHandle.class,
-                        parameterValuePair.getName() +"<" + parameterValuePair.getParameterHandle()+">"));
+                        parameterValuePair.getName() +"<" + parameterValuePair.getHandle()+">"));
                 log.getSuppliedArguments().add(new ClassValuePair("Value <Encoded>", Object.class,
                         parameterValuePair.getValue().toString() + "<" + Arrays.toString(parameterValuePair.EncodeValue()) +">"));
             });

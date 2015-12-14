@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, Mostafa Ali
+ * Copyright (c) 2015, Mostafa
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -24,42 +24,23 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
  *   DAMAGE.
  */
+
 package ca.mali.fomparser;
 
-import hla.rti1516e.ParameterHandle;
+import javafx.scene.control.TableCell;
+import javafx.scene.layout.Region;
 
-/**
- *
- * @author Mostafa
- */
-public class ParameterFDD {
-    private final String name;
-    private final AbstractDataType dataType;
-    private ParameterHandle handle;
-
-    public ParameterFDD(String name, AbstractDataType dataType) {
-        this.name = name;
-        this.dataType = dataType;
-    }
-    
-    public String getName() {
-        return name;
-    }
-
-    public AbstractDataType getDataType() {
-        return dataType;
-    }
-
-    public ParameterHandle getHandle() {
-        return handle;
-    }
-
-    public void setHandle(ParameterHandle handle) {
-        this.handle = handle;
-    }
+public class ParameterValueCell extends TableCell<ParameterValuePair, Object> {
 
     @Override
-    public String toString() {
-        return name;
+    protected void updateItem(Object item, boolean empty) {
+        super.updateItem(item, empty);
+        AbstractValuePair valuePair = (AbstractValuePair) this.getTableRow().getItem();
+        if (empty || valuePair == null) return;
+        Region r = valuePair.cellGUI();
+        if (r != null) {
+            this.widthProperty().addListener((observable, oldValue, newValue) -> r.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2));
+            setGraphic(r);
+        }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, Mostafa Ali
+ * Copyright (c) 2015, Mostafa
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -24,42 +24,29 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
  *   DAMAGE.
  */
+
 package ca.mali.fomparser;
 
 import hla.rti1516e.ParameterHandle;
 
 /**
- *
- * @author Mostafa
+ * Created by Mostafa on 12/13/2015.
  */
-public class ParameterFDD {
-    private final String name;
-    private final AbstractDataType dataType;
-    private ParameterHandle handle;
+public class ParameterValuePair extends AbstractValuePair {
 
-    public ParameterFDD(String name, AbstractDataType dataType) {
-        this.name = name;
-        this.dataType = dataType;
-    }
-    
-    public String getName() {
-        return name;
+    private final ParameterHandle handle;
+
+    public ParameterValuePair(ParameterFDD parameterFDD){
+        super(parameterFDD);
+        this.handle = parameterFDD.getHandle();
     }
 
-    public AbstractDataType getDataType() {
-        return dataType;
+    public static ParameterValuePair getInstance(ParameterFDD parameterFDD) { //Factory pattern
+        ParameterValuePair attributeValuePair = new ParameterValuePair(parameterFDD);
+        return attributeValuePair;
     }
 
     public ParameterHandle getHandle() {
         return handle;
-    }
-
-    public void setHandle(ParameterHandle handle) {
-        this.handle = handle;
-    }
-
-    @Override
-    public String toString() {
-        return name;
     }
 }

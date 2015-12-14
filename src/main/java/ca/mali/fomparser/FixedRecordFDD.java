@@ -26,6 +26,8 @@
  */
 package ca.mali.fomparser;
 
+import hla.rti1516e.encoding.DataElement;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +42,21 @@ public class FixedRecordFDD extends AbstractDataType{
     
     public FixedRecordFDD(String name) {
         super(name, DataTypeEnum.FIXEDRECORD);
+    }
+
+    @Override
+    byte[] EncodeValue(Object value) {
+        return new byte[0];
+    }
+
+    @Override
+    String DecodeValue(byte[] encodedValue) {
+        return null;
+    }
+
+    @Override
+    DataElement getDataElement(Object value) {
+        return null;
     }
 
     public String getEncoding() {

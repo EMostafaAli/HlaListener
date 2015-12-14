@@ -34,10 +34,10 @@ import hla.rti1516e.AttributeHandle;
  */
 public class AttributeFDD {
     private final String name;
-    private final String dataType;
+    private final AbstractDataType dataType;
     private AttributeHandle handle;
     
-    public AttributeFDD(String name, String dataType) {
+    public AttributeFDD(String name, AbstractDataType dataType) {
         this.name = name;
         this.dataType = dataType;
     }
@@ -46,7 +46,7 @@ public class AttributeFDD {
         return name;
     }
 
-    public String getDataType() {
+    public AbstractDataType getDataType() {
         return dataType;
     }
 

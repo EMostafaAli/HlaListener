@@ -26,38 +26,61 @@
  */
 package ca.mali.fomparser;
 
+import hla.rti1516e.encoding.DataElement;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
- *
  * @author Mostafa
  */
-public class EnumeratedFDDDataType extends AbstractDataType{
+public class EnumeratedFDDDataType extends AbstractDataType {
 
-    private String representation;
+    private BasicDataType representation;
     private List<Enumerator> enumerator;
-    
+
     public EnumeratedFDDDataType(String name) {
         super(name, DataTypeEnum.ENUMERATED);
     }
 
-    public String getRepresentation() {
+    @Override
+    byte[] EncodeValue(Object value) {
+        byte[] encodedValue = null;
+        Optional<Enumerator> first = getEnumerator().stream().filter(enumerator ->
+                enumerator.getName() == value.toString()).findFirst();
+        if (first.isPresent()) {
+            encodedValue = fddObjectModel.getBasicDataTypeMap().get(enumerated.getRepresentation()).EncodeValue(first.get().getValues().get(0));
+        }
+        return new byte[0];
+    }
+
+    @Override
+    String DecodeValue(byte[] encodedValue) {
+        return null;
+    }
+
+    @Override
+    DataElement getDataElement(Object value) {
+        return null;
+    }
+
+    public BasicDataType getRepresentation() {
         return representation;
     }
 
-    public void setRepresentation(String representation) {
+    public void setRepresentation(BasicDataType representation) {
         this.representation = representation;
     }
-    
+
     public List<Enumerator> getEnumerator() {
         if (enumerator == null) {
             enumerator = new ArrayList<>();
         }
         return this.enumerator;
     }
-    
-    public static class Enumerator{
+
+    public static class Enumerator {
         protected String name;
         protected List<String> values;
 

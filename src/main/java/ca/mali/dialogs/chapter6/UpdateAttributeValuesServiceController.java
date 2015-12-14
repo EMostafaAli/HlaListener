@@ -26,9 +26,9 @@
  */
 package ca.mali.dialogs.chapter6;
 
-import ca.mali.fomparser.AttribParamValuePair;
+import ca.mali.fomparser.AttributeValueCell;
+import ca.mali.fomparser.AttributeValuePair;
 import ca.mali.fomparser.ObjectInstanceFDD;
-import ca.mali.fomparser.ValueCell;
 import ca.mali.hlalistener.ClassValuePair;
 import ca.mali.hlalistener.LogEntry;
 import ca.mali.hlalistener.LogEntryType;
@@ -71,13 +71,13 @@ public class UpdateAttributeValuesServiceController implements Initializable {
     private ComboBox<ObjectInstanceFDD> InstanceName;
 
     @FXML
-    private TableView<AttribParamValuePair> AttributeValueTableView;
+    private TableView<AttributeValuePair> AttributeValueTableView;
 
     @FXML
-    private TableColumn<AttribParamValuePair, String> AttributeTableColumn;
+    private TableColumn<AttributeValuePair, String> AttributeTableColumn;
 
     @FXML
-    private TableColumn<AttribParamValuePair, Object> ValueTableColumn;
+    private TableColumn<AttributeValuePair, Object> ValueTableColumn;
 
     @FXML
     private TextField UserSuppliedTag;
@@ -88,7 +88,7 @@ public class UpdateAttributeValuesServiceController implements Initializable {
     @FXML
     private Button OkButton;
 
-    private ObservableList<AttribParamValuePair> valuePairs = FXCollections.observableArrayList();
+    private ObservableList<AttributeValuePair> valuePairs = FXCollections.observableArrayList();
 
     /**
      * Initializes the controller class.
@@ -100,14 +100,14 @@ public class UpdateAttributeValuesServiceController implements Initializable {
             AttributeValueTableView.setItems(valuePairs);
             AttributeValueTableView.setEditable(true);
             AttributeTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-            ValueTableColumn.setCellValueFactory(new PropertyValueFactory<>("dataType"));
-            ValueTableColumn.setCellFactory(param -> new ValueCell());
+//            ValueTableColumn.setCellValueFactory(new PropertyValueFactory<>("dataTypeName"));
+            ValueTableColumn.setCellFactory(param -> new AttributeValueCell());
             ValueTableColumn.setEditable(true);
             InstanceName.getItems().addAll(objectInstances.values());
             InstanceName.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 valuePairs.clear();
                 newValue.getObjectClass().getAttributes().forEach(attributeFDD ->
-                        valuePairs.add(new AttribParamValuePair(attributeFDD.getName(), attributeFDD.getDataType(), attributeFDD.getHandle())));
+                        valuePairs.add(AttributeValuePair.getInstance(attributeFDD)));
             });
             if (InstanceName.getItems().size() > 0) {
                 InstanceName.setValue(InstanceName.getItems().get(0));
@@ -132,14 +132,14 @@ public class UpdateAttributeValuesServiceController implements Initializable {
             log.getSuppliedArguments().add(new ClassValuePair("Object Instance<Handle>",
                     ObjectInstanceHandle.class, InstanceName.getValue().toString()
                     + '<' + InstanceName.getValue().getHandle().toString() + '>'));
-            List<AttribParamValuePair> valuePairList = valuePairs.stream().filter(parameterValuePair -> parameterValuePair.EncodeValue() != null).collect(Collectors.toList());
+            List<AttributeValuePair> valuePairList = valuePairs.stream().filter(parameterValuePair -> parameterValuePair.EncodeValue() != null).collect(Collectors.toList());
             AttributeHandleValueMap attributes = rtiAmb.getAttributeHandleValueMapFactory().create(valuePairList.size());
-            valuePairList.forEach(parameterValuePair -> {
-                attributes.put(parameterValuePair.getAttributeHandle(), parameterValuePair.EncodeValue());
+            valuePairList.forEach(attributeValuePairValuePair -> {
+                attributes.put(attributeValuePairValuePair.getHandle(), attributeValuePairValuePair.EncodeValue());
                 log.getSuppliedArguments().add(new ClassValuePair("Attribute <Handle>", AttributeHandle.class,
-                        parameterValuePair.getName() +"<" + parameterValuePair.getAttributeHandle()+">"));
+                        attributeValuePairValuePair.getName() +"<" + attributeValuePairValuePair.getHandle()+">"));
                 log.getSuppliedArguments().add(new ClassValuePair("Value <Encoded>", Object.class,
-                        parameterValuePair.getValue().toString() + "<" + Arrays.toString(parameterValuePair.EncodeValue()) +">"));
+                        attributeValuePairValuePair.getValue().toString() + "<" + Arrays.toString(attributeValuePairValuePair.EncodeValue()) +">"));
             });
             log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte[].class, UserSuppliedTag.getText()));
             rtiAmb.updateAttributeValues(InstanceName.getValue().getHandle(), attributes, UserSuppliedTag.getText().getBytes(Charset.forName("UTF-8")));

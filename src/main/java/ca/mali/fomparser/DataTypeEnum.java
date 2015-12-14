@@ -31,5 +31,5 @@ package ca.mali.fomparser;
  * @author Mostafa
  */
 public enum DataTypeEnum {
-    SIMPLE, ENUMERATED, ARRAY, FIXEDRECORD, VARIANTRECORD
+    BASIC, SIMPLE, ENUMERATED, ARRAY, FIXEDRECORD, VARIANTRECORD
 }

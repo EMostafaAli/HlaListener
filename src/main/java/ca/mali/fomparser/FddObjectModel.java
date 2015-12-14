@@ -138,7 +138,7 @@ public class FddObjectModel {
             ObjectClassFDD objectClassFDD = new ObjectClassFDD(rootClass.getName().getValue(), parent);
             objectClassFDD.setHandle(PublicVariables.rtiAmb.getObjectClassHandle(objectClassFDD.getFullName()));
             rootClass.getAttribute().stream().map((attribute) -> new AttributeFDD(
-                    attribute.getName().getValue(), attribute.getDataType().getValue())).forEach((attributeFDD) -> {
+                    attribute.getName().getValue(), getDataType(attribute.getDataType().getValue()))).forEach((attributeFDD) -> {
                 try {
                     attributeFDD.setHandle(PublicVariables.rtiAmb.getAttributeHandle(
                             objectClassFDD.getHandle(), attributeFDD.getName()));
@@ -161,7 +161,7 @@ public class FddObjectModel {
             interactionClassFDD.setHandle(PublicVariables.rtiAmb.getInteractionClassHandle(interactionClassFDD.getFullName()));
             rootInteraction.getParameter().stream().forEach((parameter) -> {
                 try {
-                    ParameterFDD paramFDD = new ParameterFDD(parameter.getName().getValue(), parameter.getDataType().getValue());
+                    ParameterFDD paramFDD = new ParameterFDD(parameter.getName().getValue(), getDataType(parameter.getDataType().getValue()));
                     paramFDD.setHandle(PublicVariables.rtiAmb.getParameterHandle(interactionClassFDD.getHandle(), paramFDD.getName()));
                     interactionClassFDD.getParameters().add(paramFDD);
                 } catch (Exception ex) {
@@ -218,7 +218,7 @@ public class FddObjectModel {
                 basicDataType.setInterpretation(basicData.getInterpretation().getValue());
                 basicDataType.setSize(basicData.getSize().getValue().intValue());
                 basicDataType.setEncoding(basicData.getEncoding().getValue());
-                basicDataType.setLittleEndian(basicData.getEndian().getValue() == EndianEnumerations.LITTLE ? true : false);
+                basicDataType.setLittleEndian(basicData.getEndian().getValue() == EndianEnumerations.LITTLE);
                 getBasicDataTypeMap().put(basicDataType.getName(), basicDataType);
             } catch (Exception ex) {
                 logger.log(Level.FATAL, ex.getMessage(), ex);
@@ -230,7 +230,7 @@ public class FddObjectModel {
         fddModel.getDataTypes().getSimpleDataTypes().getSimpleData().forEach(simpleData -> {
             try {
                 SimpleFDDDataType simpleDataType = new SimpleFDDDataType(simpleData.getName().getValue());
-                simpleDataType.setRepresentation(simpleData.getRepresentation().getValue());
+                simpleDataType.setRepresentation(getBasicDataTypeMap().get(simpleData.getRepresentation().getValue()));
                 simpleDataType.setUnits(simpleData.getUnits().getValue());
                 simpleDataType.setResolution(simpleData.getResolution().getValue());
                 simpleDataType.setAccuracy(simpleData.getAccuracy().getValue());
@@ -268,5 +268,16 @@ public class FddObjectModel {
             arrayFDD.setEncoding(arrayData.getEncoding().getValue());
             getArrayDataTypeMap().put(arrayFDD.getName(), arrayFDD);
         });
+    }
+
+    private AbstractDataType getDataType(String name){
+        if (getBasicDataTypeMap().containsKey(name)){
+            return getBasicDataTypeMap().get(name);
+        } else if (getSimpleDataTypeMap().containsKey(name)){
+            return getSimpleDataTypeMap().get(name);
+        } else if (getEnumeratedDataTypeMap().containsKey(name)){
+            return getEnumeratedDataTypeMap().get(name);
+        } // TODO: 12/12/2015 complete the list;
+        return null;
     }
 }

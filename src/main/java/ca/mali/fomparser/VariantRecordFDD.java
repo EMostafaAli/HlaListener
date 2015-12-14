@@ -26,6 +26,8 @@
  */
 package ca.mali.fomparser;
 
+import hla.rti1516e.encoding.DataElement;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +45,21 @@ public class VariantRecordFDD extends AbstractDataType{
         super(name, DataTypeEnum.VARIANTRECORD);
     }
 
+    @Override
+    byte[] EncodeValue(Object value) {
+        return new byte[0];
+    }
+
+    @Override
+    String DecodeValue(byte[] encodedValue) {
+        return null;
+    }
+
+    @Override
+    DataElement getDataElement(Object value) {
+        return null;
+    }
+
     public String getDiscriminant() {
         return discriminant;
     }
@@ -51,9 +68,9 @@ public class VariantRecordFDD extends AbstractDataType{
         this.discriminant = discriminant;
     }
 
-    public String getDataType() {
-        return dataType;
-    }
+//    public String getDataType() {
+//        return dataType;
+//    }
 
     public void setDataType(String dataType) {
         this.dataType = dataType;

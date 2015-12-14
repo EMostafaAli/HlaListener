@@ -26,24 +26,30 @@
  */
 package ca.mali.fomparser;
 
+import hla.rti1516e.encoding.DataElement;
+
 /**
- *
  * @author Mostafa
  */
 abstract class AbstractDataType {
     private final String name;
-    private final DataTypeEnum type;
-    
-    protected AbstractDataType(String name, DataTypeEnum type){
+    private final DataTypeEnum dataType;
+    protected AbstractDataType(String name, DataTypeEnum dataType){
         this.name = name;
-        this.type = type;
+        this.dataType = dataType;
     }
 
     public String getName() {
         return name;
     }
 
-    public DataTypeEnum getType() {
-        return type;
+    abstract byte[] EncodeValue(Object value);
+
+    abstract String DecodeValue(byte[] encodedValue);
+
+    abstract DataElement getDataElement(Object value);
+
+    public DataTypeEnum getDataType() {
+        return dataType;
     }
 }

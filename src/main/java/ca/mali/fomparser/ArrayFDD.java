@@ -26,6 +26,8 @@
  */
 package ca.mali.fomparser;
 
+import hla.rti1516e.encoding.DataElement;
+
 /**
  *
  * @author Mostafa
@@ -40,9 +42,24 @@ public class ArrayFDD extends AbstractDataType{
         super(name, DataTypeEnum.ARRAY);
     }
 
-    public String getDataType() {
-        return dataType;
+    @Override
+    byte[] EncodeValue(Object value) {
+        return new byte[0];
     }
+
+    @Override
+    String DecodeValue(byte[] encodedValue) {
+        return null;
+    }
+
+    @Override
+    DataElement getDataElement(Object value) {
+        return null;
+    }
+
+//    public String getDataType() {
+//        return dataType;
+//    }
 
     public void setDataType(String dataType) {
         this.dataType = dataType;
