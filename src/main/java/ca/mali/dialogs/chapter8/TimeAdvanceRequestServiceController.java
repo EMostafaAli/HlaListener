@@ -86,7 +86,7 @@ public class TimeAdvanceRequestServiceController implements Initializable {
             logger.log(Level.WARN, ex.getMessage(), ex);
         }
 
-        SpinnerValueFactory sVF = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, Double.MAX_VALUE, 0, step);
+        SpinnerValueFactory<Double> sVF = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, Double.MAX_VALUE, 0, step);
         sVF.setValue(currentValue);
         LogicalTimeSpin.setValueFactory(sVF);
         logger.exit();

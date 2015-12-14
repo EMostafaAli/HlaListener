@@ -5,29 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="298d92fa-352a-4ab7-895f-0c45a0baa408" name="Default" comment="* change the &quot;UpdateAttribute&quot; layout to Gridpane to fix scaling problem (without any success).">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/AbstractValuePair.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/AttributeValueCell.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/AttributeValuePair.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/ParameterValueCell.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/ParameterValuePair.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/ValueListener.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/FomParser.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/ValueCell.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/mali/dialogs/chapter6/SendInteractionServiceController.java" afterPath="$PROJECT_DIR$/src/main/java/ca/mali/dialogs/chapter6/SendInteractionServiceController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/mali/dialogs/chapter6/UpdateAttributeValuesServiceController.java" afterPath="$PROJECT_DIR$/src/main/java/ca/mali/dialogs/chapter6/UpdateAttributeValuesServiceController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/mali/dialogs/chapter8/TimeAdvanceRequestServiceController.java" afterPath="$PROJECT_DIR$/src/main/java/ca/mali/dialogs/chapter8/TimeAdvanceRequestServiceController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/AbstractDataType.java" afterPath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/AbstractDataType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/ArrayFDD.java" afterPath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/ArrayFDD.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/AttribParamValuePair.java" afterPath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/AttribParamValuePair.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/AttributeFDD.java" afterPath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/AttributeFDD.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/BasicDataType.java" afterPath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/BasicDataType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/DataTypeEnum.java" afterPath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/DataTypeEnum.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/EnumeratedFDDDataType.java" afterPath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/EnumeratedFDDDataType.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/FddObjectModel.java" afterPath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/FddObjectModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/FixedRecordFDD.java" afterPath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/FixedRecordFDD.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/ParameterFDD.java" afterPath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/ParameterFDD.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/SimpleFDDDataType.java" afterPath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/SimpleFDDDataType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/VariantRecordFDD.java" afterPath="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/VariantRecordFDD.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/mali/hlalistener/ListenerFederateAmb.java" afterPath="$PROJECT_DIR$/src/main/java/ca/mali/hlalistener/ListenerFederateAmb.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/fxml/chapter6/SendInteractionService.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/chapter6/SendInteractionService.fxml" />
     </list>
     <ignored path="hlalistener.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -56,94 +41,43 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file leaf-file-name="ParameterValueCell.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/fomparser/ParameterValueCell.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="41" column="81" selection-start-line="41" selection-start-column="81" selection-end-line="41" selection-end-column="81" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AbstractValuePair.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/fomparser/AbstractValuePair.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="92" column="0" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#2228#2229#0" expanded="true" />
-                <element signature="e#2262#2263#0" expanded="true" />
-                <element signature="e#2459#2460#0" expanded="true" />
-                <element signature="e#2490#2491#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EnumeratedFDDDataType.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/fomparser/EnumeratedFDDDataType.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="41" column="25" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="25" />
-              <folding>
-                <element signature="e#2398#2399#0" expanded="true" />
-                <element signature="e#2425#2426#0" expanded="true" />
-                <element signature="e#2487#2488#0" expanded="true" />
-                <element signature="e#2514#2515#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SimpleFDDDataType.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/fomparser/SimpleFDDDataType.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.083467096">
-              <caret line="63" column="24" selection-start-line="63" selection-start-column="11" selection-end-line="63" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AttributeValueCell.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/fomparser/AttributeValueCell.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="32" column="68" selection-start-line="32" selection-start-column="68" selection-end-line="32" selection-end-column="68" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AttribParamValuePair.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/fomparser/AttribParamValuePair.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="110" column="41" selection-start-line="110" selection-start-column="13" selection-end-line="110" selection-end-column="41" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ObjectPropertyBase.java" pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk1.8.0_66/javafx-src.zip!/javafx/beans/property/ObjectPropertyBase.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="131" column="0" selection-start-line="131" selection-start-column="0" selection-end-line="131" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="SendInteractionServiceController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/dialogs/chapter6/SendInteractionServiceController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="65" column="13" selection-start-line="65" selection-start-column="13" selection-end-line="65" selection-end-column="13" />
+              <caret line="187" column="50" selection-start-line="187" selection-start-column="50" selection-end-line="187" selection-end-column="50" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ListenerFederateAmb.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/hlalistener/ListenerFederateAmb.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="601" column="0" selection-start-line="601" selection-start-column="0" selection-end-line="601" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UpdateAttributeValuesServiceController.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/dialogs/chapter6/UpdateAttributeValuesServiceController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.7543582">
+              <caret line="109" column="39" selection-start-line="109" selection-start-column="39" selection-end-line="109" selection-end-column="39" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TimeAdvanceRequestServiceController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/dialogs/chapter8/TimeAdvanceRequestServiceController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="130" column="13" selection-start-line="106" selection-start-column="11" selection-end-line="130" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -181,7 +115,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/resources/fxml/chapter9/UnassociateRegionsForUpdatesService.fxml" />
         <option value="$PROJECT_DIR$/src/main/java/ca/mali/dialogs/chapter9/UnassociateRegionsForUpdatesServiceController.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/mali/dialogs/chapter9/AssociateRegionsForUpdatesServiceController.java" />
         <option value="$PROJECT_DIR$/src/main/resources/fxml/chapter5/SubscribeObjectClassAttributesService.fxml" />
@@ -198,9 +131,7 @@
         <option value="$PROJECT_DIR$/src/main/resources/fxml/chapter10/NormalizeServiceGroupService.fxml" />
         <option value="$PROJECT_DIR$/src/main/java/ca/mali/dialogs/chapter10/NormalizeServiceGroupServiceController.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/mali/dialogs/chapter6/RequestAttributeValueUpdateServiceController.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/fxml/chapter6/SendInteractionService.fxml" />
         <option value="$PROJECT_DIR$/src/main/java/ca/mali/dialogs/chapter6/ValueCell.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ca/mali/hlalistener/ListenerFederateAmb.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/mali/hlalistener/PublicVariables.java" />
         <option value="$PROJECT_DIR$/src/main/resources/fxml/MainWindow.fxml" />
         <option value="$PROJECT_DIR$/src/main/java/ca/mali/hlalistener/TooltipCell.java" />
@@ -216,22 +147,25 @@
         <option value="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/ValueListener.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/DataTypeEnum.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/BasicDataType.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/AbstractDataType.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/SimpleFDDDataType.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/ValueCell.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/VariantRecordFDD.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/FixedRecordFDD.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/ArrayFDD.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/FddObjectModel.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/AttributeValuePair.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/AttributeValueCell.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/AbstractValuePair.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/ParameterValuePair.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/ParameterValueCell.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/mali/dialogs/chapter6/UpdateAttributeValuesServiceController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ca/mali/dialogs/chapter6/SendInteractionServiceController.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/AttribParamValuePair.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/FddObjectModel.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/EnumeratedFDDDataType.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ca/mali/fomparser/AbstractDataType.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ca/mali/dialogs/chapter8/TimeAdvanceRequestServiceController.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/fxml/chapter6/SendInteractionService.fxml" />
+        <option value="$PROJECT_DIR$/src/main/java/ca/mali/dialogs/chapter6/SendInteractionServiceController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ca/mali/hlalistener/ListenerFederateAmb.java" />
       </list>
     </option>
   </component>
@@ -251,42 +185,52 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-11" />
-    <option name="y" value="-11" />
-    <option name="width" value="1942" />
-    <option name="height" value="1102" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
       <profile-state>
         <expanded-state>
           <State>
-            <id />
-          </State>
-          <State>
             <id>Android Lint</id>
           </State>
           <State>
-            <id>Declaration redundancyJava</id>
+            <id>Control flow issuesJava</id>
           </State>
           <State>
-            <id>Internationalization issuesJava</id>
+            <id>Groovy</id>
+          </State>
+          <State>
+            <id>Initialization issuesJava</id>
           </State>
           <State>
             <id>Java</id>
           </State>
           <State>
-            <id>Maven</id>
-          </State>
-          <State>
             <id>Naming conventionsJava</id>
           </State>
-        </expanded-state>
-        <selected-state>
           <State>
-            <id>unused</id>
+            <id>Numeric issuesJava</id>
           </State>
-        </selected-state>
+          <State>
+            <id>Performance issuesJava</id>
+          </State>
+          <State>
+            <id>Potentially confusing code constructsGroovy</id>
+          </State>
+          <State>
+            <id>Probable bugsJava</id>
+          </State>
+          <State>
+            <id>Threading issuesGroovy</id>
+          </State>
+          <State>
+            <id>Threading issuesJava</id>
+          </State>
+        </expanded-state>
       </profile-state>
     </entry>
   </component>
@@ -318,6 +262,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -385,6 +330,62 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="styles" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hlalistener" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hlalistener" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fxml" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hlalistener" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hlalistener" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fxml" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="chapter6" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -508,6 +509,40 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="chapter8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hlalistener" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hlalistener" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mali" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dialogs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="chapter6" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -540,9 +575,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -551,7 +585,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.appearance" />
+    <property name="settings.editor.selected.configurable" value="preferences.intentionPowerPack" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="dynamic.classpath" value="false" />
     <property name="recentsLimit" value="5" />
@@ -596,7 +630,7 @@
       <recent name="ca.mali.dialogs.chapter6" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.MainApp">
+  <component name="RunManager" selected="Maven.HlaListener [clean,validate,compile,test...] (1)">
     <configuration default="false" name="MainApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -1148,8 +1182,8 @@
     </list>
     <recent_temporary>
       <list size="3">
-        <item index="0" class="java.lang.String" itemvalue="Application.MainApp" />
-        <item index="1" class="java.lang.String" itemvalue="Maven.HlaListener [clean,validate,compile,test...] (1)" />
+        <item index="0" class="java.lang.String" itemvalue="Maven.HlaListener [clean,validate,compile,test...] (1)" />
+        <item index="1" class="java.lang.String" itemvalue="Application.MainApp" />
         <item index="2" class="java.lang.String" itemvalue="Maven.HlaListener [clean,validate,compile,test...]" />
       </list>
     </recent_temporary>
@@ -1226,6 +1260,7 @@
       <workItem from="1449792908865" duration="406000" />
       <workItem from="1449956935572" duration="14340000" />
       <workItem from="1450019053931" duration="12209000" />
+      <workItem from="1450115222599" duration="5690000" />
     </task>
     <task id="LOCAL-00001" summary="(added) sections 10.41: 10.44&#10;(added) about window&#10;(added) icon">
       <created>1439510693736</created>
@@ -1363,7 +1398,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="261242000" />
+    <option name="totallyTimeSpent" value="266932000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1375,27 +1410,27 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-11" y="-11" width="1942" height="1102" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32930845" sideWeight="0.49570355" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32821077" sideWeight="0.4765625" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32875264" sideWeight="0.49570355" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32769555" sideWeight="0.4765625" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31851852" sideWeight="0.46861926" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29914072" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35345775" sideWeight="0.48066595" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3205269" sideWeight="0.5313808" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30338266" sideWeight="0.5313808" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32930845" sideWeight="0.4935553" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25512406" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2265625" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32975295" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3391877" sideWeight="0.48711064" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33826637" sideWeight="0.48711064" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973147" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973147" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2755214" sideWeight="0.4849624" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27484143" sideWeight="0.4849624" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1492,20 +1527,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_66/javafx-src.zip!/javafx/scene/control/TableCell.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="662" column="0" selection-start-line="662" selection-start-column="0" selection-end-line="662" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/Hla1516e/FddObjectModel/1.0.0/FddObjectModel-1.0.0.jar!/ca/mali/fdd/EnumeratedDataTypesType.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.35">
-          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/Hla1516e/FddObjectModel/1.0.0/FddObjectModel-1.0.0.jar!/ca/mali/fdd/EnumeratedDataType.class">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="18.392857">
@@ -1648,15 +1669,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="34" column="19" selection-start-line="34" selection-start-column="19" selection-end-line="34" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/hlalistener/PublicVariables.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.31350115">
-          <caret line="66" column="41" selection-start-line="66" selection-start-column="41" selection-end-line="66" selection-end-column="41" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1664,15 +1676,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4576659">
           <caret line="42" column="1" selection-start-line="42" selection-start-column="1" selection-end-line="42" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/fomparser/ParameterFDD.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3478261">
-          <caret line="48" column="27" selection-start-line="48" selection-start-column="27" selection-end-line="48" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1680,7 +1683,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="30" column="36" selection-start-line="30" selection-start-column="36" selection-end-line="30" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1706,7 +1708,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="2547" column="0" selection-start-line="2547" selection-start-column="0" selection-end-line="2547" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1743,27 +1744,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="33" column="11" selection-start-line="33" selection-start-column="11" selection-end-line="33" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/fomparser/AbstractDataType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6857143">
-          <caret line="51" column="39" selection-start-line="51" selection-start-column="39" selection-end-line="51" selection-end-column="39" />
-          <folding>
-            <element signature="e#2002#2003#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/fomparser/BasicDataType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.38782609">
-          <caret line="50" column="38" selection-start-line="50" selection-start-column="38" selection-end-line="50" selection-end-column="38" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1773,8 +1753,6 @@
           <caret line="71" column="3" selection-start-line="71" selection-start-column="3" selection-end-line="73" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="false" />
-            <element signature="e#1768#1769#0" expanded="false" />
-            <element signature="e#1823#1824#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1795,14 +1773,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/hlalistener/ListenerFederateAmb.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="53" column="38" selection-start-line="53" selection-start-column="16" selection-end-line="53" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_66/javafx-src.zip!/javafx/util/Callback.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6789727">
@@ -1819,34 +1789,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/fomparser/FddObjectModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="278" column="56" selection-start-line="278" selection-start-column="56" selection-end-line="278" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/fomparser/ParameterValuePair.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="34" column="31" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/dialogs/chapter6/UpdateAttributeValuesServiceController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="109" column="39" selection-start-line="109" selection-start-column="39" selection-end-line="109" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/dialogs/chapter6/SendInteractionServiceController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="65" column="13" selection-start-line="65" selection-start-column="13" selection-end-line="65" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -1881,10 +1827,6 @@
           <caret line="92" column="0" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2228#2229#0" expanded="true" />
-            <element signature="e#2262#2263#0" expanded="true" />
-            <element signature="e#2459#2460#0" expanded="true" />
-            <element signature="e#2490#2491#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1897,33 +1839,122 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/fomparser/AttribParamValuePair.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/fomparser/BasicDataType.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="110" column="41" selection-start-line="110" selection-start-column="13" selection-end-line="110" selection-end-column="41" />
+          <caret line="287" column="63" selection-start-line="287" selection-start-column="63" selection-end-line="287" selection-end-column="63" />
           <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/fomparser/EnumeratedFDDDataType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="41" column="25" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="25" />
-          <folding>
-            <element signature="e#2398#2399#0" expanded="true" />
-            <element signature="e#2425#2426#0" expanded="true" />
-            <element signature="e#2487#2488#0" expanded="true" />
-            <element signature="e#2514#2515#0" expanded="true" />
+            <element signature="e#1956#1957#0" expanded="true" />
+            <element signature="e#2003#2004#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/fomparser/SimpleFDDDataType.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.083467096">
-          <caret line="63" column="24" selection-start-line="63" selection-start-column="11" selection-end-line="63" selection-end-column="24" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="70" column="0" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/fomparser/EnumeratedFDDDataType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="53" column="9" selection-start-line="53" selection-start-column="9" selection-end-line="53" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/fomparser/ParameterFDD.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="48" column="27" selection-start-line="48" selection-start-column="27" selection-end-line="48" selection-end-column="27" />
+          <folding>
+            <element signature="e#1851#1852#0" expanded="true" />
+            <element signature="e#1882#1883#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/fomparser/AbstractDataType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="33" column="15" selection-start-line="33" selection-start-column="15" selection-end-line="33" selection-end-column="15" />
+          <folding>
+            <element signature="e#1978#1979#0" expanded="true" />
+            <element signature="e#2009#2010#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/fomparser/FddObjectModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="266" column="33" selection-start-line="266" selection-start-column="33" selection-end-line="266" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/hlalistener/PublicVariables.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="81" column="6" selection-start-line="81" selection-start-column="6" selection-end-line="81" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/fomparser/AttribParamValuePair.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="126" column="69" selection-start-line="126" selection-start-column="69" selection-end-line="126" selection-end-column="69" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/fxml/chapter6/SendInteractionService.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.109091">
+          <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/dialogs/chapter8/TimeAdvanceRequestServiceController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="130" column="13" selection-start-line="106" selection-start-column="11" selection-end-line="130" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/dialogs/chapter6/SendInteractionServiceController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="187" column="50" selection-start-line="187" selection-start-column="50" selection-end-line="187" selection-end-column="50" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/hlalistener/ListenerFederateAmb.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="601" column="0" selection-start-line="601" selection-start-column="0" selection-end-line="601" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ca/mali/dialogs/chapter6/UpdateAttributeValuesServiceController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7543582">
+          <caret line="109" column="39" selection-start-line="109" selection-start-column="39" selection-end-line="109" selection-end-column="39" />
           <folding />
         </state>
       </provider>

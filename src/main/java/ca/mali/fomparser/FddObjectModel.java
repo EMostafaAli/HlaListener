@@ -234,6 +234,7 @@ public class FddObjectModel {
                 simpleDataType.setUnits(simpleData.getUnits().getValue());
                 simpleDataType.setResolution(simpleData.getResolution().getValue());
                 simpleDataType.setAccuracy(simpleData.getAccuracy().getValue());
+                simpleDataType.setSemantics(simpleData.getSemantics().getValue());
                 getSimpleDataTypeMap().put(simpleDataType.getName(), simpleDataType);
             } catch (Exception ex) {
                 logger.log(Level.FATAL, ex.getMessage(), ex);
@@ -245,7 +246,7 @@ public class FddObjectModel {
         fddModel.getDataTypes().getEnumeratedDataTypes().getEnumeratedData().forEach(enumeratedData -> {
             try {
                 EnumeratedFDDDataType enumerated = new EnumeratedFDDDataType(enumeratedData.getName().getValue());
-                enumerated.setRepresentation(enumeratedData.getRepresentation().getValue());
+                enumerated.setRepresentation(getBasicDataTypeMap().get(enumeratedData.getRepresentation().getValue()));
                 enumeratedData.getEnumerator().forEach(enumerator -> {
                     EnumeratedFDDDataType.Enumerator en = new EnumeratedFDDDataType.Enumerator();
                     en.setName(enumerator.getName().getValue());
@@ -277,7 +278,9 @@ public class FddObjectModel {
             return getSimpleDataTypeMap().get(name);
         } else if (getEnumeratedDataTypeMap().containsKey(name)){
             return getEnumeratedDataTypeMap().get(name);
-        } // TODO: 12/12/2015 complete the list;
+        } else if (getArrayDataTypeMap().containsKey(name)){
+            return getArrayDataTypeMap().get(name);
+        } // TODO: 2015-12-14  add the remaining data type
         return null;
     }
 }

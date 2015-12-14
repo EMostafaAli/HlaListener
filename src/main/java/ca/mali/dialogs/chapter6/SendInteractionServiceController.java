@@ -33,9 +33,14 @@ import ca.mali.hlalistener.ClassValuePair;
 import ca.mali.hlalistener.LogEntry;
 import ca.mali.hlalistener.LogEntryType;
 import hla.rti1516e.InteractionClassHandle;
+import hla.rti1516e.LogicalTime;
 import hla.rti1516e.ParameterHandle;
 import hla.rti1516e.ParameterHandleValueMap;
 import hla.rti1516e.exceptions.*;
+import hla.rti1516e.time.HLAfloat64Time;
+import hla.rti1516e.time.HLAfloat64TimeFactory;
+import hla.rti1516e.time.HLAinteger64Time;
+import hla.rti1516e.time.HLAinteger64TimeFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -83,6 +88,9 @@ public class SendInteractionServiceController implements Initializable {
     private TextField UserSuppliedTag;
 
     @FXML
+    private CheckBox LogicalTimeCheck;
+
+    @FXML
     private Spinner<Double> LogicalTimeSpin;
 
     @FXML
@@ -111,8 +119,29 @@ public class SendInteractionServiceController implements Initializable {
             if (InteractionClassName.getItems().size() > 0) {
                 InteractionClassName.setValue(InteractionClassName.getItems().get(0));
             }
-            OkButton.disableProperty().bind(UserSuppliedTag.textProperty().isEmpty());
+            double currentValue = 0;
+            double step = .1;
+            try {
+                if (logicalTimeFactory != null) {
+                    switch (logicalTimeFactory.getName()) {
+                        case "HLAfloat64Time":
+                            currentValue = ((HLAfloat64Time) currentLogicalTime).getValue();
+                            break;
+                        case "HLAinteger64Time":
+                            step = 1;
+                            currentValue = ((HLAinteger64Time) currentLogicalTime).getValue();
+                            break;
+                    }
+                }
+            } catch (Exception ex) {
+                logger.log(Level.WARN, ex.getMessage(), ex);
+            }
+            SpinnerValueFactory<Double> sVF = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, Double.MAX_VALUE, 0, step);
+            sVF.setValue(currentValue);
+            LogicalTimeSpin.setValueFactory(sVF);
         }
+        OkButton.disableProperty().bind(UserSuppliedTag.textProperty().isEmpty());
+        LogicalTimeSpin.disableProperty().bind(LogicalTimeCheck.selectedProperty().not());
         logger.exit();
     }
 
@@ -136,13 +165,40 @@ public class SendInteractionServiceController implements Initializable {
             valuePairList.forEach(parameterValuePair -> {
                 parameterHandleValueMap.put(parameterValuePair.getHandle(), parameterValuePair.EncodeValue());
                 log.getSuppliedArguments().add(new ClassValuePair("Parameter <Handle>", ParameterHandle.class,
-                        parameterValuePair.getName() +"<" + parameterValuePair.getHandle()+">"));
+                        parameterValuePair.getName() + "<" + parameterValuePair.getHandle() + ">"));
                 log.getSuppliedArguments().add(new ClassValuePair("Value <Encoded>", Object.class,
-                        parameterValuePair.getValue().toString() + "<" + Arrays.toString(parameterValuePair.EncodeValue()) +">"));
+                        parameterValuePair.getValue().toString() + "<" + Arrays.toString(parameterValuePair.EncodeValue()) + ">"));
             });
             log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte[].class, UserSuppliedTag.getText()));
-            rtiAmb.sendInteraction(InteractionClassName.getValue().getHandle(), parameterHandleValueMap, UserSuppliedTag.getText().getBytes(Charset.forName("UTF-8")));
-            //TODO: 11/15/2015 Using time stamp
+            if (LogicalTimeCheck.isSelected()) {
+                if (logicalTimeFactory == null) { //means not connected or federate is not execution member
+                    rtiAmb.getTimeFactory(); //this line will raise the appropriate exception
+                }
+                LogicalTime logicalTime;
+                switch (logicalTimeFactory.getName()) {
+                    case "HLAfloat64Time": {
+                        logicalTime = ((HLAfloat64TimeFactory) logicalTimeFactory).makeTime(LogicalTimeSpin.getValue());
+                        log.getSuppliedArguments().add(new ClassValuePair("Logical Time", HLAfloat64Time.class, logicalTime.toString()));
+                        log.setSimulationTime(LogicalTimeSpin.getValue().toString());
+                        break;
+                    }
+                    case "HLAinteger64Time": {
+                        if (!(LogicalTimeSpin.getValue() % 1 == 0)) {
+                            throw new InvalidLogicalTime("The federate time is HLAinteger64Time, logical time cannot be double");
+                        }
+                        logicalTime
+                                = ((HLAinteger64TimeFactory) logicalTimeFactory).makeTime(LogicalTimeSpin.getValue().longValue());
+                        log.getSuppliedArguments().add(new ClassValuePair("Logical Time", HLAinteger64Time.class, logicalTime.toString()));
+                        log.setSimulationTime(String.valueOf(LogicalTimeSpin.getValue().longValue()));
+                        break;
+                    }
+                    default:
+                        throw new Exception("Unknown Time Implementation");
+                }
+                rtiAmb.sendInteraction(InteractionClassName.getValue().getHandle(), parameterHandleValueMap, UserSuppliedTag.getText().getBytes(Charset.forName("UTF-8")), logicalTime);
+            } else {
+                rtiAmb.sendInteraction(InteractionClassName.getValue().getHandle(), parameterHandleValueMap, UserSuppliedTag.getText().getBytes(Charset.forName("UTF-8")));
+            }
             log.setDescription("Interaction sent successfully");
             log.setLogType(LogEntryType.REQUEST);
         } catch (InteractionParameterNotDefined | InteractionClassNotPublished | InteractionClassNotDefined |

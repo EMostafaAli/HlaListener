@@ -66,7 +66,7 @@
         <VBox.margin>
             <Insets left="15.0" right="15.0" top="15.0"/>
         </VBox.margin>
-        <Label prefHeight="27.0" prefWidth="144.0" text="Logical Time:"/>
+        <CheckBox fx:id="LogicalTimeCheck" text="Specify Logical Time:" allowIndeterminate="false"/>
         <Spinner fx:id="LogicalTimeSpin" editable="true" prefHeight="25.0" prefWidth="139.0"/>
     </HBox>
     <HBox alignment="CENTER_RIGHT" prefHeight="6.0" prefWidth="401.0">

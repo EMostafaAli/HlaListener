@@ -50,9 +50,9 @@ public class EnumeratedFDDDataType extends AbstractDataType {
         Optional<Enumerator> first = getEnumerator().stream().filter(enumerator ->
                 enumerator.getName() == value.toString()).findFirst();
         if (first.isPresent()) {
-            encodedValue = fddObjectModel.getBasicDataTypeMap().get(enumerated.getRepresentation()).EncodeValue(first.get().getValues().get(0));
+            encodedValue = getRepresentation().EncodeValue(first.get().getValues().get(0));
         }
-        return new byte[0];
+        return encodedValue;
     }
 
     @Override

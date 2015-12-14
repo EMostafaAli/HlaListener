@@ -31,7 +31,7 @@ import hla.rti1516e.encoding.DataElement;
 /**
  * @author Mostafa
  */
-abstract class AbstractDataType {
+public abstract class AbstractDataType {
     private final String name;
     private final DataTypeEnum dataType;
     protected AbstractDataType(String name, DataTypeEnum dataType){
