@@ -26,7 +26,12 @@
  */
 package ca.mali.hlalistener;
 
-import ca.mali.fomparser.*;
+import ca.mali.fomparser.FddObjectModel;
+import ca.mali.fomparser.InteractionClassFDD;
+import ca.mali.fomparser.ObjectClassFDD;
+import ca.mali.fomparser.ObjectInstanceFDD;
+import ca.mali.fomparser.datatype.EnumeratedFDDDataType;
+import ca.mali.fomparser.datatype.SimpleFDDDataType;
 import hla.rti1516e.*;
 import hla.rti1516e.encoding.HLAunicodeString;
 import hla.rti1516e.exceptions.FederateInternalError;

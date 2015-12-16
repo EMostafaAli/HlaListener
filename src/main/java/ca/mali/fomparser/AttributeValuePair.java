@@ -42,8 +42,7 @@ public class AttributeValuePair extends AbstractValuePair {
     }
 
     public static AttributeValuePair getInstance(AttributeFDD attributeFDD) { //Factory pattern
-        AttributeValuePair attributeValuePair = new AttributeValuePair(attributeFDD);
-        return attributeValuePair;
+        return new AttributeValuePair(attributeFDD);
     }
 
     public AttributeHandle getHandle() {

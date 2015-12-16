@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, Mostafa Ali
+ * Copyright (c) 2015, Mostafa
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -25,8 +25,9 @@
  *   DAMAGE.
  */
 
-package ca.mali.fomparser;
+package ca.mali.fomparser.datatype;
 
+import ca.mali.fomparser.DataTypeEnum;
 import hla.rti1516e.encoding.*;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -169,18 +170,6 @@ public class BasicDataType extends AbstractDataType {
                 encodedValue = encoder.toByteArray();
                 break;
             }
-//            case "HLAASCIIstring": {
-//                HLAASCIIstring encoder = encoderFactory.createHLAASCIIstring();
-//                encoder.setValue(value);
-//                encodedValue = encoder.toByteArray();
-//                break;
-//            }
-//            case "HLAunicodeString": {
-//                HLAunicodeString encoder = encoderFactory.createHLAunicodeString();
-//                encoder.setValue(value);
-//                encodedValue = encoder.toByteArray();
-//                break;
-//            }
             default: {
                 //TODO: 11/15/2015 encoder for custom types
                 break;
@@ -272,18 +261,6 @@ public class BasicDataType extends AbstractDataType {
                     value = String.valueOf(encoder.getValue());
                     break;
                 }
-//                case "HLAASCIIstring": {
-//                    HLAASCIIstring encoder = encoderFactory.createHLAASCIIstring();
-//                    encoder.decode(encodedValue);
-//                    value = encoder.getValue();
-//                    break;
-//                }
-//                case "HLAunicodeString": {
-//                    HLAunicodeString encoder = encoderFactory.createHLAunicodeString();
-//                    encoder.decode(encodedValue);
-//                    value = encoder.getValue();
-//                    break;
-//                }
                 default: {
                     //TODO: 11/15/2015 encoder for custom types
                     break;
@@ -296,7 +273,7 @@ public class BasicDataType extends AbstractDataType {
     }
 
     @Override
-    DataElement getDataElement(Object value) {
+    public DataElement getDataElement(Object value) {
         switch (getName()) {
             case "HLAinteger16BE": {
                 HLAinteger16BE encoder = encoderFactory.createHLAinteger16BE();
@@ -363,16 +340,6 @@ public class BasicDataType extends AbstractDataType {
                 encoder.setValue(Byte.parseByte(value.toString()));
                 return encoder;
             }
-//            case "HLAASCIIstring": {
-//                HLAASCIIstring encoder = encoderFactory.createHLAASCIIstring();
-//                encoder.setValue(value);
-//                return encoder;
-//            }
-//            case "HLAunicodeString": {
-//                HLAunicodeString encoder = encoderFactory.createHLAunicodeString();
-//                encoder.setValue(value);
-//                return encoder;
-//            }
             default: {
                 //TODO: 11/15/2015 encoder for custom types
                 break;

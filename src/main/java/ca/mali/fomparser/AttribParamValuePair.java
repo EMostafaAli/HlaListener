@@ -27,6 +27,7 @@
 
 package ca.mali.fomparser;
 
+import ca.mali.fomparser.datatype.AbstractDataType;
 import hla.rti1516e.AttributeHandle;
 import hla.rti1516e.ParameterHandle;
 import javafx.beans.property.ObjectProperty;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, Mostafa Ali
+ * Copyright (c) 2015, Mostafa
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -24,43 +24,33 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
  *   DAMAGE.
  */
-package ca.mali.fomparser;
+package ca.mali.fomparser.datatype;
 
-import ca.mali.fomparser.datatype.AbstractDataType;
-import hla.rti1516e.ParameterHandle;
+import ca.mali.fomparser.DataTypeEnum;
+import hla.rti1516e.encoding.DataElement;
 
 /**
- *
  * @author Mostafa
  */
-public class ParameterFDD {
+public abstract class AbstractDataType {
     private final String name;
-    private final AbstractDataType dataType;
-    private ParameterHandle handle;
-
-    public ParameterFDD(String name, AbstractDataType dataType) {
+    private final DataTypeEnum dataType;
+    protected AbstractDataType(String name, DataTypeEnum dataType){
         this.name = name;
         this.dataType = dataType;
     }
-    
+
     public String getName() {
         return name;
     }
 
-    public AbstractDataType getDataType() {
+    public abstract byte[] EncodeValue(Object value);
+
+    public abstract String DecodeValue(byte[] encodedValue);
+
+    public abstract DataElement getDataElement(Object value);
+
+    public DataTypeEnum getDataType() {
         return dataType;
-    }
-
-    public ParameterHandle getHandle() {
-        return handle;
-    }
-
-    public void setHandle(ParameterHandle handle) {
-        this.handle = handle;
-    }
-
-    @Override
-    public String toString() {
-        return name;
     }
 }

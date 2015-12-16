@@ -27,6 +27,10 @@
 package ca.mali.fomparser;
 
 import ca.mali.fdd.*;
+import ca.mali.fomparser.datatype.AbstractDataType;
+import ca.mali.fomparser.datatype.ArrayFDD;
+import ca.mali.fomparser.datatype.EnumeratedFDDDataType;
+import ca.mali.fomparser.datatype.SimpleFDDDataType;
 import ca.mali.hlalistener.PublicVariables;
 import hla.rti1516e.DimensionHandle;
 import hla.rti1516e.TransportationTypeHandle;
@@ -61,7 +65,7 @@ public class FddObjectModel {
     private Map<String, UpdateRateFDD> updateRates = new TreeMap<>();
     private Map<String, TransportationFDD> Transportation = new TreeMap<>();
     private Map<String, DimensionFDD> Dimensions = new TreeMap<>();
-    private Map<String, BasicDataType> basicDataTypeMap = new TreeMap<>();
+    private Map<String, ca.mali.fomparser.datatype.BasicDataType> basicDataTypeMap = new TreeMap<>();
     private Map<String, SimpleFDDDataType> simpleDataTypeMap = new TreeMap<>();
     private Map<String, EnumeratedFDDDataType> enumeratedDataTypeMap = new TreeMap<>();
     private Map<String, ArrayFDD> arrayDataTypeMapDataTypeMap = new TreeMap<>();
@@ -101,7 +105,7 @@ public class FddObjectModel {
         return interactionClasses;
     }
 
-    public Map<String, BasicDataType> getBasicDataTypeMap() {
+    public Map<String, ca.mali.fomparser.datatype.BasicDataType> getBasicDataTypeMap() {
         return basicDataTypeMap;
     }
 
@@ -214,7 +218,7 @@ public class FddObjectModel {
     private void readBasicDataType() {
         fddModel.getDataTypes().getBasicDataRepresentations().getBasicData().forEach(basicData -> {
             try {
-                BasicDataType basicDataType = new BasicDataType(basicData.getName().getValue());
+                ca.mali.fomparser.datatype.BasicDataType basicDataType = new ca.mali.fomparser.datatype.BasicDataType(basicData.getName().getValue());
                 basicDataType.setInterpretation(basicData.getInterpretation().getValue());
                 basicDataType.setSize(basicData.getSize().getValue().intValue());
                 basicDataType.setEncoding(basicData.getEncoding().getValue());
@@ -264,7 +268,7 @@ public class FddObjectModel {
     private void readArrayDataType(){
         fddModel.getDataTypes().getArrayDataTypes().getArrayData().forEach(arrayData -> {
             ArrayFDD arrayFDD = new ArrayFDD(arrayData.getName().getValue());
-            arrayFDD.setDataType(arrayData.getDataType().getValue());
+//            arrayFDD.setDataType(arrayData.getDataType().getValue());
             arrayFDD.setCardinality(arrayData.getCardinality().getValue());
             arrayFDD.setEncoding(arrayData.getEncoding().getValue());
             getArrayDataTypeMap().put(arrayFDD.getName(), arrayFDD);
