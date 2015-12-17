@@ -273,7 +273,7 @@ public class MainWindowController implements Initializable {
         }
     }
 
-// <editor-fold desc="Chapter 4">
+    // <editor-fold desc="Chapter 4">
     //4.2
     @FXML
     private void Connect_click(ActionEvent event) {
@@ -566,8 +566,8 @@ public class MainWindowController implements Initializable {
         logger.exit();
     }
 // </editor-fold>
- 
-// <editor-fold desc="Chapter 5">
+
+    // <editor-fold desc="Chapter 5">
     //5.2
     @FXML
     private void PublishObjects_click(ActionEvent event) {
@@ -579,7 +579,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Publish Object Class Attributes service dialog box", ex);
         }
     }
-    
+
     //5.3
     @FXML
     private void UnpublishObjects_click(ActionEvent event) {
@@ -591,7 +591,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Unpublish Object Class Attributes service dialog box", ex);
         }
     }
-    
+
     //5.4
     @FXML
     private void PublishInteraction_click(ActionEvent event) {
@@ -603,7 +603,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Publish Interaction Class service dialog box", ex);
         }
     }
-    
+
     //5.5
     @FXML
     private void UnpublishInteraction_click(ActionEvent event) {
@@ -615,7 +615,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Unpublish Interaction Class service dialog box", ex);
         }
     }
-    
+
     //5.6
     @FXML
     private void SubscribeObjects_click(ActionEvent event) {
@@ -627,7 +627,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Subscribe Object Class Attributes service dialog box", ex);
         }
     }
-    
+
     //5.7
     @FXML
     private void UnsubscribeObjects_click(ActionEvent event) {
@@ -639,7 +639,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Unsubscribe Object Class Attributes service dialog box", ex);
         }
     }
-    
+
     //5.8
     @FXML
     private void SubscribeInteractions_click(ActionEvent event) {
@@ -651,7 +651,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Subscribe Interaction Class service dialog box", ex);
         }
     }
-    
+
     //5.9
     @FXML
     private void UnsubscribeInteractions_click(ActionEvent event) {
@@ -665,7 +665,7 @@ public class MainWindowController implements Initializable {
     }
 // </editor-fold>
 
-// <editor-fold desc="Chapter 6">
+    // <editor-fold desc="Chapter 6">
     //6.2
     @FXML
     private void ReserveName_click(ActionEvent event) {
@@ -677,7 +677,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Reserve Object Instance Name service dialog box", ex);
         }
     }
-    
+
     //6.4
     @FXML
     private void ReleaseName_click(ActionEvent event) {
@@ -689,7 +689,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Release Object Instance Name service dialog box", ex);
         }
     }
-    
+
     //6.5
     @FXML
     private void ReserveMultipleNames_click(ActionEvent event) {
@@ -701,7 +701,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Reserve Multiple Object Instance Names service dialog box", ex);
         }
     }
-    
+
     //6.7
     @FXML
     private void ReleaseMultipleNames_click(ActionEvent event) {
@@ -725,7 +725,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Update Attribute values service dialog box", ex);
         }
     }
-    
+
     //6.8
     @FXML
     private void RegisterObject_click(ActionEvent event) {
@@ -761,7 +761,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Delete Object Instance service dialog box", ex);
         }
     }
-    
+
     //6.16
     @FXML
     private void LocalDeleteObject_click(ActionEvent event) {
@@ -785,7 +785,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Request Attribute Value Update service dialog box", ex);
         }
     }
-    
+
     //6.23
     @FXML
     private void RequestAttributeTransporationChange_click(ActionEvent event) {
@@ -797,7 +797,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Request Attribute Transportation Type Change service dialog box", ex);
         }
     }
-    
+
     //6.25
     @FXML
     private void QueryAttributeTransporation_click(ActionEvent event) {
@@ -809,7 +809,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Query Attribute Transportation Type service dialog box", ex);
         }
     }
-    
+
     //6.27
     @FXML
     private void RequestTransportationType_click(ActionEvent event) {
@@ -821,7 +821,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Request Interaction Transportation Type Change service dialog box", ex);
         }
     }
-    
+
     //6.29
     @FXML
     private void QueryInteractionTransportation_click(ActionEvent event) {
@@ -835,7 +835,7 @@ public class MainWindowController implements Initializable {
     }
 // </editor-fold>
 
-// <editor-fold desc="Chapter 7">
+    // <editor-fold desc="Chapter 7">
     //7.2
     @FXML
     private void UnconditionalDivistiture_click(ActionEvent event) {
@@ -847,7 +847,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Unconditional Attribute Ownership Divestiture service dialog box", ex);
         }
     }
-    
+
     //7.3
     @FXML
     private void NegotiateDivistiture_click(ActionEvent event) {
@@ -859,7 +859,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Negotiated Attribute Ownership Divestiture service dialog box", ex);
         }
     }
-    
+
     //7.6
     @FXML
     private void ConfirmDivistiture_click(ActionEvent event) {
@@ -871,7 +871,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Confirm Divestiture service dialog box", ex);
         }
     }
-    
+
     //7.8
     @FXML
     private void AttributeAcquisition_click(ActionEvent event) {
@@ -883,7 +883,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Attribute Ownership Acquisition service dialog box", ex);
         }
     }
-    
+
     //7.9
     @FXML
     private void AttributeAcquisitionIfAvailable_click(ActionEvent event) {
@@ -895,7 +895,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Attribute Ownership Acquisition If Available service dialog box", ex);
         }
     }
-    
+
     //7.12
     @FXML
     private void AttributeReleaseDenied_click(ActionEvent event) {
@@ -907,7 +907,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Attribute Ownership Release Denied service dialog box", ex);
         }
     }
-    
+
     //7.13
     @FXML
     private void AttributeDivestitureIfWanted_click(ActionEvent event) {
@@ -919,7 +919,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Attribute Ownership Divestiture If Wanted service dialog box", ex);
         }
     }
-    
+
     //7.14
     @FXML
     private void CancelOwnershipDivestiture_click(ActionEvent event) {
@@ -931,7 +931,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Cancel Negotiated Attribute Ownership Divestiture service dialog box", ex);
         }
     }
-    
+
     //7.15
     @FXML
     private void CancelOwnershipAcquistion_click(ActionEvent event) {
@@ -943,7 +943,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Cancel Attribute Ownership Acquisition service dialog box", ex);
         }
     }
-    
+
     //7.17
     @FXML
     private void QueryAttributeOwnership_click(ActionEvent event) {
@@ -955,7 +955,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Query Attribute Ownership service dialog box", ex);
         }
     }
-    
+
     //7.19
     @FXML
     private void IsAttributeOwned_click(ActionEvent event) {
@@ -967,10 +967,10 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Is Attribute Owned by Federate service dialog box", ex);
         }
     }
- 
+
 // </editor-fold>
 
-// <editor-fold desc="Chapter 8">
+    // <editor-fold desc="Chapter 8">
     //8.2
     @FXML
     private void EnableTimeRegulation_click(ActionEvent event) {
@@ -1053,7 +1053,7 @@ public class MainWindowController implements Initializable {
         logEntries.add(log);
         logger.exit();
     }
-    
+
     //8.8
     @FXML
     private void TimeAdvanceRequest_click(ActionEvent event) {
@@ -1065,7 +1065,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Time Advance Request service dialog box", ex);
         }
     }
-    
+
     //8.9
     @FXML
     private void TimeAdvanceRequestAvailable_click(ActionEvent event) {
@@ -1077,7 +1077,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Time Advance Request Available service dialog box", ex);
         }
     }
-    
+
     //8.10
     @FXML
     private void NextMessageRequest_click(ActionEvent event) {
@@ -1089,7 +1089,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Next Message Request service dialog box", ex);
         }
     }
-    
+
     //8.11
     @FXML
     private void NextMessageRequestAvailable_click(ActionEvent event) {
@@ -1101,7 +1101,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Next Message Request Available service dialog box", ex);
         }
     }
-    
+
     //8.12
     @FXML
     private void FlushQueueRequest_click(ActionEvent event) {
@@ -1255,7 +1255,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Modify Lookahed service dialog box", ex);
         }
     }
-    
+
     //8.20
     @FXML
     private void QueryLookahead_click(ActionEvent event) {
@@ -1279,7 +1279,7 @@ public class MainWindowController implements Initializable {
         logEntries.add(log);
         logger.exit();
     }
-    
+
     //8.21
     @FXML
     private void RetractMessage_click(ActionEvent event) {
@@ -1291,7 +1291,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Retract service dialog box", ex);
         }
     }
-    
+
     //8.23
     @FXML
     private void ChangeAttributeOrderType_click(ActionEvent event) {
@@ -1303,7 +1303,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Change Attribute Order Type service dialog box", ex);
         }
     }
-    
+
     //8.24
     @FXML
     private void ChangeInteractionOrderType_click(ActionEvent event) {
@@ -1471,7 +1471,7 @@ public class MainWindowController implements Initializable {
         logEntries.add(log);
         logger.exit();
     }
-    
+
     //10.3
     @FXML
     private void SetAutomaticResignDirective_click(ActionEvent event) {
@@ -1483,7 +1483,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Set Automatic Resign Directive service dialog box", ex);
         }
     }
-    
+
     //10.4
     @FXML
     private void GetFederateHandle_click(ActionEvent event) {
@@ -1495,7 +1495,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Get Federate Handle service dialog box", ex);
         }
     }
-    
+
     //10.5
     @FXML
     private void GetFederateName_click(ActionEvent event) {
@@ -1507,7 +1507,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Get Federate Name service dialog box", ex);
         }
     }
-    
+
     //10.6
     @FXML
     private void GetObjectClassHandle_click(ActionEvent event) {
@@ -1519,7 +1519,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Get Object Class Handle service dialog box", ex);
         }
     }
-    
+
     //10.7
     @FXML
     private void GetObjectClassName_click(ActionEvent event) {
@@ -1531,7 +1531,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Get Object Class Name service dialog box", ex);
         }
     }
-    
+
     //10.8
     @FXML
     private void GetKnownObjectClassHandle_click(ActionEvent event) {
@@ -1543,7 +1543,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Get Known Object Class Handle service dialog box", ex);
         }
     }
-    
+
     //10.9
     @FXML
     private void GetObjectInstanceHandle_click(ActionEvent event) {
@@ -1555,7 +1555,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Get Object Instance Handle service dialog box", ex);
         }
     }
-    
+
     //10.10
     @FXML
     private void GetObjectInstanceName_click(ActionEvent event) {
@@ -1567,7 +1567,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Get Object Instance Name service dialog box", ex);
         }
     }
-    
+
     //10.11
     @FXML
     private void GetAttributeHandle_click(ActionEvent event) {
@@ -1579,7 +1579,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Get Attribute Handle service dialog box", ex);
         }
     }
-    
+
     //10.12
     @FXML
     private void GetAttributeName_click(ActionEvent event) {
@@ -1591,7 +1591,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Get Attribute Name service dialog box", ex);
         }
     }
-    
+
     //10.13
     @FXML
     private void GetUpdateRateValue_click(ActionEvent event) {
@@ -1603,7 +1603,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Get Update Rate Value service dialog box", ex);
         }
     }
-    
+
     //10.14
     @FXML
     private void GetUpdateRateValueForAttribute_click(ActionEvent event) {
@@ -1615,7 +1615,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Get Update Rate Value For Attribute service dialog box", ex);
         }
     }
-    
+
     //10.15
     @FXML
     private void GetInteractionHandle_click(ActionEvent event) {
@@ -1627,7 +1627,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Get Interaction Class Handle service dialog box", ex);
         }
     }
-    
+
     //10.16
     @FXML
     private void GetInteractionName_click(ActionEvent event) {
@@ -1639,7 +1639,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Get Interaction Class Name service dialog box", ex);
         }
     }
-    
+
     //10.18
     @FXML
     private void GetParameterName_click(ActionEvent event) {
@@ -1651,7 +1651,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Get Parameter Name service dialog box", ex);
         }
     }
-    
+
     //10.19
     @FXML
     private void GetOrderType_click(ActionEvent event) {
@@ -1663,7 +1663,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Get Order Type service dialog box", ex);
         }
     }
-    
+
     //10.20
     @FXML
     private void GetOrderName_click(ActionEvent event) {
@@ -1675,7 +1675,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Get Order Name service dialog box", ex);
         }
     }
-    
+
     //10.21
     @FXML
     private void GetTransportationTypeHandle_click(ActionEvent event) {
@@ -1687,7 +1687,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Get Transportation Type Handle service dialog box", ex);
         }
     }
-    
+
     //10.22
     @FXML
     private void GetTransportationTypeName_click(ActionEvent event) {
@@ -1699,7 +1699,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Get Transportation Type Name service dialog box", ex);
         }
     }
-    
+
     //10.23
     @FXML
     private void GetAvailDimAttribute_click(ActionEvent event) {
@@ -1711,7 +1711,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Get Available Dimensions For Class Attribute service dialog box", ex);
         }
     }
-    
+
     //10.24
     @FXML
     private void GetAvailDimInteraction_click(ActionEvent event) {
@@ -1819,7 +1819,7 @@ public class MainWindowController implements Initializable {
             logger.log(Level.FATAL, "Error Displaying Normalize Service Group service dialog box", ex);
         }
     }
-    
+
     //10.33
     @FXML
     private void EnableObjectClassRelevanceAdvisorySwitch_click(ActionEvent event) {
@@ -1842,7 +1842,7 @@ public class MainWindowController implements Initializable {
         logEntries.add(log);
         logger.exit();
     }
-    
+
     //10.34
     @FXML
     private void DisableObjectClassRelevanceAdvisorySwitch_click(ActionEvent event) {
@@ -1957,7 +1957,7 @@ public class MainWindowController implements Initializable {
         logEntries.add(log);
         logger.exit();
     }
-    
+
     //10.39
     @FXML
     private void EnableInteractionRelevanceAdvisorySwitch_click(ActionEvent event) {
@@ -1980,7 +1980,7 @@ public class MainWindowController implements Initializable {
         logEntries.add(log);
         logger.exit();
     }
-    
+
     //10.40
     @FXML
     private void DisableInteractionRelevanceAdvisorySwitch_click(ActionEvent event) {

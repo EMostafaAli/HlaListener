@@ -47,7 +47,6 @@ public class FixedRecordFDD extends AbstractDataType {
     //Logger
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger();
 
-    private String recordName;
     private String encoding;
     private String semantics;
     private List<Field> fields;
@@ -89,14 +88,6 @@ public class FixedRecordFDD extends AbstractDataType {
             hlAfixedRecord.add(fields.get(i).getDataType().getDataElement(values[i]));
         }
         return hlAfixedRecord;
-    }
-
-    public String getRecordName() {
-        return recordName;
-    }
-
-    public void setRecordName(String recordName) {
-        this.recordName = recordName;
     }
 
     public String getEncoding() {

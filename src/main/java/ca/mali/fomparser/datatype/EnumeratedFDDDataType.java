@@ -41,6 +41,7 @@ public class EnumeratedFDDDataType extends AbstractDataType {
 
     private BasicDataType representation;
     private List<Enumerator> enumerator;
+    private String semantics;
 
     public EnumeratedFDDDataType(String name) {
         super(name, DataTypeEnum.ENUMERATED);
@@ -80,6 +81,14 @@ public class EnumeratedFDDDataType extends AbstractDataType {
             enumerator = new ArrayList<>();
         }
         return this.enumerator;
+    }
+
+    public String getSemantics() {
+        return semantics;
+    }
+
+    public void setSemantics(String semantics) {
+        this.semantics = semantics;
     }
 
     public static class Enumerator {

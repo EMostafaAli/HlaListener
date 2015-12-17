@@ -33,22 +33,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author Mostafa
  */
 public class VariantRecordFDD extends AbstractDataType {
 
-    private String discriminant;
-    private String dataType;
+    private String discriminantName;
+    private EnumeratedFDDDataType discriminantType;
     private List<Field> alternatives;
-    
+    private String encoding;
+    private String Semantics;
+
     public VariantRecordFDD(String name) {
         super(name, DataTypeEnum.VARIANTRECORD);
     }
 
     @Override
     public byte[] EncodeValue(Object value) {
-        return new byte[0];
+        return null;
     }
 
     @Override
@@ -61,33 +62,52 @@ public class VariantRecordFDD extends AbstractDataType {
         return null;
     }
 
-    public String getDiscriminant() {
-        return discriminant;
+    public String getDiscriminantName() {
+        return discriminantName;
     }
 
-    public void setDiscriminant(String discriminant) {
-        this.discriminant = discriminant;
+    public void setDiscriminantName(String discriminantName) {
+        this.discriminantName = discriminantName;
     }
 
-//    public String getDataType() {
-//        return dataType;
-//    }
-
-    public void setDataType(String dataType) {
-        this.dataType = dataType;
+    public EnumeratedFDDDataType getDiscriminantType() {
+        return discriminantType;
     }
-    
+
+    public void setDiscriminantType(EnumeratedFDDDataType discriminantType) {
+        this.discriminantType = discriminantType;
+    }
+
+    public String getEncoding() {
+        return encoding;
+    }
+
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
+    }
+
+    public String getSemantics() {
+        return Semantics;
+    }
+
+    public void setSemantics(String semantics) {
+        Semantics = semantics;
+    }
+
     public List<Field> getAlternatives() {
         if (alternatives == null) {
             alternatives = new ArrayList<>();
         }
         return this.alternatives;
     }
-    
-    public static class Field{
-        
-        protected String name;
-        protected String dataType;
+
+    public static class Field {
+
+        private String name;
+        private String enumeratorSet;
+        private AbstractDataType dataType;
+        private String semantics;
+
 
         public String getName() {
             return name;
@@ -97,12 +117,28 @@ public class VariantRecordFDD extends AbstractDataType {
             this.name = name;
         }
 
-        public String getDataType() {
+        public String getEnumeratorSet() {
+            return enumeratorSet;
+        }
+
+        public void setEnumeratorSet(String enumeratorSet) {
+            this.enumeratorSet = enumeratorSet;
+        }
+
+        public AbstractDataType getDataType() {
             return dataType;
         }
 
-        public void setDataType(String dataType) {
+        public void setDataType(AbstractDataType dataType) {
             this.dataType = dataType;
+        }
+
+        public String getSemantics() {
+            return semantics;
+        }
+
+        public void setSemantics(String semantics) {
+            this.semantics = semantics;
         }
     }
 }

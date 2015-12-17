@@ -112,7 +112,7 @@ public abstract class AbstractValuePair {
                 gridPane.setPadding(new Insets(0, 5, 0, 5));
                 for (int i = 0; i < values.length; i++) {
                     Text title = new Text(fixedRecordFDD.getFields().get(i).getName());
-                    gridPane.add(title, i, 0);
+                    gridPane.add(title, 0, i);
                 }
                 ScrollPane scrollPane = new ScrollPane(gridPane);
                 scrollPane.setFitToWidth(true);

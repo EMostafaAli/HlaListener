@@ -27,10 +27,8 @@
 package ca.mali.fomparser;
 
 import ca.mali.fdd.*;
-import ca.mali.fomparser.datatype.AbstractDataType;
-import ca.mali.fomparser.datatype.ArrayFDD;
-import ca.mali.fomparser.datatype.EnumeratedFDDDataType;
-import ca.mali.fomparser.datatype.SimpleFDDDataType;
+import ca.mali.fomparser.datatype.*;
+import ca.mali.fomparser.datatype.BasicDataType;
 import ca.mali.hlalistener.PublicVariables;
 import hla.rti1516e.DimensionHandle;
 import hla.rti1516e.TransportationTypeHandle;
@@ -65,10 +63,12 @@ public class FddObjectModel {
     private Map<String, UpdateRateFDD> updateRates = new TreeMap<>();
     private Map<String, TransportationFDD> Transportation = new TreeMap<>();
     private Map<String, DimensionFDD> Dimensions = new TreeMap<>();
-    private Map<String, ca.mali.fomparser.datatype.BasicDataType> basicDataTypeMap = new TreeMap<>();
+    private Map<String, BasicDataType> basicDataTypeMap = new TreeMap<>();
     private Map<String, SimpleFDDDataType> simpleDataTypeMap = new TreeMap<>();
     private Map<String, EnumeratedFDDDataType> enumeratedDataTypeMap = new TreeMap<>();
-    private Map<String, ArrayFDD> arrayDataTypeMapDataTypeMap = new TreeMap<>();
+    private Map<String, ArrayFDD> arrayDataTypeMap = new TreeMap<>();
+    private Map<String, FixedRecordFDD> fixedRecordTypeMap = new TreeMap<>();
+    private Map<String, VariantRecordFDD> variantRecordTypeMap = new TreeMap<>();
 
     public FddObjectModel(String fddText) {
         logger.entry();
@@ -82,6 +82,9 @@ public class FddObjectModel {
             readSimpleDataType();
             readEnumeratedDataType();
             readArrayDataType();
+            readFixedDataType();
+            readVariantDataType();
+            readDependantDataType();
             readUpdateRate();
             readTransportationType();
             readDimension();
@@ -105,7 +108,7 @@ public class FddObjectModel {
         return interactionClasses;
     }
 
-    public Map<String, ca.mali.fomparser.datatype.BasicDataType> getBasicDataTypeMap() {
+    public Map<String, BasicDataType> getBasicDataTypeMap() {
         return basicDataTypeMap;
     }
 
@@ -130,7 +133,15 @@ public class FddObjectModel {
     }
 
     public Map<String, ArrayFDD> getArrayDataTypeMap() {
-        return arrayDataTypeMapDataTypeMap;
+        return arrayDataTypeMap;
+    }
+
+    public Map<String, FixedRecordFDD> getFixedRecordTypeMap() {
+        return fixedRecordTypeMap;
+    }
+
+    public Map<String, VariantRecordFDD> getVariantRecordTypeMap() {
+        return variantRecordTypeMap;
     }
 
     public void setTransportation(Map<String, TransportationFDD> Transportation) {
@@ -218,10 +229,10 @@ public class FddObjectModel {
     private void readBasicDataType() {
         fddModel.getDataTypes().getBasicDataRepresentations().getBasicData().forEach(basicData -> {
             try {
-                ca.mali.fomparser.datatype.BasicDataType basicDataType = new ca.mali.fomparser.datatype.BasicDataType(basicData.getName().getValue());
+                BasicDataType basicDataType = new BasicDataType(basicData.getName().getValue());
                 basicDataType.setInterpretation(basicData.getInterpretation().getValue());
                 basicDataType.setSize(basicData.getSize().getValue().intValue());
-                basicDataType.setEncoding(basicData.getEncoding().getValue());
+                if (basicData.getEncoding() != null) basicDataType.setEncoding(basicData.getEncoding().getValue());
                 basicDataType.setLittleEndian(basicData.getEndian().getValue() == EndianEnumerations.LITTLE);
                 getBasicDataTypeMap().put(basicDataType.getName(), basicDataType);
             } catch (Exception ex) {
@@ -235,10 +246,12 @@ public class FddObjectModel {
             try {
                 SimpleFDDDataType simpleDataType = new SimpleFDDDataType(simpleData.getName().getValue());
                 simpleDataType.setRepresentation(getBasicDataTypeMap().get(simpleData.getRepresentation().getValue()));
-                simpleDataType.setUnits(simpleData.getUnits().getValue());
-                simpleDataType.setResolution(simpleData.getResolution().getValue());
-                simpleDataType.setAccuracy(simpleData.getAccuracy().getValue());
-                simpleDataType.setSemantics(simpleData.getSemantics().getValue());
+                if (simpleData.getUnits() != null) simpleDataType.setUnits(simpleData.getUnits().getValue());
+                if (simpleData.getResolution() != null)
+                    simpleDataType.setResolution(simpleData.getResolution().getValue());
+                if (simpleData.getAccuracy() != null) simpleDataType.setAccuracy(simpleData.getAccuracy().getValue());
+                if (simpleData.getSemantics() != null)
+                    simpleDataType.setSemantics(simpleData.getSemantics().getValue());
                 getSimpleDataTypeMap().put(simpleDataType.getName(), simpleDataType);
             } catch (Exception ex) {
                 logger.log(Level.FATAL, ex.getMessage(), ex);
@@ -258,6 +271,8 @@ public class FddObjectModel {
                             .map(ca.mali.fdd.String::getValue).collect(Collectors.toList()));
                     enumerated.getEnumerator().add(en);
                 });
+                if (enumeratedData.getSemantics() != null)
+                    enumerated.setSemantics(enumeratedData.getSemantics().getValue());
                 getEnumeratedDataTypeMap().put(enumerated.getName(), enumerated);
             } catch (Exception ex) {
                 logger.log(Level.FATAL, ex.getMessage(), ex);
@@ -265,26 +280,85 @@ public class FddObjectModel {
         });
     }
 
-    private void readArrayDataType(){
+    private void readArrayDataType() {
         fddModel.getDataTypes().getArrayDataTypes().getArrayData().forEach(arrayData -> {
             ArrayFDD arrayFDD = new ArrayFDD(arrayData.getName().getValue());
-//            arrayFDD.setDataType(arrayData.getDataType().getValue());
             arrayFDD.setCardinality(arrayData.getCardinality().getValue());
-            arrayFDD.setEncoding(arrayData.getEncoding().getValue());
+            if (arrayData.getEncoding() != null) arrayFDD.setEncoding(arrayData.getEncoding().getValue());
+            if (arrayData.getSemantics() != null) arrayFDD.setSemantics(arrayData.getSemantics().getValue());
             getArrayDataTypeMap().put(arrayFDD.getName(), arrayFDD);
         });
     }
 
-    private AbstractDataType getDataType(String name){
-        if (getBasicDataTypeMap().containsKey(name)){
+    private void readFixedDataType() {
+        fddModel.getDataTypes().getFixedRecordDataTypes().getFixedRecordData().forEach(fixedRecordData -> {
+            FixedRecordFDD fixed = new FixedRecordFDD(fixedRecordData.getName().getValue());
+            if (fixedRecordData.getEncoding() != null) fixed.setEncoding(fixedRecordData.getEncoding().getValue());
+            if (fixedRecordData.getSemantics() != null) fixed.setSemantics(fixedRecordData.getSemantics().getValue());
+            getFixedRecordTypeMap().put(fixed.getName(), fixed);
+        });
+    }
+
+    private void readVariantDataType() {
+        fddModel.getDataTypes().getVariantRecordDataTypes().getVariantRecordData().forEach(variantRecordData -> {
+            VariantRecordFDD variant = new VariantRecordFDD(variantRecordData.getName().getValue());
+            variant.setDiscriminantName(variantRecordData.getDiscriminant().getValue());
+            variant.setDiscriminantType(getEnumeratedDataTypeMap().get(variantRecordData.getDataType().getValue()));
+            if (variantRecordData.getEncoding() != null)
+                variant.setEncoding(variantRecordData.getEncoding().getValue());
+            if (variantRecordData.getSemantics() != null)
+                variant.setSemantics(variantRecordData.getSemantics().getValue());
+            getVariantRecordTypeMap().put(variant.getName(), variant);
+        });
+    }
+
+    private void readDependantDataType() {
+        //This step must be done separately because they depend on each other.
+        fddModel.getDataTypes().getArrayDataTypes().getArrayData().forEach(arrayData -> {
+            if (getArrayDataTypeMap().containsKey(arrayData.getName().getValue())) {
+                getArrayDataTypeMap().get(arrayData.getName().getValue()).setElementType(getDataType(arrayData.getDataType().getValue()));
+            }
+        });
+        fddModel.getDataTypes().getFixedRecordDataTypes().getFixedRecordData().forEach(fixedRecordData -> {
+            if (getFixedRecordTypeMap().containsKey(fixedRecordData.getName().getValue())) {
+                fixedRecordData.getField().forEach(field -> {
+                    FixedRecordFDD.Field field1 = new FixedRecordFDD.Field();
+                    field1.setName(field.getName().getValue());
+                    field1.setDataType(getDataType(field.getName().getValue()));
+                    getFixedRecordTypeMap().get(fixedRecordData.getName().getValue()).getFields().add(field1);
+                });
+            }
+        });
+        fddModel.getDataTypes().getVariantRecordDataTypes().getVariantRecordData().forEach(variantRecordData -> {
+            if (getVariantRecordTypeMap().containsKey(variantRecordData.getName().getValue())) {
+                variantRecordData.getAlternative().forEach(alternative -> {
+                    VariantRecordFDD.Field field = new VariantRecordFDD.Field();
+                    field.setName(alternative.getName().getValue());
+                    field.setEnumeratorSet(alternative.getEnumerator().getValue());
+                    if (alternative.getDataType() != null)
+                        field.setDataType(getDataType(alternative.getDataType().getValue()));
+                    if (alternative.getSemantics() != null)
+                        field.setSemantics(alternative.getSemantics().getValue());
+                    getVariantRecordTypeMap().get(variantRecordData.getName().getValue()).getAlternatives().add(field);
+                });
+            }
+        });
+    }
+
+    private AbstractDataType getDataType(String name) {
+        if (getBasicDataTypeMap().containsKey(name)) {
             return getBasicDataTypeMap().get(name);
-        } else if (getSimpleDataTypeMap().containsKey(name)){
+        } else if (getSimpleDataTypeMap().containsKey(name)) {
             return getSimpleDataTypeMap().get(name);
-        } else if (getEnumeratedDataTypeMap().containsKey(name)){
+        } else if (getEnumeratedDataTypeMap().containsKey(name)) {
             return getEnumeratedDataTypeMap().get(name);
-        } else if (getArrayDataTypeMap().containsKey(name)){
+        } else if (getArrayDataTypeMap().containsKey(name)) {
             return getArrayDataTypeMap().get(name);
-        } // TODO: 2015-12-14  add the remaining data type
+        } else if (getFixedRecordTypeMap().containsKey(name)) {
+            return getFixedRecordTypeMap().get(name);
+        } else if (getVariantRecordTypeMap().containsKey(name)) {
+            return getVariantRecordTypeMap().get(name);
+        }
         return null;
     }
 }
