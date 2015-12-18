@@ -26,8 +26,12 @@
  */
 package ca.mali.fomparser.datatype;
 
+import ca.mali.fomparser.ControlValuePair;
 import ca.mali.fomparser.DataTypeEnum;
 import hla.rti1516e.encoding.*;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.control.TextField;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
@@ -136,6 +140,17 @@ public class ArrayFDD extends AbstractDataType {
                 return getElementType().getDataElement(value);
             }
         }
+    }
+
+    @Override
+    public ControlValuePair getControlValue() {
+        if ("HLAASCIIstring".equalsIgnoreCase(getName()) || "HLAunicodeString".equalsIgnoreCase(getName())) {
+            TextField textField = new TextField();
+            ObjectProperty value = new SimpleObjectProperty<>();
+            textField.textProperty().addListener((observable, oldValue, newValue) -> value.setValue(newValue));
+            return new ControlValuePair(textField, value);
+        }
+        return null; // TODO: 12/16/2015 GUI for array
     }
 
     public AbstractDataType getElementType() {

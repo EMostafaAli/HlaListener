@@ -26,13 +26,18 @@
  */
 package ca.mali.fomparser.datatype;
 
+import ca.mali.fomparser.ControlValuePair;
 import ca.mali.fomparser.DataTypeEnum;
 import hla.rti1516e.encoding.DataElement;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.control.ComboBox;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author Mostafa
@@ -65,6 +70,11 @@ public class EnumeratedFDDDataType extends AbstractDataType {
 
     @Override
     public DataElement getDataElement(Object value) {
+        Optional<Enumerator> first = getEnumerator().stream().filter(enumerator ->
+                Objects.equals(enumerator.getName(), value.toString())).findFirst();
+        if (first.isPresent()) {
+            return getRepresentation().getDataElement(first.get().getValues().get(0));
+        }
         return null;
     }
 
@@ -109,5 +119,14 @@ public class EnumeratedFDDDataType extends AbstractDataType {
             }
             return this.values;
         }
+    }
+
+    @Override
+    public ControlValuePair getControlValue() {
+        ComboBox<String> values = new ComboBox<>();
+        values.getItems().addAll(getEnumerator().stream().map(EnumeratedFDDDataType.Enumerator::getName).collect(Collectors.toList()));
+        ObjectProperty value = new SimpleObjectProperty<>();
+        values.setOnAction(event -> value.setValue(values.getSelectionModel().getSelectedItem()));
+        return new ControlValuePair(values, value);
     }
 }

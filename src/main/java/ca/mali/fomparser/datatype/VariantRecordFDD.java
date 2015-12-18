@@ -26,6 +26,7 @@
  */
 package ca.mali.fomparser.datatype;
 
+import ca.mali.fomparser.ControlValuePair;
 import ca.mali.fomparser.DataTypeEnum;
 import hla.rti1516e.encoding.DataElement;
 
@@ -99,6 +100,11 @@ public class VariantRecordFDD extends AbstractDataType {
             alternatives = new ArrayList<>();
         }
         return this.alternatives;
+    }
+
+    @Override
+    public ControlValuePair getControlValue() {
+        return null;
     }
 
     public static class Field {

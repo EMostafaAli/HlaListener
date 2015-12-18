@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, Mostafa
+ * Copyright (c) 2015, abdelale
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -24,36 +24,33 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
  *   DAMAGE.
  */
-package ca.mali.fomparser.datatype;
 
-import ca.mali.fomparser.ControlValuePair;
-import ca.mali.fomparser.DataTypeEnum;
-import hla.rti1516e.encoding.DataElement;
+package ca.mali.fomparser;
+
+import javafx.beans.property.ObjectProperty;
+import javafx.scene.layout.Region;
 
 /**
- * @author Mostafa
+ * Created by abdelale on 2015-12-18.
  */
-public abstract class AbstractDataType {
-    private final String name;
-    private final DataTypeEnum dataType;
-    protected AbstractDataType(String name, DataTypeEnum dataType){
-        this.name = name;
-        this.dataType = dataType;
+public class ControlValuePair {
+    private final Region region;
+    private final ObjectProperty value;
+
+    public ControlValuePair(Region region, ObjectProperty value) {
+        this.region = region;
+        this.value = value;
     }
 
-    public String getName() {
-        return name;
+    public Region getRegion() {
+        return region;
     }
 
-    public abstract byte[] EncodeValue(Object value);
+    public Object getValue() {
+        return value.get();
+    }
 
-    public abstract String DecodeValue(byte[] encodedValue);
-
-    public abstract DataElement getDataElement(Object value);
-
-    public abstract ControlValuePair getControlValue();
-
-    public DataTypeEnum getDataType() {
-        return dataType;
+    public ObjectProperty valueProperty() {
+        return value;
     }
 }

@@ -28,20 +28,9 @@
 package ca.mali.fomparser;
 
 import ca.mali.fomparser.datatype.AbstractDataType;
-import ca.mali.fomparser.datatype.EnumeratedFDDDataType;
-import ca.mali.fomparser.datatype.FixedRecordFDD;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.geometry.Insets;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
-import javafx.scene.text.Text;
-
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * Created by Mostafa on 12/13/2015.
@@ -83,58 +72,11 @@ public abstract class AbstractValuePair {
 
     public Region cellGUI() {
         if (getDataType() == null) return null;
-        switch (getDataType().getDataType()) {
-            case SIMPLE: {
-                TextField textField = new TextField();
-                textField.textProperty().addListener((observable, oldValue, newValue) -> setValue(newValue));
-                return textField;
-            }
-            case ENUMERATED: {
-                ComboBox<String> values = new ComboBox<>();
-                values.getItems().addAll(((EnumeratedFDDDataType) getDataType()).getEnumerator().stream().map(EnumeratedFDDDataType.Enumerator::getName).collect(Collectors.toList()));
-                values.setOnAction(event -> setValue(values.getSelectionModel().getSelectedItem()));
-                return values;
-            }
-            case ARRAY: {
-                if (Objects.equals(getDataType().getName(), "HLAASCIIstring") || Objects.equals(getDataType().getName(), "HLAunicodeString")) {
-                    TextField textField = new TextField();
-                    textField.textProperty().addListener((observable, oldValue, newValue) -> setValue(newValue));
-                    return textField;
-                }
-                return null; // TODO: 12/16/2015 GUI for array
-            }
-            case FIXEDRECORD: {// TODO: 12/16/2015 GUI for fixed record
-                FixedRecordFDD fixedRecordFDD = (FixedRecordFDD) getDataType();
-                Object[] values = new Object[fixedRecordFDD.getFields().size()];
-                GridPane gridPane = new GridPane();
-                gridPane.setHgap(5);
-                gridPane.setVgap(5);
-                gridPane.setPadding(new Insets(0, 5, 0, 5));
-                for (int i = 0; i < values.length; i++) {
-                    Text title = new Text(fixedRecordFDD.getFields().get(i).getName());
-                    gridPane.add(title, 0, i);
-                }
-                ScrollPane scrollPane = new ScrollPane(gridPane);
-                scrollPane.setFitToWidth(true);
-                return scrollPane;
-            }
-            default:
-                return null;
-        }
+        ControlValuePair controlValue = getDataType().getControlValue();
+        if (controlValue == null) return null;
+        this.value = controlValue.valueProperty();
+        return controlValue.getRegion();
     }
-
-//    private Control getControl(AbstractDataType dataType, Object  relatedValue){
-//        if (dataType == null) return null;
-//        switch (dataType.getDataType()){
-//            case SIMPLE:{
-//                TextField textField = new TextField();
-//                textField.textProperty().addListener((observable, oldValue, newValue) -> relatedValue = newValue);
-//                return textField;
-//            }
-//
-//        }
-//        return null;
-//    }
 
     public byte[] EncodeValue() {
         if (getValue() == null) return null;

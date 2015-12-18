@@ -27,6 +27,7 @@
 
 package ca.mali.fomparser.datatype;
 
+import ca.mali.fomparser.ControlValuePair;
 import ca.mali.fomparser.DataTypeEnum;
 import hla.rti1516e.encoding.*;
 import org.apache.logging.log4j.Level;
@@ -345,6 +346,11 @@ public class BasicDataType extends AbstractDataType {
                 break;
             }
         }
+        return null;
+    }
+
+    @Override
+    public ControlValuePair getControlValue() {
         return null;
     }
 }

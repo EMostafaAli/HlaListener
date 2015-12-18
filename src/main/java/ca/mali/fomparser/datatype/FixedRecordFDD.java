@@ -26,10 +26,17 @@
  */
 package ca.mali.fomparser.datatype;
 
+import ca.mali.fomparser.ControlValuePair;
 import ca.mali.fomparser.DataTypeEnum;
 import hla.rti1516e.encoding.DataElement;
 import hla.rti1516e.encoding.DecoderException;
 import hla.rti1516e.encoding.HLAfixedRecord;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.geometry.Insets;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
@@ -64,7 +71,7 @@ public class FixedRecordFDD extends AbstractDataType {
     public String DecodeValue(byte[] encodedValue) {
         try {
             HLAfixedRecord hlAfixedRecord = encoderFactory.createHLAfixedRecord();
-            for (Field field : fields){
+            for (Field field : fields) {
                 hlAfixedRecord.add(field.getDataType().getDataElement(null)); // TODO: 12/16/2015 check if null has any side effects
             }
             hlAfixedRecord.decode(encodedValue);
@@ -85,7 +92,7 @@ public class FixedRecordFDD extends AbstractDataType {
         HLAfixedRecord hlAfixedRecord = encoderFactory.createHLAfixedRecord();
         Object[] values = (Object[]) value;
         for (int i = 0; i < values.length; i++) {
-            hlAfixedRecord.add(fields.get(i).getDataType().getDataElement(values[i]));
+            hlAfixedRecord.add(fields.get(i).getDataType().getDataElement(((SimpleObjectProperty)values[i]).getValue()));
         }
         return hlAfixedRecord;
     }
@@ -133,5 +140,30 @@ public class FixedRecordFDD extends AbstractDataType {
         public void setDataType(AbstractDataType dataType) {
             this.dataType = dataType;
         }
+    }
+
+    @Override
+    public ControlValuePair getControlValue() {
+        Object[] values = new Object[getFields().size()];
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(5);
+        gridPane.setVgap(5);
+        gridPane.setPadding(new Insets(0, 5, 0, 5));
+        for (int i = 0; i < values.length; i++) {
+            Text title = new Text(getFields().get(i).getName());
+            gridPane.add(title, 0, i);
+            if (getFields().get(i).getDataType() != null) {
+                ControlValuePair controlValue = getFields().get(i).getDataType().getControlValue();
+                if (controlValue != null) {
+                    values[i] = controlValue.valueProperty();
+                    gridPane.add(controlValue.getRegion(), 1, i);
+                }
+            }
+        }
+        ScrollPane scrollPane = new ScrollPane(gridPane);
+        scrollPane.setFitToWidth(true);
+        ObjectProperty value = new SimpleObjectProperty<>();
+        value.setValue(values);
+        return new ControlValuePair(scrollPane, value);
     }
 }

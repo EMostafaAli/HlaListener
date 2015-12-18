@@ -26,8 +26,12 @@
  */
 package ca.mali.fomparser.datatype;
 
+import ca.mali.fomparser.ControlValuePair;
 import ca.mali.fomparser.DataTypeEnum;
 import hla.rti1516e.encoding.*;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.control.TextField;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
@@ -36,7 +40,6 @@ import java.io.UnsupportedEncodingException;
 import static ca.mali.hlalistener.PublicVariables.encoderFactory;
 
 /**
- *
  * @author Mostafa
  */
 public class SimpleFDDDataType extends AbstractDataType {
@@ -136,13 +139,13 @@ public class SimpleFDDDataType extends AbstractDataType {
                 case "HLAASCIIchar": {
                     HLAASCIIchar encoder = encoderFactory.createHLAASCIIchar();
                     encoder.decode(encodedValue);
-                    value = new String(new byte[] {encoder.getValue()}, "US-ASCII");
+                    value = new String(new byte[]{encoder.getValue()}, "US-ASCII");
                     break;
                 }
                 case "HLAunicodeChar": {
                     HLAunicodeChar encoder = encoderFactory.createHLAunicodeChar();
                     encoder.decode(encodedValue);
-                    value = String.valueOf((char)encoder.getValue());
+                    value = String.valueOf((char) encoder.getValue());
                     break;
                 }
                 case "HLAbyte": {
@@ -184,5 +187,13 @@ public class SimpleFDDDataType extends AbstractDataType {
                 return getRepresentation().getDataElement(value);
             }
         }
+    }
+
+    @Override
+    public ControlValuePair getControlValue() {
+        TextField textField = new TextField();
+        ObjectProperty value = new SimpleObjectProperty<>();
+        textField.textProperty().addListener((observable, oldValue, newValue) -> value.setValue(newValue));
+        return new ControlValuePair(textField, value);
     }
 }

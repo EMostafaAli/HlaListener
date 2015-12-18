@@ -76,7 +76,8 @@ public class FddObjectModel {
             this.fdd = fddText;
             jaxbContext = JAXBContext.newInstance(ca.mali.fdd.ObjectFactory.class);
             unmarshaller = jaxbContext.createUnmarshaller();
-            javax.xml.bind.JAXBElement unmarshaller = (javax.xml.bind.JAXBElement) this.unmarshaller.unmarshal(new ByteArrayInputStream(fdd.getBytes(StandardCharsets.UTF_8)));
+            javax.xml.bind.JAXBElement unmarshaller =
+                    (javax.xml.bind.JAXBElement) this.unmarshaller.unmarshal(new ByteArrayInputStream(fdd.getBytes(StandardCharsets.UTF_8)));
             fddModel = (ca.mali.fdd.ObjectModelType) unmarshaller.getValue();
             readBasicDataType();
             readSimpleDataType();
@@ -324,7 +325,7 @@ public class FddObjectModel {
                 fixedRecordData.getField().forEach(field -> {
                     FixedRecordFDD.Field field1 = new FixedRecordFDD.Field();
                     field1.setName(field.getName().getValue());
-                    field1.setDataType(getDataType(field.getName().getValue()));
+                    field1.setDataType(getDataType(field.getDataType().getValue()));
                     getFixedRecordTypeMap().get(fixedRecordData.getName().getValue()).getFields().add(field1);
                 });
             }
