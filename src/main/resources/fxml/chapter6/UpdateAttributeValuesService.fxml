@@ -30,42 +30,50 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<GridPane hgap="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="616.0" prefWidth="625.0" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mali.dialogs.chapter6.UpdateAttributeValuesServiceController">
+<GridPane hgap="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+          prefHeight="616.0" prefWidth="625.0" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.40"
+          xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="ca.mali.dialogs.chapter6.UpdateAttributeValuesServiceController">
     <columnConstraints>
-        <ColumnConstraints hgrow="NEVER" maxWidth="300.0" minWidth="200.0" prefWidth="200.0" />
-        <ColumnConstraints hgrow="NEVER" prefWidth="400.0" />
+        <ColumnConstraints hgrow="NEVER" maxWidth="300.0" minWidth="200.0" prefWidth="200.0"/>
+        <ColumnConstraints hgrow="NEVER" prefWidth="400.0"/>
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
-        <RowConstraints vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES"/>
+        <RowConstraints vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES"/>
     </rowConstraints>
     <padding>
-        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
     </padding>
     <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="4">
         <Button cancelButton="true" mnemonicParsing="false" onAction="#Cancel_click" text="Cancel">
             <HBox.margin>
-                <Insets right="20.0" />
+                <Insets right="20.0"/>
             </HBox.margin>
         </Button>
-        <Button fx:id="OkButton" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#OK_click" text="OK" />
+        <Button fx:id="OkButton" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#OK_click"
+                text="OK"/>
     </HBox>
-    <Label text="Instance Name: " GridPane.halignment="RIGHT" />
-    <ComboBox fx:id="InstanceName" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
-    <TableView fx:id="AttributeValueTableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" GridPane.columnSpan="2" GridPane.rowIndex="1">
+    <Label text="Instance Name: " GridPane.halignment="RIGHT"/>
+    <ComboBox fx:id="InstanceName" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1"/>
+    <TableView fx:id="AttributeValueTableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+               minWidth="-Infinity" GridPane.columnSpan="2" GridPane.rowIndex="1">
         <columns>
-            <TableColumn fx:id="AttributeTableColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="50.0" prefWidth="200.0" text="Attribute" />
-            <TableColumn fx:id="ValueTableColumn" maxWidth="1.7976931348623157E308" minWidth="50.0" prefWidth="400.0" text="Value" />
+            <TableColumn fx:id="AttributeTableColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="50.0"
+                         prefWidth="200.0" text="Attribute"/>
+            <TableColumn fx:id="ValueTableColumn" maxWidth="1.7976931348623157E308" minWidth="50.0" prefWidth="400.0"
+                         text="Value"/>
         </columns>
-      <columnResizePolicy>
-         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-      </columnResizePolicy>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
     </TableView>
-    <Label text="User-supplied tag*:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-    <TextField fx:id="UserSuppliedTag" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-    <Label text="Logical Time:" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-    <Spinner fx:id="LogicalTimeSpin" editable="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+    <Label text="User-supplied tag*:" GridPane.halignment="RIGHT" GridPane.rowIndex="2"/>
+    <TextField fx:id="UserSuppliedTag" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+    <CheckBox fx:id="LogicalTimeCheck" text="Specify Logical Time:" allowIndeterminate="false"
+              GridPane.halignment="RIGHT" GridPane.rowIndex="3"/>
+    <Spinner fx:id="LogicalTimeSpin" editable="true" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 </GridPane>

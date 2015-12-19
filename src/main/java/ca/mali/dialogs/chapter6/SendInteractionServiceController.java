@@ -108,7 +108,6 @@ public class SendInteractionServiceController implements Initializable {
             ParameterValueTableView.setItems(valuePairs);
             ParameterValueTableView.setEditable(true);
             ParameterTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-//            ValueTableColumn.setCellValueFactory(new PropertyValueFactory<>("dataType"));
             ValueTableColumn.setCellFactory(param -> new ParameterValueCell());
             ValueTableColumn.setEditable(true);
             InteractionClassName.getItems().addAll(fddObjectModel.getInteractionClasses().values());
