@@ -146,7 +146,7 @@ public class ArrayFDD extends AbstractDataType {
     public ControlValuePair getControlValue() {
         if ("HLAASCIIstring".equalsIgnoreCase(getName()) || "HLAunicodeString".equalsIgnoreCase(getName())) {
             TextField textField = new TextField();
-            ObjectProperty value = new SimpleObjectProperty<>();
+            ObjectProperty<Object> value = new SimpleObjectProperty<>();
             textField.textProperty().addListener((observable, oldValue, newValue) -> value.setValue(newValue));
             return new ControlValuePair(textField, value);
         }

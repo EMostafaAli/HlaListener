@@ -54,11 +54,6 @@ public class BasicDataType extends AbstractDataType {
         super(name, DataTypeEnum.BASIC);
     }
 
-    public String getName() {
-        return super.getName();
-    }
-
-
     public int getSize() {
         return size;
     }

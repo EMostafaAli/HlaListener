@@ -122,7 +122,7 @@ public class EnumeratedFDDDataType extends AbstractDataType {
     public ControlValuePair getControlValue() {
         ComboBox<String> values = new ComboBox<>();
         values.getItems().addAll(getEnumerator().stream().map(EnumeratedFDDDataType.Enumerator::getName).collect(Collectors.toList()));
-        ObjectProperty value = new SimpleObjectProperty<>();
+        ObjectProperty<Object> value = new SimpleObjectProperty<>();
         values.setOnAction(event -> value.setValue(values.getSelectionModel().getSelectedItem()));
         return new ControlValuePair(values, value);
     }

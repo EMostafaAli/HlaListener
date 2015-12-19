@@ -62,6 +62,29 @@ public class FixedRecordFDD extends AbstractDataType {
         super(name, DataTypeEnum.FIXEDRECORD);
     }
 
+    public String getEncoding() {
+        return encoding;
+    }
+
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
+    }
+
+    public String getSemantics() {
+        return semantics;
+    }
+
+    public void setSemantics(String semantics) {
+        this.semantics = semantics;
+    }
+
+    public List<Field> getFields() {
+        if (fields == null) {
+            fields = new ArrayList<>();
+        }
+        return this.fields;
+    }
+
     @Override
     public byte[] EncodeValue(Object value) {
         return getDataElement(value).toByteArray();
@@ -92,54 +115,12 @@ public class FixedRecordFDD extends AbstractDataType {
         HLAfixedRecord hlAfixedRecord = encoderFactory.createHLAfixedRecord();
         Object[] values = (Object[]) value;
         for (int i = 0; i < values.length; i++) {
-            hlAfixedRecord.add(fields.get(i).getDataType().getDataElement(((SimpleObjectProperty) values[i]).getValue()));
+            Object o = ((SimpleObjectProperty) values[i]).getValue();
+            if (o != null) {
+                hlAfixedRecord.add(fields.get(i).getDataType().getDataElement(o));
+            }
         }
         return hlAfixedRecord;
-    }
-
-    public String getEncoding() {
-        return encoding;
-    }
-
-    public void setEncoding(String encoding) {
-        this.encoding = encoding;
-    }
-
-    public String getSemantics() {
-        return semantics;
-    }
-
-    public void setSemantics(String semantics) {
-        this.semantics = semantics;
-    }
-
-    public List<Field> getFields() {
-        if (fields == null) {
-            fields = new ArrayList<>();
-        }
-        return this.fields;
-    }
-
-    public static class Field {
-
-        protected String name;
-        protected AbstractDataType dataType;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public AbstractDataType getDataType() {
-            return dataType;
-        }
-
-        public void setDataType(AbstractDataType dataType) {
-            this.dataType = dataType;
-        }
     }
 
     @Override
@@ -162,7 +143,7 @@ public class FixedRecordFDD extends AbstractDataType {
         }
         ScrollPane scrollPane = new ScrollPane(gridPane);
         scrollPane.setFitToWidth(true);
-        ObjectProperty value = new SimpleObjectProperty<>();
+        ObjectProperty<Object> value = new SimpleObjectProperty<>();
         value.setValue(values);
         return new ControlValuePair(scrollPane, value);
     }
@@ -192,7 +173,29 @@ public class FixedRecordFDD extends AbstractDataType {
                         fields.get(i).getDataType().valueAsString(((SimpleObjectProperty) values[i]).getValue()) + "}, ";
             }
         }
-        result = result.substring(0, result.length()-2) + "]";
+        result = result.substring(0, result.length() - 2) + "]";
         return result;
+    }
+
+    public static class Field {
+
+        protected String name;
+        protected AbstractDataType dataType;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public AbstractDataType getDataType() {
+            return dataType;
+        }
+
+        public void setDataType(AbstractDataType dataType) {
+            this.dataType = dataType;
+        }
     }
 }

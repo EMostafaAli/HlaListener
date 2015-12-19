@@ -37,7 +37,7 @@ import javafx.scene.layout.Region;
  */
 public abstract class AbstractValuePair {
     private final String name;
-    private ObjectProperty value = new SimpleObjectProperty<>();
+    private ObjectProperty<Object> value = new SimpleObjectProperty<>();
     private final AbstractDataType dataType;
 
     protected AbstractValuePair(AttributeFDD attributeFDD) {

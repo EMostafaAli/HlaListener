@@ -58,10 +58,6 @@ public class SimpleFDDDataType extends AbstractDataType {
         super(name, DataTypeEnum.SIMPLE);
     }
 
-    public String getName() {
-        return super.getName();
-    }
-
     public BasicDataType getRepresentation() {
         return representation;
     }
@@ -193,7 +189,7 @@ public class SimpleFDDDataType extends AbstractDataType {
     @Override
     public ControlValuePair getControlValue() {
         TextField textField = new TextField();
-        ObjectProperty value = new SimpleObjectProperty<>();
+        ObjectProperty<Object> value = new SimpleObjectProperty<>();
         textField.textProperty().addListener((observable, oldValue, newValue) -> value.setValue(newValue));
         return new ControlValuePair(textField, value);
     }

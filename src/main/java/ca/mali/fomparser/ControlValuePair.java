@@ -35,9 +35,9 @@ import javafx.scene.layout.Region;
  */
 public class ControlValuePair {
     private final Region region;
-    private final ObjectProperty value;
+    private final ObjectProperty<Object> value;
 
-    public ControlValuePair(Region region, ObjectProperty value) {
+    public ControlValuePair(Region region, ObjectProperty<Object> value) {
         this.region = region;
         this.value = value;
     }
@@ -50,7 +50,7 @@ public class ControlValuePair {
         return value.get();
     }
 
-    public ObjectProperty valueProperty() {
+    public ObjectProperty<Object> valueProperty() {
         return value;
     }
 }
