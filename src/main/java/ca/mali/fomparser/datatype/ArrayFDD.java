@@ -153,6 +153,51 @@ public class ArrayFDD extends AbstractDataType {
         return null; // TODO: 12/16/2015 GUI for array
     }
 
+    @Override
+    public boolean isValueExist(Object value) {
+        if (value == null) return false;
+        return value.getClass().isArray() || value instanceof String;
+
+    }
+
+    @Override
+    public Class getObjectClass() {
+        switch (getName()) {
+            case "HLAASCIIstring": {
+                return HLAASCIIstring.class;
+            }
+            case "HLAunicodeString": {
+                return HLAunicodeString.class;
+            }
+            case "HLAopaqueData": {
+                return HLAopaqueData.class;
+            }
+            default: {
+                if ("Dynamic".equalsIgnoreCase(getCardinality())){
+                    return HLAvariableArray.class;
+                }
+                return HLAfixedArray.class;
+            }
+        }
+    }
+
+    @Override
+    public String valueAsString(Object value) {
+        if (value.getClass().isArray()){
+            Object[] values = (Object[])value;
+            if (values.length <= 5){
+                String result = "[";
+                for (Object o : values) {
+                    result += getElementType().valueAsString(o) + ", ";
+                }
+                result = result.substring(0, result.length()-2) + "]";
+                return result;
+            }
+            return "Array values <" + Arrays.toString(EncodeValue(value)) + ">";
+        }
+        return  value.toString() + "<" + Arrays.toString(EncodeValue(value)) + ">";
+    }
+
     public AbstractDataType getElementType() {
         return elementType;
     }

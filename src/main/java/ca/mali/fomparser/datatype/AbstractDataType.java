@@ -53,6 +53,12 @@ public abstract class AbstractDataType {
 
     public abstract ControlValuePair getControlValue();
 
+    public abstract boolean isValueExist(Object value);
+
+    public abstract Class getObjectClass();
+
+    public abstract String valueAsString(Object value);
+
     public DataTypeEnum getDataType() {
         return dataType;
     }

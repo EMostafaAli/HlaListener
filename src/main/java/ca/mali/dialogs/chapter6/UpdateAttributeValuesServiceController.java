@@ -26,6 +26,7 @@
  */
 package ca.mali.dialogs.chapter6;
 
+import ca.mali.fomparser.AbstractValuePair;
 import ca.mali.fomparser.AttributeValueCell;
 import ca.mali.fomparser.AttributeValuePair;
 import ca.mali.fomparser.ObjectInstanceFDD;
@@ -50,7 +51,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -132,14 +132,14 @@ public class UpdateAttributeValuesServiceController implements Initializable {
             log.getSuppliedArguments().add(new ClassValuePair("Object Instance<Handle>",
                     ObjectInstanceHandle.class, InstanceName.getValue().toString()
                     + '<' + InstanceName.getValue().getHandle().toString() + '>'));
-            List<AttributeValuePair> valuePairList = valuePairs.stream().filter(parameterValuePair -> parameterValuePair.EncodeValue() != null).collect(Collectors.toList());
+            List<AttributeValuePair> valuePairList = valuePairs.stream().filter(AbstractValuePair::IsValueExist).collect(Collectors.toList());
             AttributeHandleValueMap attributes = rtiAmb.getAttributeHandleValueMapFactory().create(valuePairList.size());
-            valuePairList.forEach(attributeValuePairValuePair -> {
-                attributes.put(attributeValuePairValuePair.getHandle(), attributeValuePairValuePair.EncodeValue());
+            valuePairList.forEach(attributeValuePair -> {
+                attributes.put(attributeValuePair.getHandle(), attributeValuePair.EncodeValue());
                 log.getSuppliedArguments().add(new ClassValuePair("Attribute <Handle>", AttributeHandle.class,
-                        attributeValuePairValuePair.getName() +"<" + attributeValuePairValuePair.getHandle()+">"));
-                log.getSuppliedArguments().add(new ClassValuePair("Value <Encoded>", Object.class,
-                        attributeValuePairValuePair.getValue().toString() + "<" + Arrays.toString(attributeValuePairValuePair.EncodeValue()) +">"));
+                        attributeValuePair.getName() +"<" + attributeValuePair.getHandle()+">"));
+                log.getSuppliedArguments().add(new ClassValuePair("Value <Encoded>", attributeValuePair.getObjectClass(),
+                        attributeValuePair.ValueAsString()));
             });
             log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte[].class, UserSuppliedTag.getText()));
             rtiAmb.updateAttributeValues(InstanceName.getValue().getHandle(), attributes, UserSuppliedTag.getText().getBytes(Charset.forName("UTF-8")));

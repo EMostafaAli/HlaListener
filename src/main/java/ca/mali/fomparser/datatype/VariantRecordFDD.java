@@ -29,6 +29,7 @@ package ca.mali.fomparser.datatype;
 import ca.mali.fomparser.ControlValuePair;
 import ca.mali.fomparser.DataTypeEnum;
 import hla.rti1516e.encoding.DataElement;
+import hla.rti1516e.encoding.HLAvariantRecord;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,6 +106,21 @@ public class VariantRecordFDD extends AbstractDataType {
     @Override
     public ControlValuePair getControlValue() {
         return null;
+    }
+
+    @Override
+    public boolean isValueExist(Object value) {// TODO: 12/18/2015 Write logic
+        return false;
+    }
+
+    @Override
+    public String valueAsString(Object value) {
+        return null;
+    }
+
+    @Override
+    public Class getObjectClass() {
+        return HLAvariantRecord.class;
     }
 
     public static class Field {

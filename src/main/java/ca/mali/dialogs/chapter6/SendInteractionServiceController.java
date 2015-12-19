@@ -26,6 +26,7 @@
  */
 package ca.mali.dialogs.chapter6;
 
+import ca.mali.fomparser.AbstractValuePair;
 import ca.mali.fomparser.InteractionClassFDD;
 import ca.mali.fomparser.ParameterValueCell;
 import ca.mali.fomparser.ParameterValuePair;
@@ -55,7 +56,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -160,14 +160,14 @@ public class SendInteractionServiceController implements Initializable {
             log.getSuppliedArguments().add(new ClassValuePair("Interaction<Handle>",
                     InteractionClassHandle.class, InteractionClassName.getValue().toString()
                     + '<' + InteractionClassName.getValue().getHandle().toString() + '>'));
-            List<ParameterValuePair> valuePairList = valuePairs.stream().filter(parameterValuePair -> parameterValuePair.EncodeValue() != null).collect(Collectors.toList());
+            List<ParameterValuePair> valuePairList = valuePairs.stream().filter(AbstractValuePair::IsValueExist).collect(Collectors.toList());
             ParameterHandleValueMap parameterHandleValueMap = rtiAmb.getParameterHandleValueMapFactory().create(valuePairList.size());
             valuePairList.forEach(parameterValuePair -> {
                 parameterHandleValueMap.put(parameterValuePair.getHandle(), parameterValuePair.EncodeValue());
                 log.getSuppliedArguments().add(new ClassValuePair("Parameter <Handle>", ParameterHandle.class,
                         parameterValuePair.getName() + "<" + parameterValuePair.getHandle() + ">"));
-                log.getSuppliedArguments().add(new ClassValuePair("Value <Encoded>", Object.class,
-                        parameterValuePair.getValue().toString() + "<" + Arrays.toString(parameterValuePair.EncodeValue()) + ">"));
+                log.getSuppliedArguments().add(new ClassValuePair("Value <Encoded>", parameterValuePair.getObjectClass(),
+                        parameterValuePair.ValueAsString()));
             });
             log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte[].class, UserSuppliedTag.getText()));
             if (LogicalTimeCheck.isSelected()) {

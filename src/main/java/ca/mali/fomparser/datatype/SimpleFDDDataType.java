@@ -36,6 +36,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 
 import static ca.mali.hlalistener.PublicVariables.encoderFactory;
 
@@ -195,5 +196,33 @@ public class SimpleFDDDataType extends AbstractDataType {
         ObjectProperty value = new SimpleObjectProperty<>();
         textField.textProperty().addListener((observable, oldValue, newValue) -> value.setValue(newValue));
         return new ControlValuePair(textField, value);
+    }
+
+    @Override
+    public boolean isValueExist(Object value) {
+        return value != null;
+    }
+
+    @Override
+    public Class getObjectClass() {
+        switch (getName()) {
+            case "HLAASCIIchar": {
+                return HLAASCIIchar.class;
+            }
+            case "HLAunicodeChar": {
+                return HLAunicodeChar.class;
+            }
+            case "HLAbyte": {
+                return HLAbyte.class;
+            }
+            default: {
+                return getRepresentation().getObjectClass();
+            }
+        }
+    }
+
+    @Override
+    public String valueAsString(Object value) {
+        return  value.toString() + "<" + Arrays.toString(EncodeValue(value)) + ">";
     }
 }

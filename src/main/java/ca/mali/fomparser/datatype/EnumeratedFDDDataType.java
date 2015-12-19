@@ -33,10 +33,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.ComboBox;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -128,5 +125,20 @@ public class EnumeratedFDDDataType extends AbstractDataType {
         ObjectProperty value = new SimpleObjectProperty<>();
         values.setOnAction(event -> value.setValue(values.getSelectionModel().getSelectedItem()));
         return new ControlValuePair(values, value);
+    }
+
+    @Override
+    public boolean isValueExist(Object value) {
+        return value != null;
+    }
+
+    @Override
+    public Class getObjectClass() {
+        return getRepresentation().getObjectClass();
+    }
+
+    @Override
+    public String valueAsString(Object value) {
+        return  value.toString() + "<" + Arrays.toString(EncodeValue(value)) + ">";
     }
 }

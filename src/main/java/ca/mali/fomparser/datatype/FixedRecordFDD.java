@@ -92,7 +92,7 @@ public class FixedRecordFDD extends AbstractDataType {
         HLAfixedRecord hlAfixedRecord = encoderFactory.createHLAfixedRecord();
         Object[] values = (Object[]) value;
         for (int i = 0; i < values.length; i++) {
-            hlAfixedRecord.add(fields.get(i).getDataType().getDataElement(((SimpleObjectProperty)values[i]).getValue()));
+            hlAfixedRecord.add(fields.get(i).getDataType().getDataElement(((SimpleObjectProperty) values[i]).getValue()));
         }
         return hlAfixedRecord;
     }
@@ -165,5 +165,34 @@ public class FixedRecordFDD extends AbstractDataType {
         ObjectProperty value = new SimpleObjectProperty<>();
         value.setValue(values);
         return new ControlValuePair(scrollPane, value);
+    }
+
+    @Override
+    public boolean isValueExist(Object value) {
+        Object[] values = (Object[]) value;
+        for (int i = 0; i < values.length; i++) {
+            if (fields.get(i).getDataType().isValueExist(((SimpleObjectProperty) values[i]).getValue()))
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Class getObjectClass() {
+        return HLAfixedRecord.class;
+    }
+
+    @Override
+    public String valueAsString(Object value) {
+        Object[] values = (Object[]) value;
+        String result = "[";
+        for (int i = 0; i < values.length; i++) {
+            if (fields.get(i).getDataType().isValueExist(((SimpleObjectProperty) values[i]).getValue())) {
+                result += "{" + fields.get(i).getName() + ": " +
+                        fields.get(i).getDataType().valueAsString(((SimpleObjectProperty) values[i]).getValue()) + "}, ";
+            }
+        }
+        result = result.substring(0, result.length()-2) + "]";
+        return result;
     }
 }

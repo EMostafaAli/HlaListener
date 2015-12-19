@@ -33,6 +33,8 @@ import hla.rti1516e.encoding.*;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
+import java.util.Arrays;
+
 import static ca.mali.hlalistener.PublicVariables.encoderFactory;
 
 /**
@@ -352,5 +354,64 @@ public class BasicDataType extends AbstractDataType {
     @Override
     public ControlValuePair getControlValue() {
         return null;
+    }
+
+    @Override
+    public boolean isValueExist(Object value) {
+        return value != null;
+    }
+
+    @Override
+    public Class getObjectClass() {
+        switch (getName()) {
+            case "HLAinteger16BE": {
+                return HLAinteger16BE.class;
+            }
+            case "HLAinteger32BE": {
+                return HLAinteger32BE.class;
+            }
+            case "HLAinteger64BE": {
+                return HLAinteger64BE.class;
+            }
+            case "HLAfloat32BE": {
+                return HLAfloat32BE.class;
+            }
+            case "HLAfloat64BE": {
+                return HLAfloat64BE.class;
+
+            }
+            case "HLAoctetPairBE": {
+                return HLAoctetPairBE.class;
+            }
+            case "HLAinteger16LE": {
+                return HLAinteger16LE.class;
+            }
+            case "HLAinteger32LE": {
+                return HLAinteger32LE.class;
+            }
+            case "HLAinteger64LE": {
+                return HLAinteger64LE.class;
+            }
+            case "HLAfloat32LE": {
+                return HLAfloat32LE.class;
+            }
+            case "HLAfloat64LE": {
+                return HLAfloat64LE.class;
+            }
+            case "HLAoctetPairLE": {
+                return HLAoctetPairLE.class;
+            }
+            case "HLAoctet": {
+                return HLAoctet.class;
+            }
+            default: {
+                return Object.class;
+            }
+        }
+    }
+
+    @Override
+    public String valueAsString(Object value) {
+        return  value.toString() + "<" + Arrays.toString(EncodeValue(value)) + ">";
     }
 }

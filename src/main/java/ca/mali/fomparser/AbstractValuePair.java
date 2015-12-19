@@ -82,4 +82,16 @@ public abstract class AbstractValuePair {
         if (getValue() == null) return null;
         return getDataType().EncodeValue(getValue());
     }
+
+    public boolean IsValueExist(){
+        return getDataType().isValueExist(getValue());
+    }
+
+    public Class getObjectClass(){
+        return getDataType().getObjectClass();
+    }
+
+    public String ValueAsString(){
+        return getDataType().valueAsString(getValue());
+    }
 }
