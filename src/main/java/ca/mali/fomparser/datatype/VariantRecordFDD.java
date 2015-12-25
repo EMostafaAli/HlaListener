@@ -133,8 +133,7 @@ public class VariantRecordFDD extends AbstractDataType {
         Label title = new Label("Discriminant: ");
         title.setMinWidth(Region.USE_PREF_SIZE);
         gridPane.add(title, 0, 0);
-        @SuppressWarnings("unchecked")
-        ComboBox<String> discriminantControl = (ComboBox<String>) getDiscriminantType().getControl();
+        ComboBox<String> discriminantControl = getDiscriminantType().getControl();
         HBox hBox = new HBox();
         discriminantControl.setOnAction(event -> {
             hBox.getChildren().clear();

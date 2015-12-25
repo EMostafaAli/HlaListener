@@ -129,7 +129,7 @@ public class EnumeratedFDDDataType extends AbstractDataType {
     }
 
     @Override
-    public Region getControl() {
+    public ComboBox<String> getControl() {
         ComboBox<String> values = new ComboBox<>();
         values.getItems().addAll(getEnumerator().stream().map(EnumeratedFDDDataType.Enumerator::getName).collect(Collectors.toList()));
         values.setOnAction(event ->this.value = values.getSelectionModel().getSelectedItem());
