@@ -26,7 +26,6 @@
  */
 package ca.mali.fomparser.datatype;
 
-import ca.mali.fomparser.ControlValuePair;
 import ca.mali.fomparser.DataTypeEnum;
 import hla.rti1516e.encoding.DataElement;
 import hla.rti1516e.encoding.DecoderException;
@@ -34,9 +33,10 @@ import hla.rti1516e.encoding.HLAfixedRecord;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
+import javafx.scene.layout.Region;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
@@ -85,9 +85,22 @@ public class FixedRecordFDD extends AbstractDataType {
         return this.fields;
     }
 
+    public void setFields(List<Field> fields) {
+        this.fields = fields;
+    }
+
     @Override
-    public byte[] EncodeValue(Object value) {
-        return getDataElement(value).toByteArray();
+    public Object clone() throws CloneNotSupportedException {
+        FixedRecordFDD cloned = (FixedRecordFDD)super.clone();
+        List<Field> clonedFields = new ArrayList<>(getFields().size());
+        for(Field item: getFields()) clonedFields.add((Field) item.clone());
+        cloned.setFields(clonedFields);
+        return cloned;
+    }
+
+    @Override
+    public byte[] EncodeValue() {
+        return getDataElement().toByteArray();
     }
 
     @Override
@@ -95,7 +108,7 @@ public class FixedRecordFDD extends AbstractDataType {
         try {
             HLAfixedRecord hlAfixedRecord = encoderFactory.createHLAfixedRecord();
             for (Field field : fields) {
-                hlAfixedRecord.add(field.getDataType().getDataElement(null)); // TODO: 12/16/2015 check if null has any side effects
+                hlAfixedRecord.add(field.getDataType().getDataElement());
             }
             hlAfixedRecord.decode(encodedValue);
             String[] values = new String[fields.size()];
@@ -111,48 +124,40 @@ public class FixedRecordFDD extends AbstractDataType {
     }
 
     @Override
-    public DataElement getDataElement(Object value) {
+    public DataElement getDataElement() {
         HLAfixedRecord hlAfixedRecord = encoderFactory.createHLAfixedRecord();
-        Object[] values = (Object[]) value;
-        for (int i = 0; i < values.length; i++) {
-            Object o = ((SimpleObjectProperty) values[i]).getValue();
-            if (o != null) {
-                hlAfixedRecord.add(fields.get(i).getDataType().getDataElement(o));
-            }
-        }
+        fields.stream().filter(field -> field.getDataType().isValueExist()).forEach(field -> {
+            hlAfixedRecord.add(field.getDataType().getDataElement());
+        });
         return hlAfixedRecord;
     }
 
     @Override
-    public ControlValuePair getControlValue() {
+    public Region getControl() {
         Object[] values = new Object[getFields().size()];
         GridPane gridPane = new GridPane();
         gridPane.setHgap(5);
         gridPane.setVgap(5);
         gridPane.setPadding(new Insets(0, 5, 0, 5));
         for (int i = 0; i < values.length; i++) {
-            Text title = new Text(getFields().get(i).getName());
+            Label title = new Label(getFields().get(i).getName() + ": ");
+            title.setMinWidth(Region.USE_PREF_SIZE);
             gridPane.add(title, 0, i);
             if (getFields().get(i).getDataType() != null) {
-                ControlValuePair controlValue = getFields().get(i).getDataType().getControlValue();
-                if (controlValue != null) {
-                    values[i] = controlValue.valueProperty();
-                    gridPane.add(controlValue.getRegion(), 1, i);
-                }
+                gridPane.add(getFields().get(i).getDataType().getControl(), 1, i);
             }
         }
         ScrollPane scrollPane = new ScrollPane(gridPane);
         scrollPane.setFitToWidth(true);
         ObjectProperty<Object> value = new SimpleObjectProperty<>();
         value.setValue(values);
-        return new ControlValuePair(scrollPane, value);
+        return scrollPane;
     }
 
     @Override
-    public boolean isValueExist(Object value) {
-        Object[] values = (Object[]) value;
-        for (int i = 0; i < values.length; i++) {
-            if (fields.get(i).getDataType().isValueExist(((SimpleObjectProperty) values[i]).getValue()))
+    public boolean isValueExist() {
+        for (Field field : fields) {
+            if (field.getDataType().isValueExist())
                 return true;
         }
         return false;
@@ -164,20 +169,19 @@ public class FixedRecordFDD extends AbstractDataType {
     }
 
     @Override
-    public String valueAsString(Object value) {
-        Object[] values = (Object[]) value;
+    public String valueAsString() {
         String result = "[";
-        for (int i = 0; i < values.length; i++) {
-            if (fields.get(i).getDataType().isValueExist(((SimpleObjectProperty) values[i]).getValue())) {
-                result += "{" + fields.get(i).getName() + ": " +
-                        fields.get(i).getDataType().valueAsString(((SimpleObjectProperty) values[i]).getValue()) + "}, ";
+        for (Field field : fields) {
+            if (field.getDataType().isValueExist()){
+                result += "{" + field.getName() + ": " +
+                        field.getDataType().valueAsString() + "}, ";
             }
         }
         result = result.substring(0, result.length() - 2) + "]";
         return result;
     }
 
-    public static class Field {
+    public static class Field implements Cloneable {
 
         protected String name;
         protected AbstractDataType dataType;
@@ -196,6 +200,13 @@ public class FixedRecordFDD extends AbstractDataType {
 
         public void setDataType(AbstractDataType dataType) {
             this.dataType = dataType;
+        }
+
+        @Override
+        protected Object clone() throws CloneNotSupportedException {
+            Field cloned = (Field)super.clone();
+            cloned.setDataType((AbstractDataType) cloned.getDataType().clone());
+            return cloned;
         }
     }
 }

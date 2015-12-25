@@ -30,6 +30,7 @@ import ca.mali.fomparser.AbstractValuePair;
 import ca.mali.fomparser.AttributeValueCell;
 import ca.mali.fomparser.AttributeValuePair;
 import ca.mali.fomparser.ObjectInstanceFDD;
+import ca.mali.fomparser.datatype.AbstractDataType;
 import ca.mali.hlalistener.ClassValuePair;
 import ca.mali.hlalistener.LogEntry;
 import ca.mali.hlalistener.LogEntryType;
@@ -82,7 +83,7 @@ public class UpdateAttributeValuesServiceController implements Initializable {
     private TableColumn<AttributeValuePair, String> AttributeTableColumn;
 
     @FXML
-    private TableColumn<AttributeValuePair, Object> ValueTableColumn;
+    private TableColumn<AttributeValuePair, AbstractDataType> ValueTableColumn;
 
     @FXML
     private TextField UserSuppliedTag;
@@ -108,6 +109,7 @@ public class UpdateAttributeValuesServiceController implements Initializable {
             AttributeValueTableView.setItems(valuePairs);
             AttributeValueTableView.setEditable(true);
             AttributeTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+            ValueTableColumn.setCellValueFactory(new PropertyValueFactory<>("dataType"));
             ValueTableColumn.setCellFactory(param -> new AttributeValueCell());
             ValueTableColumn.setEditable(true);
             InstanceName.getItems().addAll(objectInstances.values());

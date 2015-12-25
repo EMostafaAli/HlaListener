@@ -26,12 +26,10 @@
  */
 package ca.mali.fomparser.datatype;
 
-import ca.mali.fomparser.ControlValuePair;
 import ca.mali.fomparser.DataTypeEnum;
 import hla.rti1516e.encoding.*;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Region;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
@@ -51,13 +49,21 @@ public class ArrayFDD extends AbstractDataType {
     private String encoding;
     private String cardinality;
     private String semantics;
+    private Object value;
 
     public ArrayFDD(String name) {
         super(name, DataTypeEnum.ARRAY);
     }
 
     @Override
-    public byte[] EncodeValue(Object value) {
+    public Object clone() throws CloneNotSupportedException {
+        ArrayFDD cloned = (ArrayFDD)super.clone();
+        cloned.setElementType((AbstractDataType) cloned.getElementType().clone());
+        return cloned;
+    }
+
+    @Override
+    public byte[] EncodeValue() {
         byte[] encodedValue;
         switch (getName()) {
             case "HLAASCIIstring": {
@@ -79,7 +85,7 @@ public class ArrayFDD extends AbstractDataType {
                 break;
             }
             default: { // TODO: 12/16/2015 cast the value to array
-                return getElementType().EncodeValue(value);
+                return getElementType().EncodeValue();
             }
         }
         return encodedValue;
@@ -119,7 +125,7 @@ public class ArrayFDD extends AbstractDataType {
     }
 
     @Override
-    public DataElement getDataElement(Object value) {
+    public DataElement getDataElement() {
         switch (getName()) {
             case "HLAASCIIstring": {
                 HLAASCIIstring encoder = encoderFactory.createHLAASCIIstring();
@@ -137,27 +143,24 @@ public class ArrayFDD extends AbstractDataType {
                 return encoder;
             }
             default: { // TODO: 12/16/2015 cast the value to array
-                return getElementType().getDataElement(value);
+                return getElementType().getDataElement();
             }
         }
     }
 
     @Override
-    public ControlValuePair getControlValue() {
+    public Region getControl() {
         if ("HLAASCIIstring".equalsIgnoreCase(getName()) || "HLAunicodeString".equalsIgnoreCase(getName())) {
             TextField textField = new TextField();
-            ObjectProperty<Object> value = new SimpleObjectProperty<>();
-            textField.textProperty().addListener((observable, oldValue, newValue) -> value.setValue(newValue));
-            return new ControlValuePair(textField, value);
+            textField.textProperty().addListener((observable, oldValue, newValue) -> this.value = newValue);
+            return textField;
         }
         return null; // TODO: 12/16/2015 GUI for array
     }
 
     @Override
-    public boolean isValueExist(Object value) {
-        if (value == null) return false;
-        return value.getClass().isArray() || value instanceof String;
-
+    public boolean isValueExist() {
+        return value != null && (value.getClass().isArray() || value instanceof String);
     }
 
     @Override
@@ -182,20 +185,20 @@ public class ArrayFDD extends AbstractDataType {
     }
 
     @Override
-    public String valueAsString(Object value) {
+    public String valueAsString() {
         if (value.getClass().isArray()){
             Object[] values = (Object[])value;
             if (values.length <= 5){
                 String result = "[";
-                for (Object o : values) {
-                    result += getElementType().valueAsString(o) + ", ";
+                for (Object o : values) { // TODO: 2015-12-23 Array should push value to underlying element
+                    result += getElementType().valueAsString() + ", ";
                 }
                 result = result.substring(0, result.length()-2) + "]";
                 return result;
             }
-            return "Array values <" + Arrays.toString(EncodeValue(value)) + ">";
+            return "Array values <" + Arrays.toString(EncodeValue()) + ">";
         }
-        return  value.toString() + "<" + Arrays.toString(EncodeValue(value)) + ">";
+        return  value.toString() + "<" + Arrays.toString(EncodeValue()) + ">";
     }
 
     public AbstractDataType getElementType() {

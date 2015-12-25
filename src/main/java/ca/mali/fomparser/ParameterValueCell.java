@@ -30,7 +30,7 @@ package ca.mali.fomparser;
 import javafx.scene.control.TableCell;
 import javafx.scene.layout.Region;
 
-public class ParameterValueCell extends TableCell<ParameterValuePair, Object> {
+public class ParameterValueCell extends TableCell<ParameterValuePair, Object> { // TODO: 2015-12-24 update to match logic in AttributeValueCell
 
     @Override
     protected void updateItem(Object item, boolean empty) {

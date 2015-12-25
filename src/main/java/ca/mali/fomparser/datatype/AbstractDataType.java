@@ -26,14 +26,14 @@
  */
 package ca.mali.fomparser.datatype;
 
-import ca.mali.fomparser.ControlValuePair;
 import ca.mali.fomparser.DataTypeEnum;
 import hla.rti1516e.encoding.DataElement;
+import javafx.scene.layout.Region;
 
 /**
  * @author Mostafa
  */
-public abstract class AbstractDataType {
+public abstract class AbstractDataType implements Cloneable {
     private final String name;
     private final DataTypeEnum dataType;
     protected AbstractDataType(String name, DataTypeEnum dataType){
@@ -45,21 +45,26 @@ public abstract class AbstractDataType {
         return name;
     }
 
-    public abstract byte[] EncodeValue(Object value);
+    public abstract byte[] EncodeValue();
 
     public abstract String DecodeValue(byte[] encodedValue);
 
-    public abstract DataElement getDataElement(Object value);
+    public abstract DataElement getDataElement();
 
-    public abstract ControlValuePair getControlValue();
+    public abstract Region getControl();
 
-    public abstract boolean isValueExist(Object value);
+    public abstract boolean isValueExist();
 
     public abstract Class getObjectClass();
 
-    public abstract String valueAsString(Object value);
+    public abstract String valueAsString();
 
     public DataTypeEnum getDataType() {
         return dataType;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

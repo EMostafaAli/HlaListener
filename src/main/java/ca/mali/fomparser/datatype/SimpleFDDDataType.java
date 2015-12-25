@@ -26,12 +26,12 @@
  */
 package ca.mali.fomparser.datatype;
 
-import ca.mali.fomparser.ControlValuePair;
 import ca.mali.fomparser.DataTypeEnum;
 import hla.rti1516e.encoding.*;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Region;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
@@ -53,6 +53,7 @@ public class SimpleFDDDataType extends AbstractDataType {
     private String resolution;
     private String accuracy;
     private String semantics;
+    private String value ="";
 
     public SimpleFDDDataType(String name) {
         super(name, DataTypeEnum.SIMPLE);
@@ -99,29 +100,37 @@ public class SimpleFDDDataType extends AbstractDataType {
     }
 
     @Override
-    public byte[] EncodeValue(Object value) {
+    public Object clone() throws CloneNotSupportedException {
+        SimpleFDDDataType cloned = (SimpleFDDDataType)super.clone();
+        cloned.setRepresentation((BasicDataType) cloned.getRepresentation().clone());
+        return cloned;
+    }
+
+    @Override
+    public byte[] EncodeValue() {
         byte[] encodedValue;
         switch (getName()) {
             case "HLAASCIIchar": {
                 HLAASCIIchar encoder = encoderFactory.createHLAASCIIchar();
-                encoder.setValue((byte) value.toString().charAt(0));
+                encoder.setValue((byte) value.charAt(0));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAunicodeChar": {
                 HLAunicodeChar encoder = encoderFactory.createHLAunicodeChar();
-                encoder.setValue((short) value.toString().charAt(0));
+                encoder.setValue((short) value.charAt(0));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAbyte": {
                 HLAbyte encoder = encoderFactory.createHLAbyte();
-                encoder.setValue((byte) value.toString().charAt(0));
+                encoder.setValue((byte) value.charAt(0));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             default: {
-                encodedValue = getRepresentation().EncodeValue(value);
+                getRepresentation().setValue(value);
+                encodedValue = getRepresentation().EncodeValue();
                 break;
             }
         }
@@ -163,40 +172,39 @@ public class SimpleFDDDataType extends AbstractDataType {
     }
 
     @Override
-    public DataElement getDataElement(Object value) {
+    public DataElement getDataElement() {
         switch (getName()) {
             case "HLAASCIIchar": {
                 HLAASCIIchar encoder = encoderFactory.createHLAASCIIchar();
-                encoder.setValue((byte) value.toString().charAt(0));
+                encoder.setValue((byte) value.charAt(0));
                 return encoder;
             }
             case "HLAunicodeChar": {
                 HLAunicodeChar encoder = encoderFactory.createHLAunicodeChar();
-                encoder.setValue((short) value.toString().charAt(0));
+                encoder.setValue((short) value.charAt(0));
                 return encoder;
             }
             case "HLAbyte": {
                 HLAbyte encoder = encoderFactory.createHLAbyte();
-                encoder.setValue((byte) value.toString().charAt(0));
+                encoder.setValue((byte) value.charAt(0));
                 return encoder;
             }
             default: {
-                return getRepresentation().getDataElement(value);
+                return getRepresentation().getDataElement();
             }
         }
     }
 
     @Override
-    public ControlValuePair getControlValue() {
+    public Region getControl() {
         TextField textField = new TextField();
-        ObjectProperty<Object> value = new SimpleObjectProperty<>();
-        textField.textProperty().addListener((observable, oldValue, newValue) -> value.setValue(newValue));
-        return new ControlValuePair(textField, value);
+        textField.textProperty().addListener((observable, oldValue, newValue) -> this.value = newValue);
+        return textField;
     }
 
     @Override
-    public boolean isValueExist(Object value) {
-        return value != null;
+    public boolean isValueExist() {
+        return !value.isEmpty();
     }
 
     @Override
@@ -218,7 +226,7 @@ public class SimpleFDDDataType extends AbstractDataType {
     }
 
     @Override
-    public String valueAsString(Object value) {
-        return  value.toString() + "<" + Arrays.toString(EncodeValue(value)) + ">";
+    public String valueAsString() {
+        return  value + "<" + Arrays.toString(EncodeValue()) + ">";
     }
 }

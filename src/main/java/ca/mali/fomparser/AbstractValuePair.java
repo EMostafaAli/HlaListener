@@ -72,19 +72,17 @@ public abstract class AbstractValuePair {
 
     public Region cellGUI() {
         if (getDataType() == null) return null;
-        ControlValuePair controlValue = getDataType().getControlValue();
-        if (controlValue == null) return null;
-        this.value = controlValue.valueProperty();
-        return controlValue.getRegion();
+        Region control = getDataType().getControl();
+        if (control == null) return null;
+        return control;
     }
 
     public byte[] EncodeValue() {
-        if (getValue() == null) return null;
-        return getDataType().EncodeValue(getValue());
+        return getDataType().EncodeValue();
     }
 
     public boolean IsValueExist(){
-        return getDataType().isValueExist(getValue());
+        return getDataType().isValueExist();
     }
 
     public Class getObjectClass(){
@@ -92,6 +90,6 @@ public abstract class AbstractValuePair {
     }
 
     public String ValueAsString(){
-        return getDataType().valueAsString(getValue());
+        return getDataType().valueAsString();
     }
 }

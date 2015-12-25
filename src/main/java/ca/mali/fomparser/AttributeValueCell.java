@@ -27,47 +27,25 @@
 
 package ca.mali.fomparser;
 
+import ca.mali.fomparser.datatype.AbstractDataType;
 import javafx.scene.control.TableCell;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
 
-public class AttributeValueCell extends TableCell<AttributeValuePair, Object> {
+public class AttributeValueCell extends TableCell<AttributeValuePair, AbstractDataType> {
 
     @Override
-    protected void updateItem(Object item, boolean empty) {
+    protected void updateItem(AbstractDataType item, boolean empty) {
         super.updateItem(item, empty);
-        AbstractValuePair valuePair = (AbstractValuePair) this.getTableRow().getItem();
-        if (empty || valuePair == null) return;
-        Region r = valuePair.cellGUI();
-        if (r != null) {
-            this.widthProperty().addListener((observable, oldValue, newValue) -> r.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2));
+        if (empty || item == null) {
+            setGraphic(null);
+            setText(null);
+        } else {
+            Region r = item.getControl();
+            if (r != null) {
+                this.widthProperty().addListener((observable, oldValue, newValue) -> r.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2));
+            }
             setGraphic(r);
         }
-        //Enumerated data type
-//        if (fddObjectModel.getEnumeratedDataTypeMap().keySet().contains(valuePair.getDataType().getName())) {
-//            ComboBox<String> values = new ComboBox<>();
-//            this.widthProperty().addListener((observable, oldValue, newValue) -> values.setMinWidth(this.getWidth() - this.getGraphicTextGap()* 2));
-//            values.getItems().addAll(fddObjectModel.getEnumeratedDataTypeMap().get(valuePair.getDataType())
-//                    .getEnumerator().stream().map(a -> a.getName()).collect(Collectors.toList()));
-//            values.setOnAction(event -> commitEdit(values.getSelectionModel().getSelectedItem()));
-//            setGraphic(values);
-//        } else if(fddObjectModel.getArrayDataTypeMap().keySet().contains(valuePair.getDataType())){ //Array data type
-//            TextField textField = new TextField();
-//            textField.setPromptText("Separate values with semicolon (;)");
-//            this.widthProperty().addListener((observable, oldValue, newValue) -> textField.setMinWidth(this.getWidth() - this.getGraphicTextGap()* 2));
-//            textField.textProperty().addListener((observable, oldValue, newValue) -> commitEdit(newValue));
-//            setGraphic(textField);
-//        } else { //Simple data type
-//            TextField textField = new TextField();
-//            this.widthProperty().addListener((observable, oldValue, newValue) -> textField.setMinWidth(this.getWidth() - this.getGraphicTextGap()* 2));
-//            textField.textProperty().addListener((observable, oldValue, newValue) -> commitEdit(newValue));
-//            setGraphic(textField);
-//        }
     }
-//
-//    @Override
-//    public void commitEdit(Object newValue) {
-//        super.commitEdit(newValue);
-//        ((AttribParamValuePair) this.getTableRow().getItem()).setValue(newValue);
-//    }
-
 }

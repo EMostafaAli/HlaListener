@@ -62,7 +62,7 @@
     <TableView fx:id="AttributeValueTableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                minWidth="-Infinity" GridPane.columnSpan="2" GridPane.rowIndex="1">
         <columns>
-            <TableColumn fx:id="AttributeTableColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="50.0"
+            <TableColumn fx:id="AttributeTableColumn" editable="false" minWidth="50.0"
                          prefWidth="200.0" text="Attribute"/>
             <TableColumn fx:id="ValueTableColumn" maxWidth="1.7976931348623157E308" minWidth="50.0" prefWidth="400.0"
                          text="Value"/>

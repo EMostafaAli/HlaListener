@@ -26,12 +26,12 @@
  */
 package ca.mali.fomparser.datatype;
 
-import ca.mali.fomparser.ControlValuePair;
 import ca.mali.fomparser.DataTypeEnum;
 import hla.rti1516e.encoding.DataElement;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.Region;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -44,33 +44,43 @@ public class EnumeratedFDDDataType extends AbstractDataType {
     private BasicDataType representation;
     private List<Enumerator> enumerator;
     private String semantics;
+    private String value="";
 
     public EnumeratedFDDDataType(String name) {
         super(name, DataTypeEnum.ENUMERATED);
     }
 
     @Override
-    public byte[] EncodeValue(Object value) {
+    public Object clone() throws CloneNotSupportedException {
+        EnumeratedFDDDataType cloned = (EnumeratedFDDDataType)super.clone();
+        cloned.setRepresentation((BasicDataType) cloned.getRepresentation().clone());
+        return cloned;
+    }
+
+    @Override
+    public byte[] EncodeValue() {
         byte[] encodedValue = null;
         Optional<Enumerator> first = getEnumerator().stream().filter(enumerator ->
-                Objects.equals(enumerator.getName(), value.toString())).findFirst();
+                Objects.equals(enumerator.getName(), value)).findFirst();
         if (first.isPresent()) {
-            encodedValue = getRepresentation().EncodeValue(first.get().getValues().get(0));
+            getRepresentation().setValue(first.get().getValues().get(0));
+            encodedValue = getRepresentation().EncodeValue();
         }
         return encodedValue;
     }
 
     @Override
     public String DecodeValue(byte[] encodedValue) {
-        return null;
+        return getRepresentation().DecodeValue(encodedValue);
     }
 
     @Override
-    public DataElement getDataElement(Object value) {
+    public DataElement getDataElement() {
         Optional<Enumerator> first = getEnumerator().stream().filter(enumerator ->
-                Objects.equals(enumerator.getName(), value.toString())).findFirst();
+                Objects.equals(enumerator.getName(), value)).findFirst();
         if (first.isPresent()) {
-            return getRepresentation().getDataElement(first.get().getValues().get(0));
+            getRepresentation().setValue(first.get().getValues().get(0));
+            return getRepresentation().getDataElement();
         }
         return null;
     }
@@ -119,17 +129,16 @@ public class EnumeratedFDDDataType extends AbstractDataType {
     }
 
     @Override
-    public ControlValuePair getControlValue() {
+    public Region getControl() {
         ComboBox<String> values = new ComboBox<>();
         values.getItems().addAll(getEnumerator().stream().map(EnumeratedFDDDataType.Enumerator::getName).collect(Collectors.toList()));
-        ObjectProperty<Object> value = new SimpleObjectProperty<>();
-        values.setOnAction(event -> value.setValue(values.getSelectionModel().getSelectedItem()));
-        return new ControlValuePair(values, value);
+        values.setOnAction(event ->this.value = values.getSelectionModel().getSelectedItem());
+        return values;
     }
 
     @Override
-    public boolean isValueExist(Object value) {
-        return value != null;
+    public boolean isValueExist() {
+        return !value.isEmpty();
     }
 
     @Override
@@ -138,7 +147,7 @@ public class EnumeratedFDDDataType extends AbstractDataType {
     }
 
     @Override
-    public String valueAsString(Object value) {
-        return  value.toString() + "<" + Arrays.toString(EncodeValue(value)) + ">";
+    public String valueAsString() {
+        return value + "<" + Arrays.toString(EncodeValue()) + ">";
     }
 }

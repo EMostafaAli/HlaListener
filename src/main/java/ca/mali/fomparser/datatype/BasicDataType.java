@@ -27,9 +27,9 @@
 
 package ca.mali.fomparser.datatype;
 
-import ca.mali.fomparser.ControlValuePair;
 import ca.mali.fomparser.DataTypeEnum;
 import hla.rti1516e.encoding.*;
+import javafx.scene.layout.Region;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
@@ -49,6 +49,7 @@ public class BasicDataType extends AbstractDataType {
     private String interpretation;
     private boolean littleEndian;
     private String encoding;
+    private String value = "";
 
     public BasicDataType(String name) {
         super(name, DataTypeEnum.BASIC);
@@ -86,85 +87,93 @@ public class BasicDataType extends AbstractDataType {
         this.encoding = encoding;
     }
 
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
     @Override
-    public byte[] EncodeValue(Object value) {
+    public byte[] EncodeValue() {
         byte[] encodedValue = null;
         switch (getName()) {
             case "HLAinteger16BE": {
                 HLAinteger16BE encoder = encoderFactory.createHLAinteger16BE();
-                encoder.setValue(Short.parseShort(value.toString()));
+                encoder.setValue(Short.parseShort(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAinteger32BE": {
                 HLAinteger32BE encoder = encoderFactory.createHLAinteger32BE();
-                encoder.setValue(Short.parseShort(value.toString()));
+                encoder.setValue(Short.parseShort(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAinteger64BE": {
                 HLAinteger64BE encoder = encoderFactory.createHLAinteger64BE();
-                encoder.setValue(Long.parseLong(value.toString()));
+                encoder.setValue(Long.parseLong(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAfloat32BE": {
                 HLAfloat32BE encoder = encoderFactory.createHLAfloat32BE();
-                encoder.setValue(Float.parseFloat(value.toString()));
+                encoder.setValue(Float.parseFloat(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAfloat64BE": {
                 HLAfloat64BE encoder = encoderFactory.createHLAfloat64BE();
-                encoder.setValue(Double.parseDouble(value.toString()));
+                encoder.setValue(Double.parseDouble(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAoctetPairBE": {
                 HLAoctetPairBE encoder = encoderFactory.createHLAoctetPairBE();
-                encoder.setValue(Short.parseShort(value.toString()));
+                encoder.setValue(Short.parseShort(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAinteger16LE": {
                 HLAinteger16LE encoder = encoderFactory.createHLAinteger16LE();
-                encoder.setValue(Short.parseShort(value.toString()));
+                encoder.setValue(Short.parseShort(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAinteger32LE": {
                 HLAinteger32LE encoder = encoderFactory.createHLAinteger32LE();
-                encoder.setValue(Integer.parseInt(value.toString()));
+                encoder.setValue(Integer.parseInt(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAinteger64LE": {
                 HLAinteger64LE encoder = encoderFactory.createHLAinteger64LE();
-                encoder.setValue(Long.parseLong(value.toString()));
+                encoder.setValue(Long.parseLong(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAfloat32LE": {
                 HLAfloat32LE encoder = encoderFactory.createHLAfloat32LE();
-                encoder.setValue(Float.parseFloat(value.toString()));
+                encoder.setValue(Float.parseFloat(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAfloat64LE": {
                 HLAfloat64LE encoder = encoderFactory.createHLAfloat64LE();
-                encoder.setValue(Double.parseDouble(value.toString()));
+                encoder.setValue(Double.parseDouble(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAoctetPairLE": {
                 HLAoctetPairLE encoder = encoderFactory.createHLAoctetPairLE();
-                encoder.setValue(Short.parseShort(value.toString()));
+                encoder.setValue(Short.parseShort(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAoctet": {
                 HLAoctet encoder = encoderFactory.createHLAoctet();
-                encoder.setValue(Byte.parseByte(value.toString()));
+                encoder.setValue(Byte.parseByte(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
@@ -271,71 +280,71 @@ public class BasicDataType extends AbstractDataType {
     }
 
     @Override
-    public DataElement getDataElement(Object value) {
+    public DataElement getDataElement() {
         switch (getName()) {
             case "HLAinteger16BE": {
                 HLAinteger16BE encoder = encoderFactory.createHLAinteger16BE();
-                encoder.setValue(Short.parseShort(value.toString()));
+                encoder.setValue(Short.parseShort(value));
                 return encoder;
             }
             case "HLAinteger32BE": {
                 HLAinteger32BE encoder = encoderFactory.createHLAinteger32BE();
-                encoder.setValue(Short.parseShort(value.toString()));
+                encoder.setValue(Short.parseShort(value));
                 return encoder;
             }
             case "HLAinteger64BE": {
                 HLAinteger64BE encoder = encoderFactory.createHLAinteger64BE();
-                encoder.setValue(Long.parseLong(value.toString()));
+                encoder.setValue(Long.parseLong(value));
                 return encoder;
             }
             case "HLAfloat32BE": {
                 HLAfloat32BE encoder = encoderFactory.createHLAfloat32BE();
-                encoder.setValue(Float.parseFloat(value.toString()));
+                encoder.setValue(Float.parseFloat(value));
                 return encoder;
             }
             case "HLAfloat64BE": {
                 HLAfloat64BE encoder = encoderFactory.createHLAfloat64BE();
-                encoder.setValue(Double.parseDouble(value.toString()));
+                encoder.setValue(Double.parseDouble(value));
                 return encoder;
             }
             case "HLAoctetPairBE": {
                 HLAoctetPairBE encoder = encoderFactory.createHLAoctetPairBE();
-                encoder.setValue(Short.parseShort(value.toString()));
+                encoder.setValue(Short.parseShort(value));
                 return encoder;
             }
             case "HLAinteger16LE": {
                 HLAinteger16LE encoder = encoderFactory.createHLAinteger16LE();
-                encoder.setValue(Short.parseShort(value.toString()));
+                encoder.setValue(Short.parseShort(value));
                 return encoder;
             }
             case "HLAinteger32LE": {
                 HLAinteger32LE encoder = encoderFactory.createHLAinteger32LE();
-                encoder.setValue(Integer.parseInt(value.toString()));
+                encoder.setValue(Integer.parseInt(value));
                 return encoder;
             }
             case "HLAinteger64LE": {
                 HLAinteger64LE encoder = encoderFactory.createHLAinteger64LE();
-                encoder.setValue(Long.parseLong(value.toString()));
+                encoder.setValue(Long.parseLong(value));
                 return encoder;
             }
             case "HLAfloat32LE": {
                 HLAfloat32LE encoder = encoderFactory.createHLAfloat32LE();
-                encoder.setValue(Float.parseFloat(value.toString()));
+                encoder.setValue(Float.parseFloat(value));
                 return encoder;
             }
             case "HLAfloat64LE": {
                 HLAfloat64LE encoder = encoderFactory.createHLAfloat64LE();
-                encoder.setValue(Double.parseDouble(value.toString()));
+                encoder.setValue(Double.parseDouble(value));
                 return encoder;
             }
             case "HLAoctetPairLE": {
                 HLAoctetPairLE encoder = encoderFactory.createHLAoctetPairLE();
-                encoder.setValue(Short.parseShort(value.toString()));
+                encoder.setValue(Short.parseShort(value));
                 return encoder;
             }
             case "HLAoctet": {
                 HLAoctet encoder = encoderFactory.createHLAoctet();
-                encoder.setValue(Byte.parseByte(value.toString()));
+                encoder.setValue(Byte.parseByte(value));
                 return encoder;
             }
             default: {
@@ -347,13 +356,13 @@ public class BasicDataType extends AbstractDataType {
     }
 
     @Override
-    public ControlValuePair getControlValue() {
+    public Region getControl() { //Basic data type can't be used directly
         return null;
     }
 
     @Override
-    public boolean isValueExist(Object value) {
-        return value != null;
+    public boolean isValueExist() {
+        return !value.isEmpty();
     }
 
     @Override
@@ -406,7 +415,7 @@ public class BasicDataType extends AbstractDataType {
     }
 
     @Override
-    public String valueAsString(Object value) {
-        return  value.toString() + "<" + Arrays.toString(EncodeValue(value)) + ">";
+    public String valueAsString() {
+        return value + "<" + Arrays.toString(EncodeValue()) + ">";
     }
 }

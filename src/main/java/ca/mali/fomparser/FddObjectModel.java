@@ -347,18 +347,22 @@ public class FddObjectModel {
     }
 
     private AbstractDataType getDataType(String name) {
-        if (getBasicDataTypeMap().containsKey(name)) {
-            return getBasicDataTypeMap().get(name);
-        } else if (getSimpleDataTypeMap().containsKey(name)) {
-            return getSimpleDataTypeMap().get(name);
-        } else if (getEnumeratedDataTypeMap().containsKey(name)) {
-            return getEnumeratedDataTypeMap().get(name);
-        } else if (getArrayDataTypeMap().containsKey(name)) {
-            return getArrayDataTypeMap().get(name);
-        } else if (getFixedRecordTypeMap().containsKey(name)) {
-            return getFixedRecordTypeMap().get(name);
-        } else if (getVariantRecordTypeMap().containsKey(name)) {
-            return getVariantRecordTypeMap().get(name);
+        try {
+            if (getBasicDataTypeMap().containsKey(name)) {
+                return (AbstractDataType) getBasicDataTypeMap().get(name).clone();
+            } else if (getSimpleDataTypeMap().containsKey(name)) {
+                return (AbstractDataType) getSimpleDataTypeMap().get(name).clone();
+            } else if (getEnumeratedDataTypeMap().containsKey(name)) {
+                return (AbstractDataType) getEnumeratedDataTypeMap().get(name).clone();
+            } else if (getArrayDataTypeMap().containsKey(name)) {
+                return (AbstractDataType) getArrayDataTypeMap().get(name).clone();
+            } else if (getFixedRecordTypeMap().containsKey(name)) {
+                return (AbstractDataType) getFixedRecordTypeMap().get(name).clone();
+            } else if (getVariantRecordTypeMap().containsKey(name)) {
+                return (AbstractDataType) getVariantRecordTypeMap().get(name).clone();
+            }
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, ex.getMessage(), ex);
         }
         return null;
     }

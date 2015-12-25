@@ -96,7 +96,7 @@ public class AttribParamValuePair implements ValueListener {
 
     public byte[] EncodeValue() {
         if (getValue() == null) return null;
-        return getDataType().EncodeValue(getValue());
+        return getDataType().EncodeValue();
     }
 
 //    public Region cellGUI(){
