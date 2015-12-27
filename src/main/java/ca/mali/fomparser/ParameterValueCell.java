@@ -27,19 +27,25 @@
 
 package ca.mali.fomparser;
 
+import ca.mali.fomparser.datatype.AbstractDataType;
 import javafx.scene.control.TableCell;
 import javafx.scene.layout.Region;
 
-public class ParameterValueCell extends TableCell<ParameterValuePair, Object> { // TODO: 2015-12-24 update to match logic in AttributeValueCell
+public class ParameterValueCell extends TableCell<ParameterValuePair, AbstractDataType> {
+    private boolean initialTime = true;
 
     @Override
-    protected void updateItem(Object item, boolean empty) {
+    protected void updateItem(AbstractDataType item, boolean empty) {
         super.updateItem(item, empty);
-        AbstractValuePair valuePair = (AbstractValuePair) this.getTableRow().getItem();
-        if (empty || valuePair == null) return;
-        Region r = valuePair.cellGUI();
-        if (r != null) {
-            this.widthProperty().addListener((observable, oldValue, newValue) -> r.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2));
+        if (empty || item == null) {
+            setGraphic(null);
+            setText(null);
+        } else {
+            Region r = item.getControl(initialTime);
+            initialTime = false;
+            if (r != null) {
+                this.widthProperty().addListener((observable, oldValue, newValue) -> r.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2));
+            }
             setGraphic(r);
         }
     }

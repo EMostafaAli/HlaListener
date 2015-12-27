@@ -28,6 +28,7 @@ package ca.mali.fomparser.datatype;
 
 import ca.mali.fomparser.DataTypeEnum;
 import hla.rti1516e.encoding.DataElement;
+import hla.rti1516e.encoding.DecoderException;
 import hla.rti1516e.encoding.HLAvariantRecord;
 import javafx.geometry.Insets;
 import javafx.scene.control.ComboBox;
@@ -35,21 +36,30 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.*;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static ca.mali.hlalistener.PublicVariables.encoderFactory;
 
 /**
  * @author Mostafa
  */
 public class VariantRecordFDD extends AbstractDataType {
 
+    //Logger
+    private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger();
+
     private String discriminantName;
     private EnumeratedFDDDataType discriminantType;
     private List<Field> alternatives;
     private String encoding;
     private String Semantics;
+    private ComboBox<String> discriminantValue;
+    private ScrollPane scrollPane;
 
     public VariantRecordFDD(String name) {
         super(name, DataTypeEnum.VARIANTRECORD);
@@ -68,6 +78,7 @@ public class VariantRecordFDD extends AbstractDataType {
     }
 
     public void setDiscriminantType(EnumeratedFDDDataType discriminantType) {
+        discriminantValue = discriminantType.getControl(true);
         this.discriminantType = discriminantType;
     }
 
@@ -101,89 +112,145 @@ public class VariantRecordFDD extends AbstractDataType {
     @Override
     public Object clone() throws CloneNotSupportedException {
         VariantRecordFDD cloned = (VariantRecordFDD) super.clone();
+        cloned.setDiscriminantType((EnumeratedFDDDataType) getDiscriminantType().clone());
+        cloned.getControl(true);
         List<Field> clonedAlternatives = new ArrayList<>(getAlternatives().size());
         for (Field item : getAlternatives()) clonedAlternatives.add((Field) item.clone());
         cloned.setAlternatives(clonedAlternatives);
-        cloned.setDiscriminantType((EnumeratedFDDDataType) cloned.getDiscriminantType().clone());
         return cloned;
     }
 
     @Override
     public byte[] EncodeValue() {
-        return null;
+        if (getDataElement() == null)
+            return null;
+        return getDataElement().toByteArray();
     }
 
     @Override
     public String DecodeValue(byte[] encodedValue) {
+        try {
+            HLAvariantRecord<DataElement> hlAvariantRecord = getDataElement();
+            if (hlAvariantRecord == null)
+                return null;
+            hlAvariantRecord.decode(encodedValue);
+            String result = "";
+            result += "[{Discriminant: " + getDiscriminantType().DecodeValue(hlAvariantRecord.getDiscriminant().toByteArray()) + "},";
+            Field valueField = getValueField();
+            if (valueField != null) {
+                AbstractDataType valueDataType = valueField.getDataType();
+                if (valueDataType != null)
+                    result += "{Value: " + valueDataType.DecodeValue(hlAvariantRecord.getValue().toByteArray()) + "}]";
+            }
+            return result;
+        } catch (DecoderException ex) {
+            logger.log(Level.ERROR, "Error in decoding value", ex);
+        }
         return null;
     }
 
     @Override
-    public DataElement getDataElement() {
-        return null;
+    public HLAvariantRecord<DataElement> getDataElement() {
+        if (discriminantValue == null || discriminantValue.getSelectionModel().isEmpty())
+            return null;
+        getDiscriminantType().setValue(discriminantValue.getValue());
+        DataElement discriminantDataElement = getDiscriminantType().getDataElement();
+        HLAvariantRecord<DataElement> hlAvariantRecord = encoderFactory.createHLAvariantRecord(discriminantDataElement);
+        Field valueField = getValueField();
+        if (valueField != null) {
+            AbstractDataType valueDataType = valueField.getDataType();
+            if (valueDataType != null)
+                hlAvariantRecord.setVariant(discriminantDataElement, valueDataType.getDataElement());
+        }
+        return hlAvariantRecord;
     }
 
     @Override
-    public Region getControl() {
-//        Object[] values = new Object[2];
-        GridPane gridPane = new GridPane();
-        gridPane.setHgap(5);
-        gridPane.setVgap(5);
-        gridPane.setPadding(new Insets(0, 5, 0, 5));
-        Label title = new Label("Discriminant: ");
-        title.setMinWidth(Region.USE_PREF_SIZE);
-        gridPane.add(title, 0, 0);
-        ComboBox<String> discriminantControl = getDiscriminantType().getControl();
-        HBox hBox = new HBox();
-        discriminantControl.setOnAction(event -> {
-            hBox.getChildren().clear();
-            Optional<Field> first = getAlternatives().stream().filter(field ->
-                    field.containsValue(discriminantControl.getSelectionModel().getSelectedItem(), getDiscriminantType().getEnumerator())).findFirst();
-            if (first.isPresent() && !first.get().getName().equalsIgnoreCase("NA")) {
-                Label l1 = new Label(first.get().getName() + ": ");
-                l1.setMinWidth(Region.USE_PREF_SIZE);
-                hBox.getChildren().add(l1);
-                hBox.getChildren().add(first.get().getDataType().getControl());
-            } else {
-                Optional<Field> first1 = getAlternatives().stream().filter(Field::isHlaOther).findFirst();
-                if (first1.isPresent() && !first1.get().getName().equalsIgnoreCase("NA")) {
-                    Label l2 = new Label(first1.get().getName() + ": ");
-                    l2.setMinWidth(Region.USE_PREF_SIZE);
-                    hBox.getChildren().add(l2);
-                    Region region = first1.get().getDataType().getControl();
+    public ScrollPane getControl(boolean reset) {
+        if (reset) {
+            GridPane gridPane = new GridPane();
+            gridPane.setHgap(5);
+            gridPane.setVgap(5);
+            gridPane.setPadding(new Insets(0, 5, 0, 5));
+            Label title = new Label("Discriminant: ");
+            title.setMinWidth(Region.USE_PREF_SIZE);
+            gridPane.add(title, 0, 0);
+            HBox hBox = new HBox();
+            discriminantValue = discriminantType.getControl(true);
+            discriminantValue.setOnAction(event -> {
+                hBox.getChildren().clear();
+                Field valueField = getValueField();
+                if (valueField != null) {
+                    Label l1 = new Label(valueField.getName() + ": ");
+                    l1.setMinWidth(Region.USE_PREF_SIZE);
+                    hBox.getChildren().add(l1);
+                    Region region = valueField.getDataType().getControl(true);
                     HBox.setHgrow(region, Priority.ALWAYS);
                     region.setMaxWidth(Double.MAX_VALUE);
                     hBox.getChildren().add(region);
                 }
-            }
-        });
-        gridPane.add(discriminantControl, 1, 0);
-        Separator separator = new Separator();
-        gridPane.widthProperty().addListener((observable, oldValue, newValue) -> {
-            separator.setPrefWidth(newValue.doubleValue());
-            discriminantControl.setPrefWidth(newValue.doubleValue());
-            hBox.setPrefWidth(newValue.doubleValue());
-        });
-        gridPane.add(separator, 0, 1, 2, 1);
-        gridPane.add(hBox, 0, 2, 2, 1);
-        ScrollPane scrollPane = new ScrollPane(gridPane);
-        scrollPane.setFitToWidth(true);
+            });
+            gridPane.add(discriminantValue, 1, 0);
+            Separator separator = new Separator();
+            gridPane.widthProperty().addListener((observable, oldValue, newValue) -> {
+                separator.setPrefWidth(newValue.doubleValue());
+                discriminantValue.setPrefWidth(newValue.doubleValue());
+                hBox.setPrefWidth(newValue.doubleValue());
+            });
+            gridPane.add(separator, 0, 1, 2, 1);
+            gridPane.add(hBox, 0, 2, 2, 1);
+            scrollPane = new ScrollPane(gridPane);
+            scrollPane.setFitToWidth(true);
+        }
         return scrollPane;
     }
 
     @Override
-    public boolean isValueExist() {// TODO: 12/18/2015 Write logic
-        return false;
+    public boolean isValueExist() {
+        return !(discriminantValue == null || discriminantValue.getSelectionModel().isEmpty());
     }
 
     @Override
     public String valueAsString() {
-        return null;
+        String result = "";
+        if (discriminantValue == null || discriminantValue.getSelectionModel().isEmpty())
+            return result;
+        result += "[{Discriminant: " + discriminantValue.getValue() + "}, {Value: ";
+        Optional<Field> first = getAlternatives().stream().filter(field ->
+                field.containsValue(discriminantValue.getSelectionModel().getSelectedItem(), getDiscriminantType().getEnumerator())).findFirst();
+        if (first.isPresent() && !first.get().getName().equalsIgnoreCase("NA")) {
+            result += first.get().getDataType().valueAsString();
+        } else {
+            Optional<Field> first1 = getAlternatives().stream().filter(Field::isHlaOther).findFirst();
+            if (first1.isPresent() && !first1.get().getName().equalsIgnoreCase("NA")) {
+                result += first1.get().getDataType().valueAsString();
+            } else {
+                result += "NA";
+            }
+        }
+        result += "}]";
+        return result;
     }
 
     @Override
     public Class getObjectClass() {
         return HLAvariantRecord.class;
+    }
+
+    private Field getValueField() {
+        if (discriminantValue == null || discriminantValue.getSelectionModel().isEmpty())
+            return null;
+        Optional<Field> first = getAlternatives().stream().filter(field ->
+                field.containsValue(discriminantValue.getSelectionModel().getSelectedItem(), getDiscriminantType().getEnumerator())).findFirst();
+        if (first.isPresent() && !first.get().getName().equalsIgnoreCase("NA")) {
+            return first.get();
+        } else {
+            Optional<Field> first1 = getAlternatives().stream().filter(Field::isHlaOther).findFirst();
+            if (first1.isPresent() && !first1.get().getName().equalsIgnoreCase("NA")) {
+                return first1.get();
+            }
+        }
+        return null;
     }
 
     public static class Field implements Cloneable {
@@ -255,7 +322,7 @@ public class VariantRecordFDD extends AbstractDataType {
         @Override
         protected Object clone() throws CloneNotSupportedException {
             Field cloned = (Field) super.clone();
-            if (getDataType() == null){
+            if (getDataType() == null) {
                 cloned.setDataType(null);
             } else {
                 cloned.setDataType((AbstractDataType) getDataType().clone());

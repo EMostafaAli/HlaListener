@@ -45,15 +45,18 @@ public class EnumeratedFDDDataType extends AbstractDataType {
     private List<Enumerator> enumerator;
     private String semantics;
     private String value="";
+    private ComboBox<String> values;
 
     public EnumeratedFDDDataType(String name) {
         super(name, DataTypeEnum.ENUMERATED);
+        getControl(true);
     }
 
     @Override
     public Object clone() throws CloneNotSupportedException {
         EnumeratedFDDDataType cloned = (EnumeratedFDDDataType)super.clone();
         cloned.setRepresentation((BasicDataType) cloned.getRepresentation().clone());
+        cloned.getControl(true);
         return cloned;
     }
 
@@ -108,6 +111,40 @@ public class EnumeratedFDDDataType extends AbstractDataType {
         this.semantics = semantics;
     }
 
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    @Override
+    public ComboBox<String> getControl(boolean reset) {
+        if (reset){
+            value = "";
+            values = new ComboBox<>();
+            values.getItems().addAll(getEnumerator().stream().map(EnumeratedFDDDataType.Enumerator::getName).collect(Collectors.toList()));
+            values.setOnAction(event ->this.value = values.getSelectionModel().getSelectedItem());
+        }
+        return values;
+    }
+
+    @Override
+    public boolean isValueExist() {
+        return !value.isEmpty();
+    }
+
+    @Override
+    public Class getObjectClass() {
+        return getRepresentation().getObjectClass();
+    }
+
+    @Override
+    public String valueAsString() {
+        return value + "<" + Arrays.toString(EncodeValue()) + ">";
+    }
+
     public static class Enumerator {
         protected String name;
         protected List<String> values;
@@ -126,28 +163,5 @@ public class EnumeratedFDDDataType extends AbstractDataType {
             }
             return this.values;
         }
-    }
-
-    @Override
-    public ComboBox<String> getControl() {
-        ComboBox<String> values = new ComboBox<>();
-        values.getItems().addAll(getEnumerator().stream().map(EnumeratedFDDDataType.Enumerator::getName).collect(Collectors.toList()));
-        values.setOnAction(event ->this.value = values.getSelectionModel().getSelectedItem());
-        return values;
-    }
-
-    @Override
-    public boolean isValueExist() {
-        return !value.isEmpty();
-    }
-
-    @Override
-    public Class getObjectClass() {
-        return getRepresentation().getObjectClass();
-    }
-
-    @Override
-    public String valueAsString() {
-        return value + "<" + Arrays.toString(EncodeValue()) + ">";
     }
 }

@@ -30,6 +30,7 @@ import ca.mali.fomparser.AbstractValuePair;
 import ca.mali.fomparser.InteractionClassFDD;
 import ca.mali.fomparser.ParameterValueCell;
 import ca.mali.fomparser.ParameterValuePair;
+import ca.mali.fomparser.datatype.AbstractDataType;
 import ca.mali.hlalistener.ClassValuePair;
 import ca.mali.hlalistener.LogEntry;
 import ca.mali.hlalistener.LogEntryType;
@@ -82,7 +83,7 @@ public class SendInteractionServiceController implements Initializable {
     private TableColumn<ParameterValuePair, String> ParameterTableColumn;
 
     @FXML
-    private TableColumn<ParameterValuePair, Object> ValueTableColumn;
+    private TableColumn<ParameterValuePair, AbstractDataType> ValueTableColumn;
 
     @FXML
     private TextField UserSuppliedTag;
@@ -108,6 +109,7 @@ public class SendInteractionServiceController implements Initializable {
             ParameterValueTableView.setItems(valuePairs);
             ParameterValueTableView.setEditable(true);
             ParameterTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+            ValueTableColumn.setCellValueFactory(new PropertyValueFactory<>("dataType"));
             ValueTableColumn.setCellFactory(param -> new ParameterValueCell());
             ValueTableColumn.setEditable(true);
             InteractionClassName.getItems().addAll(fddObjectModel.getInteractionClasses().values());

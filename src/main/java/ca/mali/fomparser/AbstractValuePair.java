@@ -72,7 +72,7 @@ public abstract class AbstractValuePair {
 
     public Region cellGUI() {
         if (getDataType() == null) return null;
-        Region control = getDataType().getControl();
+        Region control = getDataType().getControl(true);
         if (control == null) return null;
         return control;
     }

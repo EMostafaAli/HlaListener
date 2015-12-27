@@ -53,10 +53,12 @@ public class SimpleFDDDataType extends AbstractDataType {
     private String resolution;
     private String accuracy;
     private String semantics;
-    private String value ="";
+    private String value = "";
+    private TextField textField;
 
     public SimpleFDDDataType(String name) {
         super(name, DataTypeEnum.SIMPLE);
+        getControl(true);
     }
 
     public BasicDataType getRepresentation() {
@@ -101,8 +103,9 @@ public class SimpleFDDDataType extends AbstractDataType {
 
     @Override
     public Object clone() throws CloneNotSupportedException {
-        SimpleFDDDataType cloned = (SimpleFDDDataType)super.clone();
+        SimpleFDDDataType cloned = (SimpleFDDDataType) super.clone();
         cloned.setRepresentation((BasicDataType) cloned.getRepresentation().clone());
+        cloned.getControl(true);
         return cloned;
     }
 
@@ -190,15 +193,19 @@ public class SimpleFDDDataType extends AbstractDataType {
                 return encoder;
             }
             default: {
+                getRepresentation().setValue(value);
                 return getRepresentation().getDataElement();
             }
         }
     }
 
     @Override
-    public Region getControl() {
-        TextField textField = new TextField();
-        textField.textProperty().addListener((observable, oldValue, newValue) -> this.value = newValue);
+    public Region getControl(boolean reset) {
+        if (reset) {
+            textField = new TextField();
+            value = "";
+            textField.textProperty().addListener((observable, oldValue, newValue) -> this.value = newValue);
+        }
         return textField;
     }
 
@@ -220,6 +227,7 @@ public class SimpleFDDDataType extends AbstractDataType {
                 return HLAbyte.class;
             }
             default: {
+                getRepresentation().setValue(value);
                 return getRepresentation().getObjectClass();
             }
         }
@@ -227,6 +235,6 @@ public class SimpleFDDDataType extends AbstractDataType {
 
     @Override
     public String valueAsString() {
-        return  value + "<" + Arrays.toString(EncodeValue()) + ">";
+        return value + "<" + Arrays.toString(EncodeValue()) + ">";
     }
 }

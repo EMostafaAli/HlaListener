@@ -50,15 +50,18 @@ public class ArrayFDD extends AbstractDataType {
     private String cardinality;
     private String semantics;
     private Object value;
+    TextField textField;
 
     public ArrayFDD(String name) {
         super(name, DataTypeEnum.ARRAY);
+        getControl(true);
     }
 
     @Override
     public Object clone() throws CloneNotSupportedException {
         ArrayFDD cloned = (ArrayFDD)super.clone();
         cloned.setElementType((AbstractDataType) cloned.getElementType().clone());
+        cloned.getControl(true);
         return cloned;
     }
 
@@ -142,17 +145,20 @@ public class ArrayFDD extends AbstractDataType {
                 encoder.setValue((byte[]) value);
                 return encoder;
             }
-            default: { // TODO: 12/16/2015 cast the value to array
+            default: { // TODO: 12/16/2015 cast the value to array and assign value to the date element
                 return getElementType().getDataElement();
             }
         }
     }
 
     @Override
-    public Region getControl() {
+    public Region getControl(boolean reset) {
         if ("HLAASCIIstring".equalsIgnoreCase(getName()) || "HLAunicodeString".equalsIgnoreCase(getName())) {
-            TextField textField = new TextField();
-            textField.textProperty().addListener((observable, oldValue, newValue) -> this.value = newValue);
+            if (reset){
+                this.value = null;
+                textField = new TextField();
+                textField.textProperty().addListener((observable, oldValue, newValue) -> this.value = newValue);
+            }
             return textField;
         }
         return null; // TODO: 12/16/2015 GUI for array

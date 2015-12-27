@@ -51,7 +51,7 @@ public abstract class AbstractDataType implements Cloneable {
 
     public abstract DataElement getDataElement();
 
-    public abstract Region getControl();
+    public abstract Region getControl(boolean reset);
 
     public abstract boolean isValueExist();
 

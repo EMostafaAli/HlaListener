@@ -356,7 +356,7 @@ public class BasicDataType extends AbstractDataType {
     }
 
     @Override
-    public Region getControl() { //Basic data type can't be used directly
+    public Region getControl(boolean reset) { //Basic data type can't be used directly
         return null;
     }
 

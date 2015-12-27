@@ -33,7 +33,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
 
 public class AttributeValueCell extends TableCell<AttributeValuePair, AbstractDataType> {
-
+    private boolean initialTime = true;
     @Override
     protected void updateItem(AbstractDataType item, boolean empty) {
         super.updateItem(item, empty);
@@ -41,7 +41,8 @@ public class AttributeValueCell extends TableCell<AttributeValuePair, AbstractDa
             setGraphic(null);
             setText(null);
         } else {
-            Region r = item.getControl();
+            Region r = item.getControl(initialTime);
+            initialTime = false;
             if (r != null) {
                 this.widthProperty().addListener((observable, oldValue, newValue) -> r.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2));
             }

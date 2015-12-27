@@ -133,7 +133,7 @@ public class FixedRecordFDD extends AbstractDataType {
     }
 
     @Override
-    public Region getControl() {
+    public ScrollPane getControl(boolean reset) {
         Object[] values = new Object[getFields().size()];
         GridPane gridPane = new GridPane();
         gridPane.setHgap(5);
@@ -144,7 +144,7 @@ public class FixedRecordFDD extends AbstractDataType {
             title.setMinWidth(Region.USE_PREF_SIZE);
             gridPane.add(title, 0, i);
             if (getFields().get(i).getDataType() != null) {
-                gridPane.add(getFields().get(i).getDataType().getControl(), 1, i);
+                gridPane.add(getFields().get(i).getDataType().getControl(reset), 1, i);
             }
         }
         ScrollPane scrollPane = new ScrollPane(gridPane);
