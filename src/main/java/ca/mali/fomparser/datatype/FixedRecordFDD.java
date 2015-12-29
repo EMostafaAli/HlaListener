@@ -126,9 +126,12 @@ public class FixedRecordFDD extends AbstractDataType {
     @Override
     public DataElement getDataElement() {
         HLAfixedRecord hlAfixedRecord = encoderFactory.createHLAfixedRecord();
-        fields.stream().filter(field -> field.getDataType().isValueExist()).forEach(field -> {
+        fields.forEach(field -> {
             hlAfixedRecord.add(field.getDataType().getDataElement());
         });
+//        fields.stream().filter(field -> field.getDataType().isValueExist()).forEach(field -> {
+//            hlAfixedRecord.add(field.getDataType().getDataElement());
+//        });
         return hlAfixedRecord;
     }
 

@@ -34,6 +34,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import static ca.mali.hlalistener.PublicVariables.encoderFactory;
 
@@ -101,79 +102,92 @@ public class BasicDataType extends AbstractDataType {
         switch (getName()) {
             case "HLAinteger16BE": {
                 HLAinteger16BE encoder = encoderFactory.createHLAinteger16BE();
-                encoder.setValue(Short.parseShort(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Short.parseShort(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAinteger32BE": {
                 HLAinteger32BE encoder = encoderFactory.createHLAinteger32BE();
-                encoder.setValue(Short.parseShort(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Short.parseShort(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAinteger64BE": {
                 HLAinteger64BE encoder = encoderFactory.createHLAinteger64BE();
-                encoder.setValue(Long.parseLong(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Long.parseLong(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAfloat32BE": {
                 HLAfloat32BE encoder = encoderFactory.createHLAfloat32BE();
-                encoder.setValue(Float.parseFloat(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Float.parseFloat(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAfloat64BE": {
                 HLAfloat64BE encoder = encoderFactory.createHLAfloat64BE();
-                encoder.setValue(Double.parseDouble(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Double.parseDouble(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAoctetPairBE": {
                 HLAoctetPairBE encoder = encoderFactory.createHLAoctetPairBE();
-                encoder.setValue(Short.parseShort(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Short.parseShort(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAinteger16LE": {
                 HLAinteger16LE encoder = encoderFactory.createHLAinteger16LE();
-                encoder.setValue(Short.parseShort(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Short.parseShort(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAinteger32LE": {
                 HLAinteger32LE encoder = encoderFactory.createHLAinteger32LE();
-                encoder.setValue(Integer.parseInt(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Integer.parseInt(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAinteger64LE": {
                 HLAinteger64LE encoder = encoderFactory.createHLAinteger64LE();
-                encoder.setValue(Long.parseLong(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Long.parseLong(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAfloat32LE": {
                 HLAfloat32LE encoder = encoderFactory.createHLAfloat32LE();
-                encoder.setValue(Float.parseFloat(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Float.parseFloat(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAfloat64LE": {
                 HLAfloat64LE encoder = encoderFactory.createHLAfloat64LE();
-                encoder.setValue(Double.parseDouble(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Double.parseDouble(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAoctetPairLE": {
                 HLAoctetPairLE encoder = encoderFactory.createHLAoctetPairLE();
-                encoder.setValue(Short.parseShort(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Short.parseShort(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAoctet": {
                 HLAoctet encoder = encoderFactory.createHLAoctet();
-                encoder.setValue(Byte.parseByte(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Byte.parseByte(value));
                 encodedValue = encoder.toByteArray();
                 break;
             }
@@ -284,67 +298,80 @@ public class BasicDataType extends AbstractDataType {
         switch (getName()) {
             case "HLAinteger16BE": {
                 HLAinteger16BE encoder = encoderFactory.createHLAinteger16BE();
-                encoder.setValue(Short.parseShort(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Short.parseShort(value));
                 return encoder;
             }
             case "HLAinteger32BE": {
                 HLAinteger32BE encoder = encoderFactory.createHLAinteger32BE();
-                encoder.setValue(Short.parseShort(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Short.parseShort(value));
                 return encoder;
             }
             case "HLAinteger64BE": {
                 HLAinteger64BE encoder = encoderFactory.createHLAinteger64BE();
-                encoder.setValue(Long.parseLong(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Long.parseLong(value));
                 return encoder;
             }
             case "HLAfloat32BE": {
                 HLAfloat32BE encoder = encoderFactory.createHLAfloat32BE();
-                encoder.setValue(Float.parseFloat(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Float.parseFloat(value));
                 return encoder;
             }
             case "HLAfloat64BE": {
                 HLAfloat64BE encoder = encoderFactory.createHLAfloat64BE();
-                encoder.setValue(Double.parseDouble(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Double.parseDouble(value));
                 return encoder;
             }
             case "HLAoctetPairBE": {
                 HLAoctetPairBE encoder = encoderFactory.createHLAoctetPairBE();
-                encoder.setValue(Short.parseShort(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Short.parseShort(value));
                 return encoder;
             }
             case "HLAinteger16LE": {
                 HLAinteger16LE encoder = encoderFactory.createHLAinteger16LE();
-                encoder.setValue(Short.parseShort(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Short.parseShort(value));
                 return encoder;
             }
             case "HLAinteger32LE": {
                 HLAinteger32LE encoder = encoderFactory.createHLAinteger32LE();
-                encoder.setValue(Integer.parseInt(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Integer.parseInt(value));
                 return encoder;
             }
             case "HLAinteger64LE": {
                 HLAinteger64LE encoder = encoderFactory.createHLAinteger64LE();
-                encoder.setValue(Long.parseLong(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Long.parseLong(value));
                 return encoder;
             }
             case "HLAfloat32LE": {
                 HLAfloat32LE encoder = encoderFactory.createHLAfloat32LE();
-                encoder.setValue(Float.parseFloat(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Float.parseFloat(value));
                 return encoder;
             }
             case "HLAfloat64LE": {
                 HLAfloat64LE encoder = encoderFactory.createHLAfloat64LE();
-                encoder.setValue(Double.parseDouble(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Double.parseDouble(value));
                 return encoder;
             }
             case "HLAoctetPairLE": {
                 HLAoctetPairLE encoder = encoderFactory.createHLAoctetPairLE();
-                encoder.setValue(Short.parseShort(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Short.parseShort(value));
                 return encoder;
             }
             case "HLAoctet": {
                 HLAoctet encoder = encoderFactory.createHLAoctet();
-                encoder.setValue(Byte.parseByte(value));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue(Byte.parseByte(value));
                 return encoder;
             }
             default: {

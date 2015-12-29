@@ -71,19 +71,22 @@ public class ArrayFDD extends AbstractDataType {
         switch (getName()) {
             case "HLAASCIIstring": {
                 HLAASCIIstring encoder = encoderFactory.createHLAASCIIstring();
-                encoder.setValue((String) value);
+                if (value != null)
+                    encoder.setValue((String) value);
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAunicodeString": {
                 HLAunicodeString encoder = encoderFactory.createHLAunicodeString();
-                encoder.setValue((String) value);
+                if (value != null)
+                    encoder.setValue((String) value);
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAopaqueData": {
                 HLAopaqueData encoder = encoderFactory.createHLAopaqueData();
-                encoder.setValue((byte[]) value);
+                if (value != null)
+                    encoder.setValue((byte[]) value);
                 encodedValue = encoder.toByteArray();
                 break;
             }
@@ -132,17 +135,20 @@ public class ArrayFDD extends AbstractDataType {
         switch (getName()) {
             case "HLAASCIIstring": {
                 HLAASCIIstring encoder = encoderFactory.createHLAASCIIstring();
-                encoder.setValue((String) value);
+                if (value != null)
+                    encoder.setValue((String) value);
                 return encoder;
             }
             case "HLAunicodeString": {
                 HLAunicodeString encoder = encoderFactory.createHLAunicodeString();
-                encoder.setValue((String) value);
+                if (value != null)
+                    encoder.setValue((String) value);
                 return encoder;
             }
             case "HLAopaqueData": {
                 HLAopaqueData encoder = encoderFactory.createHLAopaqueData();
-                encoder.setValue((byte[]) value);
+                if (value != null)
+                    encoder.setValue((byte[]) value);
                 return encoder;
             }
             default: { // TODO: 12/16/2015 cast the value to array and assign value to the date element

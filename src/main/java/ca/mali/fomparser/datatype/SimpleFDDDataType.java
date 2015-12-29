@@ -115,19 +115,22 @@ public class SimpleFDDDataType extends AbstractDataType {
         switch (getName()) {
             case "HLAASCIIchar": {
                 HLAASCIIchar encoder = encoderFactory.createHLAASCIIchar();
-                encoder.setValue((byte) value.charAt(0));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue((byte) value.charAt(0));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAunicodeChar": {
                 HLAunicodeChar encoder = encoderFactory.createHLAunicodeChar();
-                encoder.setValue((short) value.charAt(0));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue((short) value.charAt(0));
                 encodedValue = encoder.toByteArray();
                 break;
             }
             case "HLAbyte": {
                 HLAbyte encoder = encoderFactory.createHLAbyte();
-                encoder.setValue((byte) value.charAt(0));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue((byte) value.charAt(0));
                 encodedValue = encoder.toByteArray();
                 break;
             }
@@ -179,17 +182,20 @@ public class SimpleFDDDataType extends AbstractDataType {
         switch (getName()) {
             case "HLAASCIIchar": {
                 HLAASCIIchar encoder = encoderFactory.createHLAASCIIchar();
-                encoder.setValue((byte) value.charAt(0));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue((byte) value.charAt(0));
                 return encoder;
             }
             case "HLAunicodeChar": {
                 HLAunicodeChar encoder = encoderFactory.createHLAunicodeChar();
-                encoder.setValue((short) value.charAt(0));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue((short) value.charAt(0));
                 return encoder;
             }
             case "HLAbyte": {
                 HLAbyte encoder = encoderFactory.createHLAbyte();
-                encoder.setValue((byte) value.charAt(0));
+                if (!"".equalsIgnoreCase(value))
+                    encoder.setValue((byte) value.charAt(0));
                 return encoder;
             }
             default: {

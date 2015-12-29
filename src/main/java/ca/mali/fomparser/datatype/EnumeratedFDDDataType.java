@@ -74,7 +74,11 @@ public class EnumeratedFDDDataType extends AbstractDataType {
 
     @Override
     public String DecodeValue(byte[] encodedValue) {
-        return getRepresentation().DecodeValue(encodedValue);
+        String s = getRepresentation().DecodeValue(encodedValue);
+        Optional<Enumerator> first = getEnumerator().stream().filter(enumerator -> enumerator.getValues().contains(s)).findFirst();
+        if (first.isPresent())
+            return first.get().getName() + "(" + s + ")";
+        return s;
     }
 
     @Override
@@ -83,9 +87,8 @@ public class EnumeratedFDDDataType extends AbstractDataType {
                 Objects.equals(enumerator.getName(), value)).findFirst();
         if (first.isPresent()) {
             getRepresentation().setValue(first.get().getValues().get(0));
-            return getRepresentation().getDataElement();
         }
-        return null;
+        return getRepresentation().getDataElement();
     }
 
     public BasicDataType getRepresentation() {

@@ -26,13 +26,11 @@
  */
 package ca.mali.hlalistener;
 
-import ca.mali.fomparser.FddObjectModel;
-import ca.mali.fomparser.InteractionClassFDD;
-import ca.mali.fomparser.ObjectClassFDD;
-import ca.mali.fomparser.ObjectInstanceFDD;
+import ca.mali.fomparser.*;
 import ca.mali.fomparser.datatype.EnumeratedFDDDataType;
 import ca.mali.fomparser.datatype.SimpleFDDDataType;
 import hla.rti1516e.*;
+import hla.rti1516e.encoding.DecoderException;
 import hla.rti1516e.encoding.HLAunicodeString;
 import hla.rti1516e.exceptions.FederateInternalError;
 import hla.rti1516e.time.HLAfloat64Time;
@@ -47,7 +45,6 @@ import java.util.Set;
 import static ca.mali.hlalistener.PublicVariables.*;
 
 /**
- *
  * @author Mostafa Ali <engabdomostafa@gmail.com>
  */
 public class ListenerFederateAmb extends NullFederateAmbassador {
@@ -55,20 +52,7 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
     //Logger
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger();
 
-    @Override
-    public void reflectAttributeValues(ObjectInstanceHandle theObject, AttributeHandleValueMap theAttributes, byte[] userSuppliedTag, OrderType sentOrdering, TransportationTypeHandle theTransport, SupplementalReflectInfo reflectInfo) throws FederateInternalError {
-        try {
-            if (theAttributes.containsKey(currentFDDHandle)) {
-                HLAunicodeString stringEncoder = encoderFactory.createHLAunicodeString();
-                stringEncoder.decode(theAttributes.get(currentFDDHandle));
-                fddObjectModel = new FddObjectModel(stringEncoder.getValue());
-            }
-        } catch (Exception ex) {
-            logger.log(Level.FATAL, "Exception in reflecting attribute values", ex);
-        }
-    }
-
-// <editor-fold desc="Chapter 4">
+    // <editor-fold desc="Chapter 4">
     //4.4
     @Override
     public void connectionLost(String faultDescription) throws FederateInternalError {
@@ -135,10 +119,7 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         log.setDescription("Synchronization point announced");
         log.setLogType(LogEntryType.CALLBACK);
         log.getSuppliedArguments().add(new ClassValuePair("Synchronization point label", String.class, synchronizationPointLabel));
-        if (userSuppliedTag.length > 0) {
-            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte.class, Arrays.toString(userSuppliedTag)));
-            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", String.class, new String(userSuppliedTag)));
-        }
+        addSuppliedTagToLog(userSuppliedTag, log);
         logEntries.add(log);
         logger.log(Level.INFO, "Sync Point: {} has been announced with the following Tag: {}", synchronizationPointLabel, new String(userSuppliedTag));
         logger.exit();
@@ -325,7 +306,7 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         for (FederateRestoreStatus RestorePair : response) {
             log.getSuppliedArguments().add(new ClassValuePair("(Pre-restore handle, Post-restore handle) <restore status>",
                     FederateRestoreStatus.class, String.format("(%1$s,%2$s) <%3$s>",
-                            RestorePair.preRestoreHandle, RestorePair.preRestoreHandle, RestorePair.status)));
+                    RestorePair.preRestoreHandle, RestorePair.preRestoreHandle, RestorePair.status)));
             logger.log(Level.INFO, "Pre-restore handle '{}' (post-restore handle '{}') status is '{}'",
                     RestorePair.preRestoreHandle, RestorePair.preRestoreHandle, RestorePair.status);
         }
@@ -334,7 +315,7 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
     }
 // </editor-fold>
 
-// <editor-fold desc="Chapter 5">
+    // <editor-fold desc="Chapter 5">
     //5.10
     @Override
     public void startRegistrationForObjectClass(ObjectClassHandle theClass) throws FederateInternalError {
@@ -388,7 +369,7 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
     }
 // </editor-fold>
 
-// <editor-fold desc="Chapter 6">
+    // <editor-fold desc="Chapter 6">
     //6.3
     @Override
     public void objectInstanceNameReservationSucceeded(String objectName) throws FederateInternalError {
@@ -446,21 +427,22 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
     public void discoverObjectInstance(ObjectInstanceHandle theObject, ObjectClassHandle theObjectClass, String objectName) throws FederateInternalError {
         logger.entry();
         LogEntry log = new LogEntry("6.9", "Discover Object Instance † service");
-        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
-        log.getSuppliedArguments().add(new ClassValuePair("Object Class Handle", ObjectClassHandle.class, theObjectClass.toString()));
-        log.getSuppliedArguments().add(new ClassValuePair("Object Name", String.class, objectName));
-        log.setDescription("Discover object instance");
-        log.setLogType(LogEntryType.CALLBACK);
-        logger.log(Level.INFO, "Discover object instance: {}, object class handle: {}, name: {}", theObject, theObjectClass, objectName);
-        Optional<ObjectClassFDD> findObjectClass = fddObjectModel.getObjectClasses().values().stream().filter(a -> a.getHandle() == theObjectClass).findFirst();
-        if (findObjectClass.isPresent()) {
-            try {
+        if (fddObjectModel == null) return; //Happens when he discover the fdd class
+        try {
+            Optional<ObjectClassFDD> findObjectClass = fddObjectModel.getObjectClasses().values().stream().filter(a -> a.getHandle().equals(theObjectClass)).findFirst();
+            if (findObjectClass.isPresent()) {
                 objectInstances.put(theObject, new ObjectInstanceFDD(theObject, findObjectClass.get()));
-            } catch (Exception ex) {
-                log.setException(ex);
-                log.setLogType(LogEntryType.ERROR);
-                logger.log(Level.ERROR, ex.getMessage(), ex);
+                log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+                log.getSuppliedArguments().add(new ClassValuePair("Object Class Handle", ObjectClassHandle.class, theObjectClass.toString()));
+                log.getSuppliedArguments().add(new ClassValuePair("Object Name", String.class, objectName));
+                log.setDescription("Discover object instance");
+                log.setLogType(LogEntryType.CALLBACK);
+                logger.log(Level.INFO, "Discover object instance: {}, object class handle: {}, name: {}", theObject, theObjectClass, objectName);
             }
+        } catch (Exception ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
         }
         logEntries.add(log);
         logger.exit();
@@ -471,24 +453,147 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
     public void discoverObjectInstance(ObjectInstanceHandle theObject, ObjectClassHandle theObjectClass, String objectName, FederateHandle producingFederate) throws FederateInternalError {
         logger.entry();
         LogEntry log = new LogEntry("6.9", "Discover Object Instance † service");
-        log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
-        log.getSuppliedArguments().add(new ClassValuePair("Object Class Handle", ObjectClassHandle.class, theObjectClass.toString()));
-        log.getSuppliedArguments().add(new ClassValuePair("Object Name", String.class, objectName));
-        log.getSuppliedArguments().add(new ClassValuePair("Federate Handle", FederateHandle.class, producingFederate.toString()));
-        log.setDescription("Discover object instance");
-        log.setLogType(LogEntryType.CALLBACK);
-        logger.log(Level.INFO, "Discover object instance: {}, object class handle: {}, name: {}, Federate {}", theObject, theObjectClass, objectName, producingFederate);
-        Optional<ObjectClassFDD> findObjectClass = fddObjectModel.getObjectClasses().values().stream().filter(a -> a.getHandle() == theObjectClass).findFirst();
-        if (findObjectClass.isPresent()) {
-            try {
+        if (fddObjectModel == null) return; //Happens when he discover the fdd class
+        try {
+            Optional<ObjectClassFDD> findObjectClass = fddObjectModel.getObjectClasses().values().stream().filter(a -> a.getHandle().equals(theObjectClass)).findFirst();
+            if (findObjectClass.isPresent()) {
                 objectInstances.put(theObject, new ObjectInstanceFDD(theObject, findObjectClass.get()));
-            } catch (Exception ex) {
-                log.setException(ex);
-                log.setLogType(LogEntryType.ERROR);
-                logger.log(Level.ERROR, ex.getMessage(), ex);
+                log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
+                log.getSuppliedArguments().add(new ClassValuePair("Object Class Handle", ObjectClassHandle.class, theObjectClass.toString()));
+                log.getSuppliedArguments().add(new ClassValuePair("Object Name", String.class, objectName));
+                log.getSuppliedArguments().add(new ClassValuePair("Federate Handle", FederateHandle.class, producingFederate.toString()));
+                log.setDescription("Discover object instance");
+                log.setLogType(LogEntryType.CALLBACK);
+                logger.log(Level.INFO, "Discover object instance: {}, object class handle: {}, name: {}, Federate {}", theObject, theObjectClass, objectName, producingFederate);
             }
+        } catch (Exception ex) {
+            log.setException(ex);
+            log.setLogType(LogEntryType.ERROR);
+            logger.log(Level.ERROR, ex.getMessage(), ex);
         }
         logEntries.add(log);
+        logger.exit();
+    }
+
+    //6.11
+    @Override
+    public void reflectAttributeValues(ObjectInstanceHandle theObject, AttributeHandleValueMap theAttributes,
+                                       byte[] userSuppliedTag, OrderType sentOrdering,
+                                       TransportationTypeHandle theTransport, SupplementalReflectInfo reflectInfo)
+            throws FederateInternalError {
+        logger.entry();
+        try {
+            logger.log(Level.INFO, "Object instance handle: {}, User Supplied Tag: {}, Order Type: {}" +
+                            "Transportation Handle: {}, Producing Federate: {} <{}>, Sent region: {} <{}>",
+                    theObject, userSuppliedTag, sentOrdering, theTransport, reflectInfo.hasProducingFederate(),
+                    reflectInfo.getProducingFederate(), reflectInfo.hasSentRegions(), reflectInfo.getSentRegions());
+            updateFdd(theAttributes);
+            LogEntry log = new LogEntry("6.11", "Reflect Attribute Values † service");
+            if (!objectInstances.containsKey(theObject)) {
+                logger.log(Level.ERROR, "Received updates from unknown instance");
+                return;
+            }
+            addClassToLog(theObject, theAttributes, log);
+            addSuppliedTagToLog(userSuppliedTag, log);
+            log.getSuppliedArguments().add(new ClassValuePair("Send Order", OrderType.class, sentOrdering.toString()));
+            log.getSuppliedArguments().add(new ClassValuePair("Transportation type", TransportationTypeHandle.class, theTransport.toString()));
+            if (reflectInfo.hasProducingFederate()) {
+                log.getSuppliedArguments().add(new ClassValuePair("Producing Federate", SupplementalReceiveInfo.class, String.valueOf(reflectInfo.getProducingFederate())));
+            }
+            if (reflectInfo.hasSentRegions()) {
+                log.getSuppliedArguments().add(new ClassValuePair("Sent Region", SupplementalReceiveInfo.class, String.valueOf(reflectInfo.getSentRegions())));
+            }
+            log.setDescription("Reflect Attribute Values");
+            log.setLogType(LogEntryType.CALLBACK);
+            logEntries.add(log);
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Exception in reflecting attribute values", ex);
+        }
+        logger.exit();
+    }
+
+    //6.11
+    @Override
+    public void reflectAttributeValues(ObjectInstanceHandle theObject, AttributeHandleValueMap theAttributes,
+                                       byte[] userSuppliedTag, OrderType sentOrdering,
+                                       TransportationTypeHandle theTransport, LogicalTime theTime,
+                                       OrderType receivedOrdering, SupplementalReflectInfo reflectInfo)
+            throws FederateInternalError {
+        logger.entry();
+        try {
+            logger.log(Level.INFO, "Object instance handle: {}, User Supplied Tag: {}, Order Type: {}" +
+                            "Transportation Handle: {}, Producing Federate: {} <{}>, Sent region: {} <{}>, the time: {}",
+                    theObject, userSuppliedTag, sentOrdering, theTransport, reflectInfo.hasProducingFederate(),
+                    reflectInfo.getProducingFederate(), reflectInfo.hasSentRegions(), reflectInfo.getSentRegions(), theTime);
+            updateFdd(theAttributes);
+            LogEntry log = new LogEntry("6.11", "Reflect Attribute Values † service");
+            if (!objectInstances.containsKey(theObject)) {
+                logger.log(Level.ERROR, "Received updates from unknown instance");
+                return;
+            }
+            addClassToLog(theObject, theAttributes, log);
+            addSuppliedTagToLog(userSuppliedTag, log);
+            log.getSuppliedArguments().add(new ClassValuePair("Send Order", OrderType.class, sentOrdering.toString()));
+            log.getSuppliedArguments().add(new ClassValuePair("Transportation type", TransportationTypeHandle.class, theTransport.toString()));
+            if (reflectInfo.hasProducingFederate()) {
+                log.getSuppliedArguments().add(new ClassValuePair("Producing Federate", SupplementalReceiveInfo.class, String.valueOf(reflectInfo.getProducingFederate())));
+            }
+            if (reflectInfo.hasSentRegions()) {
+                log.getSuppliedArguments().add(new ClassValuePair("Sent Region", SupplementalReceiveInfo.class, String.valueOf(reflectInfo.getSentRegions())));
+            }
+            log.getSuppliedArguments().add(new ClassValuePair("Logical Time", LogicalTime.class, theTime.toString()));
+            log.getSuppliedArguments().add(new ClassValuePair("Receiving order", OrderType.class, receivedOrdering.name()));
+            log.setSimulationTime(getTimeValue(theTime));
+            log.setDescription("Reflect Attribute Values");
+            log.setLogType(LogEntryType.CALLBACK);
+            logEntries.add(log);
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Exception in reflecting attribute values", ex);
+        }
+        logger.exit();
+    }
+
+    //6.11
+    @Override
+    public void reflectAttributeValues(ObjectInstanceHandle theObject, AttributeHandleValueMap theAttributes,
+                                       byte[] userSuppliedTag, OrderType sentOrdering,
+                                       TransportationTypeHandle theTransport, LogicalTime theTime,
+                                       OrderType receivedOrdering, MessageRetractionHandle retractionHandle,
+                                       SupplementalReflectInfo reflectInfo) throws FederateInternalError {
+        logger.entry();
+        try {
+            logger.log(Level.INFO, "Object instance handle: {}, User Supplied Tag: {}, Order Type: {}" +
+                            "Transportation Handle: {}, Producing Federate: {} <{}>, Sent region: {} <{}>," +
+                            " the time: {}, Message Retraction Handle: {}",
+                    theObject, userSuppliedTag, sentOrdering, theTransport, reflectInfo.hasProducingFederate(),
+                    reflectInfo.getProducingFederate(), reflectInfo.hasSentRegions(), reflectInfo.getSentRegions(),
+                    theTime, retractionHandle);
+            updateFdd(theAttributes);
+            LogEntry log = new LogEntry("6.11", "Reflect Attribute Values † service");
+            if (!objectInstances.containsKey(theObject)) { // TODO: 12/28/2015 Consider fdd object class case
+                logger.log(Level.ERROR, "Received updates from unknown instance");
+                return;
+            }
+            addClassToLog(theObject, theAttributes, log);
+            addSuppliedTagToLog(userSuppliedTag, log);
+            log.getSuppliedArguments().add(new ClassValuePair("Send Order", OrderType.class, sentOrdering.toString()));
+            log.getSuppliedArguments().add(new ClassValuePair("Transportation type", TransportationTypeHandle.class, theTransport.toString()));
+            if (reflectInfo.hasProducingFederate()) {
+                log.getSuppliedArguments().add(new ClassValuePair("Producing Federate", SupplementalReceiveInfo.class, String.valueOf(reflectInfo.getProducingFederate())));
+            }
+            if (reflectInfo.hasSentRegions()) {
+                log.getSuppliedArguments().add(new ClassValuePair("Sent Region", SupplementalReceiveInfo.class, String.valueOf(reflectInfo.getSentRegions())));
+            }
+            log.getSuppliedArguments().add(new ClassValuePair("Logical Time", LogicalTime.class, theTime.toString()));
+            log.getSuppliedArguments().add(new ClassValuePair("Receiving order", OrderType.class, receivedOrdering.name()));
+            log.getSuppliedArguments().add(new ClassValuePair("Retraction handle", MessageRetractionHandle.class, retractionHandle.toString()));
+            log.setSimulationTime(getTimeValue(theTime));
+            log.setDescription("Reflect Attribute Values");
+            log.setLogType(LogEntryType.CALLBACK);
+            logEntries.add(log);
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Exception in reflecting attribute values", ex);
+        }
         logger.exit();
     }
 
@@ -502,38 +607,12 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
                 receiveInfo.getProducingFederate(), receiveInfo.hasSentRegions(), receiveInfo.getSentRegions());
         LogEntry log = new LogEntry("6.13", "Receive Interaction † service");
         Optional<InteractionClassFDD> interactionClassFDD = fddObjectModel.getInteractionClasses().values().stream().filter(a -> a.getHandle().equals(interactionClass)).findFirst();
-        if (!interactionClassFDD.isPresent()){
-            logger.log(Level.ERROR,"The received interaction cannot be found in the FddObjectModel");
+        if (!interactionClassFDD.isPresent()) {
+            logger.log(Level.ERROR, "The received interaction cannot be found in the FddObjectModel");
             return;
         }
-        log.getSuppliedArguments().add(new ClassValuePair("Interaction Class Name <Handle>", InteractionClassHandle.class,
-                String.format("%1$s <%2$s>", interactionClassFDD.get().getName(), interactionClass.toString())));
-        interactionClassFDD.get().getParameters().forEach(parameterFDD -> {
-            if (theParameters.containsKey(parameterFDD.getHandle())){
-                logger.log(Level.INFO, "Parameter handle: {}, value: {}", parameterFDD.getHandle(), Arrays.toString(theParameters.get(parameterFDD.getHandle())));
-                log.getSuppliedArguments().add(new ClassValuePair("Parameter <Handle>", ParameterHandle.class,
-                        String.format("%1$s <%2$s>",parameterFDD.getName(), parameterFDD.getHandle().toString())));
-                log.getSuppliedArguments().add(new ClassValuePair("Parameter Value (encoded)", byte[].class,
-                        Arrays.toString(theParameters.get(parameterFDD.getHandle()))));
-                if (fddObjectModel.getSimpleDataTypeMap().keySet().contains(parameterFDD.getDataType().getName())){
-                    SimpleFDDDataType simpleFDDDataType = fddObjectModel.getSimpleDataTypeMap().get(parameterFDD.getDataType().getName());
-                    String value = simpleFDDDataType.getRepresentation().DecodeValue(theParameters.get(parameterFDD.getHandle()));
-                    log.getSuppliedArguments().add(new ClassValuePair("Parameter Value", Object.class, value));
-                } else if (fddObjectModel.getEnumeratedDataTypeMap().keySet().contains(parameterFDD.getDataType().getName())){ //Enumerated data type
-                    EnumeratedFDDDataType enumerated = fddObjectModel.getEnumeratedDataTypeMap().get(parameterFDD.getDataType().getName());
-                    String value = enumerated.getRepresentation().DecodeValue(theParameters.get(parameterFDD.getHandle()));
-                    Optional<EnumeratedFDDDataType.Enumerator> first = enumerated.getEnumerator().stream().filter(e -> e.getValues().contains(value)).findFirst();
-                    if (first.isPresent()){
-                        log.getSuppliedArguments().add(new ClassValuePair("Parameter Value", Object.class,
-                                String.format("%1$s <%2$s>", first.get().getName(), value)));
-                    }
-                }
-            }
-        });
-        if (userSuppliedTag.length > 0) {
-            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte.class, Arrays.toString(userSuppliedTag)));
-            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", String.class, new String(userSuppliedTag)));
-        }
+        addInteractionToLog(interactionClassFDD.get(), theParameters, log);
+        addSuppliedTagToLog(userSuppliedTag, log);
         log.getSuppliedArguments().add(new ClassValuePair("Send Order", OrderType.class, sentOrdering.toString()));
         log.getSuppliedArguments().add(new ClassValuePair("Transportation type", TransportationTypeHandle.class, theTransport.toString()));
         if (receiveInfo.hasProducingFederate()) {
@@ -561,38 +640,12 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
                 receivedOrdering.name(), theTime);
         LogEntry log = new LogEntry("6.13", "Receive Interaction † service");
         Optional<InteractionClassFDD> interactionClassFDD = fddObjectModel.getInteractionClasses().values().stream().filter(a -> a.getHandle().equals(interactionClass)).findFirst();
-        if (!interactionClassFDD.isPresent()){
-            logger.log(Level.ERROR,"The received interaction cannot be found in the FddObjectModel");
+        if (!interactionClassFDD.isPresent()) {
+            logger.log(Level.ERROR, "The received interaction cannot be found in the FddObjectModel");
             return;
         }
-        log.getSuppliedArguments().add(new ClassValuePair("Interaction Class Name <Handle>", InteractionClassHandle.class,
-                String.format("%1$s <%2$s>", interactionClassFDD.get().getName(), interactionClass.toString())));
-        interactionClassFDD.get().getParameters().forEach(parameterFDD -> {
-            if (theParameters.containsKey(parameterFDD.getHandle())){
-                logger.log(Level.INFO, "Parameter handle: {}, value: {}", parameterFDD.getHandle(), Arrays.toString(theParameters.get(parameterFDD.getHandle())));
-                log.getSuppliedArguments().add(new ClassValuePair("Parameter <Handle>", ParameterHandle.class,
-                        String.format("%1$s <%2$s>",parameterFDD.getName(), parameterFDD.getHandle().toString())));
-                log.getSuppliedArguments().add(new ClassValuePair("Parameter Value (encoded)", byte[].class,
-                        Arrays.toString(theParameters.get(parameterFDD.getHandle()))));
-                if (fddObjectModel.getSimpleDataTypeMap().keySet().contains(parameterFDD.getDataType().getName())){
-                    SimpleFDDDataType simpleFDDDataType = fddObjectModel.getSimpleDataTypeMap().get(parameterFDD.getDataType().getName());
-                    String value = simpleFDDDataType.getRepresentation().DecodeValue(theParameters.get(parameterFDD.getHandle()));
-                    log.getSuppliedArguments().add(new ClassValuePair("Parameter Value", Object.class, value));
-                } else if (fddObjectModel.getEnumeratedDataTypeMap().keySet().contains(parameterFDD.getDataType().getName())){ //Enumerated data type
-                    EnumeratedFDDDataType enumerated = fddObjectModel.getEnumeratedDataTypeMap().get(parameterFDD.getDataType().getName());
-                    String value = enumerated.getRepresentation().DecodeValue(theParameters.get(parameterFDD.getHandle()));
-                    Optional<EnumeratedFDDDataType.Enumerator> first = enumerated.getEnumerator().stream().filter(e -> e.getValues().contains(value)).findFirst();
-                    if (first.isPresent()){
-                        log.getSuppliedArguments().add(new ClassValuePair("Parameter Value", Object.class,
-                                String.format("%1$s <%2$s>", first.get().getName(), value)));
-                    }
-                }
-            }
-        });
-        if (userSuppliedTag.length > 0) {
-            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte.class, Arrays.toString(userSuppliedTag)));
-            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", String.class, new String(userSuppliedTag)));
-        }
+        addInteractionToLog(interactionClassFDD.get(), theParameters, log);
+        addSuppliedTagToLog(userSuppliedTag, log);
         log.getSuppliedArguments().add(new ClassValuePair("Send Order", OrderType.class, sentOrdering.toString()));
         log.getSuppliedArguments().add(new ClassValuePair("Transportation type", TransportationTypeHandle.class, theTransport.toString()));
         if (receiveInfo.hasProducingFederate()) {
@@ -624,38 +677,12 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
                 receivedOrdering.name(), theTime, retractionHandle);
         LogEntry log = new LogEntry("6.13", "Receive Interaction † service");
         Optional<InteractionClassFDD> interactionClassFDD = fddObjectModel.getInteractionClasses().values().stream().filter(a -> a.getHandle().equals(interactionClass)).findFirst();
-        if (!interactionClassFDD.isPresent()){
-            logger.log(Level.ERROR,"The received interaction cannot be found in the FddObjectModel");
+        if (!interactionClassFDD.isPresent()) {
+            logger.log(Level.ERROR, "The received interaction cannot be found in the FddObjectModel");
             return;
         }
-        log.getSuppliedArguments().add(new ClassValuePair("Interaction Class Name <Handle>", InteractionClassHandle.class,
-                String.format("%1$s <%2$s>", interactionClassFDD.get().getName(), interactionClass.toString())));
-        interactionClassFDD.get().getParameters().forEach(parameterFDD -> {
-            if (theParameters.containsKey(parameterFDD.getHandle())){
-                logger.log(Level.INFO, "Parameter handle: {}, value: {}", parameterFDD.getHandle(), Arrays.toString(theParameters.get(parameterFDD.getHandle())));
-                log.getSuppliedArguments().add(new ClassValuePair("Parameter <Handle>", ParameterHandle.class,
-                        String.format("%1$s <%2$s>",parameterFDD.getName(), parameterFDD.getHandle().toString())));
-                log.getSuppliedArguments().add(new ClassValuePair("Parameter Value (encoded)", byte[].class,
-                        Arrays.toString(theParameters.get(parameterFDD.getHandle()))));
-                if (fddObjectModel.getSimpleDataTypeMap().keySet().contains(parameterFDD.getDataType().getName())){
-                    SimpleFDDDataType simpleFDDDataType = fddObjectModel.getSimpleDataTypeMap().get(parameterFDD.getDataType().getName());
-                    String value = simpleFDDDataType.getRepresentation().DecodeValue(theParameters.get(parameterFDD.getHandle()));
-                    log.getSuppliedArguments().add(new ClassValuePair("Parameter Value", Object.class, value));
-                } else if (fddObjectModel.getEnumeratedDataTypeMap().keySet().contains(parameterFDD.getDataType().getName())){ //Enumerated data type
-                    EnumeratedFDDDataType enumerated = fddObjectModel.getEnumeratedDataTypeMap().get(parameterFDD.getDataType().getName());
-                    String value = enumerated.getRepresentation().DecodeValue(theParameters.get(parameterFDD.getHandle()));
-                    Optional<EnumeratedFDDDataType.Enumerator> first = enumerated.getEnumerator().stream().filter(e -> e.getValues().contains(value)).findFirst();
-                    if (first.isPresent()){
-                        log.getSuppliedArguments().add(new ClassValuePair("Parameter Value", Object.class,
-                                String.format("%1$s <%2$s>", first.get().getName(), value)));
-                    }
-                }
-            }
-        });
-        if (userSuppliedTag.length > 0) {
-            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte.class, Arrays.toString(userSuppliedTag)));
-            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", String.class, new String(userSuppliedTag)));
-        }
+        addInteractionToLog(interactionClassFDD.get(), theParameters, log);
+        addSuppliedTagToLog(userSuppliedTag, log);
         log.getSuppliedArguments().add(new ClassValuePair("Send Order", OrderType.class, sentOrdering.toString()));
         log.getSuppliedArguments().add(new ClassValuePair("Transportation type", TransportationTypeHandle.class, theTransport.toString()));
         if (receiveInfo.hasProducingFederate()) {
@@ -680,10 +707,7 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         logger.entry();
         LogEntry log = new LogEntry("6.15", "Remove Object Instance † service");
         log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
-        if (userSuppliedTag.length > 0) {
-            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte.class, Arrays.toString(userSuppliedTag)));
-            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", String.class, new String(userSuppliedTag)));
-        }
+        addSuppliedTagToLog(userSuppliedTag, log);
         log.getSuppliedArguments().add(new ClassValuePair("Send Order", OrderType.class, sentOrdering.toString()));
         log.getSuppliedArguments().add(new ClassValuePair("Supplemental Remove Info (has federate)", SupplementalRemoveInfo.class, String.valueOf(removeInfo.hasProducingFederate())));
         if (removeInfo.hasProducingFederate()) {
@@ -703,10 +727,7 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         logger.entry();
         LogEntry log = new LogEntry("6.15", "Remove Object Instance † service");
         log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
-        if (userSuppliedTag.length > 0) {
-            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte.class, Arrays.toString(userSuppliedTag)));
-            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", String.class, new String(userSuppliedTag)));
-        }
+        addSuppliedTagToLog(userSuppliedTag, log);
         log.getSuppliedArguments().add(new ClassValuePair("Send Order", OrderType.class, sentOrdering.toString()));
         log.getSuppliedArguments().add(new ClassValuePair("Logical Time", LogicalTime.class, theTime.toString()));
         log.getSuppliedArguments().add(new ClassValuePair("Receive Order", OrderType.class, receivedOrdering.toString()));
@@ -738,10 +759,7 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         logger.entry();
         LogEntry log = new LogEntry("6.15", "Remove Object Instance † service");
         log.getSuppliedArguments().add(new ClassValuePair("Object Instance Handle", ObjectInstanceHandle.class, theObject.toString()));
-        if (userSuppliedTag.length > 0) {
-            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte.class, Arrays.toString(userSuppliedTag)));
-            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", String.class, new String(userSuppliedTag)));
-        }
+        addSuppliedTagToLog(userSuppliedTag, log);
         log.getSuppliedArguments().add(new ClassValuePair("Send Order", OrderType.class, sentOrdering.toString()));
         log.getSuppliedArguments().add(new ClassValuePair("Logical Time", LogicalTime.class, theTime.toString()));
         log.getSuppliedArguments().add(new ClassValuePair("Receive Order", OrderType.class, receivedOrdering.toString()));
@@ -803,10 +821,7 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         for (AttributeHandle theAttribute : theAttributes) {
             log.getSuppliedArguments().add(new ClassValuePair("Attribute " + i++, AttributeHandle.class, theAttribute.toString()));
         }
-        if (userSuppliedTag.length > 0) {
-            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte.class, Arrays.toString(userSuppliedTag)));
-            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", String.class, new String(userSuppliedTag)));
-        }
+        addSuppliedTagToLog(userSuppliedTag, log);
         log.setDescription("Provide Attribute Value Update");
         log.setLogType(LogEntryType.CALLBACK);
         logger.log(Level.INFO, "Provide Attribute Value Update, Object Instance Handle: {}, attributes: {}, user supplied tag:{}",
@@ -937,7 +952,7 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
     }
 // </editor-fold>
 
-// <editor-fold desc="Chapter 7">
+    // <editor-fold desc="Chapter 7">
     //7.4
     @Override
     public void requestAttributeOwnershipAssumption(ObjectInstanceHandle theObject, AttributeHandleSet offeredAttributes, byte[] userSuppliedTag) throws FederateInternalError {
@@ -948,10 +963,7 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         for (AttributeHandle theAttribute : offeredAttributes) {
             log.getSuppliedArguments().add(new ClassValuePair("Attribute " + i++, AttributeHandle.class, theAttribute.toString()));
         }
-        if (userSuppliedTag.length > 0) {
-            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte.class, Arrays.toString(userSuppliedTag)));
-            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", String.class, new String(userSuppliedTag)));
-        }
+        addSuppliedTagToLog(userSuppliedTag, log);
         log.setDescription("Request Attribute Ownership Assumption");
         log.setLogType(LogEntryType.CALLBACK);
         logger.log(Level.INFO, "Request Attribute Ownership Assumption, Object Instance Handle: {}, attributes: {}, user supplied tag:{}",
@@ -988,10 +1000,7 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         for (AttributeHandle theAttribute : securedAttributes) {
             log.getSuppliedArguments().add(new ClassValuePair("Attribute " + i++, AttributeHandle.class, theAttribute.toString()));
         }
-        if (userSuppliedTag.length > 0) {
-            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte.class, Arrays.toString(userSuppliedTag)));
-            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", String.class, new String(userSuppliedTag)));
-        }
+        addSuppliedTagToLog(userSuppliedTag, log);
         log.setDescription("Request Attribute Ownership Assumption");
         log.setLogType(LogEntryType.CALLBACK);
         logger.log(Level.INFO, "Attribute Ownership Acquisition Notification, Object Instance Handle: {}, attributes: {}, user supplied tag:{}",
@@ -1028,10 +1037,7 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
         for (AttributeHandle theAttribute : candidateAttributes) {
             log.getSuppliedArguments().add(new ClassValuePair("Attribute " + i++, AttributeHandle.class, theAttribute.toString()));
         }
-        if (userSuppliedTag.length > 0) {
-            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte.class, Arrays.toString(userSuppliedTag)));
-            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", String.class, new String(userSuppliedTag)));
-        }
+        addSuppliedTagToLog(userSuppliedTag, log);
         log.setDescription("Request Attribute Ownership Release");
         log.setLogType(LogEntryType.CALLBACK);
         logger.log(Level.INFO, "Request Attribute Ownership Release, Object Instance Handle: {}, attributes: {}, user supplied tag:{}",
@@ -1105,7 +1111,7 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
     }
 // </editor-fold>
 
-// <editor-fold desc="Chapter 8">
+    // <editor-fold desc="Chapter 8">
     //8.3
     @Override
     public void timeRegulationEnabled(LogicalTime time) throws FederateInternalError {
@@ -1149,8 +1155,8 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
 
 // </editor-fold>
 
-    private String getTimeValue(LogicalTime theTime){
-        String value="";
+    private String getTimeValue(LogicalTime theTime) {
+        String value = "";
         switch (logicalTimeFactory.getName()) {
             case "HLAfloat64Time": {
                 value = String.valueOf(((HLAfloat64Time) theTime).getValue());
@@ -1162,5 +1168,56 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
             }
         }
         return value;
+    }
+
+    private void updateFdd(AttributeHandleValueMap theAttributes) throws DecoderException {
+        if (theAttributes.containsKey(currentFDDHandle)) {
+            HLAunicodeString stringEncoder = encoderFactory.createHLAunicodeString();
+            stringEncoder.decode(theAttributes.get(currentFDDHandle));
+            fddObjectModel = new FddObjectModel(stringEncoder.getValue());
+        }
+    }
+
+    private void addSuppliedTagToLog(byte[] userSuppliedTag, LogEntry log) {
+        if (userSuppliedTag.length > 0) {
+            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte.class, Arrays.toString(userSuppliedTag)));
+            log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", String.class, new String(userSuppliedTag)));
+        }
+    }
+
+    private void addClassToLog(ObjectInstanceHandle theObject, AttributeHandleValueMap theAttributes, LogEntry log) {
+        ObjectInstanceFDD instanceFDD = objectInstances.get(theObject);
+        log.getSuppliedArguments().add(new ClassValuePair("Instance Name <Handle>", ObjectInstanceHandle.class,
+                String.format("%1$s <%2$s>", instanceFDD.getName(), theObject.toString())));
+        log.getSuppliedArguments().add(new ClassValuePair("Object Class Name <Handle>", ObjectClassHandle.class,
+                String.format("%1$s <%2$s>", instanceFDD.getObjectClass().getName(), instanceFDD.getObjectClass().getHandle().toString())));
+        for (AttributeFDD attributeFDD : instanceFDD.getObjectClass().getAttributes()) {
+            if (theAttributes.containsKey(attributeFDD.getHandle())) {
+                if (attributeFDD.getHandle().equals(currentFDDHandle) && !subscribeFdd) continue;
+                logger.log(Level.INFO, "Attribute handle: {}, value: {}", attributeFDD.getHandle(), Arrays.toString(theAttributes.get(attributeFDD.getHandle())));
+                log.getSuppliedArguments().add(new ClassValuePair("Attribute <Handle>", AttributeHandle.class,
+                        String.format("%1$s <%2$s>", attributeFDD.getName(), attributeFDD.getHandle().toString())));
+                log.getSuppliedArguments().add(new ClassValuePair("Parameter Value (encoded)", byte[].class,
+                        Arrays.toString(theAttributes.get(attributeFDD.getHandle()))));
+                String s = attributeFDD.getDataType().DecodeValue(theAttributes.get(attributeFDD.getHandle()));
+                log.getSuppliedArguments().add(new ClassValuePair("Attribute Value", attributeFDD.getDataType().getObjectClass(), s));
+            }
+        }
+    }
+
+    private void addInteractionToLog(InteractionClassFDD interactionClassFDD, ParameterHandleValueMap theParameters, LogEntry log) {
+        log.getSuppliedArguments().add(new ClassValuePair("Interaction Class Name <Handle>", InteractionClassHandle.class,
+                String.format("%1$s <%2$s>", interactionClassFDD.getName(), interactionClassFDD.getHandle().toString())));
+        interactionClassFDD.getParameters().forEach(parameterFDD -> {
+            if (theParameters.containsKey(parameterFDD.getHandle())) {
+                logger.log(Level.INFO, "Parameter handle: {}, value: {}", parameterFDD.getHandle(), Arrays.toString(theParameters.get(parameterFDD.getHandle())));
+                log.getSuppliedArguments().add(new ClassValuePair("Parameter <Handle>", ParameterHandle.class,
+                        String.format("%1$s <%2$s>", parameterFDD.getName(), parameterFDD.getHandle().toString())));
+                log.getSuppliedArguments().add(new ClassValuePair("Parameter Value (encoded)", byte[].class,
+                        Arrays.toString(theParameters.get(parameterFDD.getHandle()))));
+                String s = parameterFDD.getDataType().DecodeValue(theParameters.get(parameterFDD.getHandle()));
+                log.getSuppliedArguments().add(new ClassValuePair("Parameter Value", parameterFDD.getDataType().getObjectClass(), s));
+            }
+        });
     }
 }

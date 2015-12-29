@@ -68,10 +68,13 @@ public class PublicVariables {
 
     public static boolean isConnected = false;
 
+    public static boolean subscribeFdd = false;
+
     /**
      * Encoder Factory
      */
     public static EncoderFactory encoderFactory;
+
 
     public static Stage primaryStage;
 
