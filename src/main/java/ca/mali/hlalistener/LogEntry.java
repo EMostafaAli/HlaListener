@@ -29,6 +29,7 @@ package ca.mali.hlalistener;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 
 import java.io.PrintWriter;
@@ -40,10 +41,7 @@ import java.io.StringWriter;
  */
 public class LogEntry {
 
-    private final Image requestImage = new Image(getClass().getResourceAsStream("/icons/green.png"));
-    private final Image callbackImage = new Image(getClass().getResourceAsStream("/icons/blue.png"));
-    private final Image errorImage = new Image(getClass().getResourceAsStream("/icons/red.png"));
-    private final Image fatalImage = new Image(getClass().getResourceAsStream("/icons/fatal.png"));
+    private Image iconImage;
 
     private final ReadOnlyIntegerWrapper logID = new ReadOnlyIntegerWrapper();
     private final StringProperty sectionNo;
@@ -54,6 +52,7 @@ public class LogEntry {
     private final ObjectProperty<Image> icon = new SimpleObjectProperty<>();
     private final ObjectProperty<Exception> exception = new SimpleObjectProperty<>();
     private final ReadOnlyStringWrapper stackTrace = new ReadOnlyStringWrapper("");
+    private String tooltipText = "";
 
     static int id = 0;
     private final ObservableList<ClassValuePair> suppliedArguments = FXCollections.observableArrayList();
@@ -82,16 +81,24 @@ public class LogEntry {
         logType.addListener((observable, oldValue, newValue) -> {
             switch (newValue) {
                 case REQUEST:
-                    icon.set(requestImage);
+                    iconImage = new Image(getClass().getResourceAsStream("/icons/green.png"));
+                    icon.set(iconImage);
+                    tooltipText = "Request";
                     break;
                 case CALLBACK:
-                    icon.set(callbackImage);
+                    iconImage = new Image(getClass().getResourceAsStream("/icons/blue.png"));
+                    icon.set(iconImage);
+                    tooltipText = "Callback";
                     break;
                 case ERROR:
-                    icon.set(errorImage);
+                    iconImage = new Image(getClass().getResourceAsStream("/icons/yellow.png"));
+                    icon.set(iconImage);
+                    tooltipText = "Error";
                     break;
                 case FATAL:
-                    icon.set(fatalImage);
+                    iconImage = new Image(getClass().getResourceAsStream("/icons/red.png"));
+                    icon.set(iconImage);
+                    tooltipText = "Fatal";
                     break;
                 default:
                     break;
@@ -209,5 +216,9 @@ public class LogEntry {
 
     public ReadOnlyStringProperty stackTraceProperty() {
         return stackTrace.getReadOnlyProperty();
+    }
+
+    public String getTooltipText() {
+        return tooltipText;
     }
 }

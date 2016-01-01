@@ -68,7 +68,9 @@ public class MainApp extends Application {
                 Button noButton = (Button) alert.getDialogPane().lookupButton(ButtonType.NO);
                 noButton.setDefaultButton(true);
                 Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() != ButtonType.YES) {
+                if (result.get() == ButtonType.YES) {
+                    System.exit(0);
+                } else {
                     event.consume();
                 }
             }

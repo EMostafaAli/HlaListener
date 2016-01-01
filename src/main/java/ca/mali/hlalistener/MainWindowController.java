@@ -150,11 +150,18 @@ public class MainWindowController implements Initializable {
 
             @Override
             protected void updateItem(Image item, boolean empty) {
+                super.updateItem(item, empty);
                 if (item != null) {
-                    imgView.setImage(item);
-                    setGraphic(imgView);
+                    if (!empty) {
+                        imgView.setImage(item);
+                        setGraphic(imgView);
+                        LogEntry logEntry = (LogEntry) this.getTableRow().getItem();
+                        if (logEntry != null)
+                            this.setTooltip(new Tooltip(logEntry.getTooltipText()));
+                    }
                 } else {
                     setGraphic(null);
+                    this.setTooltip(null);
                 }
             }
         });
@@ -169,6 +176,9 @@ public class MainWindowController implements Initializable {
         DescLbl.setTooltip(t1);
         DescLbl.textProperty().bind(Bindings.selectString(logTable.getSelectionModel().selectedItemProperty(), "description"));
         iconViewer.imageProperty().bind(Bindings.select(logTable.getSelectionModel().selectedItemProperty(), "icon"));
+        Tooltip iconTooltip = new Tooltip();
+        iconTooltip.textProperty().bind(Bindings.selectString(logTable.getSelectionModel().selectedItemProperty(), "tooltipText"));
+        Tooltip.install(iconViewer, iconTooltip);
 
         SuppliedPane.managedProperty().bind(SuppliedPane.visibleProperty());
         SuppliedPane.visibleProperty().bind(Bindings.selectBoolean(logTable.getSelectionModel().selectedItemProperty(), "SuppliedArgumentsIsNotEmpty"));
@@ -197,8 +207,9 @@ public class MainWindowController implements Initializable {
                 Platform.runLater(() -> {
                     logTable.getSelectionModel().selectLast();
                     //work around to refresh the log table view
-                    logTable.getColumns().get(0).setVisible(false);
-                    logTable.getColumns().get(0).setVisible(true);
+                    //Update this properly not required in newer versions (8u66)
+//                    logTable.getColumns().get(0).setVisible(false);
+//                    logTable.getColumns().get(0).setVisible(true);
                 });
             }
         });
@@ -269,7 +280,7 @@ public class MainWindowController implements Initializable {
             primaryStage.fireEvent(new WindowEvent(primaryStage, WindowEvent.WINDOW_CLOSE_REQUEST));
             logger.exit();
         } catch (Exception ex) {
-            logger.log(Level.FATAL, "Error clearing the log", ex);
+            logger.log(Level.FATAL, "Error closing the app", ex);
         }
     }
 

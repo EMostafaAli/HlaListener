@@ -130,20 +130,22 @@ public class VariantRecordFDD extends AbstractDataType {
     @Override
     public String DecodeValue(byte[] encodedValue) {
         try {
-            HLAvariantRecord<DataElement> hlAvariantRecord = getDataElement();
-            if (hlAvariantRecord == null)
-                return null;
+//            HLAvariantRecord<DataElement> hlAvariantRecord = getDataElement();
+            EnumeratedFDDDataType disClone = (EnumeratedFDDDataType) getDiscriminantType().clone();
+            HLAvariantRecord<DataElement> hlAvariantRecord = encoderFactory.createHLAvariantRecord(disClone.getDataElement());
+//            if (hlAvariantRecord == null)
+//                return null;
             hlAvariantRecord.decode(encodedValue);
             String result = "";
             result += "[{Discriminant: " + getDiscriminantType().DecodeValue(hlAvariantRecord.getDiscriminant().toByteArray()) + "},";
-            Field valueField = getValueField();
-            if (valueField != null) {
-                AbstractDataType valueDataType = valueField.getDataType();
-                if (valueDataType != null)
-                    result += "{Value: " + valueDataType.DecodeValue(hlAvariantRecord.getValue().toByteArray()) + "}]";
-            }
+//            Field valueField = getValueField();
+//            if (valueField != null) {
+//                AbstractDataType valueDataType = valueField.getDataType();
+//                if (valueDataType != null)
+//                    result += "{Value: " + valueDataType.DecodeValue(hlAvariantRecord.getValue().toByteArray()) + "}]";
+//            }
             return result;
-        } catch (DecoderException ex) {
+        } catch (Exception ex) {
             logger.log(Level.ERROR, "Error in decoding value", ex);
         }
         return null;
@@ -156,7 +158,7 @@ public class VariantRecordFDD extends AbstractDataType {
         getDiscriminantType().setValue(discriminantValue.getValue());
         DataElement discriminantDataElement = getDiscriminantType().getDataElement();
         HLAvariantRecord<DataElement> hlAvariantRecord = encoderFactory.createHLAvariantRecord(discriminantDataElement);
-        Field valueField = getValueField();
+        Field valueField = getValueField(discriminantValue.getValue());
         if (valueField != null) {
             AbstractDataType valueDataType = valueField.getDataType();
             if (valueDataType != null)
@@ -179,7 +181,7 @@ public class VariantRecordFDD extends AbstractDataType {
             discriminantValue = discriminantType.getControl(true);
             discriminantValue.setOnAction(event -> {
                 hBox.getChildren().clear();
-                Field valueField = getValueField();
+                Field valueField = getValueField(discriminantValue.getValue());
                 if (valueField != null) {
                     Label l1 = new Label(valueField.getName() + ": ");
                     l1.setMinWidth(Region.USE_PREF_SIZE);
@@ -237,11 +239,11 @@ public class VariantRecordFDD extends AbstractDataType {
         return HLAvariantRecord.class;
     }
 
-    private Field getValueField() {
-        if (discriminantValue == null || discriminantValue.getSelectionModel().isEmpty())
-            return null;
+    private Field getValueField(String value) {
+//        if (discriminantValue == null || discriminantValue.getSelectionModel().isEmpty())
+//            return null;
         Optional<Field> first = getAlternatives().stream().filter(field ->
-                field.containsValue(discriminantValue.getSelectionModel().getSelectedItem(), getDiscriminantType().getEnumerator())).findFirst();
+                field.containsValue(value, getDiscriminantType().getEnumerator())).findFirst();
         if (first.isPresent() && !first.get().getName().equalsIgnoreCase("NA")) {
             return first.get();
         } else {

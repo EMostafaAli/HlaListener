@@ -129,9 +129,6 @@ public class FixedRecordFDD extends AbstractDataType {
         fields.forEach(field -> {
             hlAfixedRecord.add(field.getDataType().getDataElement());
         });
-//        fields.stream().filter(field -> field.getDataType().isValueExist()).forEach(field -> {
-//            hlAfixedRecord.add(field.getDataType().getDataElement());
-//        });
         return hlAfixedRecord;
     }
 
