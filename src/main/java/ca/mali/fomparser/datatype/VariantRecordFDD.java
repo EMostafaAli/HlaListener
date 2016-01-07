@@ -40,6 +40,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -129,21 +130,40 @@ public class VariantRecordFDD extends AbstractDataType {
 
     @Override
     public String DecodeValue(byte[] encodedValue) {
+//        IMPORTANT NOTE: The following code is a little bit complicated because it is generic for normal cases use the following sample
+//        HLAvariantRecord<HLAinteger32BE> record = encoderFactory.createHLAvariantRecord(encoderFactory.createHLAinteger32BE());
+//        record.setVariant(encoderFactory.createHLAinteger32BE(0), encoderFactory.createHLAboolean());
+//        record.setVariant(encoderFactory.createHLAinteger32BE(1), encoderFactory.createHLAinteger32BE());
+//        record.setVariant(encoderFactory.createHLAinteger32BE(2), encoderFactory.createHLAinteger32BE());
+//        record.setVariant(encoderFactory.createHLAinteger32BE(3), encoderFactory.createHLAinteger32BE());
+//        record.setVariant(encoderFactory.createHLAinteger32BE(5), encoderFactory.createHLAinteger32BE());
         try {
-//            HLAvariantRecord<DataElement> hlAvariantRecord = getDataElement();
             EnumeratedFDDDataType disClone = (EnumeratedFDDDataType) getDiscriminantType().clone();
             HLAvariantRecord<DataElement> hlAvariantRecord = encoderFactory.createHLAvariantRecord(disClone.getDataElement());
-//            if (hlAvariantRecord == null)
-//                return null;
+            alternatives.forEach(field -> {
+                try {
+
+                    if (field.getDataType() != null) {
+                        for (String s : field.getEnumeratorValues(disClone.getEnumerator())) {
+                            EnumeratedFDDDataType disAlt = (EnumeratedFDDDataType) getDiscriminantType().clone();
+                            disAlt.setValue(s);
+                            hlAvariantRecord.setVariant(disAlt.getDataElement(), field.getDataType().getDataElement());
+                        }
+                    }
+                } catch (CloneNotSupportedException ex) {
+                    logger.log(Level.ERROR, "Error in creating variant record", ex);
+                }
+            });
             hlAvariantRecord.decode(encodedValue);
             String result = "";
             result += "[{Discriminant: " + getDiscriminantType().DecodeValue(hlAvariantRecord.getDiscriminant().toByteArray()) + "},";
-//            Field valueField = getValueField();
-//            if (valueField != null) {
-//                AbstractDataType valueDataType = valueField.getDataType();
-//                if (valueDataType != null)
-//                    result += "{Value: " + valueDataType.DecodeValue(hlAvariantRecord.getValue().toByteArray()) + "}]";
-//            }
+            int enumeratedIndex = Integer.parseInt(getDiscriminantType().getRepresentation().DecodeValue(hlAvariantRecord.getDiscriminant().toByteArray()));
+            Field valueField = getValueField(getDiscriminantType().getEnumerator().get(enumeratedIndex).getName());
+            if (valueField != null) {
+                AbstractDataType valueDataType = valueField.getDataType();
+                if (valueDataType != null)
+                    result += "{Value: " + valueDataType.DecodeValue(hlAvariantRecord.getValue().toByteArray()) + "}]";
+            }
             return result;
         } catch (Exception ex) {
             logger.log(Level.ERROR, "Error in decoding value", ex);
@@ -209,7 +229,8 @@ public class VariantRecordFDD extends AbstractDataType {
 
     @Override
     public boolean isValueExist() {
-        return !(discriminantValue == null || discriminantValue.getSelectionModel().isEmpty());
+        return !(discriminantValue == null || discriminantValue.getSelectionModel().isEmpty()) &&
+                getValueField(discriminantValue.getSelectionModel().getSelectedItem()) != null;
     }
 
     @Override
@@ -300,6 +321,31 @@ public class VariantRecordFDD extends AbstractDataType {
         }
 
         public boolean containsValue(String value, List<EnumeratedFDDDataType.Enumerator> enumerator) {
+            List<String> enumeratorValues = getEnumeratorValues(enumerator);
+            return enumeratorValues.contains(value);
+//            String[] parts = enumeratorSet.split(",");
+//            for (String part : parts) {
+//                if (part.contains("..")) {
+//                    String s = part.replace("..", ",").replace("[", "").replace("]", "");
+//                    String[] firstEnd = s.split(",");
+//                    EnumeratedFDDDataType.Enumerator firstItem = enumerator.stream().filter(a -> a.getName().equalsIgnoreCase(firstEnd[0].trim())).findFirst().get();
+//                    EnumeratedFDDDataType.Enumerator lastItem = enumerator.stream().filter(a -> a.getName().equalsIgnoreCase(firstEnd[1].trim())).findFirst().get();
+//                    int i = enumerator.indexOf(firstItem);
+//                    int j = enumerator.indexOf(lastItem);
+//                    if (i == -1 || j == -1 || i > j) return false;
+//                    for (int k = i; k <= j; k++) {
+//                        if (enumerator.get(k).getName().equalsIgnoreCase(value))
+//                            return true;
+//                    }
+//                } else {
+//                    return part.equalsIgnoreCase(value);
+//                }
+//            }
+//            return false;
+        }
+
+        public List<String> getEnumeratorValues(List<EnumeratedFDDDataType.Enumerator> enumerator) {
+            List<String> values = new ArrayList<>();
             String[] parts = enumeratorSet.split(",");
             for (String part : parts) {
                 if (part.contains("..")) {
@@ -309,16 +355,14 @@ public class VariantRecordFDD extends AbstractDataType {
                     EnumeratedFDDDataType.Enumerator lastItem = enumerator.stream().filter(a -> a.getName().equalsIgnoreCase(firstEnd[1].trim())).findFirst().get();
                     int i = enumerator.indexOf(firstItem);
                     int j = enumerator.indexOf(lastItem);
-                    if (i == -1 || j == -1 || i > j) return false;
                     for (int k = i; k <= j; k++) {
-                        if (enumerator.get(k).getName().equalsIgnoreCase(value))
-                            return true;
+                        values.add(enumerator.get(k).getName());
                     }
                 } else {
-                    return part.equalsIgnoreCase(value);
+                    values.add(part.trim());
                 }
             }
-            return false;
+            return values;
         }
 
         @Override
