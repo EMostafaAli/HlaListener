@@ -2087,8 +2087,14 @@ public class MainWindowController implements Initializable {
     private void AboutWindow_click(ActionEvent event) {
         Alert aboutWindow = new Alert(Alert.AlertType.INFORMATION);
         aboutWindow.setTitle("HLA Listener");
+        ImageView imageView = new ImageView(this.getClass().getResource("/icons/engiware-128.png").toString());
+        imageView.setFitWidth(64);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+        imageView.setCache(true);
+        aboutWindow.setGraphic(imageView);
         aboutWindow.setHeaderText("HLA Listener v1.0.0");
-        aboutWindow.setContentText("Developed by Mostafa Ali (engabdomostafa@gmail.com)\nAll rights reserved");
+        aboutWindow.setContentText("Developed by Mostafa Ali (engabdomostafa@gmail.com)\nAll rights reserved.");
         aboutWindow.initOwner(primaryStage);
         aboutWindow.showAndWait();
     }

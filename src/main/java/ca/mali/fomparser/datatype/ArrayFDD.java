@@ -26,6 +26,7 @@
  */
 package ca.mali.fomparser.datatype;
 
+import ca.mali.customcontrol.ArrayPane;
 import ca.mali.fomparser.DataTypeEnum;
 import hla.rti1516e.encoding.*;
 import javafx.scene.control.TextField;
@@ -159,6 +160,7 @@ public class ArrayFDD extends AbstractDataType {
 
     @Override
     public Region getControl(boolean reset) {
+        if ("HLAtoken".equalsIgnoreCase(getName())) return null; // TODO: 1/30/2016 I don't understand this attribute "HLAprivilegeToDeleteObject" very well
         if ("HLAASCIIstring".equalsIgnoreCase(getName()) || "HLAunicodeString".equalsIgnoreCase(getName())) {
             if (reset){
                 this.value = null;
@@ -167,7 +169,7 @@ public class ArrayFDD extends AbstractDataType {
             }
             return textField;
         }
-        return null; // TODO: 12/16/2015 GUI for array
+        return new ArrayPane(); // TODO: 12/16/2015 GUI for array
     }
 
     @Override

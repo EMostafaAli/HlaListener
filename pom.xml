@@ -26,21 +26,18 @@
   ~   DAMAGE.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>ca.mali</groupId>
     <artifactId>HlaListener</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-
     <name>HlaListener</name>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <mainClass>ca.mali.hlalistener.MainApp</mainClass>
     </properties>
-
     <organization>
         <!-- Used as the 'Vendor' for JNLP generation -->
         <name>Mostafa Ali</name>
@@ -83,50 +80,50 @@
                 </configuration>
             </plugin>
             <!--<plugin>-->
-                <!--<groupId>org.codehaus.mojo</groupId>-->
-                <!--<artifactId>exec-maven-plugin</artifactId>-->
-                <!--<version>1.2.1</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>unpack-dependencies</id>                       -->
-                        <!--<phase>package</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>java</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-                <!--<configuration>-->
-                    <!--<executable>java</executable>-->
-                    <!--&lt;!&ndash;<arguments>-classpath</arguments>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<classpath />&ndash;&gt;-->
-                    <!--<mainClass>ca.mali.hlalistener.MainApp</mainClass>-->
-                <!--</configuration>-->
-                <!--&lt;!&ndash;<configuration>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<executable>${java.home}/../bin/javafxpackager</executable>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<arguments>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<argument>-createjar</argument>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<argument>-nocss2bin</argument>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<argument>-appclass</argument>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<argument>${mainClass}</argument>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<argument>-srcdir</argument>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<argument>${project.build.directory}/classes</argument>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<argument>-outdir</argument>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<argument>${project.build.directory}</argument>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<argument>-outfile</argument>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<argument>${project.build.finalName}.jar</argument>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</arguments>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</configuration>&ndash;&gt;-->
+            <!--<groupId>org.codehaus.mojo</groupId>-->
+            <!--<artifactId>exec-maven-plugin</artifactId>-->
+            <!--<version>1.2.1</version>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<id>unpack-dependencies</id>                       -->
+            <!--<phase>package</phase>-->
+            <!--<goals>-->
+            <!--<goal>java</goal>-->
+            <!--</goals>-->
+            <!--</execution>-->
+            <!--</executions>-->
+            <!--<configuration>-->
+            <!--<executable>java</executable>-->
+            <!--&lt;!&ndash;<arguments>-classpath</arguments>&ndash;&gt;-->
+            <!--&lt;!&ndash;<classpath />&ndash;&gt;-->
+            <!--<mainClass>ca.mali.hlalistener.MainApp</mainClass>-->
+            <!--</configuration>-->
+            <!--&lt;!&ndash;<configuration>&ndash;&gt;-->
+            <!--&lt;!&ndash;<executable>${java.home}/../bin/javafxpackager</executable>&ndash;&gt;-->
+            <!--&lt;!&ndash;<arguments>&ndash;&gt;-->
+            <!--&lt;!&ndash;<argument>-createjar</argument>&ndash;&gt;-->
+            <!--&lt;!&ndash;<argument>-nocss2bin</argument>&ndash;&gt;-->
+            <!--&lt;!&ndash;<argument>-appclass</argument>&ndash;&gt;-->
+            <!--&lt;!&ndash;<argument>${mainClass}</argument>&ndash;&gt;-->
+            <!--&lt;!&ndash;<argument>-srcdir</argument>&ndash;&gt;-->
+            <!--&lt;!&ndash;<argument>${project.build.directory}/classes</argument>&ndash;&gt;-->
+            <!--&lt;!&ndash;<argument>-outdir</argument>&ndash;&gt;-->
+            <!--&lt;!&ndash;<argument>${project.build.directory}</argument>&ndash;&gt;-->
+            <!--&lt;!&ndash;<argument>-outfile</argument>&ndash;&gt;-->
+            <!--&lt;!&ndash;<argument>${project.build.finalName}.jar</argument>&ndash;&gt;-->
+            <!--&lt;!&ndash;</arguments>&ndash;&gt;-->
+            <!--&lt;!&ndash;</configuration>&ndash;&gt;-->
 
-                    <!--&lt;!&ndash;<execution>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<id>default-cli</id>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<goals>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<goal>exec</goal>                            &ndash;&gt;-->
-                        <!--&lt;!&ndash;</goals>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<configuration>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<executable>${java.home}/bin/java</executable>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<commandlineArgs>${runfx.args}</commandlineArgs>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</configuration>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</execution>&ndash;&gt;-->
+            <!--&lt;!&ndash;<execution>&ndash;&gt;-->
+            <!--&lt;!&ndash;<id>default-cli</id>&ndash;&gt;-->
+            <!--&lt;!&ndash;<goals>&ndash;&gt;-->
+            <!--&lt;!&ndash;<goal>exec</goal>                            &ndash;&gt;-->
+            <!--&lt;!&ndash;</goals>&ndash;&gt;-->
+            <!--&lt;!&ndash;<configuration>&ndash;&gt;-->
+            <!--&lt;!&ndash;<executable>${java.home}/bin/java</executable>&ndash;&gt;-->
+            <!--&lt;!&ndash;<commandlineArgs>${runfx.args}</commandlineArgs>&ndash;&gt;-->
+            <!--&lt;!&ndash;</configuration>&ndash;&gt;-->
+            <!--&lt;!&ndash;</execution>&ndash;&gt;-->
             <!--</plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -141,9 +141,9 @@ public class RtiAmbInitializer implements Initializable {
             URI u = f.toURI();
             URLClassLoader urlClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
             Class<URLClassLoader> urlClass = URLClassLoader.class;
-            Method method = urlClass.getDeclaredMethod("addURL", new Class[]{URL.class});
+            Method method = urlClass.getDeclaredMethod("addURL", URL.class);
             method.setAccessible(true);
-            method.invoke(urlClassLoader, new Object[]{u.toURL()});
+            method.invoke(urlClassLoader, u.toURL());
         } catch (NoSuchMethodException | SecurityException | IllegalArgumentException |
                 InvocationTargetException | MalformedURLException | IllegalAccessException ex) {
             logger.log(Level.FATAL, "Error adding the jar file to the class path", ex);
