@@ -29,12 +29,19 @@ package ca.mali.fomparser.datatype;
 import ca.mali.customcontrol.ArrayPane;
 import ca.mali.fomparser.DataTypeEnum;
 import hla.rti1516e.encoding.*;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static ca.mali.hlalistener.PublicVariables.encoderFactory;
 
@@ -52,6 +59,11 @@ public class ArrayFDD extends AbstractDataType {
     private String semantics;
     private Object value;
     TextField textField;
+    private ArrayPane arrayPane = new ArrayPane();
+    List<List<AbstractDataType>> arrayElements = new ArrayList<>();
+
+    private int[] lowerLimit = new int[]{0, 0}; //we will just support 2 dimensional array
+    private int[] upperLimit = new int[]{0, 0}; //we will just support 2 dimensional array
 
     public ArrayFDD(String name) {
         super(name, DataTypeEnum.ARRAY);
@@ -60,7 +72,7 @@ public class ArrayFDD extends AbstractDataType {
 
     @Override
     public Object clone() throws CloneNotSupportedException {
-        ArrayFDD cloned = (ArrayFDD)super.clone();
+        ArrayFDD cloned = (ArrayFDD) super.clone();
         cloned.setElementType((AbstractDataType) cloned.getElementType().clone());
         cloned.getControl(true);
         return cloned;
@@ -160,16 +172,25 @@ public class ArrayFDD extends AbstractDataType {
 
     @Override
     public Region getControl(boolean reset) {
-        if ("HLAtoken".equalsIgnoreCase(getName())) return null; // TODO: 1/30/2016 I don't understand this attribute "HLAprivilegeToDeleteObject" very well
+        if ("HLAtoken".equalsIgnoreCase(getName()))
+            return null; // TODO: 1/30/2016 I don't understand this attribute "HLAprivilegeToDeleteObject" very well
         if ("HLAASCIIstring".equalsIgnoreCase(getName()) || "HLAunicodeString".equalsIgnoreCase(getName())) {
-            if (reset){
+            if (reset) {
                 this.value = null;
                 textField = new TextField();
                 textField.textProperty().addListener((observable, oldValue, newValue) -> this.value = newValue);
             }
             return textField;
+        } else {
+            if (reset) {
+                this.value = null;
+                arrayPane = new ArrayPane();
+                if (getCardinality() != null && !getCardinality().isEmpty()) {
+                    addArrayElements();
+                }
+            }
+            return arrayPane; // TODO: 12/16/2015 GUI for array
         }
-        return new ArrayPane(); // TODO: 12/16/2015 GUI for array
     }
 
     @Override
@@ -190,7 +211,7 @@ public class ArrayFDD extends AbstractDataType {
                 return HLAopaqueData.class;
             }
             default: {
-                if ("Dynamic".equalsIgnoreCase(getCardinality())){
+                if ("Dynamic".equalsIgnoreCase(getCardinality())) {
                     return HLAvariableArray.class;
                 }
                 return HLAfixedArray.class;
@@ -200,19 +221,19 @@ public class ArrayFDD extends AbstractDataType {
 
     @Override
     public String valueAsString() {
-        if (value.getClass().isArray()){
-            Object[] values = (Object[])value;
-            if (values.length <= 5){
+        if (value.getClass().isArray()) {
+            Object[] values = (Object[]) value;
+            if (values.length <= 5) {
                 String result = "[";
                 for (Object o : values) { // TODO: 2015-12-23 Array should push value to underlying element
                     result += getElementType().valueAsString() + ", ";
                 }
-                result = result.substring(0, result.length()-2) + "]";
+                result = result.substring(0, result.length() - 2) + "]";
                 return result;
             }
             return "Array values <" + Arrays.toString(EncodeValue()) + ">";
         }
-        return  value.toString() + "<" + Arrays.toString(EncodeValue()) + ">";
+        return value.toString() + "<" + Arrays.toString(EncodeValue()) + ">";
     }
 
     public AbstractDataType getElementType() {
@@ -221,6 +242,9 @@ public class ArrayFDD extends AbstractDataType {
 
     public void setElementType(AbstractDataType elementType) {
         this.elementType = elementType;
+        if (this.elementType != null && !"HLAASCIIstring".equalsIgnoreCase(getName()) && !"HLAunicodeString".equalsIgnoreCase(getName())) {
+            addArrayElements();
+        }
     }
 
     public String getEncoding() {
@@ -237,6 +261,32 @@ public class ArrayFDD extends AbstractDataType {
 
     public void setCardinality(String cardinality) {
         this.cardinality = cardinality;
+        if (!"HLAASCIIstring".equalsIgnoreCase(getName()) && !"HLAunicodeString".equalsIgnoreCase(getName())) {
+            if (this.cardinality.contains("Dynamic")) {
+                for (int i = 0; i < upperLimit.length; i++) {
+                    upperLimit[i] = Integer.MAX_VALUE;
+                    lowerLimit[i] = 1;
+                }
+            } else {
+                String[] parts = this.cardinality.split(",");
+                if (parts.length > 2) {
+                    logger.log(Level.WARN, "Array: {} has {} dimensions, only two dimensions will be displayed",
+                            getName(), parts.length);
+                }
+                for (int i = 0; i < Math.min(2, parts.length); i++) {
+                    if (parts[i].contains("..")) {
+                        String s = parts[i].replace("..", ",").replace("[", "").replace("]", "").replace(" ", "");
+                        String[] upperLowerLimit = s.split(",");
+                        upperLimit[i] = Integer.parseInt(upperLowerLimit[0]);
+                        lowerLimit[i] = Integer.parseInt(upperLowerLimit[1]);
+                    } else {
+                        int v = Integer.parseInt(parts[i]);
+                        upperLimit[i] = v;
+                        lowerLimit[i] = v;
+                    }
+                }
+            }
+        }
     }
 
     public String getSemantics() {
@@ -245,5 +295,58 @@ public class ArrayFDD extends AbstractDataType {
 
     public void setSemantics(String semantics) {
         this.semantics = semantics;
+    }
+
+    private void addArrayElements() {
+        try {
+            arrayElements.clear();
+            GridPane gridPane = new GridPane();
+            gridPane.setHgap(4);
+            gridPane.setVgap(4);
+            gridPane.setPadding(new Insets(4));
+            ScrollPane scrollPane = new ScrollPane(gridPane);
+            arrayPane.setCenter(scrollPane);
+
+            if (upperLimit[0] == lowerLimit[0]) {
+                arrayPane.setAddRowDisable(true);
+                arrayPane.setRemoveRowDisable(true);
+            }
+            if (upperLimit[1] == lowerLimit[1]) {
+                arrayPane.setAddColumnDisable(true);
+                arrayPane.setRemoveColumnDisable(true);
+            }
+            if (cardinality.contains("Dynamic")) { //Start with 3x1 array
+                for (int i = 0; i < 3; i++) {
+                    List<AbstractDataType> row = new ArrayList<>();
+                    row.add((AbstractDataType) getElementType().clone());
+                    arrayElements.add(row);
+                }
+            } else {
+                for (int i = 0; i < upperLimit[0]; i++) {
+                    List<AbstractDataType> row = new ArrayList<>();
+                    for (int j = 0; j < upperLimit[1] + 1; j++) {
+                        row.add((AbstractDataType) getElementType().clone());
+                    }
+                    arrayElements.add(row);
+                }
+            }
+            if (!arrayElements.isEmpty()) {
+                for (int i = 0; i < arrayElements.get(0).size(); i++) {
+                    Label colNum = new Label(String.valueOf(i + 1));
+                    gridPane.add(colNum, i + 1, 0);
+                    GridPane.setHalignment(colNum, HPos.CENTER);
+                }
+                for (int i = 0; i < arrayElements.size(); i++) {
+                    Label rowNum = new Label(String.valueOf(i + 1));
+                    gridPane.add(rowNum, 0, i + 1);
+                    for (int j = 0; j < arrayElements.get(0).size(); j++) {
+                        gridPane.add(arrayElements.get(i).get(j).getControl(true), j + 1, i + 1);
+                    }
+                }
+            }
+
+        } catch (CloneNotSupportedException ex) {
+            logger.log(Level.ERROR, "Error in adding array elements", ex);
+        }
     }
 }
