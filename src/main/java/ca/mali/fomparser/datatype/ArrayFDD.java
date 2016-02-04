@@ -103,8 +103,9 @@ public class ArrayFDD extends AbstractDataType {
                 encodedValue = encoder.toByteArray();
                 break;
             }
-            default: { // TODO: 12/16/2015 cast the value to array
-                return getElementType().EncodeValue();
+            default: {
+                encodedValue = getDataElement().toByteArray();
+                break;
             }
         }
         return encodedValue;
@@ -133,8 +134,20 @@ public class ArrayFDD extends AbstractDataType {
                     value = Arrays.toString(encoder.getValue());
                     break;
                 }
-                default: { // TODO: 12/16/2015 cast the value to array
-                    value = getElementType().DecodeValue(encodedValue);
+                default: {
+                    DataElementFactory<DataElement> dataElementFactory = i -> getElementType().getDataElement();
+                    if ("Dynamic".equalsIgnoreCase(getCardinality())){
+                        HLAvariableArray<DataElement> hlAvariableArray = encoderFactory.createHLAvariableArray(dataElementFactory);
+                        hlAvariableArray.decode(encodedValue);
+                        value = "[";
+                        for (DataElement dataElement : hlAvariableArray) {
+                            value += getElementType().DecodeValue(dataElement.toByteArray()) + ", ";
+                        }
+                        value = value.substring(0, value.length() - 2) + "]";
+                    }
+                    else {
+                        // TODO: 12/16/2015 decode fixed arrays
+                    }
                 }
             }
         } catch (DecoderException ex) {
@@ -164,8 +177,21 @@ public class ArrayFDD extends AbstractDataType {
                     encoder.setValue((byte[]) value);
                 return encoder;
             }
-            default: { // TODO: 12/16/2015 cast the value to array and assign value to the date element
-                return getElementType().getDataElement();
+            default: {
+
+                DataElementFactory<DataElement> dataElementFactory = i -> getElementType().getDataElement();
+                if ("Dynamic".equalsIgnoreCase(getCardinality())){
+                    HLAvariableArray<DataElement> hlAvariableArray = encoderFactory.createHLAvariableArray(dataElementFactory);
+                    for (List<AbstractDataType> arrayElement : arrayElements) {
+                        hlAvariableArray.addElement(arrayElement.get(0).getDataElement()); // TODO: 2016-02-03 for now, I am considering first dimension only
+                    }
+                    return hlAvariableArray;
+                }
+                DataElement[] elements = new DataElement[arrayElements.size()];
+                for (int i = 0; i < arrayElements.size(); i++) {
+                    elements[i] = arrayElements.get(i).get(0).getDataElement(); // TODO: 2016-02-03 for now, I am considering first dimension only
+                }
+                return encoderFactory.createHLAfixedArray(elements);
             }
         }
     }
@@ -189,13 +215,25 @@ public class ArrayFDD extends AbstractDataType {
                     addArrayElements();
                 }
             }
-            return arrayPane; // TODO: 12/16/2015 GUI for array
+            return arrayPane;
         }
     }
 
     @Override
     public boolean isValueExist() {
-        return value != null && (value.getClass().isArray() || value instanceof String);
+//        return "Employees".equalsIgnoreCase(getName());
+        //        return value != null && (value.getClass().isArray() || value instanceof String);
+        if (value != null && value instanceof String)
+            return true;
+
+        if (arrayElements.size() > 0){
+            for (List<AbstractDataType> arrayElement : arrayElements) {
+                if ( arrayElement.stream().anyMatch(AbstractDataType::isValueExist)){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
@@ -221,19 +259,18 @@ public class ArrayFDD extends AbstractDataType {
 
     @Override
     public String valueAsString() {
-        if (value.getClass().isArray()) {
-            Object[] values = (Object[]) value;
-            if (values.length <= 5) {
-                String result = "[";
-                for (Object o : values) { // TODO: 2015-12-23 Array should push value to underlying element
-                    result += getElementType().valueAsString() + ", ";
-                }
-                result = result.substring(0, result.length() - 2) + "]";
-                return result;
+        if (value != null)
+            return value.toString() + "<" + Arrays.toString(EncodeValue()) + ">";
+        String result = "[";
+        for (List<AbstractDataType> arrayElement : arrayElements) {
+            result += "{";
+            for (AbstractDataType element : arrayElement) {
+                result += element.valueAsString() + ", ";
             }
-            return "Array values <" + Arrays.toString(EncodeValue()) + ">";
+            result = result.substring(0, result.length() - 2) + "}, ";
         }
-        return value.toString() + "<" + Arrays.toString(EncodeValue()) + ">";
+        result = result.substring(0, result.length() - 2) + "]";
+        return result;
     }
 
     public AbstractDataType getElementType() {

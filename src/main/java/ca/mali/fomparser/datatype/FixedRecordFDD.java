@@ -156,11 +156,7 @@ public class FixedRecordFDD extends AbstractDataType {
 
     @Override
     public boolean isValueExist() {
-        for (Field field : fields) {
-            if (field.getDataType().isValueExist())
-                return true;
-        }
-        return false;
+        return fields.stream().anyMatch(a->a.getDataType().isValueExist());
     }
 
     @Override
