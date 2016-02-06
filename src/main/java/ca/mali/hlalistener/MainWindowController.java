@@ -1651,6 +1651,18 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    //10.17
+    @FXML
+    private void GetParameterHandle_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("10.17 Get Parameter Handle service", "/fxml/chapter10/GetParameterHandleService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Get Parameter Handle service dialog box", ex);
+        }
+    }
+
     //10.18
     @FXML
     private void GetParameterName_click(ActionEvent event) {

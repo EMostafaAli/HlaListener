@@ -251,7 +251,8 @@
                     <SeparatorMenuItem mnemonicParsing="false"/>
                     <MenuItem mnemonicParsing="false" onAction="#GetInteractionHandle_click"
                               text="10.15 Get Interaction Class Handle..."/>
-                    <MenuItem mnemonicParsing="false" text="10.17 Get Parameter Handle"/>
+                    <MenuItem mnemonicParsing="false" onAction="#GetParameterHandle_click"
+                              text="10.17 Get Parameter Handle..."/>
                     <SeparatorMenuItem mnemonicParsing="false"/>
                     <MenuItem mnemonicParsing="false" onAction="#GetTransportationTypeHandle_click"
                               text="10.21 Get Transportation Type Handle..."/>
