@@ -1448,6 +1448,18 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    //9.12
+    @FXML
+    private void SendInteractionRegion_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("9.12 Send Interaction With Regions service", "/fxml/chapter9/SendInteractionWithRegionsService.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Send Interaction With Regions service dialog box", ex);
+        }
+    }
+
     //9.13
     @FXML
     private void RequestUpdateRegion_click(ActionEvent event) {

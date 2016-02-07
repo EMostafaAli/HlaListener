@@ -225,7 +225,8 @@
                 <MenuItem mnemonicParsing="false" onAction="#UnsubscribeInteractionRegion_click"
                           text="9.11 Unsubscribe Interaction Class With Region..."/>
                 <SeparatorMenuItem mnemonicParsing="false"/>
-                <MenuItem mnemonicParsing="false" text="9.12 Send Interaction With Region"/>
+                <MenuItem mnemonicParsing="false" onAction="#SendInteractionRegion_click"
+                          text="9.12 Send Interaction With Region..."/>
                 <SeparatorMenuItem mnemonicParsing="false"/>
                 <MenuItem mnemonicParsing="false" onAction="#RequestUpdateRegion_click"
                           text="9.13 Request Attribute Value Update With Region..."/>
