@@ -60,10 +60,12 @@ public class ArrayFDD extends AbstractDataType {
     private Object value;
     TextField textField;
     private ArrayPane arrayPane = new ArrayPane();
-    List<List<AbstractDataType>> arrayElements = new ArrayList<>();
+    List<AbstractDataType> arrayElements = new ArrayList<>();
 
-    private int[] lowerLimit = new int[]{0, 0}; //we will just support 2 dimensional array
-    private int[] upperLimit = new int[]{0, 0}; //we will just support 2 dimensional array
+    private int lowerLimit = 0; //we will just support 1 dimensional array
+    private int upperLimit = 0; //we will just support 1 dimensional array
+
+    private boolean isDynamic;
 
     public ArrayFDD(String name) {
         super(name, DataTypeEnum.ARRAY);
@@ -136,7 +138,7 @@ public class ArrayFDD extends AbstractDataType {
                 }
                 default: {
                     DataElementFactory<DataElement> dataElementFactory = i -> getElementType().getDataElement();
-                    if ("Dynamic".equalsIgnoreCase(getCardinality())){
+                    if (isDynamic) {
                         HLAvariableArray<DataElement> hlAvariableArray = encoderFactory.createHLAvariableArray(dataElementFactory);
                         hlAvariableArray.decode(encodedValue);
                         value = "[";
@@ -144,9 +146,14 @@ public class ArrayFDD extends AbstractDataType {
                             value += getElementType().DecodeValue(dataElement.toByteArray()) + ", ";
                         }
                         value = value.substring(0, value.length() - 2) + "]";
-                    }
-                    else {
-                        // TODO: 12/16/2015 decode fixed arrays
+                    } else {
+                        HLAfixedArray<DataElement> hlAfixedArray = encoderFactory.createHLAfixedArray(dataElementFactory, arrayElements.size());
+                        hlAfixedArray.decode(encodedValue);
+                        value = "[";
+                        for (DataElement dataElement : hlAfixedArray) {
+                            value += getElementType().DecodeValue(dataElement.toByteArray()) + ", ";
+                        }
+                        value = value.substring(0, value.length() - 2) + "]";
                     }
                 }
             }
@@ -180,16 +187,16 @@ public class ArrayFDD extends AbstractDataType {
             default: {
 
                 DataElementFactory<DataElement> dataElementFactory = i -> getElementType().getDataElement();
-                if ("Dynamic".equalsIgnoreCase(getCardinality())){
+                if (isDynamic) {
                     HLAvariableArray<DataElement> hlAvariableArray = encoderFactory.createHLAvariableArray(dataElementFactory);
-                    for (List<AbstractDataType> arrayElement : arrayElements) {
-                        hlAvariableArray.addElement(arrayElement.get(0).getDataElement()); // TODO: 2016-02-03 for now, I am considering first dimension only
+                    for (AbstractDataType arrayElement : arrayElements) {
+                        hlAvariableArray.addElement(arrayElement.getDataElement());
                     }
                     return hlAvariableArray;
                 }
                 DataElement[] elements = new DataElement[arrayElements.size()];
                 for (int i = 0; i < arrayElements.size(); i++) {
-                    elements[i] = arrayElements.get(i).get(0).getDataElement(); // TODO: 2016-02-03 for now, I am considering first dimension only
+                    elements[i] = arrayElements.get(i).getDataElement();
                 }
                 return encoderFactory.createHLAfixedArray(elements);
             }
@@ -211,6 +218,36 @@ public class ArrayFDD extends AbstractDataType {
             if (reset) {
                 this.value = null;
                 arrayPane = new ArrayPane();
+                arrayPane.getAddRow().setOnAction(event -> {
+                    try {
+                        int i = arrayElements.size();
+                        for (int i1 = 0; i1 < arrayElements.size(); i1++) {
+                            if (arrayElements.get(i1).getControl(false).isFocused()) {
+                                i = i1;
+                                break;
+                            }
+                        }
+                        arrayElements.add(i, (AbstractDataType) getElementType().clone());
+                        arrayPane.setAddRowDisable(arrayElements.size() >= upperLimit);
+                        arrayPane.setRemoveRowDisable(arrayElements.size() <= lowerLimit);
+                        populateArrayPane(false);
+                    } catch (CloneNotSupportedException ex) {
+                        logger.log(Level.ERROR, "Error in adding new row", ex);
+                    }
+                });
+                arrayPane.getRemoveRow().setOnAction(event -> {
+                        int i = arrayElements.size();
+                        for (int i1 = 0; i1 < arrayElements.size(); i1++) {
+                            if (arrayElements.get(i1).getControl(false).isFocused()) {
+                                i = i1;
+                                break;
+                            }
+                        }
+                        arrayElements.remove(i-1);
+                        arrayPane.setAddRowDisable(arrayElements.size() >= upperLimit);
+                        arrayPane.setRemoveRowDisable(arrayElements.size() <= lowerLimit);
+                        populateArrayPane(false);
+                });
                 if (getCardinality() != null && !getCardinality().isEmpty()) {
                     addArrayElements();
                 }
@@ -226,11 +263,9 @@ public class ArrayFDD extends AbstractDataType {
         if (value != null && value instanceof String)
             return true;
 
-        if (arrayElements.size() > 0){
-            for (List<AbstractDataType> arrayElement : arrayElements) {
-                if ( arrayElement.stream().anyMatch(AbstractDataType::isValueExist)){
-                    return true;
-                }
+        if (arrayElements.size() > 0) {
+            if (arrayElements.stream().anyMatch(AbstractDataType::isValueExist)) {
+                return true;
             }
         }
         return false;
@@ -262,12 +297,9 @@ public class ArrayFDD extends AbstractDataType {
         if (value != null)
             return value.toString() + "<" + Arrays.toString(EncodeValue()) + ">";
         String result = "[";
-        for (List<AbstractDataType> arrayElement : arrayElements) {
-            result += "{";
-            for (AbstractDataType element : arrayElement) {
-                result += element.valueAsString() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + "}, ";
+        for (AbstractDataType element : arrayElements) {
+            result += element.valueAsString() + ", ";
+            result = result.substring(0, result.length() - 2) + ", ";
         }
         result = result.substring(0, result.length() - 2) + "]";
         return result;
@@ -300,27 +332,26 @@ public class ArrayFDD extends AbstractDataType {
         this.cardinality = cardinality;
         if (!"HLAASCIIstring".equalsIgnoreCase(getName()) && !"HLAunicodeString".equalsIgnoreCase(getName())) {
             if (this.cardinality.contains("Dynamic")) {
-                for (int i = 0; i < upperLimit.length; i++) {
-                    upperLimit[i] = Integer.MAX_VALUE;
-                    lowerLimit[i] = 1;
-                }
+                upperLimit = Integer.MAX_VALUE;
+                lowerLimit = 1;
+                isDynamic = true;
             } else {
                 String[] parts = this.cardinality.split(",");
-                if (parts.length > 2) {
-                    logger.log(Level.WARN, "Array: {} has {} dimensions, only two dimensions will be displayed",
+                if (parts.length > 1) {
+                    logger.log(Level.WARN, "Array: {} has {} dimensions, only one dimension will be displayed",
                             getName(), parts.length);
                 }
-                for (int i = 0; i < Math.min(2, parts.length); i++) {
-                    if (parts[i].contains("..")) {
-                        String s = parts[i].replace("..", ",").replace("[", "").replace("]", "").replace(" ", "");
-                        String[] upperLowerLimit = s.split(",");
-                        upperLimit[i] = Integer.parseInt(upperLowerLimit[0]);
-                        lowerLimit[i] = Integer.parseInt(upperLowerLimit[1]);
-                    } else {
-                        int v = Integer.parseInt(parts[i]);
-                        upperLimit[i] = v;
-                        lowerLimit[i] = v;
-                    }
+                if (parts[0].contains("..")) {
+                    isDynamic = true;
+                    String s = parts[0].replace("..", ",").replace("[", "").replace("]", "").replace(" ", "");
+                    String[] upperLowerLimit = s.split(",");
+                    upperLimit = Integer.parseInt(upperLowerLimit[0]);
+                    lowerLimit = Integer.parseInt(upperLowerLimit[1]);
+                } else {
+                    isDynamic = false;
+                    int v = Integer.parseInt(parts[0]);
+                    upperLimit = v;
+                    lowerLimit = v;
                 }
             }
         }
@@ -337,53 +368,43 @@ public class ArrayFDD extends AbstractDataType {
     private void addArrayElements() {
         try {
             arrayElements.clear();
-            GridPane gridPane = new GridPane();
-            gridPane.setHgap(4);
-            gridPane.setVgap(4);
-            gridPane.setPadding(new Insets(4));
-            ScrollPane scrollPane = new ScrollPane(gridPane);
-            arrayPane.setCenter(scrollPane);
-
-            if (upperLimit[0] == lowerLimit[0]) {
-                arrayPane.setAddRowDisable(true);
-                arrayPane.setRemoveRowDisable(true);
-            }
-            if (upperLimit[1] == lowerLimit[1]) {
-                arrayPane.setAddColumnDisable(true);
-                arrayPane.setRemoveColumnDisable(true);
-            }
-            if (cardinality.contains("Dynamic")) { //Start with 3x1 array
-                for (int i = 0; i < 3; i++) {
-                    List<AbstractDataType> row = new ArrayList<>();
-                    row.add((AbstractDataType) getElementType().clone());
-                    arrayElements.add(row);
+            if (isDynamic) {
+                if (upperLimit == Integer.MAX_VALUE) {
+                    for (int i = 0; i < 3; i++) {
+                        arrayElements.add((AbstractDataType) getElementType().clone());
+                    }
+                } else {
+                    for (int i = 0; i < lowerLimit; i++) {
+                        arrayElements.add((AbstractDataType) getElementType().clone());
+                    }
                 }
             } else {
-                for (int i = 0; i < upperLimit[0]; i++) {
-                    List<AbstractDataType> row = new ArrayList<>();
-                    for (int j = 0; j < upperLimit[1] + 1; j++) {
-                        row.add((AbstractDataType) getElementType().clone());
-                    }
-                    arrayElements.add(row);
+                for (int i = 0; i < lowerLimit; i++) {
+                    arrayElements.add((AbstractDataType) getElementType().clone());
                 }
             }
-            if (!arrayElements.isEmpty()) {
-                for (int i = 0; i < arrayElements.get(0).size(); i++) {
-                    Label colNum = new Label(String.valueOf(i + 1));
-                    gridPane.add(colNum, i + 1, 0);
-                    GridPane.setHalignment(colNum, HPos.CENTER);
-                }
-                for (int i = 0; i < arrayElements.size(); i++) {
-                    Label rowNum = new Label(String.valueOf(i + 1));
-                    gridPane.add(rowNum, 0, i + 1);
-                    for (int j = 0; j < arrayElements.get(0).size(); j++) {
-                        gridPane.add(arrayElements.get(i).get(j).getControl(true), j + 1, i + 1);
-                    }
-                }
-            }
+            arrayPane.setRemoveRowDisable(arrayElements.size() <= lowerLimit);
+            arrayPane.setAddRowDisable(arrayElements.size() >= upperLimit);
+            populateArrayPane(true);
 
         } catch (CloneNotSupportedException ex) {
             logger.log(Level.ERROR, "Error in adding array elements", ex);
+        }
+    }
+
+    private void populateArrayPane(boolean reset) {
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(4);
+        gridPane.setVgap(4);
+        gridPane.setPadding(new Insets(4));
+        ScrollPane scrollPane = new ScrollPane(gridPane);
+        arrayPane.setCenter(scrollPane);
+        if (!arrayElements.isEmpty()) {
+            for (int i = 0; i < arrayElements.size(); i++) {
+                Label rowNum = new Label(String.valueOf(i + 1));
+                gridPane.add(rowNum, 0, i);
+                gridPane.add(arrayElements.get(i).getControl(reset), 1, i);
+            }
         }
     }
 }
