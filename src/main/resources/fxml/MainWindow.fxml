@@ -37,6 +37,7 @@
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <Menu mnemonicParsing="false" text="File">
+                <MenuItem mnemonicParsing="false" onAction="#RunScript_click" text="Run Script..."/>
                 <MenuItem mnemonicParsing="false" onAction="#RtiInfo_click" text="RTI info"/>
                 <MenuItem mnemonicParsing="false" onAction="#ClearLog_click" text="Clear Log"/>
                 <MenuItem mnemonicParsing="false" onAction="#CloseHlaListener_click" text="Close"/>

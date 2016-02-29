@@ -259,6 +259,17 @@ public class MainWindowController implements Initializable {
     }
 
     @FXML
+    private void RunScript_click(ActionEvent event) {
+        try {
+            logger.entry();
+            DisplayDialog("Script", "/fxml/ScriptWindow.fxml");
+            logger.exit();
+        } catch (Exception ex) {
+            logger.log(Level.FATAL, "Error Displaying Script dialog box", ex);
+        }
+    }
+
+    @FXML
     private void ClearLog_click(ActionEvent event) {
         try {
             logger.entry();

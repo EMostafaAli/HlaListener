@@ -175,6 +175,11 @@
             <version>1.0.0</version>
         </dependency>
         <dependency>
+            <groupId>org.fxmisc.richtext</groupId>
+            <artifactId>richtextfx</artifactId>
+            <version>0.6.10</version>
+        </dependency>
+        <dependency>
             <groupId>Hla1516e</groupId>
             <artifactId>FddObjectModel</artifactId>
             <version>1.0.0</version>
