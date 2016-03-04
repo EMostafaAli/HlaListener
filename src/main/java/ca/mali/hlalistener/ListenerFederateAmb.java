@@ -27,8 +27,6 @@
 package ca.mali.hlalistener;
 
 import ca.mali.fomparser.*;
-import ca.mali.fomparser.datatype.EnumeratedFDDDataType;
-import ca.mali.fomparser.datatype.SimpleFDDDataType;
 import hla.rti1516e.*;
 import hla.rti1516e.encoding.DecoderException;
 import hla.rti1516e.encoding.HLAunicodeString;

@@ -13,6 +13,11 @@
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.2" level="project" />
     <orderEntry type="library" name="Maven: Hla1516e:HlaInterface:1.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.fxmisc.richtext:richtextfx:0.6.10" level="project" />
+    <orderEntry type="library" name="Maven: org.reactfx:reactfx:2.0-M4u1" level="project" />
+    <orderEntry type="library" name="Maven: org.fxmisc.undo:undofx:1.2" level="project" />
+    <orderEntry type="library" name="Maven: org.fxmisc.flowless:flowless:0.4.5" level="project" />
+    <orderEntry type="library" name="Maven: org.fxmisc.wellbehaved:wellbehavedfx:0.1.1" level="project" />
     <orderEntry type="library" name="Maven: Hla1516e:FddObjectModel:1.0.0" level="project" />
   </component>
 </module>

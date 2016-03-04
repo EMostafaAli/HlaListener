@@ -32,30 +32,34 @@
 <?import javafx.scene.layout.*?>
 
 
-<BorderPane prefHeight="585.0" prefWidth="884.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
+<BorderPane prefHeight="585.0" prefWidth="884.0" xmlns="http://javafx.com/javafx/8.0.40"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="ca.mali.hlalistener.ScriptWindowController" fx:id="borderPane">
-   <top>
-      <HBox BorderPane.alignment="CENTER">
-         <children>
-              <Label text="Enter your script:" />
-         </children>
-      </HBox>
-   </top>
-   <bottom>
+    <bottom>
         <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <buttons>
-                <Button cancelButton="true" mnemonicParsing="false" onAction="#Cancel_click" text="Cancel" />
-                <Button fx:id="OkButton" defaultButton="true" mnemonicParsing="false" onAction="#OK_click" text="Run" />
+                <Button cancelButton="true" mnemonicParsing="false" onAction="#Cancel_click" text="Cancel"/>
+                <Button fx:id="OkButton" defaultButton="true" mnemonicParsing="false" onAction="#OK_click" text="Run"/>
             </buttons>
-         <padding>
-            <Insets top="15.0" />
-         </padding>
+            <padding>
+                <Insets top="15.0"/>
+            </padding>
         </ButtonBar>
-   </bottom>
-   <center>
-        <TextArea fx:id="CodeTextArea" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER" />
-   </center>
-   <padding>
-      <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-   </padding>
+    </bottom>
+    <top>
+        <VBox>
+            <HBox>
+                <Label text="Specify JDK installation Folder: "/>
+                <TextField fx:id="JdkFolderLocation" promptText="Double click to specify JDK folder" HBox.hgrow="ALWAYS"/>
+            </HBox>
+            <HBox BorderPane.alignment="CENTER">
+                <children>
+                    <Label text="Enter your script:"/>
+                </children>
+            </HBox>
+        </VBox>
+    </top>
+    <padding>
+        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+    </padding>
 </BorderPane>
