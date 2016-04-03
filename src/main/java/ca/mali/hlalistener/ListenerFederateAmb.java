@@ -33,6 +33,12 @@ import hla.rti1516e.encoding.HLAunicodeString;
 import hla.rti1516e.exceptions.FederateInternalError;
 import hla.rti1516e.time.HLAfloat64Time;
 import hla.rti1516e.time.HLAinteger64Time;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.ProgressIndicator;
+import javafx.stage.Modality;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
@@ -1170,9 +1176,32 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
 
     private void updateFdd(AttributeHandleValueMap theAttributes) throws DecoderException {
         if (theAttributes.containsKey(currentFDDHandle)) {
-            HLAunicodeString stringEncoder = encoderFactory.createHLAunicodeString();
-            stringEncoder.decode(theAttributes.get(currentFDDHandle));
-            fddObjectModel = new FddObjectModel(stringEncoder.getValue());
+            Platform.runLater(() -> {
+                Alert progressWin = new Alert(Alert.AlertType.INFORMATION);
+                progressWin.setTitle("Reading FOM");
+                progressWin.setHeaderText("Please wait while parsing the federation's FOM");
+                ProgressIndicator progressIndicator = new ProgressIndicator(-1);
+                progressWin.getDialogPane().setContent(progressIndicator);
+                progressWin.show();
+                Task<Void> task = new Task<Void>() {
+                    @Override
+                    public Void call() throws InterruptedException, DecoderException {
+                        try {
+                            HLAunicodeString stringEncoder = encoderFactory.createHLAunicodeString();
+                            stringEncoder.decode(theAttributes.get(currentFDDHandle));
+                            fddObjectModel = new FddObjectModel(stringEncoder.getValue());
+                        } catch (DecoderException ex) {
+                            logger.log(Level.FATAL, "Exception", ex);
+                        }
+                        return null;
+                    }
+                };
+
+                task.setOnSucceeded(event -> progressWin.close());
+
+                Thread thread = new Thread(task);
+                thread.start();
+            });
         }
     }
 

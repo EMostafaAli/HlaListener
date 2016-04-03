@@ -209,7 +209,7 @@ public class ScriptWindowController implements Initializable {
                 "    @Override\n" +
                 "    public void announceSynchronizationPoint(String synchronizationPointLabel, byte[] userSuppliedTag) throws FederateInternalError {\n" +
                 "        //Removing next line might cause unexpected results\n" +
-                "        //This line is used to provide updates to HLA listner UI\n" +
+                "        //This line is used to provide updates to HLA listener UI\n" +
                 "        //Don't remove unless you know what you are doing\n" +
                 "        super.announceSynchronizationPoint(synchronizationPointLabel, userSuppliedTag);\n" +
                 "        //Replace the following sample code with your genius code\n" +
