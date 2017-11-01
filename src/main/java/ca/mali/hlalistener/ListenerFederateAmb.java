@@ -1206,6 +1206,7 @@ public class ListenerFederateAmb extends NullFederateAmbassador {
     }
 
     private void addSuppliedTagToLog(byte[] userSuppliedTag, LogEntry log) {
+        if (userSuppliedTag == null) return;
         if (userSuppliedTag.length > 0) {
             log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", byte.class, Arrays.toString(userSuppliedTag)));
             log.getSuppliedArguments().add(new ClassValuePair("User-supplied tag", String.class, new String(userSuppliedTag)));
