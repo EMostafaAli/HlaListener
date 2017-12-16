@@ -10,3 +10,5 @@ It should be able to:
   6- and more...
   
 HlaListener is a maven project
+
+More details: https://www.codeproject.com/Articles/994486/HLA-Listener
