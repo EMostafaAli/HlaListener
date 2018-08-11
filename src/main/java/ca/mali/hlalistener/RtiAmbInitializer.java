@@ -45,13 +45,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Iterator;
 import java.util.ResourceBundle;
+import java.util.ServiceLoader;
 
 import static ca.mali.hlalistener.PublicVariables.*;
 
@@ -85,42 +83,26 @@ public class RtiAmbInitializer implements Initializable {
                 return;
             }
 
-            AddtoBuildPath(file);
             URL[] urls = new URL[]{file.toURI().toURL()};
-            URLClassLoader child = new URLClassLoader(urls, this.getClass().getClassLoader());
-            Class RtiFactoryFactory = Class.forName("hla.rti1516e.RtiFactoryFactory", true, child);
-            Method getRtiFactory = RtiFactoryFactory.getMethod("getRtiFactory");
-            rtiFactory = (RtiFactory) getRtiFactory.invoke(null);
+            URLClassLoader ucl = new URLClassLoader(urls);
+            ServiceLoader<RtiFactory> sl = ServiceLoader.load(RtiFactory.class, ucl);
+
+            Iterator<RtiFactory> i = sl.iterator();
+            if (!i.hasNext()) {
+                throw new Exception();
+            }
+
+            rtiFactory = i.next();
             rtiAmb = rtiFactory.getRtiAmbassador();
             fedAmb = new ListenerFederateAmb();
             encoderFactory = rtiFactory.getEncoderFactory();
 
-//            Stage stage = (Stage) JarFileLocation.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainWindow.fxml"));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
-//            primaryStage.setMinHeight(0);
-//            primaryStage.setMaxHeight(Double.MAX_VALUE);
             primaryStage.setResizable(true);
             primaryStage.setMaximized(true);
             primaryStage.show();
-
-//            rtiAmb.connect(fedAmb, CallbackModel.HLA_IMMEDIATE);
-//            FOMModules = new URL[]{coreFile.toURI().toURL()};
-//            rtiAmb.createFederationExecution("TestFederation", FOMModules);
-//            rtiAmb.joinFederationExecution("Listener Test fed", "TestFederation");
-//            rtiAmb.enableAsynchronousDelivery();
-//            ObjectClassHandle FederationHandle = rtiAmb.getObjectClassHandle("HLAobjectRoot.HLAmanager.HLAfederation");
-//            System.out.println(FederationHandle.toString());
-//            currentFDDHandle = rtiAmb.getAttributeHandle(FederationHandle, "HLAcurrentFDD");
-//            System.out.println(currentFDDHandle.toString());
-//            AttributeHandleSet set = rtiAmb.getAttributeHandleSetFactory().create();
-//            set.add(currentFDDHandle);
-//            rtiAmb.subscribeObjectClassAttributes(FederationHandle, set);
-//            System.out.println(rriFactory.rtiName());
-//            System.out.println(rriFactory.rtiVersion());
-//
-//            rtiAmb.requestAttributeValueUpdate(FederationHandle, set, null);
         } catch (Exception ex) {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error loading library");
@@ -129,24 +111,6 @@ public class RtiAmbInitializer implements Initializable {
             alert.showAndWait();
             logger.log(Level.FATAL, "Exception", ex);
         }
-    }
-
-    private static int AddtoBuildPath(File f) {
-        logger.entry();
-        try {
-            URI u = f.toURI();
-            URLClassLoader urlClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
-            Class<URLClassLoader> urlClass = URLClassLoader.class;
-            Method method = urlClass.getDeclaredMethod("addURL", URL.class);
-            method.setAccessible(true);
-            method.invoke(urlClassLoader, u.toURL());
-        } catch (NoSuchMethodException | SecurityException | IllegalArgumentException |
-                InvocationTargetException | MalformedURLException | IllegalAccessException ex) {
-            logger.log(Level.FATAL, "Error adding the jar file to the class path", ex);
-            return 1;
-        }
-        logger.exit();
-        return 0;
     }
 
     @Override
